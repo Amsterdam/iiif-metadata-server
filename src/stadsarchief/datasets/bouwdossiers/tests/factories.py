@@ -28,8 +28,8 @@ class AdresFactory(factory.DjangoModelFactory):
     straat = 'weesperstraat'
     huisnummer_van = 113
     huisnummer_tot = 117
-    _openbareruimte ='weesperstraat'
-    _stadsdeel = 'A'
+    openbareruimte_id = '0363300000004835'
+    stadsdeel = 'A'
 
 
 class SubDossierFactory(factory.DjangoModelFactory):

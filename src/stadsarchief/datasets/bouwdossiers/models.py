@@ -32,7 +32,7 @@ class BouwDossier(models.Model):
         return f'{self.dossiernr} - {self.titel}'
 
     class Meta:
-        ordering = ('dossiernr',)
+        ordering = ('stadsdeel', 'dossiernr',)
 
 
 class Adres(models.Model):
@@ -43,8 +43,8 @@ class Adres(models.Model):
     straat = models.CharField(max_length=150)
     huisnummer_van = models.IntegerField()
     huisnummer_tot = models.IntegerField()
-    _openbareruimte = models.CharField(max_length=16, db_index=True)  # landelijk_id
-    _stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
+    openbareruimte_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
+    stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
 
     def __str__(self):
         return f'{self.straat} {self.huisnummer_van} - {self.huisnummer_tot}'
