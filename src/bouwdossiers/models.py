@@ -9,12 +9,22 @@ ACCESS_CHOICES = (
     (ACCESS_RESTRICTED, 'Restricted')
 )
 
+STATUS_AANVRAAG = 'A'
+STATUS_BEHANDELING = 'B'
+
+STATUS_CHOICES = (
+    (STATUS_AANVRAAG, 'Aanvraag'),
+    (STATUS_BEHANDELING, 'Behandeling')
+)
+
 
 class Bouwdossier(models.Model):
     id = models.AutoField(primary_key=True)
     dossiernr = models.CharField(max_length=16, null=False, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.CharField(max_length=4, null=True)  # jaartal
+    dossier_type = models.CharField(max_length=64, null=True)
+    dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
     access = models.CharField(max_length=1, null=True, choices=ACCESS_CHOICES)
 
     def __str__(self):
@@ -32,8 +42,8 @@ class Adres(models.Model):
     straat = models.CharField(max_length=150)
     huisnummer_van = models.IntegerField()
     huisnummer_tot = models.IntegerField()
-    _openbareruimte = models.CharField(max_length=16, unique=True)  # landelijk_id
-    _stadsdeel = models.CharField(max_length=3)  # stadsdeel code
+    _openbareruimte = models.CharField(max_length=16, db_index=True)  # landelijk_id
+    _stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
 
     def __str__(self):
         return f'{self.straat} {self.huisnummer_van} - {self.huisnummer_tot}'
@@ -68,7 +78,7 @@ class Nummeraanduiding(models.Model):
     adres = models.ForeignKey(Adres,
                               related_name='nummeraanduiding',
                               on_delete=CASCADE)
-    landelijk_id = models.CharField(max_length=16, unique=True)  # landelijk_id
+    landelijk_id = models.CharField(max_length=16,  db_index=True)  # landelijk_id
 
     def __str__(self):
         return f'Nummeraanduiding {self.landelijk_id}'
@@ -79,7 +89,7 @@ class Pand(models.Model):
     adres = models.ForeignKey(Adres,
                               related_name='pand',
                               on_delete=CASCADE)
-    landelijk_id = models.CharField(max_length=16, unique=True)  # landelijk_id
+    landelijk_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
 
     def __str__(self):
         return f'Pand {self.landelijk_id}'

@@ -10,7 +10,7 @@ from datapunt_api.rest import DatapuntViewSet
 # from rest_framework import serializers as rest_serializers
 # from rest_framework import response
 
-from bouwdossiers.api import serializers
+from bouwdossiers.datasets.bouwdossiers import serializers
 from bouwdossiers import models
 
 log = logging.getLogger(__name__)

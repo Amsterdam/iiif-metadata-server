@@ -6,14 +6,14 @@ from rest_framework.renderers import CoreJSONRenderer
 from rest_framework_swagger.renderers import OpenAPIRenderer
 from rest_framework_swagger.renderers import SwaggerUIRenderer
 
-from bouwdossiers.api import urls as api_urls
+from bouwdossiers.datasets.bouwdossiers import urls as bouwdossiers_urls
 
 grouped_url_patterns = {
     'base_patterns': [
         url(r'^status/', include('bouwdossiers.health.urls')),
     ],
     'bouwdossiers_patterns': [
-        url(r'^bouwdossiers/', include(api_urls.urls)),
+        url(r'^bouwdossiers/', include(bouwdossiers_urls.urls)),
     ],
 }
 

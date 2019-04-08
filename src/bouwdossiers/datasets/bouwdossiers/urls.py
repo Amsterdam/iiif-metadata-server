@@ -1,5 +1,5 @@
 from rest_framework import routers
-from bouwdossiers.api import views as api_views
+from bouwdossiers.datasets.bouwdossiers import views as api_views
 
 
 class BouwdossiersView(routers.APIRootView):
