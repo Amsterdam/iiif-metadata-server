@@ -1,2 +1,2 @@
-# bouwdossiers
-Provide API and import for bouwdossiers
+# Stadsarchief
+Provide API and import for datasets from stadsarchief such as bouwdossiers
