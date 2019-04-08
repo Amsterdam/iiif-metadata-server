@@ -3,47 +3,47 @@ import sys
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from bouwdossiers.settings_common import * # noqa F403
-from bouwdossiers.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL
-from bouwdossiers.settings_databases import LocationKey,\
+from stadsarchief.settings_common import * # noqa F403
+from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL
+from stadsarchief.settings_databases import LocationKey,\
     get_docker_host,\
     get_database_key,\
     OVERRIDE_HOST_ENV_VAR,\
     OVERRIDE_PORT_ENV_VAR
 
 INSTALLED_APPS += [
-    'bouwdossiers',
-    'bouwdossiers.importer',
-    'bouwdossiers.health',
+    'stadsarchief',
+    'stadsarchief.importer',
+    'stadsarchief.health',
 ]
 
-ROOT_URLCONF = 'bouwdossiers.urls'
+ROOT_URLCONF = 'stadsarchief.urls'
 
 
-WSGI_APPLICATION = 'bouwdossiers.wsgi.application'
+WSGI_APPLICATION = 'stadsarchief.wsgi.application'
 
 
 DATABASE_OPTIONS = {
     LocationKey.docker: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'bouwdossiers'),
-        'USER': os.getenv('DATABASE_USER', 'bouwdossiers'),
+        'NAME': os.getenv('DATABASE_NAME', 'stadsarchief'),
+        'USER': os.getenv('DATABASE_USER', 'stadsarchief'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': 'database',
         'PORT': '5432'
     },
     LocationKey.local: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'bouwdossiers'),
-        'USER': os.getenv('DATABASE_USER', 'bouwdossiers'),
+        'NAME': os.getenv('DATABASE_NAME', 'stadsarchief'),
+        'USER': os.getenv('DATABASE_USER', 'stadsarchief'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': get_docker_host(),
         'PORT': '5412'
     },
     LocationKey.override: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'bouwdossiers'),
-        'USER': os.getenv('DATABASE_USER', 'bouwdossiers'),
+        'NAME': os.getenv('DATABASE_NAME', 'stadsarchief'),
+        'USER': os.getenv('DATABASE_USER', 'stadsarchief'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
         'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
@@ -56,10 +56,10 @@ DATABASES = {
 
 
 # SWAGGER
-SWAG_PATH = 'acc.api.data.amsterdam.nl/bouwdossiers/docs'
+SWAG_PATH = 'acc.api.data.amsterdam.nl/stadsarchief/docs'
 
 if DEBUG:
-    SWAG_PATH = '127.0.0.1:8000/bouwdossiers/docs'
+    SWAG_PATH = '127.0.0.1:8000/stadsarchief/docs'
 
 SWAGGER_SETTINGS = {
     'exclude_namespaces': [],
@@ -105,7 +105,7 @@ SWAGGER_SETTINGS = {
     }
 }
 
-HEALTH_MODEL = 'bouwdossiers.Bouwdossier'
+HEALTH_MODEL = 'stadsarchief.Bouwdossier'
 
 # The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
 # This is a test public/private key def and added for testing .

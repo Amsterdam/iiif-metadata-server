@@ -5,8 +5,8 @@ services:
     ports:
       - "5412:5432"
     environment:
-      POSTGRES_DB: bouwdossiers
-      POSTGRES_USER: bouwdossiers
+      POSTGRES_DB: stadsarchief
+      POSTGRES_USER: stadsarchief
       POSTGRES_PASSWORD: insecure
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
@@ -20,10 +20,10 @@ services:
     environment:
       - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
       - SECRET_KEY=insecure
-      - DATABASE_NAME=bouwdossiers
-      - DATABASE_USER=bouwdossiers
+      - DATABASE_NAME=stadsarchief
+      - DATABASE_USER=stadsarchief
       - DATABASE_PASSWORD=insecure
       - UWSGI_HTTP=0.0.0.0:8000
-      - UWSGI_MODULE=bouwdossiers.wsgi
+      - UWSGI_MODULE=stadsarchief.wsgi
       - UWSGI_CALLABLE=application
       - UWSGI_MASTER=1

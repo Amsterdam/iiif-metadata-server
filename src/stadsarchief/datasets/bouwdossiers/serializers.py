@@ -4,7 +4,7 @@ from datapunt_api.serializers import HALSerializer, DisplayField
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
-from bouwdossiers.models import Bouwdossier
+from stadsarchief.models import Bouwdossier
 
 log = logging.getLogger(__name__)
 

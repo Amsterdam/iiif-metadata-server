@@ -6,14 +6,14 @@ from rest_framework.renderers import CoreJSONRenderer
 from rest_framework_swagger.renderers import OpenAPIRenderer
 from rest_framework_swagger.renderers import SwaggerUIRenderer
 
-from bouwdossiers.datasets.bouwdossiers import urls as bouwdossiers_urls
+from stadsarchief.datasets.bouwdossiers import urls as bouwdossiers_urls
 
 grouped_url_patterns = {
     'base_patterns': [
-        url(r'^status/', include('bouwdossiers.health.urls')),
+        url(r'^status/', include('stadsarchief.health.urls')),
     ],
     'bouwdossiers_patterns': [
-        url(r'^bouwdossiers/', include(bouwdossiers_urls.urls)),
+        url(r'^stadsarchief/', include(bouwdossiers_urls.urls)),
     ],
 }
 
@@ -28,7 +28,7 @@ def bouwdossiers_schema_view(request):
     return response.Response(generator.get_schema(request=request))
 
 
-urlpatterns = [url('^bouwdossiers/docs/api-docs/bouwdossiers/$',
+urlpatterns = [url('^stadsarchief/docs/api-docs/stadsarchief/$',
                    bouwdossiers_schema_view),
                ] + [url for pattern_list in grouped_url_patterns.values()
                     for url in pattern_list]
