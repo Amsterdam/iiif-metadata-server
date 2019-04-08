@@ -128,10 +128,12 @@ JWKS_TEST_KEY = """
     }
 """
 
+# Bouwdossiers read
+SCOPE_BD_R = 'BD/R'
 
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
-    'MIN_SCOPE': 'BD/R',
+    'MIN_SCOPE': SCOPE_BD_R,
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/'),
     'ALWAYS_OK': True,
 }

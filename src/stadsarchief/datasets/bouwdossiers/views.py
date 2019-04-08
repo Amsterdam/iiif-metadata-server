@@ -9,23 +9,26 @@ from datapunt_api.rest import DatapuntViewSet
 # from django_filters.rest_framework import filters
 # from rest_framework import serializers as rest_serializers
 # from rest_framework import response
+from django_filters.rest_framework import DjangoFilterBackend
 
-from stadsarchief.datasets.bouwdossiers import serializers
-from stadsarchief import models
+from stadsarchief.datasets.bouwdossiers import serializers, models
 
 log = logging.getLogger(__name__)
 
 
-class BouwdossierViewSet(DatapuntViewSet):
+class BouwDossierViewSet(DatapuntViewSet):
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('dossiernr', 'stadsdeel')
+
     queryset = (
-        models.Bouwdossier.objects.all()
-            .prefetch_related('adres')
-            .prefetch_related('subdossier')
-            .prefetch_related('subdossier__bestand')
-            .prefetch_related('adres__nummeraanduiding')
-            .prefetch_related('adres__pand')
+        models.BouwDossier.objects.all()
+            .prefetch_related('adressen')
+            .prefetch_related('subdossiers')
+            .prefetch_related('subdossiers__bestanden')
+            .prefetch_related('adressen__nummeraanduidingen')
+            .prefetch_related('adressen__panden')
     )
 
     def get_serializer_class(self):
-        return serializers.BowdossierSerializer
+        return serializers.BouwDossierSerializer
 

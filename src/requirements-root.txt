@@ -16,6 +16,7 @@ djangorestframework
 djangorestframework-gis
 drf-amsterdam
 drf-extensions
+factory-boy
 flake8
 idna
 itypes
