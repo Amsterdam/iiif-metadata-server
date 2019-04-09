@@ -25,11 +25,11 @@ node {
     stage('Test') {
         tryStep "test", {
             withCredentials([[$class: 'StringBinding', credentialsId: 'BOUWDOSSIERS_OBJECTSTORE_PASSWORD', variable: 'BOUWDOSSIERS_OBJECTSTORE_PASSWORD']]) {
-                sh "docker-compose -p stadsarchief -f .jenkins-test/docker-compose.yml build && " +
-                   "docker-compose -p stadsarchief -f .jenkins-test/docker-compose.yml run -u root --rm tests"
+                sh "docker-compose -p stadsarchief -f .jenkins/test/docker-compose.yml build && " +
+                   "docker-compose -p stadsarchief -f .jenkins/test/docker-compose.yml run -u root --rm tests"
         }
         }, {
-            sh "docker-compose -p stadsarchief -f .jenkins-test/docker-compose.yml down"
+            sh "docker-compose -p stadsarchief -f .jenkins/test/docker-compose.yml down"
         }
     }
 
