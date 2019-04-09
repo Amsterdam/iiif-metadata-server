@@ -5,7 +5,7 @@ from stadsarchief.datasets.bouwdossiers import models
 
 class BouwDossierFactory(factory.DjangoModelFactory):
     class Meta:
-        django_get_or_create = ('dossiernr','stadsdeel')
+        django_get_or_create = ('dossiernr', 'stadsdeel')
         model = models.BouwDossier
 
     dossiernr = '12345'

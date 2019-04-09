@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -40,7 +39,8 @@ class Migration(migrations.Migration):
                 ('titel', models.CharField(db_index=True, max_length=512)),
                 ('datering', models.CharField(max_length=4, null=True)),
                 ('dossier_type', models.CharField(max_length=64, null=True)),
-                ('dossier_status', models.CharField(choices=[('A', 'Aanvraag'), ('B', 'Behandeling')], max_length=1, null=True)),
+                ('dossier_status',
+                 models.CharField(choices=[('A', 'Aanvraag'), ('B', 'Behandeling')], max_length=1, null=True)),
                 ('access', models.CharField(choices=[('P', 'Public'), ('R', 'Restricted')], max_length=1, null=True)),
             ],
             options={
@@ -52,7 +52,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('landelijk_id', models.CharField(db_index=True, max_length=16)),
-                ('adres', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='nummeraanduidingen', to='stadsarchief.Adres')),
+                ('adres',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='nummeraanduidingen',
+                                   to='stadsarchief.Adres')),
             ],
         ),
         migrations.CreateModel(
@@ -60,7 +62,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('landelijk_id', models.CharField(db_index=True, max_length=16)),
-                ('adres', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='panden', to='stadsarchief.Adres')),
+                ('adres', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='panden',
+                                            to='stadsarchief.Adres')),
             ],
         ),
         migrations.CreateModel(
@@ -69,22 +72,27 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('titel', models.CharField(db_index=True, max_length=128)),
                 ('access', models.CharField(choices=[('P', 'Public'), ('R', 'Restricted')], max_length=1, null=True)),
-                ('bouwdossier', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subdossiers', to='stadsarchief.BouwDossier')),
+                ('bouwdossier',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subdossiers',
+                                   to='stadsarchief.BouwDossier')),
             ],
         ),
         migrations.AddField(
             model_name='bestand',
             name='dossier',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bestand', to='stadsarchief.BouwDossier'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bestand',
+                                    to='stadsarchief.BouwDossier'),
         ),
         migrations.AddField(
             model_name='bestand',
             name='subdossier',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bestanden', to='stadsarchief.SubDossier'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bestanden',
+                                    to='stadsarchief.SubDossier'),
         ),
         migrations.AddField(
             model_name='adres',
             name='bouwdossier',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='adressen', to='stadsarchief.BouwDossier'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='adressen',
+                                    to='stadsarchief.BouwDossier'),
         ),
     ]

@@ -42,13 +42,11 @@ class BouwDossierViewSet(DatapuntViewSet):
 
     queryset = (
         models.BouwDossier.objects.all()
-            .prefetch_related('adressen')
-            .prefetch_related('subdossiers')
-            .prefetch_related('subdossiers__bestanden')
-            .prefetch_related('adressen__nummeraanduidingen')
-            .prefetch_related('adressen__panden')
+        .prefetch_related('adressen').prefetch_related('subdossiers')
+        .prefetch_related('subdossiers__bestanden')
+        .prefetch_related('adressen__nummeraanduidingen')
+        .prefetch_related('adressen__panden')
     )
 
     def get_serializer_class(self):
         return serializers.BouwDossierSerializer
-

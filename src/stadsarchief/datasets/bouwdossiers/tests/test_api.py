@@ -36,7 +36,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['dossiernr'], '12345')
         self.assertEqual(response.data['stadsdeel'], 'A')
 
-
     def test_dossiernr_stadsdeel(self):
         url = '/stadsarchief/bouwdossier/?dossiernr=12345&stadsdeel=A'
         self.client.credentials(
@@ -79,7 +78,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-
     def test_pand(self):
         url = '/stadsarchief/bouwdossier/?pand=0363100012165490'
         self.client.credentials(
@@ -118,7 +116,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-
 
     def test_dossiernr_stadsdeel_min_datering_none(self):
         url = '/stadsarchief/bouwdossier/?dossiernr=12345&stadsdeel=A&min_datering=1999'

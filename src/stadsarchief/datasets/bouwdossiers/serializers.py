@@ -42,6 +42,7 @@ class SubDossierSerializer(ModelSerializer):
         model = SubDossier
         fields = ('titel',  'bestanden', )
 
+
 class BouwDossierSerializer(HALSerializer):
     subdossiers = SubDossierSerializer(many=True)
     adressen = AdresSerializer(many=True)

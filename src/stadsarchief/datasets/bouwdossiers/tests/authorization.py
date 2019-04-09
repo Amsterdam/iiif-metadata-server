@@ -37,6 +37,6 @@ class AuthorizationSetup(object):
         token_scope_bd_r = jwt.encode({
             'scopes': [settings.SCOPE_BD_R],
             'iat': now, 'exp': now + 600}, key.key, algorithm=key.alg,
-             headers={'kid': kid})
+            headers={'kid': kid})
 
         self.token_scope_bd_r = str(token_scope_bd_r, 'utf-8')
