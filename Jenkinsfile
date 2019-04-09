@@ -36,7 +36,7 @@ node {
     stage("Build image") {
         tryStep "build", {
             docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                def image = docker.build("datapunt/stadsarchief:${env.BUILD_NUMBER}")
+                def image = docker.build("datapunt/stadsarchief:${env.BUILD_NUMBER}", "src")
                 image.push()
             }
         }
