@@ -22,7 +22,7 @@ COPY . /app/
 
 USER datapunt
 
-RUN export DJANGO_SETTINGS_MODULE=bouwdossiers.settings
+RUN export DJANGO_SETTINGS_MODULE=stadsarchief.settings
 
 CMD uwsgi
 

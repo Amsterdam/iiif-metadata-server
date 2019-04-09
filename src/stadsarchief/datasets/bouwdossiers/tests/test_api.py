@@ -19,7 +19,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         factories.NummeraanduidingFactory()
         factories.PandFactory()
 
-
     def test_api_list(self):
         url = '/stadsarchief/bouwdossier/'
         self.client.credentials(
@@ -91,7 +90,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-
     def test_openbareruimte(self):
         url = '/stadsarchief/bouwdossier/?openbareruimte=0363300000004835'
         self.client.credentials(
@@ -141,7 +139,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-
     def test_subdossier(self):
         """
         subdossier should match with case insensitive start of titel of subdossier
@@ -154,7 +151,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-
 
     def test_subdossier_none(self):
         url = '/stadsarchief/bouwdossier/?subdossier=dit_match_niet'
@@ -174,7 +170,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-
 
     def test_dossier_type_none(self):
         url = '/stadsarchief/bouwdossier/?dossier_type=geen_type'

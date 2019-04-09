@@ -1,6 +1,5 @@
 import logging
 
-
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
 from datapunt_api.rest import DatapuntViewSet
@@ -20,7 +19,6 @@ class BouwDossierFilter(FilterSet):
     dossiernr = filters.CharFilter()
     stadsdeel = filters.CharFilter()
     dossier_type = filters.CharFilter()
-
 
     class Meta:
         model = models.BouwDossier
