@@ -12,7 +12,7 @@ from stadsarchief.settings_databases import LocationKey,\
 
 INSTALLED_APPS += [
     'stadsarchief',
-    'stadsarchief.importer',
+    # 'stadsarchief.importer',
     'stadsarchief.health',
 ]
 

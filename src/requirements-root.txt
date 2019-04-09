@@ -36,5 +36,4 @@ sqlparse
 typing
 uritemplate
 urllib3
-zeep
 xlrd

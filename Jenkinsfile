@@ -25,18 +25,18 @@ node {
     stage('Test') {
         tryStep "test", {
             withCredentials([[$class: 'StringBinding', credentialsId: 'BOUWDOSSIERS_OBJECTSTORE_PASSWORD', variable: 'BOUWDOSSIERS_OBJECTSTORE_PASSWORD']]) {
-                sh "docker-compose -p stadsarchief -f .jenkins-test/docker-compose.yml build && " +
-                   "docker-compose -p stadsarchief -f .jenkins-test/docker-compose.yml run -u root --rm tests"
+                sh "docker-compose -p stadsarchief -f src/.jenkins/test/docker-compose.yml build && " +
+                   "docker-compose -p stadsarchief -f src/.jenkins/test/docker-compose.yml run -u root --rm tests"
         }
         }, {
-            sh "docker-compose -p stadsarchief -f .jenkins-test/docker-compose.yml down"
+            sh "docker-compose -p stadsarchief -f src/.jenkins/test/docker-compose.yml down"
         }
     }
 
     stage("Build image") {
         tryStep "build", {
             docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                def image = docker.build("datapunt/stadsarchief:${env.BUILD_NUMBER}", "--build-arg http_proxy=${JENKINS_HTTP_PROXY_STRING} --build-arg https_proxy=${JENKINS_HTTP_PROXY_STRING} .)
+                def image = docker.build("datapunt/stadsarchief:${env.BUILD_NUMBER}", "src")
                 image.push()
             }
         }
