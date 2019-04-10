@@ -23,7 +23,7 @@ class BouwDossier(models.Model):
     dossiernr = models.CharField(max_length=16, null=False, db_index=True)
     stadsdeel = models.CharField(max_length=3, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
-    datering = models.CharField(max_length=4, null=True)  # jaartal
+    datering = models.DateField(null=True)
     dossier_type = models.CharField(max_length=64, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
     access = models.CharField(max_length=1, null=True, choices=ACCESS_CHOICES)
@@ -41,8 +41,8 @@ class Adres(models.Model):
                                     related_name='adressen',
                                     on_delete=CASCADE)
     straat = models.CharField(max_length=150)
-    huisnummer_van = models.IntegerField()
-    huisnummer_tot = models.IntegerField()
+    huisnummer_van = models.IntegerField(null=True)
+    huisnummer_tot = models.IntegerField(null=True)
     openbareruimte_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
 

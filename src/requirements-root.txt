@@ -37,3 +37,4 @@ typing
 uritemplate
 urllib3
 xlrd
+xmltodict

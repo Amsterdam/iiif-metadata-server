@@ -1,4 +1,5 @@
 import factory
+from rest_framework.fields import DateField
 
 from stadsarchief.datasets.bouwdossiers import models
 
@@ -11,7 +12,7 @@ class BouwDossierFactory(factory.DjangoModelFactory):
     dossiernr = '12345'
     stadsdeel = 'A'
     titel = 'weesperstraat 113 - 117'
-    datering = '1998'
+    datering = "1998-01-01"
     dossier_status = None
     dossier_type = 'verbouwing'
     access = models.ACCESS_RESTRICTED
