@@ -2,7 +2,7 @@ import logging
 
 from django.core.management import BaseCommand
 # from django.conf import settings
-from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers
+from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers, delete_all
 from stadsarchief.objectstore import get_all_files
 
 log = logging.getLogger(__name__)
@@ -16,6 +16,13 @@ class Command(BaseCommand):
             dest='skipgetfiles',
             default=False,
             help='Skip getting files from objectstore')
+
+        parser.add_argument(
+            '--skipdelete',
+            action='store_true',
+            dest='skipdelete',
+            default=False,
+            help='Skip delete all data')
 
         parser.add_argument(
             '--skipimport',
@@ -45,12 +52,16 @@ class Command(BaseCommand):
             log.info('Get files from objectstore')
             get_all_files()
 
-        if  not options['skipimport']:
+        if not options['skipdelete']:
+            log.info('Delete all data')
+            delete_all()
+
+        if not options['skipimport']:
             log.info('Import files')
             import_bouwdossiers()
 
-        if  not options['skip_add_bag_ids']:
+        if not options['skip_add_bag_ids']:
             log.info('Add bag IDs')
 
-        if  not options['skip_validate_import']:
+        if not options['skip_validate_import']:
             log.info('Validate import')
