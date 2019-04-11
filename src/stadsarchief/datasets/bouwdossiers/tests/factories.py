@@ -2,6 +2,7 @@ import factory
 
 from stadsarchief.datasets.bouwdossiers import models
 
+
 class ImportFileFactory(factory.DjangoModelFactory):
     class Meta:
         django_get_or_create = ('name',)
@@ -10,6 +11,7 @@ class ImportFileFactory(factory.DjangoModelFactory):
     name = 'test.xml'
     status = models.IMPORT_FINISHED
     last_import = "2019-04-12 13:38:23"
+
 
 class BouwDossierFactory(factory.DjangoModelFactory):
     class Meta:

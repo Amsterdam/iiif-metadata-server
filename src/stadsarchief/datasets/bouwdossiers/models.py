@@ -45,8 +45,8 @@ class ImportFile(models.Model):
 class BouwDossier(models.Model):
     id = models.AutoField(primary_key=True)
     importfile = models.ForeignKey(ImportFile,
-                                    related_name='bouwdossiers',
-                                    on_delete=CASCADE)
+                                   related_name='bouwdossiers',
+                                   on_delete=CASCADE)
     dossiernr = models.CharField(max_length=16, null=False, db_index=True)
     stadsdeel = models.CharField(max_length=3, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)

@@ -1,7 +1,6 @@
 import logging
 
 from django.core.management import BaseCommand
-# from django.conf import settings
 from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers, delete_all
 from stadsarchief.objectstore import get_all_files
 
@@ -18,11 +17,11 @@ class Command(BaseCommand):
             help='Skip getting files from objectstore')
 
         parser.add_argument(
-            '--skipdelete',
+            '--delete',
             action='store_true',
-            dest='skipdelete',
+            dest='delete',
             default=False,
-            help='Skip delete all data')
+            help='Delete all data')
 
         parser.add_argument(
             '--skipimport',
@@ -50,7 +49,7 @@ class Command(BaseCommand):
             # action='store_true',
             dest='max_files_count',
             nargs=1,
-            type = int,
+            type=int,
             default=None,
             help='Maximum number of files to import')
 
@@ -61,7 +60,7 @@ class Command(BaseCommand):
             log.info('Get files from objectstore')
             get_all_files()
 
-        if not options['skipdelete']:
+        if options['delete']:
             log.info('Delete all data')
             delete_all()
 

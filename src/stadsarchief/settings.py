@@ -3,7 +3,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from stadsarchief.settings_common import * # noqa F403
-from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL
+from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL, BASE_DIR
 from stadsarchief.settings_databases import LocationKey,\
     get_docker_host,\
     get_database_key,\
