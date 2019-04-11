@@ -14,7 +14,7 @@ services:
   web:
     build: src/
     ports:
-      - "8109:8000"
+      - "8156:8000"
     links:
       - database
     environment:
