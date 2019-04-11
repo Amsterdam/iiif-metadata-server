@@ -1,14 +1,22 @@
 import factory
-from rest_framework.fields import DateField
 
 from stadsarchief.datasets.bouwdossiers import models
 
+class ImportFileFactory(factory.DjangoModelFactory):
+    class Meta:
+        django_get_or_create = ('name',)
+        model = models.ImportFile
+
+    name = 'test.xml'
+    status = models.IMPORT_FINISHED
+    last_import = "2019-04-12 13:38:23"
 
 class BouwDossierFactory(factory.DjangoModelFactory):
     class Meta:
         django_get_or_create = ('dossiernr', 'stadsdeel')
         model = models.BouwDossier
 
+    importfile = factory.SubFactory(ImportFileFactory)
     dossiernr = '12345'
     stadsdeel = 'A'
     titel = 'weesperstraat 113 - 117'
@@ -38,17 +46,7 @@ class SubDossierFactory(factory.DjangoModelFactory):
 
     bouwdossier = factory.SubFactory(BouwDossierFactory)
     titel = 'Tekeningen (plattegrond)'
-    access = models.ACCESS_RESTRICTED
-
-
-class BestandFactory(factory.DjangoModelFactory):
-    class Meta:
-        django_get_or_create = ('name',)
-        model = models.Bestand
-
-    dossier = factory.SubFactory(BouwDossierFactory)
-    subdossier = factory.SubFactory(SubDossierFactory)
-    name = 'SU10000010_00001.jpg'
+    bestanden = ['SU10000010_00001.jpg']
     access = models.ACCESS_RESTRICTED
 
 

@@ -15,7 +15,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         factories.BouwDossierFactory()
         factories.SubDossierFactory()
         factories.AdresFactory()
-        factories.BestandFactory()
         factories.NummeraanduidingFactory()
         factories.PandFactory()
 
@@ -45,7 +44,7 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-        self.assertEqual(response.data['results'][0]['subdossiers'][0]['bestanden'][0]['name'], 'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['subdossiers'][0]['bestanden'][0], 'SU10000010_00001.jpg')
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0]['landelijk_id'],
                          '0363200000406187')
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0]['landelijk_id'], '0363100012165490')

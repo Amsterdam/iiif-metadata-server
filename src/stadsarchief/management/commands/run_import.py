@@ -45,6 +45,15 @@ class Command(BaseCommand):
             default=False,
             help='Skip validate import')
 
+        parser.add_argument(
+            '--max_files_count',
+            # action='store_true',
+            dest='max_files_count',
+            nargs=1,
+            type = int,
+            default=None,
+            help='Maximum number of files to import')
+
     def handle(self, *args, **options):
         log.info('Stadsarchief import started')
 
@@ -58,7 +67,7 @@ class Command(BaseCommand):
 
         if not options['skipimport']:
             log.info('Import files')
-            import_bouwdossiers()
+            import_bouwdossiers(options['max_files_count'][0])
 
         if not options['skip_add_bag_ids']:
             log.info('Add bag IDs')

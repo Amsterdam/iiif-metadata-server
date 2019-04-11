@@ -50,91 +50,105 @@ def get_list_items(d, key1, key2):
 
 
 def delete_all():
+    models.ImportFile.objects.all().delete()
     models.Pand.objects.all().delete()
     models.Nummeraanduiding.objects.all().delete()
-    models.Bestand.objects.all().delete()
     models.SubDossier.objects.all().delete()
     models.Adres.objects.all().delete()
     models.BouwDossier.objects.all().delete()
 
 
-def import_bouwdossiers():
-    with transaction.atomic():
-        delete_all()
-
+def import_bouwdossiers(max_file_count=None):
     total_count = 0
+    file_count = 0
     root_dir = DATA_DIR
     for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
-        log.info(f"Processing - {file_path}")
-        count = 0
+        importfiles = models.ImportFile.objects.filter(name=file_path)
+        if len(importfiles) > 0:
+            importfile = importfiles[0]
+            continue
 
-        # SAA_BWT_Stadsdeel_Centrum_02.xml
-        m = re.search('SAA_BWT_Stadsdeel_([^_]+)_\\d{1,5}\\.xml$', file_path)
-        if m:
-            stadsdeel_naam = m.group(1)
-            with open(file_path) as fd:
-                xml = xmltodict.parse(fd.read())
+        import_file = models.ImportFile(name=file_path,status=models.IMPORT_BUSY)
+        import_file.save()
 
-            with transaction.atomic():
-                for x_dossier in get_list_items(xml, 'bwtDossiers', 'dossier'):
-                    dossiernr = x_dossier['dossierNr']
-                    stadsdeel = MAP_STADSDEEL_NAAM_CODE[stadsdeel_naam]
-                    titel = x_dossier['titel']
-                    if not titel:
-                        titel = ''
-                        log.warning(f"Missing titel for bouwdossier {dossiernr} in {file_path}")
+        try:
+            log.info(f"Processing - {file_path}")
+            count = 0
 
-                    datering = get_datering(x_dossier.get('datering'))
-                    dossier_type = x_dossier.get('dossierType')
+            # SAA_BWT_Stadsdeel_Centrum_02.xml
+            m = re.search('SAA_BWT_Stadsdeel_([^_]+)_\\d{1,5}\\.xml$', file_path)
+            if m:
+                stadsdeel_naam = m.group(1)
+                with open(file_path) as fd:
+                    xml = xmltodict.parse(fd.read())
 
-                    bouwdossier = models.BouwDossier(
-                        dossiernr=dossiernr,
-                        stadsdeel=stadsdeel,
-                        titel=titel,
-                        datering=datering,
-                        dossier_type=dossier_type,
-                    )
-                    bouwdossier.save()
-                    count += 1
-                    total_count += 1
-
-                    if total_count % 1000 == 0:
-                        log.info(f"Bouwdossiers count in file: {count}, total: {total_count}")
-
-                    for x_adres in get_list_items(x_dossier, 'adressen', 'adres'):
-                        huisnummer_van = x_adres.get('huisnummerVan')
-                        huisnummer_van = int(huisnummer_van) if huisnummer_van else None
-                        huisnummer_tot = x_adres.get('huisnummerTot')
-                        huisnummer_tot = int(huisnummer_tot) if huisnummer_tot else None
-
-                        adres = models.Adres(
-                            bouwdossier=bouwdossier,
-                            straat=x_adres['straat'],
-                            huisnummer_van=huisnummer_van,
-                            huisnummer_tot=huisnummer_tot,
-                            stadsdeel=stadsdeel
-                        )
-                        adres.save()
-
-                    for x_sub_dossier in get_list_items(x_dossier, 'subDossiers', 'subDossier'):
-                        titel = x_sub_dossier['titel']
-
+                with transaction.atomic():
+                    for x_dossier in get_list_items(xml, 'bwtDossiers', 'dossier'):
+                        dossiernr = x_dossier['dossierNr']
+                        stadsdeel = MAP_STADSDEEL_NAAM_CODE[stadsdeel_naam]
+                        titel = x_dossier['titel']
                         if not titel:
                             titel = ''
-                            log.warning(f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}")
+                            log.warning(f"Missing titel for bouwdossier {dossiernr} in {file_path}")
 
-                        sub_dossier = models.SubDossier(
-                            bouwdossier=bouwdossier,
-                            titel=titel
+                        datering = get_datering(x_dossier.get('datering'))
+                        dossier_type = x_dossier.get('dossierType')
+
+                        bouwdossier = models.BouwDossier(
+                            importfile = import_file,
+                            dossiernr=dossiernr,
+                            stadsdeel=stadsdeel,
+                            titel=titel,
+                            datering=datering,
+                            dossier_type=dossier_type,
                         )
-                        sub_dossier.save()
+                        bouwdossier.save()
+                        count += 1
+                        total_count += 1
 
-                        bestanden = [
-                            models.Bestand(
-                                subdossier=sub_dossier,
-                                dossier=bouwdossier,
-                                name=x_bestand
-                            ) for x_bestand in get_list_items(x_sub_dossier, 'bestanden', 'bestand')
-                        ]
-                        models.Bestand.objects.bulk_create(bestanden)
+                        if total_count % 1000 == 0:
+                            log.info(f"Bouwdossiers count in file: {count}, total: {total_count}")
+
+                        for x_adres in get_list_items(x_dossier, 'adressen', 'adres'):
+                            huisnummer_van = x_adres.get('huisnummerVan')
+                            huisnummer_van = int(huisnummer_van) if huisnummer_van else None
+                            huisnummer_tot = x_adres.get('huisnummerTot')
+                            huisnummer_tot = int(huisnummer_tot) if huisnummer_tot else None
+
+                            adres = models.Adres(
+                                bouwdossier=bouwdossier,
+                                straat=x_adres['straat'],
+                                huisnummer_van=huisnummer_van,
+                                huisnummer_tot=huisnummer_tot,
+                                stadsdeel=stadsdeel
+                            )
+                            adres.save()
+
+                        for x_sub_dossier in get_list_items(x_dossier, 'subDossiers', 'subDossier'):
+                            titel = x_sub_dossier['titel']
+
+                            if not titel:
+                                titel = ''
+                                log.warning(f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}")
+
+                            bestanden = get_list_items(x_sub_dossier, 'bestanden', 'bestand')
+
+                            sub_dossier = models.SubDossier(
+                                bouwdossier=bouwdossier,
+                                titel=titel,
+                                bestanden=bestanden
+                            )
+                            sub_dossier.save()
+
+            import_file.status=models.IMPORT_FINISHED
+            import_file.save()
+            file_count += 1
+            if max_file_count and file_count >= max_file_count:
+                break
+
+        except Exception as e:
+            log.error(f"Error while processing file {file_path} : {e}")
+            import_file.status = models.IMPORT_ERROR
+            import_file.save()
+
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
