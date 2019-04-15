@@ -1,7 +1,7 @@
 import logging
 
 from django.core.management import BaseCommand
-from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers, delete_all
+from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers, delete_all, add_bag_ids
 from stadsarchief.objectstore import get_all_files
 
 log = logging.getLogger(__name__)

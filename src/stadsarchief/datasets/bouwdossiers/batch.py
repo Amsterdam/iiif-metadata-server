@@ -159,3 +159,7 @@ def import_bouwdossiers(max_file_count=None):  # noqa C901
             import_file.save()
 
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
+
+
+def add_bag_ids():
+    pass
