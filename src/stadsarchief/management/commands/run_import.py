@@ -48,7 +48,6 @@ class Command(BaseCommand):
             '--max_files_count',
             # action='store_true',
             dest='max_files_count',
-            nargs=1,
             type=int,
             default=None,
             help='Maximum number of files to import')
@@ -66,11 +65,12 @@ class Command(BaseCommand):
 
         if not options['skipimport']:
             log.info('Import files')
-            max_files_count = options['max_files_count'][0] if 'max_files_count' in options else None
+            max_files_count = options['max_files_count']
             import_bouwdossiers(max_files_count)
 
         if not options['skip_add_bag_ids']:
             log.info('Add bag IDs')
+            add_bag_ids()
 
         if not options['skip_validate_import']:
             log.info('Validate import')
