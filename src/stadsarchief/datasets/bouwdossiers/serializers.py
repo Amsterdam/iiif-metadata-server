@@ -3,15 +3,9 @@ import logging
 from datapunt_api.serializers import HALSerializer, DisplayField
 from rest_framework.serializers import ModelSerializer
 
-from stadsarchief.datasets.bouwdossiers.models import BouwDossier, SubDossier, Adres, Bestand, Pand, Nummeraanduiding
+from stadsarchief.datasets.bouwdossiers.models import BouwDossier, SubDossier, Adres, Pand, Nummeraanduiding
 
 log = logging.getLogger(__name__)
-
-
-class BestandSerializer(ModelSerializer):
-    class Meta:
-        model = Bestand
-        fields = ('name',)
 
 
 class PandSerializer(ModelSerializer):
@@ -36,8 +30,6 @@ class AdresSerializer(ModelSerializer):
 
 
 class SubDossierSerializer(ModelSerializer):
-    bestanden = BestandSerializer(many=True)
-
     class Meta:
         model = SubDossier
         fields = ('titel',  'bestanden', )

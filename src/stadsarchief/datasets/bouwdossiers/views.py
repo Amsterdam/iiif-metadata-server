@@ -13,8 +13,8 @@ class BouwDossierFilter(FilterSet):
     nummeraanduiding = filters.CharFilter(field_name='adressen__nummeraanduidingen__landelijk_id')
     pand = filters.CharFilter(field_name='adressen__panden__landelijk_id')
     openbareruimte = filters.CharFilter(field_name='adressen__openbareruimte_id')
-    min_datering = filters.CharFilter(field_name='datering', lookup_expr='gte')
-    max_datering = filters.CharFilter(field_name='datering', lookup_expr='lte')
+    min_datering = filters.CharFilter(field_name='datering__year', lookup_expr='gte')
+    max_datering = filters.CharFilter(field_name='datering__year', lookup_expr='lte')
     subdossier = filters.CharFilter(field_name='subdossiers__titel', lookup_expr='istartswith')
     dossiernr = filters.CharFilter()
     stadsdeel = filters.CharFilter()
@@ -42,8 +42,8 @@ class BouwDossierViewSet(DatapuntViewSet):
 
     queryset = (
         models.BouwDossier.objects.all()
-        .prefetch_related('adressen').prefetch_related('subdossiers')
-        .prefetch_related('subdossiers__bestanden')
+        .prefetch_related('adressen')
+        .prefetch_related('subdossiers')
         .prefetch_related('adressen__nummeraanduidingen')
         .prefetch_related('adressen__panden')
     )

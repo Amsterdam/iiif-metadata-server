@@ -3,7 +3,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from stadsarchief.settings_common import * # noqa F403
-from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL
+from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL, BASE_DIR
 from stadsarchief.settings_databases import LocationKey,\
     get_docker_host,\
     get_database_key,\
@@ -52,6 +52,19 @@ DATABASE_OPTIONS = {
 DATABASES = {
     'default': DATABASE_OPTIONS[get_database_key()]
 }
+
+OBJECTSTORE = dict(
+    VERSION='2.0',
+    AUTHURL='https://identity.stack.cloudvps.com/v2.0',
+    TENANT_NAME='BGE000081_BOUWDOSSIERS',
+    TENANT_ID='9d078258c1a547c09e0b5f88834554f1',
+    USER=os.getenv('OBJECTSTORE_USER', 'bouwdossiers'),
+    PASSWORD=os.getenv('BOUWDOSSIERS_OBJECTSTORE_PASSWORD'),
+    REGION_NAME='NL',
+)
+
+PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
+DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, 'data'))
 
 
 # SWAGGER
