@@ -66,7 +66,8 @@ class Command(BaseCommand):
 
         if not options['skipimport']:
             log.info('Import files')
-            import_bouwdossiers(options['max_files_count'][0])
+            max_files_count = options['max_files_count'][0] if 'max_files_count' in options else None
+            import_bouwdossiers(max_files_count)
 
         if not options['skip_add_bag_ids']:
             log.info('Add bag IDs')
