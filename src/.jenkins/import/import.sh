@@ -42,5 +42,5 @@ dc run --rm importer
 
 echo "Running backups"
 dc exec -T database backup-db.sh stadsarchief
-
+dc down -v
 echo "Done"
