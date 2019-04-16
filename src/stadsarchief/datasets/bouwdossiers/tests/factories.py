@@ -38,6 +38,8 @@ class AdresFactory(factory.DjangoModelFactory):
     huisnummer_van = 113
     huisnummer_tot = 117
     openbareruimte_id = '0363300000004835'
+    nummeraanduidingen = ['0363200000406187']
+    panden = ['0363100012165490']
     stadsdeel = 'A'
 
 
@@ -50,19 +52,3 @@ class SubDossierFactory(factory.DjangoModelFactory):
     titel = 'Tekeningen (plattegrond)'
     bestanden = ['SU10000010_00001.jpg']
     access = models.ACCESS_RESTRICTED
-
-
-class NummeraanduidingFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.Nummeraanduiding
-
-    adres = factory.SubFactory(AdresFactory)
-    landelijk_id = '0363200000406187'
-
-
-class PandFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.Pand
-
-    adres = factory.SubFactory(AdresFactory)
-    landelijk_id = '0363100012165490'

@@ -15,8 +15,6 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         factories.BouwDossierFactory()
         factories.SubDossierFactory()
         factories.AdresFactory()
-        factories.NummeraanduidingFactory()
-        factories.PandFactory()
 
     def test_api_list(self):
         url = '/stadsarchief/bouwdossier/'
@@ -45,9 +43,9 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
         self.assertEqual(response.data['results'][0]['subdossiers'][0]['bestanden'][0], 'SU10000010_00001.jpg')
-        self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0]['landelijk_id'],
+        self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
                          '0363200000406187')
-        self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0]['landelijk_id'], '0363100012165490')
+        self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
 
     def test_dossiernr_stadsdeel_None1(self):
         url = '/stadsarchief/bouwdossier/?dossiernr=12345&stadsdeel=C'
@@ -76,6 +74,15 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+
+    def test_nummeraanduiding_no(self):
+        url = '/stadsarchief/bouwdossier/?nummeraanduiding=0363200000406188'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
+        response = self.client.get(url)
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 0)
 
     def test_pand(self):
         url = '/stadsarchief/bouwdossier/?pand=0363100012165490'

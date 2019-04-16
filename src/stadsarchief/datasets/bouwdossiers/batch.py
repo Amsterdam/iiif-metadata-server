@@ -3,7 +3,7 @@ import logging
 import re
 
 import xmltodict
-from django.db import transaction
+from django.db import transaction, connection
 
 from . import models
 
@@ -95,7 +95,9 @@ def add_dossier(x_dossier, file_path, stadsdeel_naam, import_file, count, total_
             straat=x_adres['straat'],
             huisnummer_van=huisnummer_van,
             huisnummer_tot=huisnummer_tot,
-            stadsdeel=stadsdeel
+            stadsdeel=stadsdeel,
+            nummeraanduidingen=[],
+            panden=[]
         )
         adres.save()
 
@@ -162,4 +164,48 @@ def import_bouwdossiers(max_file_count=None):  # noqa C901
 
 
 def add_bag_ids():
-    pass
+    log.info("Add nummeraanduidingen")
+    with connection.cursor() as cursor:
+        cursor.execute("""
+WITH adres_nummeraanduiding AS (
+SELECT  sa.id AS id , ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen
+FROM stadsarchief_adres sa
+JOIN bag_nummeraanduiding bn
+ON sa.straat = bn._openbare_ruimte_naam
+AND sa.huisnummer_van = bn.huisnummer
+GROUP BY sa.id)
+UPDATE stadsarchief_adres
+SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen
+FROM adres_nummeraanduiding
+WHERE stadsarchief_adres.id = adres_nummeraanduiding.id
+    """)
+    log.info("Add panden")
+    with connection.cursor() as cursor:
+        cursor.execute("""
+WITH adres_pand AS (
+SELECT  sa.id, ARRAY_AGG(bp.landelijk_id) AS panden
+FROM stadsarchief_adres sa
+JOIN bag_verblijfsobject bv ON sa.straat = bv._openbare_ruimte_naam
+AND sa.huisnummer_van = bv._huisnummer
+JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
+JOIN bag_pand bp on bp.id = bvbo.pand_id
+GROUP BY sa.id)
+UPDATE stadsarchief_adres
+SET panden = adres_pand.panden
+FROM adres_pand
+WHERE stadsarchief_adres.id = adres_pand.id
+    """)
+    log.info("Add openbare ruimtes")
+    with connection.cursor() as cursor:
+        cursor.execute("""
+WITH adres_opr AS (
+SELECT sa.id, opr.landelijk_id
+FROM stadsarchief_adres sa
+JOIN bag_openbareruimte opr ON sa.straat = opr.naam
+WHERE opr.vervallen = false
+AND opr.type = '01')
+UPDATE stadsarchief_adres
+SET openbareruimte_id = adres_opr.landelijk_id
+FROM adres_opr
+WHERE stadsarchief_adres.id = adres_opr.id
+        """)

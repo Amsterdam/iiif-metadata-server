@@ -10,8 +10,8 @@ log = logging.getLogger(__name__)
 
 
 class BouwDossierFilter(FilterSet):
-    nummeraanduiding = filters.CharFilter(field_name='adressen__nummeraanduidingen__landelijk_id')
-    pand = filters.CharFilter(field_name='adressen__panden__landelijk_id')
+    nummeraanduiding = filters.CharFilter(field_name='adressen__nummeraanduidingen', method='array_contains_filter')
+    pand = filters.CharFilter(field_name='adressen__panden', method='array_contains_filter')
     openbareruimte = filters.CharFilter(field_name='adressen__openbareruimte_id')
     min_datering = filters.CharFilter(field_name='datering__year', lookup_expr='gte')
     max_datering = filters.CharFilter(field_name='datering__year', lookup_expr='lte')
@@ -34,7 +34,11 @@ class BouwDossierFilter(FilterSet):
             'subdossier'
         )
 
-    # ordering = ('naam',)
+    def array_contains_filter(self, queryset, _filter_name, value):
+        if not isinstance(value, list):
+            value = [value]
+        lookup = '%s__%s' % (_filter_name, 'contains')
+        return queryset.filter(**{lookup: value})
 
 
 class BouwDossierViewSet(DatapuntViewSet):
@@ -44,8 +48,6 @@ class BouwDossierViewSet(DatapuntViewSet):
         models.BouwDossier.objects.all()
         .prefetch_related('adressen')
         .prefetch_related('subdossiers')
-        .prefetch_related('adressen__nummeraanduidingen')
-        .prefetch_related('adressen__panden')
     )
 
     def get_serializer_class(self):

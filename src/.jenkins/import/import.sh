@@ -23,6 +23,20 @@ dc up -d database
 dc run importer .jenkins/docker-wait.sh
 dc run importer .jenkins/docker-migrate.sh
 
+
+# load latest bag into database
+echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen, ummeraanduidingen en panden in stadsarchief database"
+
+# dc exec -T database update-db.sh atlas
+dc exec -T database update-table.sh bag bag_verblijfsobject public stadsarchief
+dc exec -T database update-table.sh bag bag_ligplaats public stadsarchief
+dc exec -T database update-table.sh bag bag_standplaats public stadsarchief
+dc exec -T database update-table.sh bag bag_nummeraanduiding public stadsarchief
+dc exec -T database update-table.sh bag bag_pand public stadsarchief
+dc exec -T database update-table.sh bag bag_verblijfsobjectpandrelatie public stadsarchief
+dc exec -T database update-table.sh bag bag_openbareruimte public stadsarchief
+
+
 echo "Importing data"
 dc run --rm importer
 

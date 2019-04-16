@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.indexes import GinIndex
 from django.db.models import CASCADE
 
 ACCESS_PUBLIC = 'P'
@@ -62,6 +63,8 @@ class BouwDossier(models.Model):
         ordering = ('stadsdeel', 'dossiernr',)
 
 
+# TODO Do we need multiple adres instances for the same street and huisnummer van/tot
+# ?? If there are multiple bouwdossiers for the same adres can we use the same adres instance ?
 class Adres(models.Model):
     id = models.AutoField(primary_key=True)
     bouwdossier = models.ForeignKey(BouwDossier,
@@ -72,9 +75,14 @@ class Adres(models.Model):
     huisnummer_tot = models.IntegerField(null=True)
     openbareruimte_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
+    nummeraanduidingen = ArrayField(models.CharField(max_length=16, null=False), blank=True)
+    panden = ArrayField(models.CharField(max_length=16, null=False), blank=True)
 
     def __str__(self):
         return f'{self.straat} {self.huisnummer_van} - {self.huisnummer_tot}'
+
+    class Meta:
+        indexes = [GinIndex(fields=['nummeraanduidingen']), GinIndex(fields=['panden'])]
 
 
 class SubDossier(models.Model):
@@ -88,25 +96,3 @@ class SubDossier(models.Model):
 
     def __str__(self):
         return f'{self.titel}'
-
-
-class Nummeraanduiding(models.Model):
-    id = models.AutoField(primary_key=True)
-    adres = models.ForeignKey(Adres,
-                              related_name='nummeraanduidingen',
-                              on_delete=CASCADE)
-    landelijk_id = models.CharField(max_length=16,  db_index=True)  # landelijk_id
-
-    def __str__(self):
-        return f'Nummeraanduiding {self.landelijk_id}'
-
-
-class Pand(models.Model):
-    id = models.AutoField(primary_key=True)
-    adres = models.ForeignKey(Adres,
-                              related_name='panden',
-                              on_delete=CASCADE)
-    landelijk_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
-
-    def __str__(self):
-        return f'Pand {self.landelijk_id}'
