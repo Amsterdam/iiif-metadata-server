@@ -64,9 +64,7 @@ OBJECTSTORE = dict(
 )
 
 PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
-DATA_DIR = '/tmp/data'
-if not os.path.exists(DATA_DIR):
-    DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, 'data'))
+DATA_DIR = '/tmp/bouwdossiers'
 
 # SWAGGER
 SWAG_PATH = 'acc.api.data.amsterdam.nl/stadsarchief/docs'
