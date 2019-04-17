@@ -183,7 +183,7 @@ WHERE stadsarchief_adres.id = adres_nummeraanduiding.id
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_pand AS (
-SELECT  sa.id, ARRAY_AGG(bp.landelijk_id) AS panden
+SELECT  sa.id, ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden
 FROM stadsarchief_adres sa
 JOIN bag_verblijfsobject bv ON sa.straat = bv._openbare_ruimte_naam
 AND sa.huisnummer_van = bv._huisnummer

@@ -28,7 +28,7 @@ def bouwdossiers_schema_view(request):
     return response.Response(generator.get_schema(request=request))
 
 
-urlpatterns = [url('^stadsarchief/docs/api-docs/stadsarchief/$',
+urlpatterns = [url('^stadsarchief/docs/api-docs/$',
                    bouwdossiers_schema_view),
                ] + [url for pattern_list in grouped_url_patterns.values()
                     for url in pattern_list]

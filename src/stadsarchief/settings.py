@@ -97,10 +97,10 @@ SWAGGER_SETTINGS = {
 
     'info': {
         'contact': 'atlas.basisinformatie@amsterdam.nl',
-        'description': 'This is the Monumenten API server.',
+        'description': 'This is the Bouwdossiers API server.',
         'license': 'Not known yet',
         'termsOfServiceUrl': 'https://data.amsterdam.nl/terms/',
-        'title': 'Tellus',
+        'title': 'Bouwdossiers',
     },
 
     'doc_expansion': 'list',
@@ -145,7 +145,7 @@ SCOPE_BD_R = 'BD/R'
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
     'MIN_SCOPE': SCOPE_BD_R,
-    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/'),
+    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/stadsarchief/static/', '/stadsarchief/docs/'),
     # 'ALWAYS_OK': True,
 }
 
