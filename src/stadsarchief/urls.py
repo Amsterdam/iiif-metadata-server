@@ -1,10 +1,13 @@
 from django.conf import settings
 from django.conf.urls import url, include
-from rest_framework import response, schemas
+from rest_framework import response, schemas, permissions
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import CoreJSONRenderer
-from rest_framework_swagger.renderers import OpenAPIRenderer
-from rest_framework_swagger.renderers import SwaggerUIRenderer
+
+
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
 
 from stadsarchief.datasets.bouwdossiers import urls as bouwdossiers_urls
 
@@ -17,19 +20,35 @@ grouped_url_patterns = {
     ],
 }
 
+schema_view = get_schema_view(
+      openapi.Info(
+         title="Bouwdossiers API",
+         default_version='v1',
+         description="Bouwdossiers API",
+         terms_of_service="https://data.amsterdam.nl/",
+         contact=openapi.Contact(email="datapunt@amsterdam.nl"),
+         license=openapi.License(name="CC0 1.0 Universal"),
+      ),
+      public=False,
+      permission_classes=(permissions.AllowAny,),
+   )
 
-@api_view()
-@renderer_classes([SwaggerUIRenderer, OpenAPIRenderer, CoreJSONRenderer])
-def bouwdossiers_schema_view(request):
-    generator = schemas.SchemaGenerator(
-        title='Bouwdossiers lists',
-        patterns=grouped_url_patterns['bouwdossiers_patterns']
-    )
-    return response.Response(generator.get_schema(request=request))
+# @api_view()
+# @renderer_classes([SwaggerUIRenderer, OpenAPIRenderer, CoreJSONRenderer])
+# def bouwdossiers_schema_view(request):
+#     generator = schemas.SchemaGenerator(
+#         title='Bouwdossiers lists',
+#         patterns=grouped_url_patterns['bouwdossiers_patterns']
+#     )
+#     return response.Response(generator.get_schema(request=request))
 
 
-urlpatterns = [url('^stadsarchief/docs/api-docs/$',
-                   bouwdossiers_schema_view),
+urlpatterns = [url(r'^stadsarchief/docs/swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=None),
+                   name='schema-json'),
+               url(r'^stadsarchief/docs/swagger/$', schema_view.with_ui('swagger', cache_timeout=None),
+                   name='schema-swagger-ui'),
+               url(r'^stadsarchief/docs/redoc/$', schema_view.with_ui('redoc', cache_timeout=None),
+                   name='schema-redoc'),
                ] + [url for pattern_list in grouped_url_patterns.values()
                     for url in pattern_list]
 

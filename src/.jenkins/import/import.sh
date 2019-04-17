@@ -25,7 +25,7 @@ dc run importer .jenkins/docker-migrate.sh
 
 
 # load latest bag into database
-echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen, ummeraanduidingen en panden in stadsarchief database"
+echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen, nummeraanduidingen en panden in stadsarchief database"
 
 # dc exec -T database update-db.sh atlas
 dc exec -T database update-table.sh bag bag_verblijfsobject public stadsarchief
@@ -39,6 +39,9 @@ dc exec -T database update-table.sh bag bag_openbareruimte public stadsarchief
 
 echo "Importing data"
 dc run --rm importer
+
+echo "Drop bag tables used for importing"
+dc exec -T database psql -U stadsarchief -c "DROP TABLE bag_openbareruimte, bag_verblijfsobjectpandrelatie, bag_pand, bag_nummeraanduiding, bag_standplaats, bag_ligplaats, bag_verblijfsobject" stadsarchief
 
 echo "Running backups"
 dc exec -T database backup-db.sh stadsarchief

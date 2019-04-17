@@ -11,11 +11,11 @@ django-debug-toolbar
 django-extensions
 django-filter
 django-filters
-django-rest-swagger
 djangorestframework
 djangorestframework-gis
 drf-amsterdam
 drf-extensions
+drf_yasg
 factory-boy
 flake8
 idna
