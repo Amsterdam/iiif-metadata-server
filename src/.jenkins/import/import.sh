@@ -41,7 +41,7 @@ echo "Importing data"
 dc run --rm importer
 
 echo "Drop bag tables used for importing"
-dc exec -T database psql -U stadsarchief -c "DROP TABLE bag_openbareruimte, bag_verblijfsobjectpandrelatie, bag_pand, bag_nummeraanduiding, bag_standplaats, bag_ligplaats, bag_verblijfsobject" stadsarchief
+docker-compose -p stadsarchief -f ${DIR}/docker-compose.yml exec -T database psql -U stadsarchief -c 'DROP TABLE bag_openbareruimte, bag_verblijfsobjectpandrelatie, bag_pand, bag_nummeraanduiding, bag_standplaats, bag_ligplaats, bag_verblijfsobject' stadsarchief
 
 echo "Running backups"
 dc exec -T database backup-db.sh stadsarchief
