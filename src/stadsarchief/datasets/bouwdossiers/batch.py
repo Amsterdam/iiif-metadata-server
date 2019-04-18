@@ -250,7 +250,7 @@ SELECT COUNT(*)
   , array_length(panden, 1) IS NOT NULL AS has_panden
   , array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen
   , openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
-FROM stadsarchief_adres 
+FROM stadsarchief_adres
 GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
         """)
         rows = cursor.fetchall()
