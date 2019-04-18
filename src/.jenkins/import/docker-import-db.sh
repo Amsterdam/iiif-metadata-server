@@ -8,4 +8,5 @@ source /.jenkins/docker-wait.sh
 
 # load data in database
 python manage.py migrate
-python manage.py run_import
+# Do full import. Delete all data
+python manage.py run_import --delete

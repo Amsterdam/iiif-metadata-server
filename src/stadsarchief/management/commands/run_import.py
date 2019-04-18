@@ -1,7 +1,7 @@
 import logging
 
 from django.core.management import BaseCommand
-from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers, delete_all, add_bag_ids
+from stadsarchief.datasets.bouwdossiers.batch import import_bouwdossiers, delete_all, add_bag_ids, validate_import
 from stadsarchief.objectstore import get_all_files
 
 log = logging.getLogger(__name__)
@@ -74,3 +74,4 @@ class Command(BaseCommand):
 
         if not options['skip_validate_import']:
             log.info('Validate import')
+            validate_import()

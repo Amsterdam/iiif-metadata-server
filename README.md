@@ -20,6 +20,19 @@ Migrate
 Manual import
 
 
+Before import BAG tables need to be loaded to be able to map BAG ids :
+
+`docker-compose exec database update-table.sh bag bag_verblijfsobject public stadsarchief <your_login_name>
+docker-compose exec database update-table.sh bag bag_ligplaats public stadsarchief <your_login_name>
+docker-compose exec database update-table.sh bag bag_standplaats public stadsarchief <your_login_name>
+docker-compose exec database update-table.sh bag bag_nummeraanduiding public stadsarchief <your_login_name>
+docker-compose exec database update-table.sh bag bag_pand public stadsarchief <your_login_name>
+docker-compose exec database update-table.sh bag bag_verblijfsobjectpandrelatie public stadsarchief <your_login_name>
+docker-compose exec database update-table.sh bag bag_openbareruimte public stadsarchief <your_login_name>
+`
+
+Then we van run the import:
+
 `export BOUWDOSSIERS_OBJECTSTORE_PASSWORD=<get_from_rattic>
 python manage.py run_import`
 
@@ -37,16 +50,13 @@ Run server
 `python manage.py runserver`
 
 
-Disable login for local development
+Disable login requirement for local development
 
-
-`Set 'ALWAYS_OK': True in DATAPUNT_AUTHZ`
+`Set 'ALWAYS_OK': LOCAL in DATAPUNT_AUTHZ`
 
 Test API
 
 `http://localhost:8000/stadsarchief/bouwdossier`
-
-`http://localhost:8000/stadsarchief/bouwdossier/1/`
 
 or
 

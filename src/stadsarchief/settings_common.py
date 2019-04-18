@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
 
-DEBUG = SECRET_KEY == insecure_key
+LOCAL = DEBUG = SECRET_KEY == insecure_key
 
 ALLOWED_HOSTS = ['*']
 

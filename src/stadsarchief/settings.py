@@ -3,7 +3,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from stadsarchief.settings_common import * # noqa F403
-from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL, BASE_DIR
+from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL, BASE_DIR, LOCAL
 from stadsarchief.settings_databases import LocationKey,\
     get_docker_host,\
     get_database_key,\
@@ -146,7 +146,7 @@ DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
     'MIN_SCOPE': SCOPE_BD_R,
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/stadsarchief/static/', '/stadsarchief/docs/'),
-    # 'ALWAYS_OK': True,
+    'ALWAYS_OK': LOCAL,
 }
 
 

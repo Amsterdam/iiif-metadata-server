@@ -28,6 +28,8 @@ class BouwDossierSerializer(HALSerializer):
     class Meta:
         model = BouwDossier
         fields = (
+            '_links',
+            'id',
             'titel',
             '_display',
             'dossiernr',

@@ -11,6 +11,17 @@ from stadsarchief.settings import DATA_DIR
 
 log = logging.getLogger(__name__)
 
+# Mapping for stadsdelen in Bouwdossiers XML file to naam
+MAP_STADSDEEL_XML_CODE = {
+    'SA': 'Centrum',
+    'SU': 'Oost',
+    'SJ': 'West',
+    'SQ': 'Nieuw West',
+    'ST': 'Zuidoost',
+    'SN': 'Noord',
+    'SW': 'Zuid',
+}
+
 MAP_STADSDEEL_NAAM_CODE = {
     'Zuidoost': 'T',
     'Centrum': 'A',
@@ -18,6 +29,7 @@ MAP_STADSDEEL_NAAM_CODE = {
     'Westpoort': 'B',
     'West': 'E',
     'Nieuw-West': 'F',
+    'Nieuw West': 'F',
     'Zuid': 'K',
     'Oost': 'M',
 }
@@ -51,16 +63,13 @@ def get_list_items(d, key1, key2):
 
 def delete_all():
     models.ImportFile.objects.all().delete()
-    models.Pand.objects.all().delete()
-    models.Nummeraanduiding.objects.all().delete()
     models.SubDossier.objects.all().delete()
     models.Adres.objects.all().delete()
     models.BouwDossier.objects.all().delete()
 
 
-def add_dossier(x_dossier, file_path, stadsdeel_naam, import_file, count, total_count):
+def add_dossier(x_dossier, file_path, import_file, count, total_count): # noqa C901
     dossiernr = x_dossier['dossierNr']
-    stadsdeel = MAP_STADSDEEL_NAAM_CODE[stadsdeel_naam]
     titel = x_dossier['titel']
     if not titel:
         titel = ''
@@ -68,6 +77,12 @@ def add_dossier(x_dossier, file_path, stadsdeel_naam, import_file, count, total_
 
     datering = get_datering(x_dossier.get('datering'))
     dossier_type = x_dossier.get('dossierType')
+    stadsdeel_naam = MAP_STADSDEEL_XML_CODE.get(x_dossier.get('stadsdeelcode'))
+    stadsdeel = MAP_STADSDEEL_NAAM_CODE.get(stadsdeel_naam)
+    if not stadsdeel:
+        stadsdeel = ''
+        log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
+    access = models.ACCESS_PUBLIC if x_dossier.get('openbaar') == 'J' else models.ACCESS_RESTRICTED
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -76,6 +91,7 @@ def add_dossier(x_dossier, file_path, stadsdeel_naam, import_file, count, total_
         titel=titel,
         datering=datering,
         dossier_type=dossier_type,
+        access=access
     )
     bouwdossier.save()
     count += 1
@@ -108,7 +124,7 @@ def add_dossier(x_dossier, file_path, stadsdeel_naam, import_file, count, total_
             titel = ''
             log.warning(f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}")
 
-        bestanden = get_list_items(x_sub_dossier, 'bestanden', 'bestand')
+        bestanden = get_list_items(x_sub_dossier, 'bestanden', 'url')
 
         sub_dossier = models.SubDossier(
             bouwdossier=bouwdossier,
@@ -137,16 +153,15 @@ def import_bouwdossiers(max_file_count=None):  # noqa C901
             log.info(f"Processing - {file_path}")
             count = 0
 
-            # SAA_BWT_Stadsdeel_Centrum_02.xml
-            m = re.search('SAA_BWT_Stadsdeel_([^_]+)_\\d{1,5}\\.xml$', file_path)
+            # SAA_BWT_02.xml
+            m = re.search('SAA_BWT_\\d{1,5}\\.xml$', file_path)
             if m:
-                stadsdeel_naam = m.group(1)
                 with open(file_path) as fd:
                     xml = xmltodict.parse(fd.read())
 
                 with transaction.atomic():
                     for x_dossier in get_list_items(xml, 'bwtDossiers', 'dossier'):
-                        (count, total_count) = add_dossier(x_dossier, file_path, stadsdeel_naam, import_file, count,
+                        (count, total_count) = add_dossier(x_dossier, file_path, import_file, count,
                                                            total_count)
 
             import_file.status = models.IMPORT_FINISHED
@@ -195,6 +210,8 @@ SET panden = adres_pand.panden
 FROM adres_pand
 WHERE stadsarchief_adres.id = adres_pand.id
     """)
+
+    # First we try to match with openbare ruimtes that are streets 01
     log.info("Add openbare ruimtes")
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -209,3 +226,52 @@ SET openbareruimte_id = adres_opr.landelijk_id
 FROM adres_opr
 WHERE stadsarchief_adres.id = adres_opr.id
         """)
+
+    # If the openbareruimte was not yet found we try to match with other openbare ruimtes
+    with connection.cursor() as cursor:
+        cursor.execute("""
+WITH adres_opr AS (
+SELECT sa.id, opr.landelijk_id
+FROM stadsarchief_adres sa
+JOIN bag_openbareruimte opr ON sa.straat = opr.naam
+WHERE opr.vervallen = false)
+UPDATE stadsarchief_adres
+SET openbareruimte_id = adres_opr.landelijk_id
+FROM adres_opr
+WHERE stadsarchief_adres.id = adres_opr.id
+AND openbareruimte_id IS NULL OR openbareruimte_id = ''
+        """)
+
+
+def validate_import():
+    with connection.cursor() as cursor:
+        cursor.execute("""
+SELECT COUNT(*)
+  , array_length(panden, 1) IS NOT NULL AS has_panden
+  , array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen
+  , openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
+FROM stadsarchief_adres 
+GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
+        """)
+        rows = cursor.fetchall()
+
+        result = {
+            'total': 0,
+            'has_panden': 0,
+            'has_nummeraanduidingen': 0,
+            'has_openbareruimte_id' : 0,
+        }
+        for row in rows:
+            result['total'] += row[0]
+            if row[1]:
+                result['has_panden'] += row[0]
+            if row[2]:
+                result['has_nummeraanduidingen'] += row[0]
+            if row[3]:
+                result['has_openbareruimte_id'] += row[0]
+    log.info('Validation import result: ' + str(result))
+
+    assert result['total'] > 10000
+    assert result['has_panden'] > 0.8 * result['total']
+    assert result['has_nummeraanduidingen'] > 0.9 * result['total']
+    assert result['has_openbareruimte_id'] > 0.99 * result['total']
