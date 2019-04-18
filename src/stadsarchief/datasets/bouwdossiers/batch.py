@@ -265,5 +265,5 @@ GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
 
     assert result['total'] > 10000
     assert result['has_panden'] > 0.8 * result['total']
-    assert result['has_nummeraanduidingen'] > 0.9 * result['total']
-    assert result['has_openbareruimte_id'] > 0.99 * result['total']
+    assert result['has_nummeraanduidingen'] > 0.8 * result['total']
+    assert result['has_openbareruimte_id'] > 0.95 * result['total']
