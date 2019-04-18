@@ -215,31 +215,23 @@ WHERE stadsarchief_adres.id = adres_pand.id
     log.info("Add openbare ruimtes")
     with connection.cursor() as cursor:
         cursor.execute("""
-WITH adres_opr AS (
-SELECT sa.id, opr.landelijk_id
-FROM stadsarchief_adres sa
-JOIN bag_openbareruimte opr ON sa.straat = opr.naam
-WHERE opr.vervallen = false
-AND opr.type = '01')
-UPDATE stadsarchief_adres
-SET openbareruimte_id = adres_opr.landelijk_id
-FROM adres_opr
-WHERE stadsarchief_adres.id = adres_opr.id
+UPDATE stadsarchief_adres sa
+SET openbareruimte_id = opr.landelijk_id
+FROM bag_openbareruimte opr
+WHERE sa.straat = opr.naam
+AND opr.vervallen = false
+AND opr.type = '01'
         """)
 
     # If the openbareruimte was not yet found we try to match with other openbare ruimtes
     with connection.cursor() as cursor:
         cursor.execute("""
-WITH adres_opr AS (
-SELECT sa.id, opr.landelijk_id
-FROM stadsarchief_adres sa
-JOIN bag_openbareruimte opr ON sa.straat = opr.naam
-WHERE opr.vervallen = false)
-UPDATE stadsarchief_adres
-SET openbareruimte_id = adres_opr.landelijk_id
-FROM adres_opr
-WHERE stadsarchief_adres.id = adres_opr.id
-AND openbareruimte_id IS NULL OR openbareruimte_id = ''
+UPDATE stadsarchief_adres sa
+SET openbareruimte_id = opr.landelijk_id
+FROM bag_openbareruimte opr
+WHERE sa.straat = opr.naam
+AND opr.vervallen = false
+AND (sa.openbareruimte_id IS NULL OR sa.openbareruimte_id = '')
         """)
 
 
