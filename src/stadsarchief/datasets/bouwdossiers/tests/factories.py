@@ -40,6 +40,7 @@ class AdresFactory(factory.DjangoModelFactory):
     openbareruimte_id = '0363300000004835'
     nummeraanduidingen = ['0363200000406187']
     panden = ['0363100012165490']
+    verblijfsobjecten = ['036301000xxxxxxx']
     stadsdeel = 'A'
 
 

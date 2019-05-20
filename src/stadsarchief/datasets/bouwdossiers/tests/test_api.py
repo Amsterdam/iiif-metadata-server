@@ -94,6 +94,16 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
+    def test_vbo(self):
+        url = '/stadsarchief/bouwdossier/?verblijfsobject=036301000xxxxxxx'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
+        response = self.client.get(url)
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+
     def test_openbareruimte(self):
         url = '/stadsarchief/bouwdossier/?openbareruimte=0363300000004835'
         self.client.credentials(
