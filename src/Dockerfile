@@ -7,9 +7,6 @@ ENV CONSUL_PORT=${CONSUL_PORT:-8500}
 ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
 ARG BOUWDOSSIERS_OBJECTSTORE_PASSWORD
 ENV BOUWDOSSIERS_OBJECTSTORE_PASSWORD=$BOUWDOSSIERS_OBJECTSTORE_PASSWORD
-ARG https_proxy=http://10.240.2.1:8080/
-ENV https_proxy=$https_proxy
-
 
 EXPOSE 8000
 
@@ -26,6 +23,9 @@ COPY . /app/
 USER datapunt
 
 RUN export DJANGO_SETTINGS_MODULE=stadsarchief.settings
+
+ARG https_proxy=http://10.240.2.1:8080/
+ENV https_proxy=$https_proxy
 
 CMD uwsgi
 

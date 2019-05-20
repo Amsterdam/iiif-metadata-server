@@ -41,7 +41,7 @@ python manage.py run_import
 
 Import only one file
 
-`python manage.py run_import --max_files-count=1`
+`python manage.py run_import --max_files_count=1`
 
 Skip downloads
 

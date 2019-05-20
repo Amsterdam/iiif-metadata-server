@@ -12,6 +12,7 @@ log = logging.getLogger(__name__)
 class BouwDossierFilter(FilterSet):
     nummeraanduiding = filters.CharFilter(field_name='adressen__nummeraanduidingen', method='array_contains_filter')
     pand = filters.CharFilter(field_name='adressen__panden', method='array_contains_filter')
+    verblijfsobject = filters.CharFilter(field_name='adressen__verblijfsobjecten', method='array_contains_filter')
     openbareruimte = filters.CharFilter(field_name='adressen__openbareruimte_id')
     min_datering = filters.CharFilter(field_name='datering__year', lookup_expr='gte')
     max_datering = filters.CharFilter(field_name='datering__year', lookup_expr='lte')
@@ -27,6 +28,7 @@ class BouwDossierFilter(FilterSet):
             'dossiernr',
             'stadsdeel',
             'nummeraanduiding',
+            'verblijfsobject',
             'pand',
             'openbareruimte',
             'min_datering',

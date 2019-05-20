@@ -77,6 +77,7 @@ class Adres(models.Model):
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
     nummeraanduidingen = ArrayField(models.CharField(max_length=16, null=False), blank=True)
     panden = ArrayField(models.CharField(max_length=16, null=False), blank=True)
+    verblijfsobjecten = ArrayField(models.CharField(max_length=16, null=False), blank=True)
 
     def __str__(self):
         return f'{self.straat} {self.huisnummer_van} - {self.huisnummer_tot}'

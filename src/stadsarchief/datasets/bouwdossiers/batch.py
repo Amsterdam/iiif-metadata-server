@@ -113,7 +113,8 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count): # noqa C
             huisnummer_tot=huisnummer_tot,
             stadsdeel=stadsdeel,
             nummeraanduidingen=[],
-            panden=[]
+            panden=[],
+            verblijfsobjecten=[]
         )
         adres.save()
 
@@ -198,7 +199,7 @@ WHERE stadsarchief_adres.id = adres_nummeraanduiding.id
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_pand AS (
-SELECT  sa.id, ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden
+SELECT  sa.id, ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden, ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos
 FROM stadsarchief_adres sa
 JOIN bag_verblijfsobject bv ON sa.straat = bv._openbare_ruimte_naam
 AND sa.huisnummer_van = bv._huisnummer
@@ -206,7 +207,7 @@ JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
 JOIN bag_pand bp on bp.id = bvbo.pand_id
 GROUP BY sa.id)
 UPDATE stadsarchief_adres
-SET panden = adres_pand.panden
+SET panden = adres_pand.panden, verblijfsobjecten = adres_pand.vbos
 FROM adres_pand
 WHERE stadsarchief_adres.id = adres_pand.id
     """)
