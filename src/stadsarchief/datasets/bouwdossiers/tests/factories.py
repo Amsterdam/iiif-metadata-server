@@ -39,8 +39,10 @@ class AdresFactory(factory.DjangoModelFactory):
     huisnummer_tot = 117
     openbareruimte_id = '0363300000004835'
     nummeraanduidingen = ['0363200000406187']
+    nummeraanduidingen_label = ['Weesperstraat 113']
     panden = ['0363100012165490']
     verblijfsobjecten = ['036301000xxxxxxx']
+    verblijfsobjecten_label = ['Weesperstraat 113']
     stadsdeel = 'A'
 
 

@@ -48,7 +48,8 @@ class BouwDossier(models.Model):
     importfile = models.ForeignKey(ImportFile,
                                    related_name='bouwdossiers',
                                    on_delete=CASCADE)
-    dossiernr = models.CharField(max_length=16, null=False, db_index=True)
+    # dossiernr = models.CharField(max_length=16, null=False, db_index=True)
+    dossiernr = models.IntegerField(null=False)
     stadsdeel = models.CharField(max_length=3, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.DateField(null=True)
@@ -61,6 +62,9 @@ class BouwDossier(models.Model):
 
     class Meta:
         ordering = ('stadsdeel', 'dossiernr',)
+        constraints = [
+            models.UniqueConstraint(fields=['stadsdeel', 'dossiernr'], name='unique_bouwdossier'),
+        ]
 
 
 # TODO Do we need multiple adres instances for the same street and huisnummer van/tot
@@ -76,8 +80,10 @@ class Adres(models.Model):
     openbareruimte_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsdeel code
     nummeraanduidingen = ArrayField(models.CharField(max_length=16, null=False), blank=True)
+    nummeraanduidingen_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
     panden = ArrayField(models.CharField(max_length=16, null=False), blank=True)
     verblijfsobjecten = ArrayField(models.CharField(max_length=16, null=False), blank=True)
+    verblijfsobjecten_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
 
     def __str__(self):
         return f'{self.straat} {self.huisnummer_van} - {self.huisnummer_tot}'

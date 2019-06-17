@@ -68,7 +68,7 @@ def delete_all():
     models.BouwDossier.objects.all().delete()
 
 
-def add_dossier(x_dossier, file_path, import_file, count, total_count): # noqa C901
+def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
     dossiernr = x_dossier['dossierNr']
     titel = x_dossier['titel']
     if not titel:
@@ -113,8 +113,10 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count): # noqa C
             huisnummer_tot=huisnummer_tot,
             stadsdeel=stadsdeel,
             nummeraanduidingen=[],
+            nummeraanduidingen_label=[],
             panden=[],
-            verblijfsobjecten=[]
+            verblijfsobjecten=[],
+            verblijfsobjecten_label=[]
         )
         adres.save()
 
@@ -126,6 +128,15 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count): # noqa C
             log.warning(f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}")
 
         bestanden = get_list_items(x_sub_dossier, 'bestanden', 'url')
+
+        # In de laatste levering worden bestanden in een document object gestopt.
+        # In een document object kunnen ook authorisatie per document zitten.
+        # Maar omdat er nu nog niet met authorisatie gebeurt (alles is restricted)
+        # voegen we de bestanden in document(en) gewoon toe aan de algemene lijst van
+        # bestanden.
+        # Eventueel kunnen we later een aparte lijst van authorisaties per bestand toevoegen.
+        for x_document in get_list_items(x_sub_dossier, 'documenten', 'document'):
+            bestanden.extend(get_list_items(x_document, 'bestanden', 'url'))
 
         sub_dossier = models.SubDossier(
             bouwdossier=bouwdossier,
@@ -155,7 +166,7 @@ def import_bouwdossiers(max_file_count=None):  # noqa C901
             count = 0
 
             # SAA_BWT_02.xml
-            m = re.search('SAA_BWT_\\d{1,5}\\.xml$', file_path)
+            m = re.search('SAA_BWT_.\\w+\\.xml$', file_path)
             if m:
                 with open(file_path) as fd:
                     xml = xmltodict.parse(fd.read())
@@ -165,9 +176,9 @@ def import_bouwdossiers(max_file_count=None):  # noqa C901
                         (count, total_count) = add_dossier(x_dossier, file_path, import_file, count,
                                                            total_count)
 
-            import_file.status = models.IMPORT_FINISHED
-            import_file.save()
-            file_count += 1
+                import_file.status = models.IMPORT_FINISHED
+                import_file.save()
+                file_count += 1
             if max_file_count and file_count >= max_file_count:
                 break
 
@@ -184,7 +195,11 @@ def add_bag_ids():
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_nummeraanduiding AS (
-SELECT  sa.id AS id , ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen
+SELECT  sa.id AS id
+      , ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen
+      , ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
+        CASE WHEN (huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || huisnummer_toevoeging
+        END) AS nummeraanduidingen_label
 FROM stadsarchief_adres sa
 JOIN bag_nummeraanduiding bn
 ON sa.straat = bn._openbare_ruimte_naam
@@ -192,6 +207,7 @@ AND sa.huisnummer_van = bn.huisnummer
 GROUP BY sa.id)
 UPDATE stadsarchief_adres
 SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen
+  , nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
 WHERE stadsarchief_adres.id = adres_nummeraanduiding.id
     """)
@@ -199,7 +215,12 @@ WHERE stadsarchief_adres.id = adres_nummeraanduiding.id
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_pand AS (
-SELECT  sa.id, ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden, ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos
+SELECT  sa.id
+      , ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden
+      , ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos
+      , ARRAY_AGG(bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
+        CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
+        END) AS vbos_label
 FROM stadsarchief_adres sa
 JOIN bag_verblijfsobject bv ON sa.straat = bv._openbare_ruimte_naam
 AND sa.huisnummer_van = bv._huisnummer
@@ -207,7 +228,9 @@ JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
 JOIN bag_pand bp on bp.id = bvbo.pand_id
 GROUP BY sa.id)
 UPDATE stadsarchief_adres
-SET panden = adres_pand.panden, verblijfsobjecten = adres_pand.vbos
+SET panden = adres_pand.panden
+  , verblijfsobjecten = adres_pand.vbos
+  , verblijfsobjecten_label = adres_pand.vbos_label
 FROM adres_pand
 WHERE stadsarchief_adres.id = adres_pand.id
     """)
@@ -252,7 +275,7 @@ GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
             'total': 0,
             'has_panden': 0,
             'has_nummeraanduidingen': 0,
-            'has_openbareruimte_id' : 0,
+            'has_openbareruimte_id': 0,
         }
         for row in rows:
             result['total'] += row[0]

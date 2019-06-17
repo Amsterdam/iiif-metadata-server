@@ -2,6 +2,7 @@ import logging
 
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
+from django.shortcuts import get_object_or_404
 from datapunt_api.rest import DatapuntViewSet
 
 from stadsarchief.datasets.bouwdossiers import serializers, models
@@ -54,3 +55,15 @@ class BouwDossierViewSet(DatapuntViewSet):
 
     def get_serializer_class(self):
         return serializers.BouwDossierSerializer
+
+    def get_object(self):
+        pk = self.kwargs['pk']
+        first = pk[0]
+        if pk and first.isalpha():
+            stadsdeel = first
+            dossiernr = pk[1:]
+            obj = get_object_or_404(models.BouwDossier, stadsdeel=stadsdeel, dossiernr=dossiernr)
+        else:
+            obj = get_object_or_404(models.BouwDossier, pk=pk)
+
+        return obj

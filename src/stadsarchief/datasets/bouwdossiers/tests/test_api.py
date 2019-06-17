@@ -30,8 +30,15 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
         response = self.client.get(url)
-        self.assertEqual(response.data['dossiernr'], '12345')
+        self.assertEqual(response.data['dossiernr'], 12345)
         self.assertEqual(response.data['stadsdeel'], 'A')
+
+    def test_api_one_other(self):
+        url = '/stadsarchief/bouwdossier/A12345/'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
+        response = self.client.get(url)
+        self.assertEqual(response.data['id'], 1)
 
     def test_dossiernr_stadsdeel(self):
         url = '/stadsarchief/bouwdossier/?dossiernr=12345&stadsdeel=A'
