@@ -1,5 +1,5 @@
 FROM amsterdam/python
-MAINTAINER datapunt@amsterdam.nl
+LABEL maintainer="datapunt@amsterdam.nl"
 
 ENV PYTHONUNBUFFERED 1
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
