@@ -68,6 +68,12 @@ def delete_all():
     models.BouwDossier.objects.all().delete()
 
 
+def _normalize_bestand(bestand):
+    bestand_parts = bestand.split('/')[-3:]
+    bestand_parts[1] = f"{int(bestand_parts[1]):05d}"
+    return '/'.join(bestand_parts)
+
+
 def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
     dossiernr = x_dossier['dossierNr']
     titel = x_dossier['titel']
@@ -138,6 +144,7 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
         for x_document in get_list_items(x_sub_dossier, 'documenten', 'document'):
             bestanden.extend(get_list_items(x_document, 'bestanden', 'url'))
 
+        bestanden = list(map(_normalize_bestand, bestanden))
         sub_dossier = models.SubDossier(
             bouwdossier=bouwdossier,
             titel=titel,
