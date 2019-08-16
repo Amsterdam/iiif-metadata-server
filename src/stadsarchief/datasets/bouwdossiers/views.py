@@ -60,13 +60,14 @@ class BouwDossierViewSet(DatapuntViewSet):
         return serializers.BouwDossierSerializer
 
     def get_object(self):
-        pk = self.kwargs['pk']
-        first = pk[0]
-        if pk and first.isalpha():
-            stadsdeel = first
-            dossiernr = pk[1:]
-            obj = get_object_or_404(models.BouwDossier, stadsdeel=stadsdeel, dossiernr=dossiernr)
-        else:
-            obj = get_object_or_404(models.BouwDossier, pk=pk)
-
-        return obj
+        return None
+        # pk = self.kwargs['pk']
+        # first = pk[0]
+        # if pk and first.isalpha():
+        #     stadsdeel = first
+        #     dossiernr = pk[1:]
+        #     obj = get_object_or_404(models.BouwDossier, stadsdeel=stadsdeel, dossiernr=dossiernr)
+        # else:
+        #     obj = get_object_or_404(models.BouwDossier, pk=pk)
+        #
+        # return obj
