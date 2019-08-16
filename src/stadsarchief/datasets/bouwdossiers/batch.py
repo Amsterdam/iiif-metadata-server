@@ -131,6 +131,7 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
 
     for x_sub_dossier in get_list_items(x_dossier, 'subDossiers', 'subDossier'):
         titel = x_sub_dossier['titel']
+        s_access = models.ACCESS_PUBLIC if x_sub_dossier.get('openbaar') == 'J' else models.ACCESS_RESTRICTED
 
         if not titel:
             titel = ''
@@ -151,7 +152,8 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
         sub_dossier = models.SubDossier(
             bouwdossier=bouwdossier,
             titel=titel,
-            bestanden=bestanden
+            bestanden=bestanden,
+            access=s_access
         )
         sub_dossier.save()
 
