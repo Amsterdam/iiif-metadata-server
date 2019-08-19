@@ -1,5 +1,3 @@
-from unittest import skipIf
-
 from rest_framework.test import APITestCase
 
 from stadsarchief.datasets.bouwdossiers.tests import authorization, factories
