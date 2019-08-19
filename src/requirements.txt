@@ -9,6 +9,7 @@ coreschema==0.0.4
 cryptography==2.7
 datapunt-authorization-django==0.2.24
 datapunt-config-loader==1.1.0
+datapunt-objectstore==2019.4.8
 debtcollector==1.21.0
 defusedxml==0.6.0
 Django==2.2.3

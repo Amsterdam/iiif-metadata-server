@@ -266,7 +266,6 @@ UPDATE stadsarchief_adres sa
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
 WHERE sa.straat = opr.naam
-AND opr.vervallen = false
 AND (sa.openbareruimte_id IS NULL OR sa.openbareruimte_id = '')
         """)
 
