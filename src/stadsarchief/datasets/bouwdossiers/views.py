@@ -3,7 +3,6 @@ import logging
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
 from django.shortcuts import get_object_or_404
-from django.db.models import Prefetch
 from datapunt_api.rest import DatapuntViewSet
 
 from stadsarchief.datasets.bouwdossiers import serializers, models
