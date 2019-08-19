@@ -25,7 +25,7 @@ class BouwDossierFactory(factory.DjangoModelFactory):
     datering = "1998-01-01"
     dossier_status = None
     dossier_type = 'verbouwing'
-    access = models.ACCESS_RESTRICTED
+    access = models.ACCESS_PUBLIC
 
 
 class AdresFactory(factory.DjangoModelFactory):

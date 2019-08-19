@@ -48,7 +48,7 @@ class BouwDossierViewSet(DatapuntViewSet):
     filter_class = BouwDossierFilter
 
     queryset = (
-        models.BouwDossier.objects.all().filter(access='P')
+        models.BouwDossier.objects.all().filter(access=models.ACCESS_PUBLIC)
         .prefetch_related('adressen')
         .prefetch_related('subdossiers')
     )
