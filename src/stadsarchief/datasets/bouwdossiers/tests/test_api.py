@@ -5,7 +5,6 @@ from rest_framework.test import APITestCase
 from stadsarchief.datasets.bouwdossiers.tests import authorization, factories
 
 
-@skipIf(True, "API is locked down")
 class APITest(APITestCase, authorization.AuthorizationSetup):
 
     def setUp(self):

@@ -131,7 +131,6 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
 
     for x_sub_dossier in get_list_items(x_dossier, 'subDossiers', 'subDossier'):
         titel = x_sub_dossier['titel']
-        s_access = models.ACCESS_PUBLIC if x_sub_dossier.get('openbaar') == 'J' else models.ACCESS_RESTRICTED
 
         if not titel:
             titel = ''
@@ -145,15 +144,19 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
         # voegen we de bestanden in document(en) gewoon toe aan de algemene lijst van
         # bestanden.
         # Eventueel kunnen we later een aparte lijst van authorisaties per bestand toevoegen.
+        # Voor nu worden restricted bestanden niet opgenomen.
+        if len(bestanden) > 0:
+            log.warning("bestanden in sub_dossier, unexpexted, no way to determine if this is Public or Restricted")
+            bestanden = []
         for x_document in get_list_items(x_sub_dossier, 'documenten', 'document'):
-            bestanden.extend(get_list_items(x_document, 'bestanden', 'url'))
+            if x_document['openbaar'] == 'J':
+                bestanden.extend(get_list_items(x_document, 'bestanden', 'url'))
 
         bestanden = list(map(_normalize_bestand, bestanden))
         sub_dossier = models.SubDossier(
             bouwdossier=bouwdossier,
             titel=titel,
-            bestanden=bestanden,
-            access=s_access
+            bestanden=bestanden
         )
         sub_dossier.save()
 

@@ -2,8 +2,8 @@ import logging
 
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
-# from django.shortcuts import get_object_or_404
-# from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404
+from django.db.models import Prefetch
 from datapunt_api.rest import DatapuntViewSet
 
 from stadsarchief.datasets.bouwdossiers import serializers, models
@@ -49,25 +49,22 @@ class BouwDossierViewSet(DatapuntViewSet):
     filter_class = BouwDossierFilter
 
     queryset = (
-        models.BouwDossier.objects.all().filter(access='X')
+        models.BouwDossier.objects.all().filter(access='P')
         .prefetch_related('adressen')
         .prefetch_related('subdossiers')
-        #     Prefetch('subdossiers', queryset=models.SubDossier.objects.filter(access='P'))
-        # )
     )
 
     def get_serializer_class(self):
         return serializers.BouwDossierSerializer
 
     def get_object(self):
-        return None
-        # pk = self.kwargs['pk']
-        # first = pk[0]
-        # if pk and first.isalpha():
-        #     stadsdeel = first
-        #     dossiernr = pk[1:]
-        #     obj = get_object_or_404(models.BouwDossier, stadsdeel=stadsdeel, dossiernr=dossiernr)
-        # else:
-        #     obj = get_object_or_404(models.BouwDossier, pk=pk)
-        #
-        # return obj
+        pk = self.kwargs['pk']
+        first = pk[0]
+        if pk and first.isalpha():
+            stadsdeel = first
+            dossiernr = pk[1:]
+            obj = get_object_or_404(self.queryset, stadsdeel=stadsdeel, dossiernr=dossiernr)
+        else:
+            obj = get_object_or_404(self.queryset, pk=pk)
+
+        return obj
