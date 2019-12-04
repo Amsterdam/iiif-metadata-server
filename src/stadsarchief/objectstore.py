@@ -4,7 +4,7 @@ import logging
 from calendar import timegm
 from typing import List, Tuple
 from objectstore import objectstore, get_full_container_list
-from stadsarchief.settings import OBJECTSTORE, DATA_DIR
+from stadsarchief.settings import OBJECTSTORE, DATA_DIR, BOUWDOSSIERS_OBJECTSTORE_CONTAINER
 
 log = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ def get_objectstore_connection():
 
 def get_all_files():
     connection = get_objectstore_connection()
-    container_name = 'dossiers'
+    container_name = BOUWDOSSIERS_OBJECTSTORE_CONTAINER
     os.makedirs(DATA_DIR, exist_ok=True)
     documents_meta = get_full_container_list(connection, container_name)
     for meta in documents_meta:
