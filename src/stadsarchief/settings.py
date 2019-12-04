@@ -63,6 +63,10 @@ OBJECTSTORE = dict(
     REGION_NAME='NL',
 )
 
+BOUWDOSSIERS_OBJECTSTORE_CONTAINER = os.getenv(
+    'BOUWDOSSIERS_OBJECTSTORE_CONTAINER', 'dossiers_acceptance'
+)
+
 PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 DATA_DIR = '/tmp/bouwdossiers'
 
