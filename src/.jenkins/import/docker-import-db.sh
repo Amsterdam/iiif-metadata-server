@@ -9,4 +9,11 @@ source /.jenkins/docker-wait.sh
 # load data in database
 python manage.py migrate
 # Do full import. Delete all data
-python manage.py run_import --delete
+
+if [ "$BOUWDOSSIERS_OBJECTSTORE_CONTAINER" = "dossiers_acceptance" ]
+then
+   python manage.py run_import --delete --skip_validate_import
+else
+   python manage.py run_import --delete
+fi
+
