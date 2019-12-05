@@ -19,7 +19,7 @@ class AdresSerializer(ModelSerializer):
 class SubDossierSerializer(ModelSerializer):
     class Meta:
         model = SubDossier
-        fields = ('titel',  'bestanden', )
+        fields = ('titel',  'bestanden', 'access')
 
 
 class CustomLinksField(LinksField):
@@ -55,6 +55,7 @@ class BouwDossierSerializer(CustomHalSerializer):
             'datering',
             'dossier_type',
             'dossier_status',
+            'access',
             'subdossiers',
             'adressen',
         )
