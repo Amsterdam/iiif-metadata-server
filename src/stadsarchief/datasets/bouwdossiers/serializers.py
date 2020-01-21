@@ -4,7 +4,7 @@ from datapunt_api.serializers import HALSerializer, DisplayField, LinksField
 from rest_framework.serializers import ModelSerializer
 from rest_framework.reverse import reverse
 
-from stadsarchief.datasets.bouwdossiers.models import BouwDossier, SubDossier, Adres
+from stadsarchief.datasets.bouwdossiers.models import BouwDossier, Document, Adres
 
 log = logging.getLogger(__name__)
 
@@ -16,10 +16,10 @@ class AdresSerializer(ModelSerializer):
                   'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id')
 
 
-class SubDossierSerializer(ModelSerializer):
+class DocumentSerializer(ModelSerializer):
     class Meta:
-        model = SubDossier
-        fields = ('titel',  'bestanden', )
+        model = Document
+        fields = ('subdossier_titel',  'barcode', 'bestanden', 'access')
 
 
 class CustomLinksField(LinksField):
@@ -39,7 +39,7 @@ class CustomHalSerializer(HALSerializer):
 
 
 class BouwDossierSerializer(CustomHalSerializer):
-    subdossiers = SubDossierSerializer(many=True)
+    documenten = DocumentSerializer(many=True)
     adressen = AdresSerializer(many=True)
     _display = DisplayField()
 
@@ -55,6 +55,7 @@ class BouwDossierSerializer(CustomHalSerializer):
             'datering',
             'dossier_type',
             'dossier_status',
-            'subdossiers',
+            'documenten',
             'adressen',
+            'access'
         )

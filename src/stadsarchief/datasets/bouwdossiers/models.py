@@ -3,8 +3,8 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.indexes import GinIndex
 from django.db.models import CASCADE
 
-ACCESS_PUBLIC = 'P'
-ACCESS_RESTRICTED = 'R'
+ACCESS_PUBLIC = 'PUBLIC'
+ACCESS_RESTRICTED = 'RESTRICTED'
 
 ACCESS_CHOICES = (
     (ACCESS_PUBLIC, 'Public'),
@@ -55,7 +55,7 @@ class BouwDossier(models.Model):
     datering = models.DateField(null=True)
     dossier_type = models.CharField(max_length=64, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
-    access = models.CharField(max_length=1, null=True, choices=ACCESS_CHOICES)
+    access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
 
     def __str__(self):
         return f'{self.dossiernr} - {self.titel}'
@@ -92,14 +92,19 @@ class Adres(models.Model):
         indexes = [GinIndex(fields=['nummeraanduidingen']), GinIndex(fields=['panden'])]
 
 
-class SubDossier(models.Model):
+# SubDossier Model has been replaced by Document Model for the following reasons:
+# The public flag (named `access` in the model) is per document level not subdossier
+# subdossiers only have a title and multiple documents. Therefore the subdossier is skipped and each document has the subdossier_titel
+# The previous structure did not differentiate between documents in a dossier. All bestanden (scans) that are public were grouped in the same subdossier and nonpublic ones were ignored
+class Document(models.Model):
     id = models.AutoField(primary_key=True)
     bouwdossier = models.ForeignKey(BouwDossier,
-                                    related_name='subdossiers',
+                                    related_name='documenten',
                                     on_delete=CASCADE)
-    titel = models.CharField(max_length=128, null=False, db_index=True)
+    subdossier_titel = models.CharField(max_length=128, null=False)
+    barcode = models.CharField(max_length=250, db_index=True)
     bestanden = ArrayField(models.CharField(max_length=128, null=False), blank=True)
-    access = models.CharField(max_length=1, null=True, choices=ACCESS_CHOICES)
+    access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
 
     def __str__(self):
-        return f'{self.titel}'
+        return f'{self.barcode}'

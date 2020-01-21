@@ -63,7 +63,7 @@ def get_list_items(d, key1, key2):
 
 def delete_all():
     models.ImportFile.objects.all().delete()
-    models.SubDossier.objects.all().delete()
+    models.Document.objects.all().delete()
     models.Adres.objects.all().delete()
     models.BouwDossier.objects.all().delete()
 
@@ -75,6 +75,12 @@ def _normalize_bestand(bestand):
     else:
         log.warning(f"Invalid dossiernr in bestand {bestand}")
     return '/'.join(bestand_parts)
+
+
+def openbaar_to_access(openbaar):
+    if openbaar == 'J':
+        return models.ACCESS_PUBLIC
+    return models.ACCESS_RESTRICTED
 
 
 def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
@@ -91,7 +97,7 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
     if not stadsdeel:
         stadsdeel = ''
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
-    access = models.ACCESS_PUBLIC if x_dossier.get('openbaar') == 'J' else models.ACCESS_RESTRICTED
+    access = openbaar_to_access(x_dossier.get('openbaar'))
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -136,29 +142,31 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
             titel = ''
             log.warning(f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}")
 
-        bestanden = get_list_items(x_sub_dossier, 'bestanden', 'url')
+        subdossier_bestanden = get_list_items(x_sub_dossier, 'bestanden', 'url')
 
-        # In de laatste levering worden bestanden in een document object gestopt.
-        # In een document object kunnen ook authorisatie per document zitten.
-        # Maar omdat er nu nog niet met authorisatie gebeurt (alles is restricted)
-        # voegen we de bestanden in document(en) gewoon toe aan de algemene lijst van
-        # bestanden.
-        # Eventueel kunnen we later een aparte lijst van authorisaties per bestand toevoegen.
-        # Voor nu worden restricted bestanden niet opgenomen.
-        if len(bestanden) > 0:
+        # This is to check if there are any bestanden added to a subdossier directly. They are skipped because it is not
+        # known if they are public or not
+        if len(subdossier_bestanden) > 0:
             log.warning("bestanden in sub_dossier, unexpexted, no way to determine if this is Public or Restricted")
-            bestanden = []
-        for x_document in get_list_items(x_sub_dossier, 'documenten', 'document'):
-            if x_document['openbaar'] == 'J':
-                bestanden.extend(get_list_items(x_document, 'bestanden', 'url'))
+            log.warning(subdossier_bestanden)
+            subdossier_bestanden = []
 
-        bestanden = list(map(_normalize_bestand, bestanden))
-        sub_dossier = models.SubDossier(
-            bouwdossier=bouwdossier,
-            titel=titel,
-            bestanden=bestanden
-        )
-        sub_dossier.save()
+        # Documenten are now added with their public (access) flag. This way the serializer shows exactly which
+        # group of bestanden (scans) are public or not.
+        documenten = []
+        for x_document in get_list_items(x_sub_dossier, 'documenten', 'document'):
+            bestanden = get_list_items(x_document, 'bestanden', 'url')
+
+            document = models.Document(
+                bouwdossier=bouwdossier,
+                subdossier_titel=titel,
+                bestanden=list(map(_normalize_bestand, bestanden)),
+                access=openbaar_to_access(x_document.get('openbaar'))
+            )
+
+            documenten.append(document)
+
+        models.Document.objects.bulk_create(documenten)
 
     return count, total_count
 
