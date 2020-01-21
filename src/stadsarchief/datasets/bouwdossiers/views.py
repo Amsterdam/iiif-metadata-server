@@ -17,7 +17,7 @@ class BouwDossierFilter(FilterSet):
     openbareruimte = filters.CharFilter(field_name='adressen__openbareruimte_id')
     min_datering = filters.CharFilter(field_name='datering__year', lookup_expr='gte')
     max_datering = filters.CharFilter(field_name='datering__year', lookup_expr='lte')
-    subdossier = filters.CharFilter(field_name='subdossiers__titel', lookup_expr='istartswith')
+    document = filters.CharFilter(field_name='documenten__subdossier_titel', lookup_expr='istartswith')
     dossiernr = filters.CharFilter()
     stadsdeel = filters.CharFilter()
     dossier_type = filters.CharFilter()
@@ -34,7 +34,7 @@ class BouwDossierFilter(FilterSet):
             'openbareruimte',
             'min_datering',
             'max_datering',
-            'subdossier'
+            'document'
         )
 
     def array_contains_filter(self, queryset, _filter_name, value):
@@ -50,7 +50,7 @@ class BouwDossierViewSet(DatapuntViewSet):
     queryset = (
         models.BouwDossier.objects.all()
         .prefetch_related('adressen')
-        .prefetch_related('subdossiers')
+        .prefetch_related('documenten')
     )
 
     def get_serializer_class(self):

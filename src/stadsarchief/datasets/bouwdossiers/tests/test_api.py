@@ -13,7 +13,7 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         super().setUpClass()
 
         factories.BouwDossierFactory()
-        factories.SubDossierFactory()
+        factories.DocumentFactory()
         factories.AdresFactory()
 
     def test_api_list(self):
@@ -49,7 +49,7 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-        self.assertEqual(response.data['results'][0]['subdossiers'][0]['bestanden'][0], 'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0], 'SU10000010_00001.jpg')
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
                          '0363200000406187')
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
@@ -159,11 +159,11 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-    def test_subdossier(self):
+    def test_document(self):
         """
         subdossier should match with case insensitive start of titel of subdossier
         """
-        url = '/stadsarchief/bouwdossier/?subdossier=tekeningen'
+        url = '/stadsarchief/bouwdossier/?document=tekeningen'
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
         response = self.client.get(url)
@@ -172,8 +172,8 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-    def test_subdossier_none(self):
-        url = '/stadsarchief/bouwdossier/?subdossier=dit_match_niet'
+    def test_document_none(self):
+        url = '/stadsarchief/bouwdossier/?document=dit_match_niet'
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
         response = self.client.get(url)

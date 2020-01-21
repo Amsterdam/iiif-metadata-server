@@ -46,12 +46,12 @@ class AdresFactory(factory.DjangoModelFactory):
     stadsdeel = 'A'
 
 
-class SubDossierFactory(factory.DjangoModelFactory):
+class DocumentFactory(factory.DjangoModelFactory):
     class Meta:
-        django_get_or_create = ('titel',)
-        model = models.SubDossier
+        django_get_or_create = ('subdossier_titel',)
+        model = models.Document
 
     bouwdossier = factory.SubFactory(BouwDossierFactory)
-    titel = 'Tekeningen (plattegrond)'
+    subdossier_titel = 'Tekeningen (plattegrond)'
     bestanden = ['SU10000010_00001.jpg']
     access = models.ACCESS_RESTRICTED
