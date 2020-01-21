@@ -3,8 +3,8 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.indexes import GinIndex
 from django.db.models import CASCADE
 
-ACCESS_PUBLIC = 'P'
-ACCESS_RESTRICTED = 'R'
+ACCESS_PUBLIC = 'PUBLIC'
+ACCESS_RESTRICTED = 'RESTRICTED'
 
 ACCESS_CHOICES = (
     (ACCESS_PUBLIC, 'Public'),
@@ -55,7 +55,7 @@ class BouwDossier(models.Model):
     datering = models.DateField(null=True)
     dossier_type = models.CharField(max_length=64, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
-    access = models.CharField(max_length=1, null=True, choices=ACCESS_CHOICES)
+    access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
 
     def __str__(self):
         return f'{self.dossiernr} - {self.titel}'
@@ -104,7 +104,7 @@ class Document(models.Model):
     subdossier_titel = models.CharField(max_length=128, null=False)
     barcode = models.CharField(max_length=250, db_index=True)
     bestanden = ArrayField(models.CharField(max_length=128, null=False), blank=True)
-    access = models.CharField(max_length=1, null=True, choices=ACCESS_CHOICES)
+    access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
 
     def __str__(self):
         return f'{self.barcode}'

@@ -77,6 +77,12 @@ def _normalize_bestand(bestand):
     return '/'.join(bestand_parts)
 
 
+def openbaar_to_access(openbaar):
+    if openbaar == 'J':
+        return models.ACCESS_PUBLIC
+    return models.ACCESS_RESTRICTED
+
+
 def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
     dossiernr = x_dossier['dossierNr']
     titel = x_dossier['titel']
@@ -91,7 +97,7 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
     if not stadsdeel:
         stadsdeel = ''
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
-    access = models.ACCESS_PUBLIC if x_dossier.get('openbaar') == 'J' else models.ACCESS_RESTRICTED
+    access = openbaar_to_access(x_dossier.get('openbaar'))
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -155,7 +161,7 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
                 bouwdossier=bouwdossier,
                 subdossier_titel=titel,
                 bestanden=list(map(_normalize_bestand, bestanden)),
-                access=x_document['openbaar']
+                access=openbaar_to_access(x_document.get('openbaar'))
             )
 
             documenten.append(document)
