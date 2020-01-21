@@ -158,6 +158,7 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
             bestanden = get_list_items(x_document, 'bestanden', 'url')
 
             document = models.Document(
+                barcode=x_document.get('barcode'),
                 bouwdossier=bouwdossier,
                 subdossier_titel=titel,
                 bestanden=list(map(_normalize_bestand, bestanden)),

@@ -50,6 +50,8 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
         self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0], 'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['access'], 'RESTRICTED')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['barcode'], 'ST100')
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
                          '0363200000406187')
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
@@ -159,11 +161,11 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-    def test_document(self):
+    def test_filter_subdossier(self):
         """
         subdossier should match with case insensitive start of titel of subdossier
         """
-        url = '/stadsarchief/bouwdossier/?document=tekeningen'
+        url = '/stadsarchief/bouwdossier/?subdossier=tekeningen'
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
         response = self.client.get(url)
@@ -172,8 +174,8 @@ class APITest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
-    def test_document_none(self):
-        url = '/stadsarchief/bouwdossier/?document=dit_match_niet'
+    def test_subdossier_none(self):
+        url = '/stadsarchief/bouwdossier/?subdossier=dit_match_niet'
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_bd_r))
         response = self.client.get(url)

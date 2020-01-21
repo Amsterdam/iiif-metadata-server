@@ -55,3 +55,4 @@ class DocumentFactory(factory.DjangoModelFactory):
     subdossier_titel = 'Tekeningen (plattegrond)'
     bestanden = ['SU10000010_00001.jpg']
     access = models.ACCESS_RESTRICTED
+    barcode = 'ST100'
