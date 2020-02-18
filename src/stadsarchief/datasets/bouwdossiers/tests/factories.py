@@ -20,7 +20,7 @@ class BouwDossierFactory(factory.DjangoModelFactory):
 
     importfile = factory.SubFactory(ImportFileFactory)
     dossiernr = '12345'
-    stadsdeel = 'A'
+    stadsdeel = 'AA'
     titel = 'weesperstraat 113 - 117'
     datering = "1998-01-01"
     dossier_status = None

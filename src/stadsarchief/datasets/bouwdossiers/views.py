@@ -2,6 +2,7 @@ import logging
 
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
+from rest_framework.exceptions import ParseError
 from django.shortcuts import get_object_or_404
 from datapunt_api.rest import DatapuntViewSet
 
@@ -57,13 +58,16 @@ class BouwDossierViewSet(DatapuntViewSet):
         return serializers.BouwDossierSerializer
 
     def get_object(self):
-        pk = self.kwargs['pk']
-        first = pk[0]
-        if pk and first.isalpha():
-            stadsdeel = first
-            dossiernr = pk[1:]
-            obj = get_object_or_404(self.queryset, stadsdeel=stadsdeel, dossiernr=dossiernr)
-        else:
-            obj = get_object_or_404(self.queryset, pk=pk)
+        # We expect a key of the form AA0000123 in which AA is the code for the
+        # stadsdeel and the numberic part (which can vary in length) is the dossiernumber
+        stadsdeel = self.kwargs['pk'][:2]
+        dossiernr = self.kwargs['pk'][2:]
+        if not stadsdeel.isalpha() or not dossiernr.isnumeric():
+            response_str = f"The key '{self.kwargs['pk']}' is not of the correct form. " \
+                           f"It should be defined in the form of 'AA123456' in which " \
+                           f"AA is the stadsdeel code and 123456 is the dossier number."
+            raise ParseError(detail=response_str)
+
+        obj = get_object_or_404(self.queryset, stadsdeel=stadsdeel.upper(), dossiernr=dossiernr)
 
         return obj
