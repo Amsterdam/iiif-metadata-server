@@ -17,6 +17,22 @@ class AdresSerializer(ModelSerializer):
 
 
 class DocumentSerializer(ModelSerializer):
+    def to_representation(self, instance):
+        """
+        All bestanden should now be formatted with '-' instead of '/'.
+        This decision was made because the iiif-auth-proxy requires the
+        use of '-' when retrieving the image and this api is the source
+        of the image titles
+        """
+        result = super().to_representation(instance)
+        result['_bestanden'] = []
+
+        for bestand in result['bestanden']:
+            result['_bestanden'].append(bestand.replace('/', '-'))
+
+        result['bestanden'] = result['_bestanden']
+        return result
+
     class Meta:
         model = Document
         fields = ('subdossier_titel',  'barcode', 'bestanden', 'access')
@@ -47,7 +63,6 @@ class BouwDossierSerializer(CustomHalSerializer):
         model = BouwDossier
         fields = (
             '_links',
-            'id',
             'titel',
             '_display',
             'dossiernr',
