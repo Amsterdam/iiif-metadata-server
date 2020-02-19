@@ -20,26 +20,26 @@ log = logging.getLogger(__name__)
 
 # Stadsarchief stadsdeel codes
 # MAP_STADSDEEL_XML_CODE = {
-    # 'SA': 'Centrum',
-    # 'SU': 'Oost',
-    # 'SJ': 'West',
-    # 'SQ': 'Nieuw West',
-    # 'ST': 'Zuidoost',
-    # 'SN': 'Noord',
-    # 'SW': 'Zuid',
+#   'SA': 'Centrum',
+#   'SU': 'Oost',
+#   'SJ': 'West',
+#   'SQ': 'Nieuw West',
+#   'ST': 'Zuidoost',
+#   'SN': 'Noord',
+#   'SW': 'Zuid',
 # }
 
 # Bag stadsdeel codes
 # MAP_STADSDEEL_NAAM_CODE = {
-    # 'Zuidoost': 'T',
-    # 'Centrum': 'A',
-    # 'Noord': 'N',
-    # 'Westpoort': 'B',
-    # 'West': 'E',
-    # 'Nieuw-West': 'F',
-    # 'Nieuw West': 'F',
-    # 'Zuid': 'K',
-    # 'Oost': 'M',
+#   'Zuidoost': 'T',
+#   'Centrum': 'A',
+#   'Noord': 'N',
+#   'Westpoort': 'B',
+#   'West': 'E',
+#   'Nieuw-West': 'F',
+#   'Nieuw West': 'F',
+#   'Zuid': 'K',
+#   'Oost': 'M',
 # }
 
 
