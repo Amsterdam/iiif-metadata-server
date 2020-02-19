@@ -11,28 +11,36 @@ from stadsarchief.settings import DATA_DIR
 
 log = logging.getLogger(__name__)
 
-# Mapping for stadsdelen in Bouwdossiers XML file to naam
-MAP_STADSDEEL_XML_CODE = {
-    'SA': 'Centrum',
-    'SU': 'Oost',
-    'SJ': 'West',
-    'SQ': 'Nieuw West',
-    'ST': 'Zuidoost',
-    'SN': 'Noord',
-    'SW': 'Zuid',
-}
+# This project now only uses the STADSDEEL codes received from the stadsarchief xml files.
+# The decision was made to avoid confusion especially because the STADSDEEL
+# codes are used in the document names.
 
-MAP_STADSDEEL_NAAM_CODE = {
-    'Zuidoost': 'T',
-    'Centrum': 'A',
-    'Noord': 'N',
-    'Westpoort': 'B',
-    'West': 'E',
-    'Nieuw-West': 'F',
-    'Nieuw West': 'F',
-    'Zuid': 'K',
-    'Oost': 'M',
-}
+# The below mapping was used earlier to map the STADSDEEl codes received from the stadsarchief xml files
+# To the codes in bag api. It is kept for reference.
+
+# Stadsarchief stadsdeel codes
+# MAP_STADSDEEL_XML_CODE = {
+    # 'SA': 'Centrum',
+    # 'SU': 'Oost',
+    # 'SJ': 'West',
+    # 'SQ': 'Nieuw West',
+    # 'ST': 'Zuidoost',
+    # 'SN': 'Noord',
+    # 'SW': 'Zuid',
+# }
+
+# Bag stadsdeel codes
+# MAP_STADSDEEL_NAAM_CODE = {
+    # 'Zuidoost': 'T',
+    # 'Centrum': 'A',
+    # 'Noord': 'N',
+    # 'Westpoort': 'B',
+    # 'West': 'E',
+    # 'Nieuw-West': 'F',
+    # 'Nieuw West': 'F',
+    # 'Zuid': 'K',
+    # 'Oost': 'M',
+# }
 
 
 def get_datering(value):
@@ -92,8 +100,8 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
 
     datering = get_datering(x_dossier.get('datering'))
     dossier_type = x_dossier.get('dossierType')
-    stadsdeel_naam = MAP_STADSDEEL_XML_CODE.get(x_dossier.get('stadsdeelcode'))
-    stadsdeel = MAP_STADSDEEL_NAAM_CODE.get(stadsdeel_naam)
+    stadsdeel = x_dossier.get('stadsdeelcode')
+
     if not stadsdeel:
         stadsdeel = ''
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")

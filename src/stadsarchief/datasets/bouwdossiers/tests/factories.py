@@ -43,7 +43,7 @@ class AdresFactory(factory.DjangoModelFactory):
     panden = ['0363100012165490']
     verblijfsobjecten = ['036301000xxxxxxx']
     verblijfsobjecten_label = ['Weesperstraat 113']
-    stadsdeel = 'A'
+    stadsdeel = 'AA'
 
 
 class DocumentFactory(factory.DjangoModelFactory):
