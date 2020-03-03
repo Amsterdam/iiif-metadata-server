@@ -145,10 +145,11 @@ JWKS_TEST_KEY = """
 
 # Bouwdossiers read
 SCOPE_BD_R = 'BD/R'
+SCOPE_BD_X = 'BD/X'
 
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
-    'MIN_SCOPE': SCOPE_BD_R,
+    'MIN_SCOPE': (SCOPE_BD_R, SCOPE_BD_X),
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/stadsarchief/static/', '/stadsarchief/docs/'),
     'ALWAYS_OK': LOCAL,
 }
