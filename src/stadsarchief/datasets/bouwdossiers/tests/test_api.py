@@ -1,7 +1,6 @@
 from rest_framework.test import APITestCase
 
 from stadsarchief.datasets.bouwdossiers.tests import factories
-from django.conf import settings
 
 
 class APITest(APITestCase):
