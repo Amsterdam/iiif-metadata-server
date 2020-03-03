@@ -3,7 +3,7 @@ import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from stadsarchief.settings_common import * # noqa F403
-from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL, BASE_DIR, LOCAL
+from stadsarchief.settings_common import INSTALLED_APPS, DEBUG, DATAPUNT_API_URL, BASE_DIR
 from stadsarchief.settings_databases import LocationKey,\
     get_docker_host,\
     get_database_key,\
@@ -121,39 +121,6 @@ SWAGGER_SETTINGS = {
 }
 
 HEALTH_MODEL = 'stadsarchief.Bouwdossier'
-
-# The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
-# This is a test public/private key def and added for testing .
-JWKS_TEST_KEY = """
-    {
-        "keys": [
-            {
-                "kty": "EC",
-                "key_ops": [
-                    "verify",
-                    "sign"
-                ],
-                "kid": "2aedafba-8170-4064-b704-ce92b7c89cc6",
-                "crv": "P-256",
-                "x": "6r8PYwqfZbq_QzoMA4tzJJsYUIIXdeyPA27qTgEJCDw=",
-                "y": "Cf2clfAfFuuCB06NMfIat9ultkMyrMQO9Hd2H7O9ZVE=",
-                "d": "N1vu0UQUp0vLfaNeM0EDbl4quvvL6m_ltjoAXXzkI3U="
-            }
-        ]
-    }
-"""
-
-# Bouwdossiers read
-SCOPE_BD_R = 'BD/R'
-SCOPE_BD_X = 'BD/X'
-
-DATAPUNT_AUTHZ = {
-    'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
-    'MIN_SCOPE': (SCOPE_BD_R, SCOPE_BD_X),
-    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/stadsarchief/static/', '/stadsarchief/docs/'),
-    'ALWAYS_OK': LOCAL,
-}
-
 
 SENTRY_DSN = os.getenv('SENTRY_DSN')
 if SENTRY_DSN:

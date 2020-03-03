@@ -2,7 +2,6 @@ certifi
 chardet
 coreapi
 coreschema
-datapunt-authorization-django
 datapunt-objectstore
 Django
 django-cors-headers
