@@ -1,104 +1,110 @@
 #!groovy
-
-def tryStep(String message, Closure block, Closure tearDown = null) {
-    try {
-        block()
-    }
-    catch (Throwable t) {
-        slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
-
-        throw t
-    }
-    finally {
-        if (tearDown) {
-            tearDown()
-        }
-    }
-}
+def PROJECT_NAME = "stadsarchief"
+def SLACK_CHANNEL = '#opdrachten-deployments'
+def PLAYBOOK = 'deploy-stadsarchief.yml'
+def SLACK_MESSAGE = [
+    "title_link": BUILD_URL,
+    "fields": [
+        ["title": "Project","value": PROJECT_NAME],
+        ["title":"Branch", "value": BRANCH_NAME, "short":true],
+        ["title":"Build number", "value": BUILD_NUMBER, "short":true]
+    ]
+]
 
 
-node {
-    stage("Checkout") {
-        checkout scm
-    }
 
-    stage('Test') {
-        tryStep "test", {
-            withCredentials([[$class: 'StringBinding', credentialsId: 'BOUWDOSSIERS_OBJECTSTORE_PASSWORD', variable: 'BOUWDOSSIERS_OBJECTSTORE_PASSWORD']]) {
-                sh "docker-compose -p stadsarchief -f src/.jenkins/test/docker-compose.yml build && " +
-                   "docker-compose -p stadsarchief -f src/.jenkins/test/docker-compose.yml run -u root --rm tests"
-        }
-        }, {
-            sh "docker-compose -p stadsarchief -f src/.jenkins/test/docker-compose.yml down"
-        }
+pipeline {
+    agent any
+
+    environment {
+        SHORT_UUID = sh( script: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c10", returnStdout: true).trim()
+        COMPOSE_PROJECT_NAME = "${PROJECT_NAME}-${env.SHORT_UUID}"
+        VERSION = env.BRANCH_NAME.replace('/', '-').toLowerCase().replace(
+            'master', 'latest'
+        )
+        IS_RELEASE = "${env.BRANCH_NAME ==~ "release/.*"}"
     }
 
-    stage("Build image") {
-        tryStep "build", {
-            docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                def image = docker.build("datapunt/stadsarchief:${env.BUILD_NUMBER}", "src")
-                image.push()
+    stages {
+        stage('Test') {
+            steps {
+                sh 'make test'
             }
         }
-    }
-}
 
+        stage('Build') {
+            steps {
+                sh 'make build'
+            }
+        }
 
-String BRANCH = "${env.BRANCH_NAME}"
+        stage('Push and deploy') {
+            when { 
+                anyOf {
+                    branch 'master'
+                    buildingTag()
+                    environment name: 'IS_RELEASE', value: 'true'
+                }
+            }
+            stages {
+                stage('Push') {
+                    steps {
+                        retry(3) {
+                            sh 'make push_semver'
+                        }
+                    }
+                }
 
-if (BRANCH == "master") {
+                stage('Deploy to acceptance') {
+                    when { environment name: 'IS_RELEASE', value: 'true' }
+                    steps {
+                        build job: 'Subtask_Openstack_Playbook', parameters: [
+                            string(name: 'PLAYBOOK', value: PLAYBOOK),
+                            string(name: 'INVENTORY', value: "acceptance"),
+                            string(
+                                name: 'PLAYBOOKPARAMS', 
+                                value: "-e deployversion=${VERSION}"
+                            )
+                        ], wait: true
+                    }
+                }
 
-    node {
-        stage('Push acceptance image') {
-            tryStep "image tagging", {
-                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                    def image = docker.image("datapunt/stadsarchief:${env.BUILD_NUMBER}")
-                    image.pull()
-                    image.push("acceptance")
+                stage('Deploy to production') {
+                    when { buildingTag() }
+                    steps {
+                        build job: 'Subtask_Openstack_Playbook', parameters: [
+                            string(name: 'PLAYBOOK', value: PLAYBOOK),
+                            string(name: 'INVENTORY', value: "production"),
+                            string(
+                                name: 'PLAYBOOKPARAMS', 
+                                value: "-e deployversion=${VERSION}"
+                            )
+                        ], wait: true
+
+                        slackSend(channel: SLACK_CHANNEL, attachments: [SLACK_MESSAGE << 
+                            [
+                                "color": "#36a64f",
+                                "title": "Deploy to production succeeded :rocket:",
+                            ]
+                        ])
+                    }
                 }
             }
         }
-    }
 
-    node {
-        stage("Deploy to ACC") {
-            tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-stadsarchief.yml'],
-                ]
-            }
+    }
+    post {
+        always {
+            sh 'make clean'
         }
-    }
-
-    stage('Waiting for approval') {
-        slackSend channel: '#ci-channel', color: 'warning', message: 'Stadsarchief is waiting for Production Release - please confirm'
-        input "Deploy to Production?"
-    }
-
-    node {
-        stage('Push production image') {
-            tryStep "image tagging", {
-                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                    def image = docker.image("datapunt/stadsarchief:${env.BUILD_NUMBER}")
-                    image.pull()
-                    image.push("production")
-                    image.push("latest")
-                }
-            }
-        }
-    }
-
-    node {
-        stage("Deploy") {
-            tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'production'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-stadsarchief.yml'],
+        failure {
+            slackSend(channel: SLACK_CHANNEL, attachments: [SLACK_MESSAGE << 
+                [
+                    "color": "#D53030",
+                    "title": "Build failed :fire:",
                 ]
-            }
+            ])
         }
     }
 }
+
