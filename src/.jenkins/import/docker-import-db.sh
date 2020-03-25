@@ -16,4 +16,3 @@ then
 else
    python manage.py run_import --delete
 fi
-
