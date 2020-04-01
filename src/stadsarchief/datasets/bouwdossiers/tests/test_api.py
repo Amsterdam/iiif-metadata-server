@@ -160,3 +160,28 @@ class APITest(APITestCase):
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+
+    def test_dossier_with_stadsdeel(self):
+        url = '/stadsarchief/bouwdossier/?dossier=AA12345'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0], 'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['access'], 'RESTRICTED')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['barcode'], 'ST100')
+        self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
+                         '0363200000406187')
+        self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
+
+    def test_wrong_dossier_with_stadsdeel(self):
+        url = '/stadsarchief/bouwdossier/?dossier=12345'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 400)
+
+    def test_invalid_dossiernr(self):
+        url = '/stadsarchief/bouwdossier/?dossiernr=wrong'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 400)
