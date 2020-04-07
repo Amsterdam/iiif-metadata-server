@@ -290,7 +290,7 @@ AND (sa.openbareruimte_id IS NULL OR sa.openbareruimte_id = '')
         """)
 
 
-def validate_import():
+def validate_import(min_bouwdossiers_count):
     with connection.cursor() as cursor:
         cursor.execute("""
 SELECT COUNT(*)
@@ -318,7 +318,8 @@ GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
                 result['has_openbareruimte_id'] += row[0]
     log.info('Validation import result: ' + str(result))
 
-    assert result['total'] > 10000
+    assert result['total'] > min_bouwdossiers_count, \
+        f'Imported total of {result["total"]} bouwdossiers is less than the required number {min_bouwdossiers_count}'
     assert result['has_panden'] > 0.8 * result['total']
     assert result['has_nummeraanduidingen'] > 0.8 * result['total']
     assert result['has_openbareruimte_id'] > 0.95 * result['total']

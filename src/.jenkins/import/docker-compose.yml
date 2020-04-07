@@ -24,6 +24,7 @@ services:
       DATABASE_NAME: stadsarchief
       DATABASE_USER: stadsarchief
       DATABASE_PASSWORD: insecure
+      MIN_BOUWDOSSIERS_COUNT:
     command: >
       bash -c "/.jenkins/import/docker-import-db.sh"
 
