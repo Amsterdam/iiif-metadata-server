@@ -52,6 +52,14 @@ class Command(BaseCommand):
             default=None,
             help='Maximum number of files to import')
 
+        parser.add_argument(
+            '--min_bouwdossiers_count',
+            # action='store_true',
+            dest='min_bouwdossiers_count',
+            type=int,
+            default=10000,
+            help='Minimum amount of bouwdossiers to be added')
+
     def handle(self, *args, **options):
         log.info('Stadsarchief import started')
 
@@ -74,4 +82,4 @@ class Command(BaseCommand):
 
         if not options['skip_validate_import']:
             log.info('Validate import')
-            validate_import()
+            validate_import(options['min_bouwdossiers_count'])

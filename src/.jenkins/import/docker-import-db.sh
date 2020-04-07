@@ -14,5 +14,5 @@ if [ "$BOUWDOSSIERS_OBJECTSTORE_CONTAINER" = "dossiers_acceptance" ]
 then
    python manage.py run_import --delete --skip_validate_import
 else
-   python manage.py run_import --delete
+   python manage.py run_import --delete --min_bouwdossiers_count ${MIN_BOUWDOSSIERS_COUNT}
 fi
