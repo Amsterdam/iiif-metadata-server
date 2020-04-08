@@ -18,6 +18,7 @@ class BouwDossierFactory(factory.DjangoModelFactory):
         django_get_or_create = ('dossiernr', 'stadsdeel')
         model = models.BouwDossier
 
+    source = models.SOURCE_EDEPOT
     importfile = factory.SubFactory(ImportFileFactory)
     dossiernr = '12345'
     stadsdeel = 'AA'

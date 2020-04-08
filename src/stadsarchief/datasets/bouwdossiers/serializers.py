@@ -1,10 +1,11 @@
 import logging
 
+from django.conf import settings
 from datapunt_api.serializers import HALSerializer, DisplayField, LinksField
 from rest_framework.serializers import ModelSerializer
 from rest_framework.reverse import reverse
 
-from stadsarchief.datasets.bouwdossiers.models import BouwDossier, Document, Adres
+from stadsarchief.datasets.bouwdossiers.models import BouwDossier, Document, Adres, SOURCE_CHOICES
 
 log = logging.getLogger(__name__)
 
@@ -25,12 +26,18 @@ class DocumentSerializer(ModelSerializer):
         of the image titles
         """
         result = super().to_representation(instance)
-        result['_bestanden'] = []
+        _bestanden = []
 
         for bestand in result['bestanden']:
-            result['_bestanden'].append(bestand.replace('/', '-'))
+            filename = bestand.replace('/', '-')
+            _bestanden.append(
+                {
+                    'filename': filename,
+                    'url': f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{filename}"
+                }
+            )
 
-        result['bestanden'] = result['_bestanden']
+        result['bestanden'] = _bestanden
         return result
 
     class Meta:

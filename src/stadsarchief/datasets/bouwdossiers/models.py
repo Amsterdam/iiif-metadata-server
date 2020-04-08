@@ -3,6 +3,14 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.indexes import GinIndex
 from django.db.models import CASCADE
 
+SOURCE_EDEPOT = 'EDEPOT'
+SOURCE_WABO = 'WABO'
+
+SOURCE_CHOICES = (
+    (SOURCE_EDEPOT, 'edepot'),
+    (SOURCE_WABO, 'wabo')
+)
+
 ACCESS_PUBLIC = 'PUBLIC'
 ACCESS_RESTRICTED = 'RESTRICTED'
 
@@ -45,10 +53,8 @@ class ImportFile(models.Model):
 
 class BouwDossier(models.Model):
     id = models.AutoField(primary_key=True)
-    importfile = models.ForeignKey(ImportFile,
-                                   related_name='bouwdossiers',
-                                   on_delete=CASCADE)
-    # dossiernr = models.CharField(max_length=16, null=False, db_index=True)
+    source = models.CharField(max_length=20, choices=SOURCE_CHOICES, default=SOURCE_EDEPOT)
+    importfile = models.ForeignKey(ImportFile, related_name='bouwdossiers', on_delete=CASCADE)
     dossiernr = models.IntegerField(null=False)
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsarchief stadsdeel
     titel = models.CharField(max_length=512, null=False, db_index=True)
@@ -98,9 +104,7 @@ class Adres(models.Model):
 # The previous structure did not differentiate between documents in a dossier. All bestanden (scans) that are public were grouped in the same subdossier and nonpublic ones were ignored
 class Document(models.Model):
     id = models.AutoField(primary_key=True)
-    bouwdossier = models.ForeignKey(BouwDossier,
-                                    related_name='documenten',
-                                    on_delete=CASCADE)
+    bouwdossier = models.ForeignKey(BouwDossier, related_name='documenten', on_delete=CASCADE)
     subdossier_titel = models.CharField(max_length=128, null=False)
     barcode = models.CharField(max_length=250, db_index=True)
     bestanden = ArrayField(models.CharField(max_length=128, null=False), blank=True)

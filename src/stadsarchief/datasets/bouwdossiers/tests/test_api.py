@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework.test import APITestCase
 
 from stadsarchief.datasets.bouwdossiers.tests import factories
@@ -38,7 +39,10 @@ class APITest(APITestCase):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0], 'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0]['filename'],
+                         'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0]['url'],
+                         f"{settings.IIIF_BASE_URL}edepot:SU10000010_00001.jpg")
         self.assertEqual(response.data['results'][0]['documenten'][0]['access'], 'RESTRICTED')
         self.assertEqual(response.data['results'][0]['documenten'][0]['barcode'], 'ST100')
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
@@ -169,7 +173,10 @@ class APITest(APITestCase):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
-        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0], 'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0]['filename'],
+                         'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0]['url'],
+                         f"{settings.IIIF_BASE_URL}edepot:SU10000010_00001.jpg")
         self.assertEqual(response.data['results'][0]['documenten'][0]['access'], 'RESTRICTED')
         self.assertEqual(response.data['results'][0]['documenten'][0]['barcode'], 'ST100')
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
