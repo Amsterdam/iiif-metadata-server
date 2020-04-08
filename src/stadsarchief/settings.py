@@ -10,6 +10,8 @@ from stadsarchief.settings_databases import LocationKey,\
     OVERRIDE_HOST_ENV_VAR,\
     OVERRIDE_PORT_ENV_VAR
 
+IIIF_BASE_URL = os.getenv('IIIF_HOST', 'https://images.data.amsterdam.nl/iiif/2/')
+
 INSTALLED_APPS += [
     'stadsarchief',
     # 'stadsarchief.importer',
