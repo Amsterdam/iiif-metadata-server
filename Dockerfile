@@ -4,8 +4,6 @@ ENV PYTHONUNBUFFERED 1
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
 ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
-ARG BOUWDOSSIERS_OBJECTSTORE_PASSWORD
-ENV BOUWDOSSIERS_OBJECTSTORE_PASSWORD=$BOUWDOSSIERS_OBJECTSTORE_PASSWORD
 
 ARG https_proxy=http://10.240.2.1:8080/
 ENV https_proxy=$https_proxy
@@ -19,7 +17,6 @@ ADD deploy /deploy
 WORKDIR /src
 ADD src .
 
-ARG DATABASE_ENABLED=false 
 ARG SECRET_KEY=collectstatic 
 RUN python manage.py collectstatic --no-input
 
