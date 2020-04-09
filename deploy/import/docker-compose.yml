@@ -1,0 +1,45 @@
+version: "3.0"
+services:
+  database:
+    image: amsterdam/postgres11
+    ports:
+      - "5404:5432"
+    environment:
+      POSTGRES_DB: stadsarchief
+      POSTGRES_USER: stadsarchief
+      POSTGRES_PASSWORD: insecure
+    volumes:
+      - ./backups:/tmp/backups
+
+  importer:
+    image: repo.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
+#    build: ../..
+    links:
+      - database
+    environment:
+      BOUWDOSSIERS_OBJECTSTORE_CONTAINER: ${BOUWDOSSIERS_OBJECTSTORE_CONTAINER}
+      BOUWDOSSIERS_OBJECTSTORE_PASSWORD: ${BOUWDOSSIERS_OBJECTSTORE_PASSWORD}
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: stadsarchief
+      DATABASE_USER: stadsarchief
+      DATABASE_PASSWORD: insecure
+      MIN_BOUWDOSSIERS_COUNT:
+    command: >
+      bash -c "/deploy/import/docker-import-db.sh"
+
+  empty_db:
+    image: repo.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
+#    build: ../..
+    links:
+      - database
+    environment:
+      BOUWDOSSIERS_OBJECTSTORE_CONTAINER: ${BOUWDOSSIERS_OBJECTSTORE_CONTAINER}
+      BOUWDOSSIERS_OBJECTSTORE_PASSWORD: ${BOUWDOSSIERS_OBJECTSTORE_PASSWORD}
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: stadsarchief
+      DATABASE_USER: stadsarchief
+      DATABASE_PASSWORD: insecure
+    command: >
+      bash -c "/deploy/import/docker-empty-db.sh"
