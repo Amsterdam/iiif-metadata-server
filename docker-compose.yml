@@ -15,7 +15,7 @@ services:
     build:
       context: .
       target: app
-    image: repo.data.amsterdam.nl/datapunt/stadsarchief:${VERSION:-latest}
+    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${VERSION:-latest}
     ports:
       - 8000:8000
     environment:
