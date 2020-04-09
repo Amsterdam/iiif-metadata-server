@@ -46,12 +46,14 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
 
   test:
-    build: .
+    build:
+      context: .
+      target: tests
     ports:
       - "8000:8000"
     volumes:
       - ./src:/src
-    links:
+    depends_on:
       - database
     environment:
       - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
@@ -59,3 +61,4 @@ services:
       - DATABASE_NAME=stadsarchief
       - DATABASE_USER=stadsarchief
       - DATABASE_PASSWORD=insecure
+    entrypoint: /deploy/wait-for-it.sh database:5432 --

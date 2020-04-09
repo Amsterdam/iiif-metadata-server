@@ -41,3 +41,12 @@ USER datapunt
 ENV HOME /tmp
 
 CMD ["python manage.py runserver 0.0.0.0"]
+
+# tests
+FROM dev as tests
+
+USER datapunt
+
+ENV COVERAGE_FILE=/tmp/.coverage
+
+CMD ["pytest"]
