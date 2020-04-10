@@ -12,7 +12,7 @@ services:
       - ./backups:/tmp/backups
 
   importer:
-    image: repo.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
+    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
 #    build: ../..
     links:
       - database
@@ -29,7 +29,7 @@ services:
       bash -c "/deploy/import/docker-import-db.sh"
 
   empty_db:
-    image: repo.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
+    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
 #    build: ../..
     links:
       - database
