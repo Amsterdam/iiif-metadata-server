@@ -71,14 +71,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'main.wsgi.application'
 
+# TODO Temporary solution due to inability to change ansible settings
+# to be removed on Tuesday 14th of April 2020
+DATABASE_HOST = os.getenv('DATABASE_HOST_OVERRIDE', None)
+DATABASE_PORT = os.getenv('DATABASE_PORT_OVERRIDE', None)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'stadsarchief'),
         'USER': os.getenv('DATABASE_USER', 'stadsarchief'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
-        'HOST': os.getenv('DATABASE_HOST', 'database'),
-        'PORT': os.getenv('DATABASE_PORT', '5432')
+        'HOST': DATABASE_HOST if DATABASE_HOST else os.getenv('DATABASE_HOST', 'database'),
+        'PORT': DATABASE_PORT if DATABASE_PORT else os.getenv('DATABASE_PORT', '5432'),
+
     }
 }
 
