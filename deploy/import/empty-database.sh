@@ -20,7 +20,7 @@ dc build
 
 echo "Starting db"
 dc up -d database
-dc run importer /deploy/wait-for-it.sh
+dc run importer /deploy/wait-for-it.sh database:5404
 
 echo "Emptying db"
 dc run --rm empty_db
