@@ -4,7 +4,7 @@ set -u   # crash on missing environment variables
 set -e   # stop on any error
 set -x   # log every command.
 
-source /deploy/wait-for-it.sh database:5404
+source /deploy/wait-for-it.sh database:5432
 
 # load data in database
 python manage.py migrate

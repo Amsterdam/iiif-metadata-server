@@ -20,7 +20,7 @@ dc build
 
 echo "Starting and migrating db"
 dc up -d database
-dc run importer /deploy/wait-for-it.sh database:5404
+dc run importer /deploy/wait-for-it.sh database:5432
 dc run importer /deploy/docker-migrate.sh
 
 

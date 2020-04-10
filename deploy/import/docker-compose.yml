@@ -2,8 +2,6 @@ version: "3.0"
 services:
   database:
     image: amsterdam/postgres11
-    ports:
-      - "5404:5432"
     environment:
       POSTGRES_DB: stadsarchief
       POSTGRES_USER: stadsarchief
