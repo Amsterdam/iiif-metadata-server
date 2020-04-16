@@ -23,13 +23,7 @@ Manual import
 Before import BAG tables need to be loaded to be able to map BAG ids :
 
 ```
-docker-compose exec database update-table.sh bag bag_verblijfsobject public stadsarchief <your_login_name>
-docker-compose exec database update-table.sh bag bag_ligplaats public stadsarchief <your_login_name>
-docker-compose exec database update-table.sh bag bag_standplaats public stadsarchief <your_login_name>
-docker-compose exec database update-table.sh bag bag_nummeraanduiding public stadsarchief <your_login_name>
-docker-compose exec database update-table.sh bag bag_pand public stadsarchief <your_login_name>
-docker-compose exec database update-table.sh bag bag_verblijfsobjectpandrelatie public stadsarchief <your_login_name>
-docker-compose exec database update-table.sh bag bag_openbareruimte public stadsarchief <your_login_name>
+(cd .. && make import_bag)
 ```
 
 Then we van run the import:

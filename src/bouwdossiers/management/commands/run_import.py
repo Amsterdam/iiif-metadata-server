@@ -2,7 +2,8 @@ import logging
 
 from django.core.management import BaseCommand
 
-from bouwdossiers.batch import (add_bag_ids, delete_all, import_bouwdossiers,
+from bouwdossiers.batch import (add_bag_ids, delete_all,
+                                import_pre_wabo_dossiers, import_wabo_dossiers,
                                 validate_import)
 from objectstore_utils import get_all_files
 
@@ -62,6 +63,23 @@ class Command(BaseCommand):
             default=10000,
             help='Minimum amount of bouwdossiers to be added')
 
+        parser.add_argument(
+            '--wabo',
+            action='store_true',
+            dest='wabo',
+            default=False,
+            help='import wabo dossiers')
+
+    def import_dossiers(self, options):
+        max_files_count = options['max_files_count']
+
+        if options['wabo']:
+            log.info('Import wabo files')
+            import_wabo_dossiers(max_files_count)
+        else:
+            log.info('Import pre wabo files')
+            import_pre_wabo_dossiers(max_files_count)
+
     def handle(self, *args, **options):
         log.info('Stadsarchief import started')
 
@@ -74,9 +92,7 @@ class Command(BaseCommand):
             delete_all()
 
         if not options['skipimport']:
-            log.info('Import files')
-            max_files_count = options['max_files_count']
-            import_bouwdossiers(max_files_count)
+            self.import_dossiers(options)
 
         if not options['skip_add_bag_ids']:
             log.info('Add bag IDs')

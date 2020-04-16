@@ -14,7 +14,7 @@ class AdresSerializer(ModelSerializer):
     class Meta:
         model = Adres
         fields = ('straat', 'huisnummer_van', 'huisnummer_tot', 'nummeraanduidingen', 'nummeraanduidingen_label',
-                  'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id')
+                  'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id', 'huisnummer_letter', 'huisnummer_toevoeging', 'locatie_aanduiding')
 
 
 class DocumentSerializer(ModelSerializer):
@@ -42,7 +42,7 @@ class DocumentSerializer(ModelSerializer):
 
     class Meta:
         model = Document
-        fields = ('subdossier_titel', 'barcode', 'bestanden', 'access')
+        fields = ('subdossier_titel', 'barcode', 'bestanden', 'oorspronkelijk_pad', 'access')
 
 
 class CustomLinksField(LinksField):
@@ -79,5 +79,6 @@ class BouwDossierSerializer(CustomHalSerializer):
             'dossier_status',
             'documenten',
             'adressen',
-            'access'
+            'access',
+            'olo_liaan_nummer'
         )

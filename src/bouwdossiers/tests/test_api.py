@@ -1,6 +1,7 @@
 from django.conf import settings
 from rest_framework.test import APITestCase
 
+from bouwdossiers.models import SOURCE_WABO, BouwDossier
 from bouwdossiers.tests import factories
 
 
@@ -192,3 +193,33 @@ class APITest(APITestCase):
         url = '/stadsarchief/bouwdossier/?dossiernr=wrong'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
+
+    def test_dossier_wabo_fields(self):
+        dossier = BouwDossier.objects.get(stadsdeel='AA', dossiernr='12345')
+        dossier.olo_liaan_nummer = '12345'
+        dossier.wabo_bron = 'test'
+        dossier.source = SOURCE_WABO
+        dossier.save()
+
+        document = dossier.documenten.first()
+        document.oorspronkelijk_pad = ['/path/to/bestand']
+        document.save()
+
+        adres = dossier.adressen.first()
+        adres.locatie_aanduiding = 'aanduiding'
+        adres.huisnummer_letter = 'A'
+        adres.huisnummer_toevoeging = 'B'
+        adres.save()
+
+        url = '/stadsarchief/bouwdossier/AA12345/'
+        response = self.client.get(url)
+        documents = response.data.get('documenten')
+        adressen = response.data['adressen']
+        self.assertEqual(response.data['olo_liaan_nummer'], 12345)
+        self.assertEqual(response.data.get('wabo_bron'), None)  # Bron ignored
+        self.assertEqual(documents[0]['oorspronkelijk_pad'], ['/path/to/bestand'])
+        bestand_url = documents[0]['bestanden'][0]['url']
+        self.assertTrue(bestand_url, 'https://images.data.amsterdam.nl/iiif/2/wabo:SU10000010_0001.jpg')
+        self.assertEqual(adressen[0]['locatie_aanduiding'], 'aanduiding')
+        self.assertEqual(adressen[0]['huisnummer_letter'], 'A')
+        self.assertEqual(adressen[0]['huisnummer_toevoeging'], 'B')
