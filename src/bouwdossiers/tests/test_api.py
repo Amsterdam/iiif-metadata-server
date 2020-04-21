@@ -33,6 +33,17 @@ class APITest(APITestCase):
         self.assertEqual(response.data['stadsdeel'], 'AA')
         self.assertEqual(response.data['dossiernr'], 12345)
 
+    def test_api_one_using_stadsdeel_3_letters(self):
+        dossier = BouwDossier.objects.first()
+        dossier.stadsdeel = 'AAA'
+        dossier.save()
+
+        url = '/stadsarchief/bouwdossier/AAA12345/'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['stadsdeel'], 'AAA')
+        self.assertEqual(response.data['dossiernr'], 12345)
+
     def test_dossiernr_stadsdeel(self):
         url = '/stadsarchief/bouwdossier/?dossiernr=12345&stadsdeel=AA'
         response = self.client.get(url)
@@ -216,7 +227,7 @@ class APITest(APITestCase):
         documents = response.data.get('documenten')
         adressen = response.data['adressen']
         self.assertEqual(response.data['olo_liaan_nummer'], 12345)
-        self.assertEqual(response.data.get('wabo_bron'), None)  # Bron ignored
+        self.assertEqual(response.data.get('wabo_bron'), None)  # Bron is not needed in the api Check model
         self.assertEqual(documents[0]['oorspronkelijk_pad'], ['/path/to/bestand'])
         bestand_url = documents[0]['bestanden'][0]['url']
         self.assertTrue(bestand_url, 'https://images.data.amsterdam.nl/iiif/2/wabo:SU10000010_0001.jpg')

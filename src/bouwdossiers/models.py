@@ -53,7 +53,6 @@ class ImportFile(models.Model):
 
 class BouwDossier(models.Model):
     id = models.AutoField(primary_key=True)
-    source = models.CharField(max_length=20, choices=SOURCE_CHOICES, default=SOURCE_EDEPOT)
     importfile = models.ForeignKey(ImportFile, related_name='bouwdossiers', on_delete=CASCADE)
     dossiernr = models.IntegerField(null=False)
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsarchief stadsdeel
@@ -62,10 +61,20 @@ class BouwDossier(models.Model):
     dossier_type = models.CharField(max_length=64, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
+    source = models.CharField(
+        max_length=20,
+        choices=SOURCE_CHOICES,
+        default=SOURCE_EDEPOT,
+        help_text='Field that defines wabo and pre_wabo dossier')
 
     # WABO Related fields
     olo_liaan_nummer = models.IntegerField(null=True, default=None)
-    wabo_bron = models.CharField(max_length=30, null=True, default=None)  # Saved in DB not shown in API
+    # Saved in DB not shown in API because it is not needed
+    wabo_bron = models.CharField(
+        max_length=30,
+        null=True,
+        default=None,
+        help_text='Should contain the origin of the dossier. Can be for example digital or paper dossier.')
 
     def __str__(self):
         return f'{self.dossiernr} - {self.titel}'

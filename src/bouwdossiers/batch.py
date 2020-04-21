@@ -92,6 +92,7 @@ def openbaar_to_access(openbaar):
 
 def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
     """
+    For information about wabo and pre_wabo please check the README
     Add wabo dossier to the the bouwdossier model. Structure of import is
     almost identical to pre_wabo xml to avoid confusion since only a few
     mappings are different and new fields are added.
@@ -185,6 +186,9 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     return count, total_count
 
 def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
+    """
+    For information about wabo and pre_wabo please check the README
+    """
     dossiernr = x_dossier['dossierNr']
     titel = x_dossier['titel']
     if not titel:
