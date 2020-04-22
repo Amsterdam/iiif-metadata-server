@@ -1,4 +1,5 @@
 import logging
+import re
 
 from datapunt_api.rest import DatapuntViewSet
 from django.shortcuts import get_object_or_404
@@ -21,15 +22,16 @@ def separate_dossier(dossier):
     """
 
     try:
-        stadsdeel, dossiernr = dossier[:2], dossier[2:]
-        assert stadsdeel.isalpha()
-        assert dossiernr.isnumeric()
+        # Check if dossier has correct format
+        assert re.match(r'\D{2,3}\d+', dossier)
+        # split the stadsdeel and dossier by using |
+        stadsdeel, dossiernr = re.findall(r'\D{2,3}|\d+', dossier)
         return stadsdeel, dossiernr
-    except (IndexError, AssertionError):
+    except AssertionError:
         raise InvalidDossier(
             f"The dossier {dossier} is not of the correct form. "
             "It should be defined in the form of 'AA123456' in which "
-            "AA is the stadsdeel code and 123456 is the dossier number"
+            "AA (or AAA) is the stadsdeel code and 123456 is the dossier number"
         )
 
 

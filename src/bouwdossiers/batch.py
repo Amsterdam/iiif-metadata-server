@@ -90,7 +90,105 @@ def openbaar_to_access(openbaar):
     return models.ACCESS_RESTRICTED
 
 
-def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
+def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
+    """
+    For information about wabo and pre_wabo please check the README
+    Add wabo dossier to the the bouwdossier model. Structure of import is
+    almost identical to pre_wabo xml to avoid confusion since only a few
+    mappings are different and new fields are added.
+    """
+    dossier = x_dossier.get('intern_nummer')
+    stadsdeel, dossiernr = dossier.split('_')
+    titel = x_dossier.get('dossier_titel')
+
+    if not titel:
+        titel = ''
+        log.warning(f"Missing titel for Wabo dossier {dossiernr} in {file_path}")
+
+    datering = x_dossier.get('begindatum')
+    dossier_type = x_dossier.get('omschrijving')
+
+    bouwdossier = models.BouwDossier(
+        importfile=import_file,
+        dossiernr=dossiernr,
+        stadsdeel=stadsdeel.upper(),  # Make it upper to follow the same format as pre_wabo dossiers
+        titel=titel,
+        datering=datering,
+        dossier_type=dossier_type,
+        olo_liaan_nummer=x_dossier.get('OLO_liaan_nummer'),
+        wabo_bron=x_dossier.get('bron'),
+        access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
+        source=models.SOURCE_WABO
+    )
+
+    bouwdossier.save()
+    count += 1
+    total_count += 1
+
+    if total_count % 1000 == 0:
+        log.info(f"Bouwdossiers count in file: {count}, total: {total_count}")
+
+    for x_adres in get_list_items(x_dossier, 'locaties', 'locatie'):
+        bag_id = x_adres.get('bag_id')
+        panden = []
+        verblijfsobjecten = []
+        openbareruimte_id = None
+
+        if bag_id:  # if no bag_ids, locatie aanduiding is available.
+            panden.append(bag_id.get('pandidentificatie'))
+            verblijfsobjecten.append(bag_id.get('verblijfsobjectidentificatie'))
+            openbareruimte_id = bag_id.get('openbareruimteidentificatie')
+
+        adres = models.Adres(
+            bouwdossier=bouwdossier,
+            straat=x_adres.get('straatnaam'),
+            huisnummer_van=x_adres.get('huisnummer'),
+            huisnummer_toevoeging=x_adres.get('huisnummertoevoeging'),
+            huisnummer_letter=x_adres.get('huisnummer_letter'),
+            stadsdeel=stadsdeel,
+            nummeraanduidingen=[],
+            nummeraanduidingen_label=[],
+            openbareruimte_id=openbareruimte_id,
+            panden=panden if panden else [],
+            verblijfsobjecten=verblijfsobjecten if verblijfsobjecten else [],
+            verblijfsobjecten_label=[],
+            locatie_aanduiding=x_adres.get('locatie_aanduiding')
+        )
+        adres.save()
+
+    documenten = []
+    for x_document in get_list_items(x_dossier, 'documenten', 'document'):
+
+        bestanden = []
+        bestanden_pads = []
+
+        for bestand in get_list_items(x_document, 'bestanden', 'bestand'):
+            # Each bestand has an oorspronkelijk_pad.
+            # oorspronkelijke_pads are added in another list (with the same order as bestanden)
+            # to keep the same structure as the pre_wabo dossiers.
+            bestanden.append(bestand.get('URL'))
+            bestanden_pads.append(bestand.get('oorspronkelijk_pad'))
+
+        document = models.Document(
+            barcode=x_document.get('barcode'),
+            bouwdossier=bouwdossier,
+            subdossier_titel=titel,
+            oorspronkelijk_pad=bestanden_pads,
+            bestanden=bestanden,
+            access=models.ACCESS_RESTRICTED,
+            document_type=x_document.get('document_type')
+        )
+
+        documenten.append(document)
+
+    models.Document.objects.bulk_create(documenten)
+
+    return count, total_count
+
+def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
+    """
+    For information about wabo and pre_wabo please check the README
+    """
     dossiernr = x_dossier['dossierNr']
     titel = x_dossier['titel']
     if not titel:
@@ -178,15 +276,15 @@ def add_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa 
 
     return count, total_count
 
-
-def import_bouwdossiers(max_file_count=None):  # noqa C901
+def import_wabo_dossiers(max_file_count=None):  # noqa C901
     total_count = 0
     file_count = 0
     root_dir = settings.DATA_DIR
     for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
+        wabo = re.search('SDZ_KEY2_.\\w+\\.xml$', file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
-        if len(importfiles) > 0:
-            # importfile = importfiles[0]
+
+        if not wabo or len(importfiles) > 0:
             continue
 
         import_file = models.ImportFile(name=file_path, status=models.IMPORT_BUSY)
@@ -196,20 +294,60 @@ def import_bouwdossiers(max_file_count=None):  # noqa C901
             log.info(f"Processing - {file_path}")
             count = 0
 
-            # SAA_BWT_02.xml
-            m = re.search('SAA_BWT_.\\w+\\.xml$', file_path)
-            if m:
-                with open(file_path) as fd:
-                    xml = xmltodict.parse(fd.read())
+            #  This is temporarily fetched from the object store
+            #  In the future, we will be pulling this from the client's webserver
 
-                with transaction.atomic():
-                    for x_dossier in get_list_items(xml, 'bwtDossiers', 'dossier'):
-                        (count, total_count) = add_dossier(x_dossier, file_path, import_file, count,
-                                                           total_count)
+            with open(file_path) as fd:
+                xml = xmltodict.parse(fd.read())
 
-                import_file.status = models.IMPORT_FINISHED
-                import_file.save()
-                file_count += 1
+            with transaction.atomic():
+                for x_dossier in get_list_items(xml, 'dossiers', 'dossier'):
+                    (count, total_count) = add_wabo_dossier(
+                        x_dossier, file_path, import_file, count, total_count)
+
+            import_file.status = models.IMPORT_FINISHED
+            import_file.save()
+            file_count += 1
+            if max_file_count and file_count >= max_file_count:
+                break
+
+        except Exception as e:
+            log.error(f"Error while processing file {file_path} : {e}")
+            import_file.status = models.IMPORT_ERROR
+            import_file.save()
+
+    log.info(f"Import finished. Bouwdossiers total: {total_count}")
+
+def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
+    total_count = 0
+    file_count = 0
+    root_dir = settings.DATA_DIR
+    for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
+        # SAA_BWT_02.xml
+        pre_wabo = re.search('SAA_BWT_.\\w+\\.xml$', file_path)
+        importfiles = models.ImportFile.objects.filter(name=file_path)
+
+        if not pre_wabo or len(importfiles) > 0:
+            continue
+
+        import_file = models.ImportFile(name=file_path, status=models.IMPORT_BUSY)
+        import_file.save()
+
+        try:
+            log.info(f"Processing - {file_path}")
+            count = 0
+
+            with open(file_path) as fd:
+                xml = xmltodict.parse(fd.read())
+
+            with transaction.atomic():
+                for x_dossier in get_list_items(xml, 'bwtDossiers', 'dossier'):
+                    (count, total_count) = add_pre_wabo_dossier(
+                        x_dossier, file_path, import_file, count, total_count)
+
+            import_file.status = models.IMPORT_FINISHED
+            import_file.save()
+            file_count += 1
             if max_file_count and file_count >= max_file_count:
                 break
 
@@ -229,7 +367,7 @@ WITH adres_nummeraanduiding AS (
 SELECT  sa.id AS id
       , ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen
       , ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
-        CASE WHEN (huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || huisnummer_toevoeging
+        CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
         END) AS nummeraanduidingen_label
 FROM bouwdossiers_adres sa
 JOIN bag_nummeraanduiding bn

@@ -53,7 +53,6 @@ class ImportFile(models.Model):
 
 class BouwDossier(models.Model):
     id = models.AutoField(primary_key=True)
-    source = models.CharField(max_length=20, choices=SOURCE_CHOICES, default=SOURCE_EDEPOT)
     importfile = models.ForeignKey(ImportFile, related_name='bouwdossiers', on_delete=CASCADE)
     dossiernr = models.IntegerField(null=False)
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsarchief stadsdeel
@@ -62,6 +61,20 @@ class BouwDossier(models.Model):
     dossier_type = models.CharField(max_length=64, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
+    source = models.CharField(
+        max_length=20,
+        choices=SOURCE_CHOICES,
+        default=SOURCE_EDEPOT,
+        help_text='Field that defines wabo and pre_wabo dossier')
+
+    # WABO Related fields
+    olo_liaan_nummer = models.IntegerField(null=True, default=None)
+    # Saved in DB not shown in API because it is not needed
+    wabo_bron = models.CharField(
+        max_length=30,
+        null=True,
+        default=None,
+        help_text='Should contain the origin of the dossier. Can be for example digital or paper dossier.')
 
     def __str__(self):
         return f'{self.dossiernr} - {self.titel}'
@@ -80,16 +93,21 @@ class Adres(models.Model):
     bouwdossier = models.ForeignKey(BouwDossier,
                                     related_name='adressen',
                                     on_delete=CASCADE)
-    straat = models.CharField(max_length=150)
+    straat = models.CharField(max_length=150, null=True)
     huisnummer_van = models.IntegerField(null=True)
     huisnummer_tot = models.IntegerField(null=True)
-    openbareruimte_id = models.CharField(max_length=16, db_index=True)  # landelijk_id
+    openbareruimte_id = models.CharField(max_length=16, db_index=True, null=True)  # landelijk_id
     stadsdeel = models.CharField(max_length=3, db_index=True)  # stadsarchief stadsdeel
     nummeraanduidingen = ArrayField(models.CharField(max_length=16, null=False), blank=True)
     nummeraanduidingen_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
     panden = ArrayField(models.CharField(max_length=16, null=False), blank=True)
     verblijfsobjecten = ArrayField(models.CharField(max_length=16, null=False), blank=True)
     verblijfsobjecten_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
+
+    # WABO Related fields
+    locatie_aanduiding = models.CharField(max_length=250, null=True)
+    huisnummer_toevoeging = models.CharField(max_length=10, null=True, default=None)
+    huisnummer_letter = models.CharField(max_length=10, null=True, default=None)
 
     def __str__(self):
         return f'{self.straat} {self.huisnummer_van} - {self.huisnummer_tot}'
@@ -107,10 +125,14 @@ class Adres(models.Model):
 class Document(models.Model):
     id = models.AutoField(primary_key=True)
     bouwdossier = models.ForeignKey(BouwDossier, related_name='documenten', on_delete=CASCADE)
-    subdossier_titel = models.CharField(max_length=128, null=False)
-    barcode = models.CharField(max_length=250, db_index=True)
-    bestanden = ArrayField(models.CharField(max_length=128, null=False), blank=True)
+    subdossier_titel = models.TextField(blank=True, null=True)
+    document_type = models.CharField(max_length=250, blank=True, null=True)
+    barcode = models.CharField(max_length=250, db_index=True, null=True)
+    bestanden = ArrayField(models.CharField(max_length=250, null=False), blank=True)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
+
+    # WABO Related fields
+    oorspronkelijk_pad = ArrayField(models.CharField(max_length=250, null=False), blank=True, default=list)
 
     def __str__(self):
         return f'{self.barcode}'
