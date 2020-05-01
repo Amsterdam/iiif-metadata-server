@@ -5,8 +5,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: stadsarchief
-      POSTGRES_USER: stadsarchief
+      POSTGRES_DB: iiif-metadata-server
+      POSTGRES_USER: iiif-metadata-server
       POSTGRES_PASSWORD: insecure
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
@@ -15,7 +15,7 @@ services:
     build:
       context: .
       target: app
-    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${VERSION:-latest}
+    image: docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server:${VERSION:-latest}
     ports:
       - 8000:8000
     environment:
@@ -58,8 +58,8 @@ services:
     environment:
       - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
       - SECRET_KEY=insecure
-      - DATABASE_NAME=stadsarchief
-      - DATABASE_USER=stadsarchief
+      - DATABASE_NAME=iiif-metadata-server
+      - DATABASE_USER=iiif-metadata-server
       - DATABASE_PASSWORD=insecure
     entrypoint: /deploy/wait-for-it.sh database:5432 --
 

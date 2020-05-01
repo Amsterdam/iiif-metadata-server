@@ -10,14 +10,14 @@ from . import models
 
 log = logging.getLogger(__name__)
 
-# This project now only uses the STADSDEEL codes received from the stadsarchief xml files.
+# This project now only uses the STADSDEEL codes received from the metadata xml files.
 # The decision was made to avoid confusion especially because the STADSDEEL
 # codes are used in the document names.
 
-# The below mapping was used earlier to map the STADSDEEl codes received from the stadsarchief xml files
+# The below mapping was used earlier to map the STADSDEEl codes received from the metadata xml files
 # To the codes in bag api. It is kept for reference.
 
-# Stadsarchief stadsdeel codes
+# stadsdeel codes
 # MAP_STADSDEEL_XML_CODE = {
 #   'SA': 'Centrum',
 #   'SU': 'Oost',

@@ -45,7 +45,7 @@ def health(_request):
 def check_data(request):
     if model.objects.all().count() < 100:
         return HttpResponse(
-            "Too few stadsarchief data in the database",
+            "Too few metadata in the database",
             content_type="text/plain", status=500)
 
     return HttpResponse(

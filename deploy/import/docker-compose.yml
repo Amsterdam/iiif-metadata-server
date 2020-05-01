@@ -3,14 +3,14 @@ services:
   database:
     image: amsterdam/postgres11
     environment:
-      POSTGRES_DB: stadsarchief
-      POSTGRES_USER: stadsarchief
+      POSTGRES_DB: iiif-metadata-server
+      POSTGRES_USER: iiif-metadata-server
       POSTGRES_PASSWORD: insecure
     volumes:
       - ./backups:/tmp/backups
 
   importer:
-    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
+    image: docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server:${RELEASE}
 #    build: ../..
     links:
       - database
@@ -19,15 +19,15 @@ services:
       BOUWDOSSIERS_OBJECTSTORE_PASSWORD: ${BOUWDOSSIERS_OBJECTSTORE_PASSWORD}
       DATABASE_HOST: database
       DATABASE_PORT: 5432
-      DATABASE_NAME: stadsarchief
-      DATABASE_USER: stadsarchief
+      DATABASE_NAME: iiif-metadata-server
+      DATABASE_USER: iiif-metadata-server
       DATABASE_PASSWORD: insecure
       MIN_BOUWDOSSIERS_COUNT:
     command: >
       bash -c "/deploy/import/docker-import-db.sh"
 
   empty_db:
-    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${RELEASE}
+    image: docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server:${RELEASE}
 #    build: ../..
     links:
       - database
@@ -36,8 +36,8 @@ services:
       BOUWDOSSIERS_OBJECTSTORE_PASSWORD: ${BOUWDOSSIERS_OBJECTSTORE_PASSWORD}
       DATABASE_HOST: database
       DATABASE_PORT: 5432
-      DATABASE_NAME: stadsarchief
-      DATABASE_USER: stadsarchief
+      DATABASE_NAME: iiif-metadata-server
+      DATABASE_USER: iiif-metadata-server
       DATABASE_PASSWORD: insecure
     command: >
       bash -c "/deploy/import/docker-empty-db.sh"

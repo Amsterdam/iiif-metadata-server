@@ -75,8 +75,8 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'stadsarchief'),
-        'USER': os.getenv('DATABASE_USER', 'stadsarchief'),
+        'NAME': os.getenv('DATABASE_NAME', 'iiif-metadata-server'),
+        'USER': os.getenv('DATABASE_USER', 'iiif-metadata-server'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv('DATABASE_HOST', 'database'),
         'PORT': os.getenv('DATABASE_PORT', '5432'),
@@ -140,10 +140,10 @@ PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 DATA_DIR = '/tmp/bouwdossiers'
 
 # SWAGGER
-SWAG_PATH = 'acc.api.data.amsterdam.nl/stadsarchief/docs'
+SWAG_PATH = 'acc.api.data.amsterdam.nl/iiif-metadata-server/docs'
 
 if DEBUG:
-    SWAG_PATH = '127.0.0.1:8000/stadsarchief/docs'
+    SWAG_PATH = '127.0.0.1:8000/iiif-metadata-server/docs'
 
 SWAGGER_SETTINGS = {
     'exclude_namespaces': [],
