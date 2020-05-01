@@ -108,6 +108,11 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     datering = x_dossier.get('begindatum')
     dossier_type = x_dossier.get('omschrijving')
 
+    activiteiten = []
+
+    for activiteit in get_list_items(x_dossier, 'activiteiten', 'activiteit'):
+        activiteiten.append(activiteit)
+
     bouwdossier = models.BouwDossier(
         importfile=import_file,
         dossiernr=dossiernr,
@@ -118,7 +123,8 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         olo_liaan_nummer=x_dossier.get('OLO_liaan_nummer'),
         wabo_bron=x_dossier.get('bron'),
         access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
-        source=models.SOURCE_WABO
+        source=models.SOURCE_WABO,
+        activiteiten=activiteiten
     )
 
     bouwdossier.save()
@@ -172,11 +178,11 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         document = models.Document(
             barcode=x_document.get('barcode'),
             bouwdossier=bouwdossier,
-            subdossier_titel=titel,
+            subdossier_titel=x_document.get('document_type'),
             oorspronkelijk_pad=bestanden_pads,
             bestanden=bestanden,
             access=models.ACCESS_RESTRICTED,
-            document_type=x_document.get('document_type')
+            document_omschrijving=x_document.get('document_omschrijving')
         )
 
         documenten.append(document)
@@ -281,7 +287,7 @@ def import_wabo_dossiers(max_file_count=None):  # noqa C901
     file_count = 0
     root_dir = settings.DATA_DIR
     for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
-        wabo = re.search('SDZ_KEY2_.\\w+\\.xml$', file_path)
+        wabo = re.search('WABO_.+\\.xml$', file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
