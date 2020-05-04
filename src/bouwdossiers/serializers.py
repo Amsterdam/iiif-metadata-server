@@ -42,7 +42,13 @@ class DocumentSerializer(ModelSerializer):
 
     class Meta:
         model = Document
-        fields = ('subdossier_titel', 'barcode', 'bestanden', 'oorspronkelijk_pad', 'access')
+        fields = (
+            'subdossier_titel',
+            'barcode',
+            'bestanden',
+            'oorspronkelijk_pad',
+            'document_omschrijving',
+            'access')
 
 
 class CustomLinksField(LinksField):
@@ -77,8 +83,9 @@ class BouwDossierSerializer(CustomHalSerializer):
             'datering',
             'dossier_type',
             'dossier_status',
-            'documenten',
-            'adressen',
+            'olo_liaan_nummer',
             'access',
-            'olo_liaan_nummer'
+            'activiteiten',
+            'documenten',
+            'adressen'
         )
