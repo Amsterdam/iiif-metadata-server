@@ -1,9 +1,9 @@
-version: "3.0"
+version: "3.5"
 services:
   database:
     image: amsterdam/postgres11
     ports:
-      - "5412:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: stadsarchief
       POSTGRES_USER: stadsarchief
@@ -11,11 +11,49 @@ services:
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
-  web:
-    build: src/
+  app:
+    build:
+      context: .
+      target: app
+    image: docker-registry.data.amsterdam.nl/datapunt/stadsarchief:${VERSION:-latest}
     ports:
-      - "8156:8000"
-    links:
+      - 8000:8000
+    environment:
+      - SECRET_KEY
+    volumes:
+      - ./src:/src
+      - ./deploy:/deploy
+    depends_on:
+      - database
+
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - 8000:8000
+    environment:
+      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      - DEBUG=true
+      - SECRET_KEY=dev
+      - PYTHONBREAKPOINT
+    volumes:
+      - ./src:/src
+      - ./deploy:/deploy
+    depends_on:
+      - database
+    entrypoint: /deploy/wait-for-it.sh database:5432 --
+    command: python manage.py runserver 0.0.0.0:8000
+
+  test:
+    build:
+      context: .
+      target: tests
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+    depends_on:
       - database
     environment:
       - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
@@ -23,7 +61,22 @@ services:
       - DATABASE_NAME=stadsarchief
       - DATABASE_USER=stadsarchief
       - DATABASE_PASSWORD=insecure
-      - UWSGI_HTTP=0.0.0.0:8000
-      - UWSGI_MODULE=stadsarchief.wsgi
-      - UWSGI_CALLABLE=application
-      - UWSGI_MASTER=1
+    entrypoint: /deploy/wait-for-it.sh database:5432 --
+
+  run_import:
+    build:
+      context: .
+      target: tests
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/src
+    depends_on:
+      - database
+    environment:
+      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      - SECRET_KEY=insecure
+      - BOUWDOSSIERS_OBJECTSTORE_CONTAINER
+      - BOUWDOSSIERS_OBJECTSTORE_PASSWORD
+    entrypoint: /deploy/wait-for-it.sh database:5432 --
+    command: python manage.py run_import --skip_validate_import

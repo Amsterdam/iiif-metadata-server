@@ -1,0 +1,39 @@
+# Define all requirements, only pin when necessary (and if so, add a comment explaining why).
+# See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
+
+certifi
+chardet
+coreapi
+coreschema
+datapunt-objectstore
+Django<3 # Pinned because djangorestframework-xml dependency (drf-amsterdam) fails with django 3 
+django-cors-headers
+django-debug-toolbar
+django-extensions
+django-filter
+django-filters
+djangorestframework
+djangorestframework-gis
+drf-amsterdam
+drf-extensions
+drf_yasg
+idna
+itypes
+Jinja2
+MarkupSafe
+numpy
+openapi-codec
+pandas
+psycopg2-binary
+python-dateutil
+pytz
+requests
+sentry-sdk
+simplejson
+six
+sqlparse
+typing
+uritemplate
+urllib3
+xlrd
+xmltodict
