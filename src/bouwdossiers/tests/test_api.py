@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.urls import reverse
 from rest_framework.test import APITestCase
 
 from bouwdossiers.models import SOURCE_WABO, BouwDossier
@@ -16,19 +17,19 @@ class APITest(APITestCase):
         factories.AdresFactory()
 
     def test_api_list(self):
-        url = '/iiif-metadata-server/bouwdossier/'
+        url = reverse('bouwdossier-list')
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertGreaterEqual(response.data['count'], 1)
 
     def test_api_malformed_code(self):
-        url = '/iiif-metadata-server/bouwdossier/1/'
+        url = reverse('bouwdossier-detail', kwargs={'pk': 1})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
 
     def test_api_one_using_stadsdeel_and_dossier(self):
-        url = '/iiif-metadata-server/bouwdossier/AA12345/'
+        url = reverse('bouwdossier-detail', kwargs={'pk': 'AA12345'})
         response = self.client.get(url)
         self.assertEqual(response.data['stadsdeel'], 'AA')
         self.assertEqual(response.data['dossiernr'], 12345)
@@ -38,14 +39,14 @@ class APITest(APITestCase):
         dossier.stadsdeel = 'AAA'
         dossier.save()
 
-        url = '/iiif-metadata-server/bouwdossier/AAA12345/'
+        url = reverse('bouwdossier-detail', kwargs={'pk': 'AAA12345'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['stadsdeel'], 'AAA')
         self.assertEqual(response.data['dossiernr'], 12345)
 
     def test_dossiernr_stadsdeel(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=12345&stadsdeel=AA'
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -62,21 +63,21 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
 
     def test_dossiernr_stadsdeel_None1(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=12345&stadsdeel=CC'
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=CC'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_dossiernr_stadsdeel_None2(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=54321&stadsdeel=AA'
+        url = reverse('bouwdossier-list') + '?dossiernr=54321&stadsdeel=AA'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_nummeraanduiding(self):
-        url = '/iiif-metadata-server/bouwdossier/?nummeraanduiding=0363200000406187'
+        url = reverse('bouwdossier-list') + '?nummeraanduiding=0363200000406187'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -84,14 +85,14 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_nummeraanduiding_no(self):
-        url = '/iiif-metadata-server/bouwdossier/?nummeraanduiding=0363200000406188'
+        url = reverse('bouwdossier-list') + '?nummeraanduiding=0363200000406188'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_pand(self):
-        url = '/iiif-metadata-server/bouwdossier/?pand=0363100012165490'
+        url = reverse('bouwdossier-list') + '?pand=0363100012165490'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -99,7 +100,7 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_vbo(self):
-        url = '/iiif-metadata-server/bouwdossier/?verblijfsobject=036301000xxxxxxx'
+        url = reverse('bouwdossier-list') + '?verblijfsobject=036301000xxxxxxx'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -107,7 +108,7 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_openbareruimte(self):
-        url = '/iiif-metadata-server/bouwdossier/?openbareruimte=0363300000004835'
+        url = reverse('bouwdossier-list') + '?verblijfsobject=036301000xxxxxxx/?openbareruimte=0363300000004835'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -115,14 +116,15 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_dossiernr_stadsdeel_max_datering_none(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=12345&stadsdeel=A&max_datering=1997'
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=A&max_datering=1997'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_dossiernr_stadsdeel_max_datering(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=12345&stadsdeel=AA&max_datering=2000'
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA&max_datering=2000'
+        print(url)
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -130,14 +132,14 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_dossiernr_stadsdeel_min_datering_none(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=12345&stadsdeel=A&min_datering=1999'
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=A&min_datering=1999'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_dossiernr_stadsdeel_min_datering(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=12345&stadsdeel=AA&min_datering=1997'
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA&min_datering=1997'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -148,7 +150,7 @@ class APITest(APITestCase):
         """
         subdossier should match with case insensitive start of titel of subdossier
         """
-        url = '/iiif-metadata-server/bouwdossier/?subdossier=tekeningen'
+        url = reverse('bouwdossier-list') + '?subdossier=tekeningen'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -156,14 +158,14 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_subdossier_none(self):
-        url = '/iiif-metadata-server/bouwdossier/?subdossier=dit_match_niet'
+        url = reverse('bouwdossier-list') + '?subdossier=dit_match_niet'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_dossier_type(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossier_type=verbouwing'
+        url = reverse('bouwdossier-list') + '?dossier_type=verbouwing'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -171,14 +173,14 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
 
     def test_dossier_type_none(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossier_type=geen_type'
+        url = reverse('bouwdossier-list') + '?dossier_type=geen_type'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
 
     def test_dossier_with_stadsdeel(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossier=AA12345'
+        url = reverse('bouwdossier-list') + '?dossier=AA12345'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn('results', response.data)
@@ -196,12 +198,12 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
 
     def test_wrong_dossier_with_stadsdeel(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossier=12345'
+        url = reverse('bouwdossier-list') + '?dossier=12345'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
 
     def test_invalid_dossiernr(self):
-        url = '/iiif-metadata-server/bouwdossier/?dossiernr=wrong'
+        url = reverse('bouwdossier-list') + '?dossiernr=wrong'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
 
@@ -222,7 +224,7 @@ class APITest(APITestCase):
         adres.huisnummer_toevoeging = 'B'
         adres.save()
 
-        url = '/iiif-metadata-server/bouwdossier/AA12345/'
+        url = reverse('bouwdossier-detail', kwargs={'pk': 'AA12345'})
         response = self.client.get(url)
         documents = response.data.get('documenten')
         adressen = response.data['adressen']

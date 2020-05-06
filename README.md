@@ -70,11 +70,11 @@ Disable login requirement for local development
 
 Test API
 
-`http://localhost:8000/iiif-metadata-server/bouwdossier`
+`http://localhost:8000/iiif-metadata/bouwdossier`
 
 or
 
-`http://localhost:8000/iiif-metadata-server/docs/swagger`
+`http://localhost:8000/iiif-metadata/docs/swagger`
 
 
 
@@ -82,7 +82,7 @@ or
 
 Test API login in acceptance with SWAGGER :
  
-`https://acc.api.data.amsterdam.nl/api/swagger/?url=/iiif-metadata-server/docs/swagger.json`
+`https://acc.api.data.amsterdam.nl/api/swagger/?url=/iiif-metadata/docs/swagger.json`
 
 
 # Import database from acceptance
