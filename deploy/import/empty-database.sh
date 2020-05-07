@@ -6,7 +6,7 @@ set -u
 DIR="$(dirname $0)"
 
 dc() {
-	docker-compose -p stadsarchief -f ${DIR}/docker-compose.yml $*
+	docker-compose -p iiif-metadata-server -f ${DIR}/docker-compose.yml $*
 }
 
 echo "Removing any previous backups"
@@ -26,6 +26,6 @@ echo "Emptying db"
 dc run --rm empty_db
 
 echo "Running backups"
-dc exec -T database backup-db.sh stadsarchief
+dc exec -T database backup-db.sh iiif-metadata-server
 dc down -v
 echo "Done"

@@ -11,7 +11,7 @@ grouped_url_patterns = {
         url(r'^status/', include('health.urls')),
     ],
     'bouwdossiers_patterns': [
-        url(r'^stadsarchief/', include(bouwdossiers_urls.urls)),
+        url(r'^iiif-metadata/', include(bouwdossiers_urls.urls)),
     ],
 }
 
@@ -30,17 +30,17 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     url(
-        r'^stadsarchief/docs/swagger(?P<format>\.json|\.yaml)$',
+        r'^iiif-metadata/docs/swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=None),
         name='schema-json'
     ),
     url(
-        r'^stadsarchief/docs/swagger/$',
+        r'^iiif-metadata/docs/swagger/$',
         schema_view.with_ui('swagger', cache_timeout=None),
         name='schema-swagger-ui'
     ),
     url(
-        r'^stadsarchief/docs/redoc/$',
+        r'^iiif-metadata/docs/redoc/$',
         schema_view.with_ui('redoc', cache_timeout=None),
         name='schema-redoc'
     ),

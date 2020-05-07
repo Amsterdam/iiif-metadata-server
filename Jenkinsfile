@@ -1,7 +1,7 @@
 #!groovy
-def PROJECT_NAME = "stadsarchief"
+def PROJECT_NAME = "iiif-metadata-server"
 def SLACK_CHANNEL = '#opdrachten-deployments'
-def PLAYBOOK = 'deploy-stadsarchief.yml'
+def PLAYBOOK = 'deploy-iiif-metadata-server.yml'
 def SLACK_MESSAGE = [
     "title_link": BUILD_URL,
     "fields": [

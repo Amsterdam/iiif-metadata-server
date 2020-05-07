@@ -1,5 +1,5 @@
 """
-WSGI config for stadsarchief project.
+WSGI config for iiif-metadata-server project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
