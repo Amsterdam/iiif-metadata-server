@@ -75,8 +75,8 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'iiif-metadata-server'),
-        'USER': os.getenv('DATABASE_USER', 'iiif-metadata-server'),
+        'NAME': os.getenv('DATABASE_NAME', 'iiif_metadata_server'),
+        'USER': os.getenv('DATABASE_USER', 'iiif_metadata_server'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv('DATABASE_HOST', 'database'),
         'PORT': os.getenv('DATABASE_PORT', '5432'),

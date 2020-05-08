@@ -26,6 +26,6 @@ echo "Emptying db"
 dc run --rm empty_db
 
 echo "Running backups"
-dc exec -T database backup-db.sh iiif-metadata-server
+dc exec -T database backup-db.sh iiif_metadata_server
 dc down -v
 echo "Done"
