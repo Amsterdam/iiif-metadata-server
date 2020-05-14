@@ -54,10 +54,10 @@ env:                                ## Print current env
 	env | sort
 
 import_bag:                       ## Populate database with Bag data
-	${dc} exec database update-table.sh bag bag_verblijfsobject public stadsarchief 
-	${dc} exec database update-table.sh bag bag_ligplaats public stadsarchief 
-	${dc} exec database update-table.sh bag bag_standplaats public stadsarchief 
-	${dc} exec database update-table.sh bag bag_nummeraanduiding public stadsarchief 
-	${dc} exec database update-table.sh bag bag_pand public stadsarchief 
-	${dc} exec database update-table.sh bag bag_verblijfsobjectpandrelatie public stadsarchief 
-	${dc} exec database update-table.sh bag bag_openbareruimte public stadsarchief 
+	${dc} exec database update-table.sh bag bag_verblijfsobject public iiif_metadata_server 
+	${dc} exec database update-table.sh bag bag_ligplaats public iiif_metadata_server 
+	${dc} exec database update-table.sh bag bag_standplaats public iiif_metadata_server 
+	${dc} exec database update-table.sh bag bag_nummeraanduiding public iiif_metadata_server 
+	${dc} exec database update-table.sh bag bag_pand public iiif_metadata_server 
+	${dc} exec database update-table.sh bag bag_verblijfsobjectpandrelatie public iiif_metadata_server 
+	${dc} exec database update-table.sh bag bag_openbareruimte public iiif_metadata_server 

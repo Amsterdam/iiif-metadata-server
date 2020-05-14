@@ -6,7 +6,7 @@ set -u
 DIR="$(dirname $0)"
 
 dc() {
-	docker-compose -p stadsarchief -f ${DIR}/docker-compose.yml $*
+	docker-compose -p iiif-metadata-server -f ${DIR}/docker-compose.yml $*
 }
 
 echo "Removing any previous backups"
@@ -25,25 +25,25 @@ dc run importer /deploy/docker-migrate.sh
 
 
 # load latest bag into database
-echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen, nummeraanduidingen en panden in stadsarchief database"
+echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen, nummeraanduidingen en panden in iiif-metadata-server database"
 
 # dc exec -T database update-db.sh atlas
-dc exec -T database update-table.sh bag bag_verblijfsobject public stadsarchief
-dc exec -T database update-table.sh bag bag_ligplaats public stadsarchief
-dc exec -T database update-table.sh bag bag_standplaats public stadsarchief
-dc exec -T database update-table.sh bag bag_nummeraanduiding public stadsarchief
-dc exec -T database update-table.sh bag bag_pand public stadsarchief
-dc exec -T database update-table.sh bag bag_verblijfsobjectpandrelatie public stadsarchief
-dc exec -T database update-table.sh bag bag_openbareruimte public stadsarchief
+dc exec -T database update-table.sh bag bag_verblijfsobject public iiif_metadata_server
+dc exec -T database update-table.sh bag bag_ligplaats public iiif_metadata_server
+dc exec -T database update-table.sh bag bag_standplaats public iiif_metadata_server
+dc exec -T database update-table.sh bag bag_nummeraanduiding public iiif_metadata_server
+dc exec -T database update-table.sh bag bag_pand public iiif_metadata_server
+dc exec -T database update-table.sh bag bag_verblijfsobjectpandrelatie public iiif_metadata_server
+dc exec -T database update-table.sh bag bag_openbareruimte public iiif_metadata_server
 
 
 echo "Importing data"
 dc run --rm importer
 
 echo "Drop bag tables used for importing"
-docker-compose -p stadsarchief -f ${DIR}/docker-compose.yml exec -T database psql -U stadsarchief -c 'DROP TABLE bag_openbareruimte, bag_verblijfsobjectpandrelatie, bag_pand, bag_nummeraanduiding, bag_standplaats, bag_ligplaats, bag_verblijfsobject' stadsarchief
+docker-compose -p iiif-metadata-server -f ${DIR}/docker-compose.yml exec -T database psql -U iiif_metadata_server -c 'DROP TABLE bag_openbareruimte, bag_verblijfsobjectpandrelatie, bag_pand, bag_nummeraanduiding, bag_standplaats, bag_ligplaats, bag_verblijfsobject' iiif_metadata_server
 
 echo "Running backups"
-dc exec -T database backup-db.sh stadsarchief
+dc exec -T database backup-db.sh iiif_metadata_server
 dc down -v
 echo "Done"

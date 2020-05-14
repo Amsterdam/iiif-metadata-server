@@ -1,6 +1,6 @@
-# Stadsarchief
+# iiif-metadata-server
 
-Provide API and import for datasets from stadsarchief such as bouwdossiers
+Provide API and import for datasets from iiif-metadata-server such as bouwdossiers
 
 
 # Pre_wabo and wabo dossiers
@@ -70,11 +70,11 @@ Disable login requirement for local development
 
 Test API
 
-`http://localhost:8000/stadsarchief/bouwdossier`
+`http://localhost:8000/iiif-metadata/bouwdossier`
 
 or
 
-`http://localhost:8000/stadsarchief/docs/swagger`
+`http://localhost:8000/iiif-metadata/docs/swagger`
 
 
 
@@ -82,10 +82,10 @@ or
 
 Test API login in acceptance with SWAGGER :
  
-`https://acc.api.data.amsterdam.nl/api/swagger/?url=/stadsarchief/docs/swagger.json`
+`https://acc.api.data.amsterdam.nl/api/swagger/?url=/iiif-metadata/docs/swagger.json`
 
 
 # Import database from acceptance
 
 
-docker-compose exec database update-db.sh stadsarchief <your username>
+docker-compose exec database update-db.sh iiif-metadata-server <your username>

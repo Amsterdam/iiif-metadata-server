@@ -81,7 +81,7 @@ class Command(BaseCommand):
             import_pre_wabo_dossiers(max_files_count)
 
     def handle(self, *args, **options):
-        log.info('Stadsarchief import started')
+        log.info('Metadata import started')
 
         if not options['skipgetfiles']:
             log.info('Get files from objectstore')
