@@ -172,6 +172,8 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # Each bestand has an oorspronkelijk_pad.
             # oorspronkelijke_pads are added in another list (with the same order as bestanden)
             # to keep the same structure as the pre_wabo dossiers.
+            # The removed part below is because we want to be consistent with the pre-wabo urls
+            # in that we only store a relave url, not the full url
             bestanden.append(bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', ''))
             bestanden_pads.append(bestand.get('oorspronkelijk_pad'))
 
