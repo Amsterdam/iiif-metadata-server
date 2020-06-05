@@ -172,11 +172,17 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # Each bestand has an oorspronkelijk_pad.
             # oorspronkelijke_pads are added in another list (with the same order as bestanden)
             # to keep the same structure as the pre_wabo dossiers.
-            bestanden.append(bestand.get('URL'))
+            bestanden.append(bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', ''))
             bestanden_pads.append(bestand.get('oorspronkelijk_pad'))
 
+        barcode = x_document.get('barcode')
+        if not barcode and bestanden:
+            # This is the case with wabo dossiers, and since wabo dossiers only have
+            # one bestand per document, we use the number of the bestand as the barcode
+            barcode = bestanden[0].split('/')[-1].split('.')[0]
+
         document = models.Document(
-            barcode=x_document.get('barcode'),
+            barcode=barcode,
             bouwdossier=bouwdossier,
             subdossier_titel=x_document.get('document_type'),
             oorspronkelijk_pad=bestanden_pads,
