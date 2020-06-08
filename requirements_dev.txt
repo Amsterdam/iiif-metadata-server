@@ -20,7 +20,7 @@ django-debug-toolbar==2.2  # via -r ./requirements.txt
 django-extensions==2.2.9  # via -r ./requirements.txt
 django-filter==2.2.0      # via -r ./requirements.txt
 django-filters==0.2.1     # via -r ./requirements.txt
-django==2.2.12            # via -r ./requirements.txt, django-cors-headers, django-debug-toolbar, django-filter, djangorestframework, drf-yasg
+django==2.2.13            # via -r ./requirements.txt, django-cors-headers, django-debug-toolbar, django-filter, djangorestframework, drf-yasg
 djangorestframework-csv==2.1.0  # via -r ./requirements.txt, drf-amsterdam
 djangorestframework-gis==0.15  # via -r ./requirements.txt
 djangorestframework-xml==1.4.0  # via -r ./requirements.txt, drf-amsterdam
@@ -28,12 +28,11 @@ djangorestframework==3.11.0  # via -r ./requirements.txt, djangorestframework-cs
 drf-amsterdam==0.3.2      # via -r ./requirements.txt
 drf-extensions==0.6.0     # via -r ./requirements.txt, drf-amsterdam
 drf-yasg==1.17.1          # via -r ./requirements.txt
-entrypoints==0.3          # via -r ./requirements.txt, flake8
-factory-boy==2.12.0       # via -r ./requirements.txt, -r requirements_dev.in
-faker==4.0.2              # via -r ./requirements.txt, factory-boy
-flake8==3.7.9             # via -r ./requirements.txt, pytest-flake8
+entrypoints==0.3          # via flake8
+factory-boy==2.12.0       # via -r requirements_dev.in
+faker==4.0.2              # via factory-boy
+flake8==3.7.9             # via pytest-flake8
 idna==2.9                 # via -r ./requirements.txt, requests
-importlib-metadata==1.6.0  # via -r ./requirements.txt, jsonschema, pytest
 inflection==0.4.0         # via -r ./requirements.txt, drf-yasg
 iso8601==0.1.12           # via -r ./requirements.txt, keystoneauth1, oslo.utils
 isort==4.3.21             # via pytest-isort
@@ -42,7 +41,7 @@ jinja2==2.11.1            # via -r ./requirements.txt, coreschema
 jsonschema==3.2.0         # via -r ./requirements.txt, datapunt-config-loader
 keystoneauth1==4.0.0      # via -r ./requirements.txt, python-keystoneclient
 markupsafe==1.1.1         # via -r ./requirements.txt, jinja2
-mccabe==0.6.1             # via -r ./requirements.txt, flake8
+mccabe==0.6.1             # via flake8
 more-itertools==8.2.0     # via pytest
 msgpack==1.0.0            # via -r ./requirements.txt, oslo.serialization
 netaddr==0.7.19           # via -r ./requirements.txt, oslo.config, oslo.utils
@@ -60,8 +59,8 @@ pbr==5.4.4                # via -r ./requirements.txt, debtcollector, keystoneau
 pluggy==0.13.1            # via pytest
 psycopg2-binary==2.8.5    # via -r ./requirements.txt
 py==1.8.1                 # via pytest
-pycodestyle==2.5.0        # via -r ./requirements.txt, flake8
-pyflakes==2.1.1           # via -r ./requirements.txt, flake8
+pycodestyle==2.5.0        # via flake8
+pyflakes==2.1.1           # via flake8
 pyparsing==2.4.7          # via -r ./requirements.txt, oslo.utils, packaging
 pyrsistent==0.16.0        # via -r ./requirements.txt, jsonschema
 pytest-cov==2.8.1         # via -r requirements_dev.in
@@ -83,7 +82,7 @@ simplejson==3.17.0        # via -r ./requirements.txt
 six==1.14.0               # via -r ./requirements.txt, debtcollector, django-extensions, djangorestframework-csv, drf-yasg, jsonschema, keystoneauth1, oslo.config, oslo.i18n, oslo.serialization, oslo.utils, packaging, pyrsistent, python-dateutil, python-keystoneclient, python-swiftclient, stevedore
 sqlparse==0.3.1           # via -r ./requirements.txt, django, django-debug-toolbar
 stevedore==1.32.0         # via -r ./requirements.txt, keystoneauth1, oslo.config, python-keystoneclient
-text-unidecode==1.3       # via -r ./requirements.txt, faker
+text-unidecode==1.3       # via faker
 typing==3.7.4.1           # via -r ./requirements.txt
 unicodecsv==0.14.1        # via -r ./requirements.txt, djangorestframework-csv
 uritemplate==3.0.1        # via -r ./requirements.txt, coreapi, drf-yasg
@@ -92,7 +91,6 @@ wcwidth==0.1.9            # via pytest
 wrapt==1.12.1             # via -r ./requirements.txt, debtcollector
 xlrd==1.2.0               # via -r ./requirements.txt
 xmltodict==0.12.0         # via -r ./requirements.txt
-zipp==3.1.0               # via -r ./requirements.txt, importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
