@@ -22,7 +22,7 @@ pipeline {
         VERSION = env.BRANCH_NAME.replace('/', '-').toLowerCase().replace(
             'master', 'latest'
         )
-        IS_RELEASE = "${env.BRANCH_NAME ==~ "release/.*"}"
+        IS_RELEASE = "${env.BRANCH_NAME ==~ "pre-release/.*"}"
     }
 
     stages {

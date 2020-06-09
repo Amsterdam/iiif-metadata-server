@@ -344,12 +344,14 @@ class APITest(APITestCase):
         factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
 
         dossier = BouwDossier.objects.get(stadsdeel='AA', dossiernr='12345')
-        dossier.olo_liaan_nummer = '12345'
+        dossier.olo_liaan_nummer = '67890'
         dossier.wabo_bron = 'test'
         dossier.source = SOURCE_WABO
         dossier.save()
 
         document = dossier.documenten.first()
+        document.bestanden = ['https://conversiestraatwabo.amsterdam.nl/webDAV/SDC/PUA/1234567.PDF']
+        document.barcode = document.bestanden[0].split('/')[-1].split('.')[0]
         document.oorspronkelijk_pad = ['/path/to/bestand']
         document.save()
 
@@ -363,11 +365,10 @@ class APITest(APITestCase):
         response = self.client.get(url)
         documents = response.data.get('documenten')
         adressen = response.data['adressen']
-        self.assertEqual(response.data['olo_liaan_nummer'], 12345)
+        self.assertEqual(response.data['olo_liaan_nummer'], 67890)
         self.assertEqual(response.data.get('wabo_bron'), None)  # Bron is not needed in the api Check model
         self.assertEqual(documents[0]['oorspronkelijk_pad'], ['/path/to/bestand'])
-        bestand_url = documents[0]['bestanden'][0]['url']
-        self.assertTrue(bestand_url, 'https://images.data.amsterdam.nl/iiif/2/wabo:SU10000010_0001.jpg')
+        self.assertEqual(documents[0]['bestanden'][0]['url'], f"{settings.IIIF_BASE_URL}wabo:AA-12345-67890_1234567")
         self.assertEqual(adressen[0]['locatie_aanduiding'], 'aanduiding')
         self.assertEqual(adressen[0]['huisnummer_letter'], 'A')
         self.assertEqual(adressen[0]['huisnummer_toevoeging'], 'B')
