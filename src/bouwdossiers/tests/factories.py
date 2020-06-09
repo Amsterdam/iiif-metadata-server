@@ -15,12 +15,13 @@ class ImportFileFactory(factory.DjangoModelFactory):
 
 class BouwDossierFactory(factory.DjangoModelFactory):
     class Meta:
-        django_get_or_create = ('dossiernr', 'stadsdeel')
+        django_get_or_create = ('dossiernr', 'stadsdeel', 'olo_liaan_nummer')
         model = models.BouwDossier
 
     source = models.SOURCE_EDEPOT
     importfile = factory.SubFactory(ImportFileFactory)
     dossiernr = '12345'
+    olo_liaan_nummer = 123456
     stadsdeel = 'AA'
     titel = 'weesperstraat 113 - 117'
     datering = "1998-01-01"

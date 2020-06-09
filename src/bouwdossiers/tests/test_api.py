@@ -1,9 +1,22 @@
+from random import randint
+
 from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from bouwdossiers.models import SOURCE_WABO, BouwDossier
+from bouwdossiers.models import SOURCE_WABO, Adres, BouwDossier, Document
 from bouwdossiers.tests import factories
+
+
+def create_bouwdossiers(n, stadsdeel='AA'):
+    return [factories.BouwDossierFactory(dossiernr=randint(10, 10000), stadsdeel=stadsdeel,
+                                         olo_liaan_nummer=randint(10, 10000)) for i in range(n)]
+
+
+def delete_all_records():
+    BouwDossier.objects.all().delete()
+    Adres.objects.all().delete()
+    Document.objects.all().delete()
 
 
 class APITest(APITestCase):
@@ -12,16 +25,14 @@ class APITest(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        factories.BouwDossierFactory()
-        factories.DocumentFactory()
-        factories.AdresFactory()
-
     def test_api_list(self):
+        create_bouwdossiers(3)
         url = reverse('bouwdossier-list')
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        self.assertGreaterEqual(response.data['count'], 1)
+        self.assertGreaterEqual(response.data['count'], 3)
+        delete_all_records()
 
     def test_api_malformed_code(self):
         url = reverse('bouwdossier-detail', kwargs={'pk': 1})
@@ -29,24 +40,37 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_api_one_using_stadsdeel_and_dossier(self):
-        url = reverse('bouwdossier-detail', kwargs={'pk': 'AA12345'})
+        dossiers = create_bouwdossiers(3)
+        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
         response = self.client.get(url)
-        self.assertEqual(response.data['stadsdeel'], 'AA')
-        self.assertEqual(response.data['dossiernr'], 12345)
+        self.assertEqual(response.data['stadsdeel'], dossiers[0].stadsdeel)
+        self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
+        delete_all_records()
 
     def test_api_one_using_stadsdeel_3_letters(self):
+        create_bouwdossiers(3)
         dossier = BouwDossier.objects.first()
         dossier.stadsdeel = 'AAA'
         dossier.save()
 
-        url = reverse('bouwdossier-detail', kwargs={'pk': 'AAA12345'})
+        pk = dossier.stadsdeel + str(dossier.dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['stadsdeel'], 'AAA')
-        self.assertEqual(response.data['dossiernr'], 12345)
+        self.assertEqual(response.data['stadsdeel'], dossier.stadsdeel)
+        self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
+        delete_all_records()
 
     def test_dossiernr_stadsdeel(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA'
+        factories.DocumentFactory(bouwdossier__dossiernr=111)
+        factories.AdresFactory(bouwdossier__dossiernr=111)  # Also add an address to the bouwdossier
+
+        # And add two more dossiers to make sure it's only selecting the one we need
+        factories.DocumentFactory(bouwdossier__dossiernr=222)
+        factories.DocumentFactory(bouwdossier__dossiernr=333)
+
+        url = reverse('bouwdossier-list') + '?dossiernr=111&stadsdeel=AA'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -61,126 +85,196 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
                          '0363200000406187')
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
+        delete_all_records()
 
-    def test_dossiernr_stadsdeel_None1(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=CC'
+    def test_stadsdeel_None(self):
+        dossiers = create_bouwdossiers(3)
+        url = reverse('bouwdossier-list') + f'?dossiernr={dossiers[0].dossiernr}&stadsdeel=CC'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
-    def test_dossiernr_stadsdeel_None2(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=54321&stadsdeel=AA'
+    def test_dossiernr_None(self):
+        create_bouwdossiers(3)
+        url = reverse('bouwdossier-list') + '?dossiernr=123456&stadsdeel=AA'  # existing stadsdeel, but non existing dossiernr
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
     def test_nummeraanduiding(self):
-        url = reverse('bouwdossier-list') + '?nummeraanduiding=0363200000406187'
+        factories.AdresFactory()
+        factories.AdresFactory()
+        adres = factories.AdresFactory()
+        adres.nummeraanduidingen = ['1111111111111111']
+        adres.save()
+
+        url = reverse('bouwdossier-list') + '?nummeraanduiding=1111111111111111'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
-    def test_nummeraanduiding_no(self):
-        url = reverse('bouwdossier-list') + '?nummeraanduiding=0363200000406188'
+    def test_nummeraanduiding_non_existent(self):
+        factories.AdresFactory()
+        url = reverse('bouwdossier-list') + '?nummeraanduiding=1111111111111111'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
     def test_pand(self):
-        url = reverse('bouwdossier-list') + '?pand=0363100012165490'
-        response = self.client.get(url)
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 1)
-        self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        factories.AdresFactory()
+        factories.AdresFactory()
+        adres = factories.AdresFactory()
+        adres.panden = ['1111111111111111']
+        adres.save()
 
-    def test_vbo(self):
-        url = reverse('bouwdossier-list') + '?verblijfsobject=036301000xxxxxxx'
+        url = reverse('bouwdossier-list') + '?pand=1111111111111111'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
+
+    def test_verblijfsobject(self):
+        factories.AdresFactory()
+        factories.AdresFactory()
+        adres = factories.AdresFactory()
+        adres.verblijfsobjecten = ['1111111111111111']
+        adres.save()
+
+        url = reverse('bouwdossier-list') + '?verblijfsobject=1111111111111111'
+        response = self.client.get(url)
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
     def test_openbareruimte(self):
-        url = reverse('bouwdossier-list') + '?verblijfsobject=036301000xxxxxxx/?openbareruimte=0363300000004835'
+        factories.AdresFactory()
+        factories.AdresFactory()
+        adres = factories.AdresFactory()
+        adres.openbareruimte_id = '1111111111111111'
+        adres.save()
+
+        url = reverse('bouwdossier-list') + '?verblijfsobject=036301000xxxxxxx/?openbareruimte=1111111111111111'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
     def test_dossiernr_stadsdeel_max_datering_none(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=A&max_datering=1997'
+        dossiers = create_bouwdossiers(3)
+        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA&max_datering=1997'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
     def test_dossiernr_stadsdeel_max_datering(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA&max_datering=2000'
-        print(url)
+        dossiers = create_bouwdossiers(3)
+
+        url = reverse('bouwdossier-list') + f'?dossiernr={dossiers[0].dossiernr}&stadsdeel=AA&max_datering=2000'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
     def test_dossiernr_stadsdeel_min_datering_none(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=A&min_datering=1999'
+        dossiers = create_bouwdossiers(3)
+
+        url = reverse('bouwdossier-list') + f'?dossiernr={dossiers[0].dossiernr}&stadsdeel=A&min_datering=1999'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
     def test_dossiernr_stadsdeel_min_datering(self):
-        url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA&min_datering=1997'
+        dossiers = create_bouwdossiers(3)
+
+        url = reverse('bouwdossier-list') + f'?dossiernr={dossiers[0].dossiernr}&stadsdeel=AA&min_datering=1997'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
     def test_filter_subdossier(self):
         """
         subdossier should match with case insensitive start of titel of subdossier
         """
+        factories.DocumentFactory(subdossier_titel='Tekeningen one')
+        factories.DocumentFactory(subdossier_titel='Tekeningen two')
+        factories.DocumentFactory(subdossier_titel='Tekeningen three')
+        factories.DocumentFactory(subdossier_titel='No tekingen')
+
         url = reverse('bouwdossier-list') + '?subdossier=tekeningen'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 3)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
     def test_subdossier_none(self):
+        factories.DocumentFactory(subdossier_titel='One')
+        factories.DocumentFactory(subdossier_titel='Two')
+        factories.DocumentFactory(subdossier_titel='Three')
+
         url = reverse('bouwdossier-list') + '?subdossier=dit_match_niet'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
     def test_dossier_type(self):
-        url = reverse('bouwdossier-list') + '?dossier_type=verbouwing'
+        create_bouwdossiers(3)
+        factories.BouwDossierFactory(dossier_type='differenttype')
+
+        url = reverse('bouwdossier-list') + '?dossier_type=differenttype'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
 
     def test_dossier_type_none(self):
-        url = reverse('bouwdossier-list') + '?dossier_type=geen_type'
+        create_bouwdossiers(3)
+        url = reverse('bouwdossier-list') + '?dossier_type=non_existing_type'
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 0)
+        delete_all_records()
 
     def test_dossier_with_stadsdeel(self):
-        url = reverse('bouwdossier-list') + '?dossier=AA12345'
+        bd = factories.BouwDossierFactory()
+        factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
+        factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
+
+        # And add two more dossiers to make sure it's only selecting the one we need
+        factories.BouwDossierFactory(dossiernr=222)
+        factories.BouwDossierFactory(dossiernr=333)
+
+        url = reverse('bouwdossier-list') + f'?dossier={bd.stadsdeel}{bd.dossiernr}'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn('results', response.data)
@@ -196,18 +290,27 @@ class APITest(APITestCase):
         self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
                          '0363200000406187')
         self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
+        delete_all_records()
 
-    def test_wrong_dossier_with_stadsdeel(self):
+    def test_dossier_incorrectly_without_stadsdeel(self):
+        create_bouwdossiers(3)
         url = reverse('bouwdossier-list') + '?dossier=12345'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
+        delete_all_records()
 
     def test_invalid_dossiernr(self):
+        create_bouwdossiers(3)
         url = reverse('bouwdossier-list') + '?dossiernr=wrong'
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
+        delete_all_records()
 
     def test_dossier_wabo_fields(self):
+        bd = factories.BouwDossierFactory()
+        factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
+        factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
+
         dossier = BouwDossier.objects.get(stadsdeel='AA', dossiernr='12345')
         dossier.olo_liaan_nummer = '12345'
         dossier.wabo_bron = 'test'
@@ -236,3 +339,4 @@ class APITest(APITestCase):
         self.assertEqual(adressen[0]['locatie_aanduiding'], 'aanduiding')
         self.assertEqual(adressen[0]['huisnummer_letter'], 'A')
         self.assertEqual(adressen[0]['huisnummer_toevoeging'], 'B')
+        delete_all_records()
