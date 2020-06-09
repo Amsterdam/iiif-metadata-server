@@ -25,6 +25,11 @@ class APITest(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
 
+        # factories.BouwDossierFactory(dossiernr=randint(10, 10000), stadsdeel='abc', olo_liaan_nummer=randint(10, 10000))
+        # factories.BouwDossierFactory(dossiernr=randint(10, 10000), stadsdeel='abc', olo_liaan_nummer=randint(10, 10000))
+        # factories.DocumentFactory()
+        # factories.AdresFactory()
+
     def test_api_list(self):
         create_bouwdossiers(3)
         url = reverse('bouwdossier-list')
@@ -175,7 +180,7 @@ class APITest(APITestCase):
         delete_all_records()
 
     def test_dossiernr_stadsdeel_max_datering_none(self):
-        dossiers = create_bouwdossiers(3)
+        create_bouwdossiers(3)
         url = reverse('bouwdossier-list') + '?dossiernr=12345&stadsdeel=AA&max_datering=1997'
         response = self.client.get(url)
         self.assertIn('results', response.data)
@@ -213,6 +218,33 @@ class APITest(APITestCase):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        delete_all_records()
+
+    def test_olo_liaan_nummer(self):
+        bd = factories.BouwDossierFactory(olo_liaan_nummer=7777777)
+        factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
+        factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
+
+        # And add two more dossiers to make sure it's only selecting the one we need
+        factories.BouwDossierFactory(dossiernr=222)
+        factories.BouwDossierFactory(dossiernr=333)
+
+        url = reverse('bouwdossier-list') + '?olo_liaan_nummer=7777777'
+        response = self.client.get(url)
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['olo_liaan_nummer'], 7777777)
+        self.assertEqual(response.data['results'][0]['titel'], 'weesperstraat 113 - 117')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0]['filename'],
+                         'SU10000010_00001.jpg')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['bestanden'][0]['url'],
+                         f"{settings.IIIF_BASE_URL}edepot:SU10000010_00001.jpg")
+        self.assertEqual(response.data['results'][0]['documenten'][0]['access'], 'RESTRICTED')
+        self.assertEqual(response.data['results'][0]['documenten'][0]['barcode'], 'ST100')
+        self.assertEqual(response.data['results'][0]['adressen'][0]['nummeraanduidingen'][0],
+                         '0363200000406187')
+        self.assertEqual(response.data['results'][0]['adressen'][0]['panden'][0], '0363100012165490')
         delete_all_records()
 
     def test_filter_subdossier(self):

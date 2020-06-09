@@ -61,6 +61,7 @@ class BouwDossierFilter(FilterSet):
             'min_datering',
             'max_datering',
             'subdossier',
+            'olo_liaan_nummer',
         )
 
     def dossier_with_stadsdeel(self, queryset, _filter_name, value):

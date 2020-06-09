@@ -14,7 +14,8 @@ class AdresSerializer(ModelSerializer):
     class Meta:
         model = Adres
         fields = ('straat', 'huisnummer_van', 'huisnummer_tot', 'nummeraanduidingen', 'nummeraanduidingen_label',
-                  'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id', 'huisnummer_letter', 'huisnummer_toevoeging', 'locatie_aanduiding')
+                  'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id', 'huisnummer_letter',
+                  'huisnummer_toevoeging', 'locatie_aanduiding')
 
 
 class DocumentSerializer(ModelSerializer):
