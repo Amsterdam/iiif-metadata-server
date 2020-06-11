@@ -471,6 +471,9 @@ GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
 
     assert result['total'] > min_bouwdossiers_count, \
         f'Imported total of {result["total"]} bouwdossiers is less than the required number {min_bouwdossiers_count}'
-    assert result['has_panden'] > 0.8 * result['total']
+    assert result['has_panden'] > 0.8 * result['total'], \
+        f"{result['has_panden']} number of records of a total of {result['total']} records " \
+        f"({result['has_panden'] / result['total'] * 100}%) has one or more panden, " \
+        f"which is less than the required minimum of {0.8 * result['total']} (80%)"
     assert result['has_nummeraanduidingen'] > 0.8 * result['total']
     assert result['has_openbareruimte_id'] > 0.95 * result['total']
