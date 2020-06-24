@@ -12,7 +12,7 @@ python manage.py migrate
 #then
 python manage.py run_import --delete --skip_validate_import --skipimport --skip_add_bag_ids
 python manage.py run_import --skip_validate_import
-python manage.py run_import --wabo --skip_validate_import --skip_add_bag_ids
+python manage.py run_import --wabo --skip_validate_import
 #else
 #   python manage.py run_import --delete --skip_validate_import --skipimport --skip_add_bag_ids
 #   python manage.py run_import --min_bouwdossiers_count ${MIN_BOUWDOSSIERS_COUNT}
