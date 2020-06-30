@@ -1,38 +1,12 @@
 import logging
-import re
 
 from datapunt_api.rest import DatapuntViewSet
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import FilterSet, filters
-from rest_framework.exceptions import APIException
 
-from bouwdossiers import models, serializers
+from bouwdossiers import models, serializers, tools
 
 log = logging.getLogger(__name__)
-
-
-class InvalidDossier(APIException):
-    status_code = 400
-
-
-def separate_dossier(dossier):
-    """
-    That separates the dossier combined with stadsdeel and dossiernr.
-    If format is not correct, an APIException is raised
-    """
-
-    try:
-        # Check if dossier has correct format
-        assert re.match(r'\D{2,3}\d+', dossier)
-        # split the stadsdeel and dossier by using |
-        stadsdeel, dossiernr = re.findall(r'\D{2,3}|\d+', dossier)
-        return stadsdeel, dossiernr
-    except AssertionError:
-        raise InvalidDossier(
-            f"The dossier {dossier} is not of the correct form. "
-            "It should be defined in the form of 'AA123456' in which "
-            "AA (or AAA) is the stadsdeel code and 123456 is the dossier number"
-        )
 
 
 class BouwDossierFilter(FilterSet):
@@ -65,7 +39,7 @@ class BouwDossierFilter(FilterSet):
         )
 
     def dossier_with_stadsdeel(self, queryset, _filter_name, value):
-        stadsdeel, dossiernr = separate_dossier(value)
+        stadsdeel, dossiernr = tools.separate_dossier(value)
         return queryset.filter(stadsdeel=stadsdeel, dossiernr=dossiernr)
 
     def array_contains_filter(self, queryset, _filter_name, value):
@@ -90,7 +64,7 @@ class BouwDossierViewSet(DatapuntViewSet):
     def get_object(self):
         # We expect a key of the form AA0000123 in which AA is the code for the
         # stadsdeel and the numberic part (which can vary in length) is the dossiernumber
-        stadsdeel, dossiernr = separate_dossier(self.kwargs['pk'])
+        stadsdeel, dossiernr = tools.separate_dossier(self.kwargs['pk'])
         obj = get_object_or_404(self.queryset, stadsdeel=stadsdeel.upper(), dossiernr=dossiernr)
 
         return obj
