@@ -25,11 +25,6 @@ class APITest(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        # factories.BouwDossierFactory(dossiernr=randint(10, 10000), stadsdeel='abc', olo_liaan_nummer=randint(10, 10000))
-        # factories.BouwDossierFactory(dossiernr=randint(10, 10000), stadsdeel='abc', olo_liaan_nummer=randint(10, 10000))
-        # factories.DocumentFactory()
-        # factories.AdresFactory()
-
     def test_api_list(self):
         create_bouwdossiers(3)
         url = reverse('bouwdossier-list')
@@ -65,6 +60,46 @@ class APITest(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['stadsdeel'], dossier.stadsdeel)
         self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
+        delete_all_records()
+
+    def test_api_with_lowercase_stadsdeel(self):
+        create_bouwdossiers(3)
+        dossier = BouwDossier.objects.first()
+        dossier.stadsdeel = 'AAA'
+        dossier.save()
+
+        pk = dossier.stadsdeel.lower() + str(dossier.dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['stadsdeel'], dossier.stadsdeel)
+        self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
+        delete_all_records()
+
+    def test_api_with_underscore_between_stadsdeel_and_dossiernr(self):
+        create_bouwdossiers(3)
+        dossier = BouwDossier.objects.first()
+        dossier.stadsdeel = 'AAA'
+        dossier.save()
+
+        pk = dossier.stadsdeel + '_' + str(dossier.dossiernr)  # add an underscore
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['stadsdeel'], dossier.stadsdeel)
+        self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
+        delete_all_records()
+
+    def test_api_with_wrongly_formatted_stadsdeel_dossiernr_combination(self):
+        create_bouwdossiers(3)
+        dossier = BouwDossier.objects.first()
+        dossier.stadsdeel = 'AAA'
+        dossier.save()
+
+        pk = "A"
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 400)
         delete_all_records()
 
     def test_dossiernr_stadsdeel(self):
