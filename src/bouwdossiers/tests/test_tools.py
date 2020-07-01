@@ -13,7 +13,7 @@ from bouwdossiers import tools
     ]
 )
 def test_separate_dossier(test_input, stadsdeel, dossiernr):
-    stadsdeel, dossiernr = tools.separate_dossier('ABC1234')
+    stadsdeel, dossiernr = tools.separate_dossier(test_input)
     assert stadsdeel == 'ABC'
     assert dossiernr == '1234'
 
