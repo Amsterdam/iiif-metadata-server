@@ -23,7 +23,7 @@ pipeline {
         VERSION = env.BRANCH_NAME.replace('/', '-').toLowerCase().replace(
             'master', 'latest'
         )
-        IS_RELEASE = "${env.BRANCH_NAME ==~ "release/.*"}"
+        IS_RELEASE = "${env.BRANCH_NAME ==~ "pre-release/.*"}"
     }
 
     stages {
@@ -57,14 +57,21 @@ pipeline {
                 }
 
                 stage('Deploy to acceptance') {
-                    when { environment name: 'IS_RELEASE', value: 'true' }
+                    when {
+                        anyOf {
+                            environment name: 'IS_RELEASE', value: 'true'
+                            branch 'master'
+                        }
+
+                    }
                     steps {
+                        sh 'VERSION=acceptance make push'
                         build job: 'Subtask_Openstack_Playbook', parameters: [
                             string(name: 'PLAYBOOK', value: PLAYBOOK),
                             string(name: 'INVENTORY', value: "acceptance"),
                             string(
                                 name: 'PLAYBOOKPARAMS', 
-                                value: "-e deployversion=${VERSION} -e cmdb_id=${CMDB_ID}"
+                                value: "-e cmdb_id=${CMDB_ID}"
                             )
                         ], wait: true
                     }
@@ -73,12 +80,13 @@ pipeline {
                 stage('Deploy to production') {
                     when { buildingTag() }
                     steps {
+                        sh 'VERSION=production make push'
                         build job: 'Subtask_Openstack_Playbook', parameters: [
                             string(name: 'PLAYBOOK', value: PLAYBOOK),
                             string(name: 'INVENTORY', value: "production"),
                             string(
                                 name: 'PLAYBOOKPARAMS', 
-                                value: "-e deployversion=${VERSION} -e cmdb_id=${CMDB_ID}"
+                                value: "-e cmdb_id=${CMDB_ID}"
                             )
                         ], wait: true
 

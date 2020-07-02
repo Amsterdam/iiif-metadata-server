@@ -150,7 +150,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             straat=x_adres.get('straatnaam'),
             huisnummer_van=x_adres.get('huisnummer'),
             huisnummer_toevoeging=x_adres.get('huisnummertoevoeging'),
-            huisnummer_letter=x_adres.get('huisnummer_letter'),
+            huisnummer_letter=x_adres.get('huisletter'),
             stadsdeel=stadsdeel,
             nummeraanduidingen=[],
             nummeraanduidingen_label=[],
@@ -172,11 +172,19 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # Each bestand has an oorspronkelijk_pad.
             # oorspronkelijke_pads are added in another list (with the same order as bestanden)
             # to keep the same structure as the pre_wabo dossiers.
-            bestanden.append(bestand.get('URL'))
+            # The removed part below is because we want to be consistent with the pre-wabo urls
+            # in that we only store a relave url, not the full url
+            bestanden.append(bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', ''))
             bestanden_pads.append(bestand.get('oorspronkelijk_pad'))
 
+        barcode = x_document.get('barcode')
+        if not barcode and bestanden:
+            # This is the case with wabo dossiers, and since wabo dossiers only have
+            # one bestand per document, we use the number of the bestand as the barcode
+            barcode = bestanden[0].split('/')[-1].split('.')[0]
+
         document = models.Document(
-            barcode=x_document.get('barcode'),
+            barcode=barcode,
             bouwdossier=bouwdossier,
             subdossier_titel=x_document.get('document_type'),
             oorspronkelijk_pad=bestanden_pads,
@@ -461,8 +469,16 @@ GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
                 result['has_openbareruimte_id'] += row[0]
     log.info('Validation import result: ' + str(result))
 
+    log.info(
+        f"{result['has_panden']} number of records of a total of {result['total']} records"
+        f" ({result['has_panden'] / result['total'] * 100}%) has one or more panden."
+        f" The required minimum is {0.8 * result['total']} (80%)."
+    )
     assert result['total'] > min_bouwdossiers_count, \
         f'Imported total of {result["total"]} bouwdossiers is less than the required number {min_bouwdossiers_count}'
-    assert result['has_panden'] > 0.8 * result['total']
+    assert result['has_panden'] > 0.8 * result['total'], \
+        f"{result['has_panden']} number of records of a total of {result['total']} records " \
+        f"({result['has_panden'] / result['total'] * 100}%) has one or more panden, " \
+        f"which is less than the required minimum of {0.8 * result['total']} (80%)"
     assert result['has_nummeraanduidingen'] > 0.8 * result['total']
     assert result['has_openbareruimte_id'] > 0.95 * result['total']

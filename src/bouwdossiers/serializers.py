@@ -5,7 +5,8 @@ from django.conf import settings
 from rest_framework.reverse import reverse
 from rest_framework.serializers import ModelSerializer
 
-from bouwdossiers.models import SOURCE_CHOICES, Adres, BouwDossier, Document
+from bouwdossiers.models import (SOURCE_CHOICES, SOURCE_EDEPOT, SOURCE_WABO,
+                                 Adres, BouwDossier, Document)
 
 log = logging.getLogger(__name__)
 
@@ -14,7 +15,8 @@ class AdresSerializer(ModelSerializer):
     class Meta:
         model = Adres
         fields = ('straat', 'huisnummer_van', 'huisnummer_tot', 'nummeraanduidingen', 'nummeraanduidingen_label',
-                  'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id', 'huisnummer_letter', 'huisnummer_toevoeging', 'locatie_aanduiding')
+                  'panden', 'verblijfsobjecten', 'verblijfsobjecten_label', 'openbareruimte_id', 'huisnummer_letter',
+                  'huisnummer_toevoeging', 'locatie_aanduiding')
 
 
 class DocumentSerializer(ModelSerializer):
@@ -29,15 +31,19 @@ class DocumentSerializer(ModelSerializer):
         _bestanden = []
 
         for bestand in result['bestanden']:
-            filename = bestand.replace('/', '-')
-            _bestanden.append(
-                {
-                    'filename': filename,
-                    'url': f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{filename}"
-                }
-            )
+            filename = bestand
+            if instance.bouwdossier.source == SOURCE_EDEPOT:
+                filename = filename.replace('/', '-')
+                url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{filename}"
+
+            elif instance.bouwdossier.source == SOURCE_WABO:
+                file_reference = f"{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}"
+                url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
+
+            _bestanden.append({'filename': filename, 'url': url})
 
         result['bestanden'] = _bestanden
+
         return result
 
     class Meta:
