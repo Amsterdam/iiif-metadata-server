@@ -1,7 +1,8 @@
 #!groovy
 def PROJECT_NAME = "iiif-metadata-server"
 def SLACK_CHANNEL = '#opdrachten-deployments'
-def PLAYBOOK = 'deploy-iiif-metadata-server.yml'
+def PLAYBOOK = 'deploy.yml'
+def CMDB_ID = 'app_iiif-metadata-server-api'
 def SLACK_MESSAGE = [
     "title_link": BUILD_URL,
     "fields": [
@@ -67,7 +68,11 @@ pipeline {
                         sh 'VERSION=acceptance make push'
                         build job: 'Subtask_Openstack_Playbook', parameters: [
                             string(name: 'PLAYBOOK', value: PLAYBOOK),
-                            string(name: 'INVENTORY', value: "acceptance")
+                            string(name: 'INVENTORY', value: "acceptance"),
+                            string(
+                                name: 'PLAYBOOKPARAMS', 
+                                value: "-e cmdb_id=${CMDB_ID}"
+                            )
                         ], wait: true
                     }
                 }
@@ -78,7 +83,11 @@ pipeline {
                         sh 'VERSION=production make push'
                         build job: 'Subtask_Openstack_Playbook', parameters: [
                             string(name: 'PLAYBOOK', value: PLAYBOOK),
-                            string(name: 'INVENTORY', value: "production")
+                            string(name: 'INVENTORY', value: "production"),
+                            string(
+                                name: 'PLAYBOOKPARAMS', 
+                                value: "-e cmdb_id=${CMDB_ID}"
+                            )
                         ], wait: true
 
                         slackSend(channel: SLACK_CHANNEL, attachments: [SLACK_MESSAGE << 
