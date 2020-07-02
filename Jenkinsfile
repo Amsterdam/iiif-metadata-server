@@ -2,7 +2,7 @@
 def PROJECT_NAME = "iiif-metadata-server"
 def SLACK_CHANNEL = '#opdrachten-deployments'
 def PLAYBOOK = 'deploy.yml'
-def CMDB_ID = 'app_iiif-metadata-server'
+def CMDB_ID = 'app_iiif-metadata-server-api'
 def SLACK_MESSAGE = [
     "title_link": BUILD_URL,
     "fields": [
