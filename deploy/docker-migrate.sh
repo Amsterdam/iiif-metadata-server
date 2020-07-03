@@ -4,8 +4,8 @@ set -u   # crash on missing env variables
 set -e   # stop on any error
 set -x   # print what we are doing
 
-# When executing from Openstack deployment, the default credentials are for 
-# read-only access to the database. Migration needs write access, 
+# When this script is called from Openstack deployment, the default credentials
+# are for read-only access to the database. Migration needs write access, 
 # so overwrite the default credentials.
 if [ ! -z ${DATABASE_HOST_WRITE+x} ]; then
   export DATABASE_HOST=${DATABASE_HOST_WRITE}
@@ -13,4 +13,4 @@ if [ ! -z ${DATABASE_HOST_WRITE+x} ]; then
   export DATABASE_PASSWORD=${DATABASE_PASSWORD_WRITE}
 fi
 
-#python manage.py migrate --noinput
+python manage.py migrate --noinput
