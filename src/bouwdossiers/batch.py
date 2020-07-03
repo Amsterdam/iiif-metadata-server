@@ -99,7 +99,10 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     """
     dossier = x_dossier.get('intern_nummer')
     stadsdeel, dossiernr = dossier.split('_')
-    titel = x_dossier.get('dossier_titel')
+
+    # There were titels longer than the allowed 512 characters, so to avoid errors we cut them off at 512
+    titel = x_dossier.get('dossier_titel')[:509] + '...' if len(x_dossier.get('dossier_titel', '')) > 512 \
+        else x_dossier.get('dossier_titel')
 
     if not titel:
         titel = ''
