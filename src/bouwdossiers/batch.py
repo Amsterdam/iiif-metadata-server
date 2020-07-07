@@ -376,47 +376,50 @@ def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
 
 
-def add_bag_ids():
+def add_bag_ids_to_pre_wabo():
     log.info("Add nummeraanduidingen")
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_nummeraanduiding AS (
-SELECT  sa.id AS id
-      , ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen
-      , ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
-        CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
-        END) AS nummeraanduidingen_label
-FROM bouwdossiers_adres sa
-JOIN bag_nummeraanduiding bn
-ON sa.straat = bn._openbare_ruimte_naam
-AND sa.huisnummer_van = bn.huisnummer
-GROUP BY sa.id)
+    SELECT 
+        ba.id AS id, 
+        ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen, 
+        ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
+            CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
+            END) AS nummeraanduidingen_label
+    FROM bouwdossiers_adres ba
+    JOIN bag_nummeraanduiding bn
+    ON ba.straat = bn._openbare_ruimte_naam
+    AND ba.huisnummer_van = bn.huisnummer
+    GROUP BY ba.id)
 UPDATE bouwdossiers_adres
-SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen
-  , nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
+SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen, 
+nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
 WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
     """)
+
     log.info("Add panden")
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_pand AS (
-SELECT  sa.id
-      , ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden
-      , ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos
-      , ARRAY_AGG(bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
-        CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
-        END) AS vbos_label
-FROM bouwdossiers_adres sa
-JOIN bag_verblijfsobject bv ON sa.straat = bv._openbare_ruimte_naam
-AND sa.huisnummer_van = bv._huisnummer
-JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
-JOIN bag_pand bp on bp.id = bvbo.pand_id
-GROUP BY sa.id)
+    SELECT 
+        ba.id, 
+        ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden, 
+        ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos, 
+        ARRAY_AGG(bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
+            CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
+            END) AS vbos_label
+    FROM bouwdossiers_adres ba
+    JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
+    AND ba.huisnummer_van = bv._huisnummer
+    JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
+    JOIN bag_pand bp on bp.id = bvbo.pand_id
+    GROUP BY ba.id)
 UPDATE bouwdossiers_adres
-SET panden = adres_pand.panden
-  , verblijfsobjecten = adres_pand.vbos
-  , verblijfsobjecten_label = adres_pand.vbos_label
+SET panden = adres_pand.panden, 
+    verblijfsobjecten = adres_pand.vbos, 
+    verblijfsobjecten_label = adres_pand.vbos_label
 FROM adres_pand
 WHERE bouwdossiers_adres.id = adres_pand.id
     """)
@@ -425,10 +428,10 @@ WHERE bouwdossiers_adres.id = adres_pand.id
     log.info("Add openbare ruimtes")
     with connection.cursor() as cursor:
         cursor.execute("""
-UPDATE bouwdossiers_adres sa
+UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
-WHERE sa.straat = opr.naam
+WHERE ba.straat = opr.naam
 AND opr.vervallen = false
 AND opr.type = '01'
         """)
@@ -436,21 +439,22 @@ AND opr.type = '01'
     # If the openbareruimte was not yet found we try to match with other openbare ruimtes
     with connection.cursor() as cursor:
         cursor.execute("""
-UPDATE bouwdossiers_adres sa
+UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
-WHERE sa.straat = opr.naam
-AND (sa.openbareruimte_id IS NULL OR sa.openbareruimte_id = '')
+WHERE ba.straat = opr.naam
+AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
         """)
 
 
 def validate_import(min_bouwdossiers_count):
     with connection.cursor() as cursor:
         cursor.execute("""
-SELECT COUNT(*)
-  , array_length(panden, 1) IS NOT NULL AS has_panden
-  , array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen
-  , openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
+SELECT 
+    COUNT(*), 
+    array_length(panden, 1) IS NOT NULL AS has_panden, 
+    array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen, 
+    openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
 FROM bouwdossiers_adres
 GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
         """)
