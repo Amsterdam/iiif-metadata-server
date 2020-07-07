@@ -376,24 +376,51 @@ def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
 
 
+def add_bag_ids_to_wabo():
+    # This gets the nummeraanduidingen using the verblijfsobjecten instead of using the
+    # address as it is done in the pre-wabo dossiers.
+    with connection.cursor() as cursor:
+        cursor.execute("""
+WITH adres_nummeraanduiding AS (
+    SELECT
+        ba.id AS id,
+        ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen,
+        ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
+            CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
+            END) AS nummeraanduidingen_label
+    FROM bouwdossiers_adres ba
+    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
+    JOIN bag_nummeraanduiding bn ON bn.landelijk_id = ANY(ba.nummeraanduidingen)
+    WHERE bb.source = 'WABO'
+    GROUP BY ba.id)
+UPDATE bouwdossiers_adres
+SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
+nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
+FROM adres_nummeraanduiding
+WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
+        """)
+
+
 def add_bag_ids_to_pre_wabo():
     log.info("Add nummeraanduidingen")
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_nummeraanduiding AS (
-    SELECT 
-        ba.id AS id, 
-        ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen, 
+    SELECT
+        ba.id AS id,
+        ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen,
         ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
             CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
             END) AS nummeraanduidingen_label
     FROM bouwdossiers_adres ba
+    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
     JOIN bag_nummeraanduiding bn
-    ON ba.straat = bn._openbare_ruimte_naam
-    AND ba.huisnummer_van = bn.huisnummer
+        ON ba.straat = bn._openbare_ruimte_naam
+        AND ba.huisnummer_van = bn.huisnummer
+    WHERE bb.source = 'EDEPOT'
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
-SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen, 
+SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
 nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
 WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
@@ -403,10 +430,10 @@ WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_pand AS (
-    SELECT 
-        ba.id, 
-        ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden, 
-        ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos, 
+    SELECT
+        ba.id,
+        ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden,
+        ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos,
         ARRAY_AGG(bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
             CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
             END) AS vbos_label
@@ -417,8 +444,8 @@ WITH adres_pand AS (
     JOIN bag_pand bp on bp.id = bvbo.pand_id
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
-SET panden = adres_pand.panden, 
-    verblijfsobjecten = adres_pand.vbos, 
+SET panden = adres_pand.panden,
+    verblijfsobjecten = adres_pand.vbos,
     verblijfsobjecten_label = adres_pand.vbos_label
 FROM adres_pand
 WHERE bouwdossiers_adres.id = adres_pand.id
@@ -450,10 +477,10 @@ AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
 def validate_import(min_bouwdossiers_count):
     with connection.cursor() as cursor:
         cursor.execute("""
-SELECT 
-    COUNT(*), 
-    array_length(panden, 1) IS NOT NULL AS has_panden, 
-    array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen, 
+SELECT
+    COUNT(*),
+    array_length(panden, 1) IS NOT NULL AS has_panden,
+    array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen,
     openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
 FROM bouwdossiers_adres
 GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen

@@ -2,9 +2,9 @@ import logging
 
 from django.core.management import BaseCommand
 
-from bouwdossiers.batch import (add_bag_ids_to_pre_wabo, delete_all,
-                                import_pre_wabo_dossiers, import_wabo_dossiers,
-                                validate_import)
+from bouwdossiers.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
+                                delete_all, import_pre_wabo_dossiers,
+                                import_wabo_dossiers, validate_import)
 from objectstore_utils import get_all_files
 
 log = logging.getLogger(__name__)
@@ -97,6 +97,7 @@ class Command(BaseCommand):
         if not options['skip_add_bag_ids']:
             log.info('Add bag IDs')
             add_bag_ids_to_pre_wabo()
+            add_bag_ids_to_wabo()
 
         if not options['skip_validate_import']:
             log.info('Validate import')
