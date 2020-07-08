@@ -34,13 +34,6 @@ class Command(BaseCommand):
             help='Skip import data from files')
 
         parser.add_argument(
-            '--skip_add_bag_ids',
-            action='store_true',
-            dest='skip_add_bag_ids',
-            default=False,
-            help='Add bag ids to bouwdossiers')
-
-        parser.add_argument(
             '--skip_validate_import',
             action='store_true',
             dest='skip_validate_import',
@@ -94,10 +87,11 @@ class Command(BaseCommand):
         if not options['skipimport']:
             self.import_dossiers(options)
 
-        if not options['skip_add_bag_ids']:
-            log.info('Add bag IDs')
-            add_bag_ids_to_pre_wabo()
+        log.info('Add bag IDs')
+        if options['wabo']:
             add_bag_ids_to_wabo()
+        else:
+            add_bag_ids_to_pre_wabo()
 
         if not options['skip_validate_import']:
             log.info('Validate import')
