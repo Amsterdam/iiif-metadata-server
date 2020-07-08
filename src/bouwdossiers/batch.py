@@ -442,6 +442,8 @@ WITH adres_pand AS (
     AND ba.huisnummer_van = bv._huisnummer
     JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
     JOIN bag_pand bp on bp.id = bvbo.pand_id
+    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
+    WHERE bb.source = 'EDEPOT'
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
 SET panden = adres_pand.panden,
@@ -458,7 +460,9 @@ WHERE bouwdossiers_adres.id = adres_pand.id
 UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
-WHERE ba.straat = opr.naam
+JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
+WHERE bb.source = 'EDEPOT'
+AND ba.straat = opr.naam
 AND opr.vervallen = false
 AND opr.type = '01'
         """)
@@ -469,7 +473,9 @@ AND opr.type = '01'
 UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
-WHERE ba.straat = opr.naam
+JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
+WHERE bb.source = 'EDEPOT'
+AND ba.straat = opr.naam
 AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
         """)
 

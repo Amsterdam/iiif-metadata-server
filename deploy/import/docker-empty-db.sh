@@ -5,4 +5,4 @@ set -u   # crash on missing environment variables
 set -e   # stop on any error
 set -x   # log every command.
 
-python manage.py run_import --delete --skip_validate_import --skipgetfiles --skipimport --skip_add_bag_ids
+python manage.py run_import --delete --skip_validate_import --skipgetfiles --skipimport
