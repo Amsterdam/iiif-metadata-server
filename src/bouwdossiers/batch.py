@@ -460,9 +460,7 @@ WHERE bouwdossiers_adres.id = adres_pand.id
 UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
-JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-WHERE bb.source = 'EDEPOT'
-AND ba.straat = opr.naam
+WHERE ba.straat = opr.naam
 AND opr.vervallen = false
 AND opr.type = '01'
         """)
@@ -473,9 +471,7 @@ AND opr.type = '01'
 UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
-JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-WHERE bb.source = 'EDEPOT'
-AND ba.straat = opr.naam
+WHERE ba.straat = opr.naam
 AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
         """)
 
