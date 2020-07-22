@@ -11,7 +11,6 @@ django-cors-headers
 django-debug-toolbar
 django-extensions
 django-filter
-django-filters
 djangorestframework
 djangorestframework-gis
 drf-amsterdam
