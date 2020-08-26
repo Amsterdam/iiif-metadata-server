@@ -384,13 +384,14 @@ def add_bag_ids_to_wabo():
 WITH adres_nummeraanduiding AS (
     SELECT
         ba.id AS id,
-        ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen,
-        ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
-            CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
+        ARRAY_AGG(bag_nra.landelijk_id) AS nummeraanduidingen,
+        ARRAY_AGG(bag_nra._openbare_ruimte_naam || ' ' || bag_nra.huisnummer || bag_nra.huisletter ||
+            CASE WHEN (bag_nra.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bag_nra.huisnummer_toevoeging
             END) AS nummeraanduidingen_label
     FROM bouwdossiers_adres ba
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-    JOIN bag_nummeraanduiding bn ON bn.landelijk_id = ANY(ba.nummeraanduidingen)
+    JOIN bag_verblijfsobject bv ON bv.landelijk_id = any(ba.verblijfsobjecten)
+    JOIN bag_nummeraanduiding bag_nra ON bag_nra.verblijfsobject_id = bv.id  -- bag_nra.verblijfsobject_id is het niet-landelijk verblijfsobjectid en daarom maken we de tussen-join mbv bag_verblijfsobject
     WHERE bb.source = 'WABO'
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
