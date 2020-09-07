@@ -18,13 +18,13 @@ def separate_dossier(dossier):
 
     try:
         # Check if dossier has correct format
-        assert re.match(r'\D{2,3}\d+', dossier)
+        assert re.match(r'\D{2,4}\d+', dossier)
         # split the stadsdeel and dossier by using |
-        stadsdeel, dossiernr = re.findall(r'\D{2,3}|\d+', dossier)
+        stadsdeel, dossiernr = re.findall(r'\D{2,4}|\d+', dossier)
         return stadsdeel, dossiernr
     except AssertionError:
         raise InvalidDossier(
             f"The dossier {dossier} is not of the correct form. "
             "It should be defined in the form of 'AA123456' in which "
-            "AA (or AAA) is the stadsdeel code and 123456 is the dossier number"
+            "AA (or AAA or AAAA; a max of four characters) is the stadsdeel code and 123456 is the dossier number"
         )

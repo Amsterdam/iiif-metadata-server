@@ -62,7 +62,6 @@ pipeline {
                             environment name: 'IS_RELEASE', value: 'true'
                             branch 'master'
                         }
-
                     }
                     steps {
                         sh 'VERSION=acceptance make push'

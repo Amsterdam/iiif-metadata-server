@@ -55,7 +55,7 @@ class BouwDossier(models.Model):
     id = models.AutoField(primary_key=True)
     importfile = models.ForeignKey(ImportFile, related_name='bouwdossiers', on_delete=CASCADE)
     dossiernr = models.IntegerField(null=False)
-    stadsdeel = models.CharField(max_length=3, db_index=True)
+    stadsdeel = models.CharField(max_length=10, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.DateField(null=True)
     dossier_type = models.CharField(max_length=64, null=True)
@@ -98,7 +98,7 @@ class Adres(models.Model):
     huisnummer_van = models.IntegerField(null=True)
     huisnummer_tot = models.IntegerField(null=True)
     openbareruimte_id = models.CharField(max_length=16, db_index=True, null=True)  # landelijk_id
-    stadsdeel = models.CharField(max_length=3, db_index=True)
+    stadsdeel = models.CharField(max_length=10, db_index=True)
     nummeraanduidingen = ArrayField(models.CharField(max_length=16, null=False), blank=True)
     nummeraanduidingen_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
     panden = ArrayField(models.CharField(max_length=16, null=False), blank=True)

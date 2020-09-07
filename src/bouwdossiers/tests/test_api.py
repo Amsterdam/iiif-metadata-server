@@ -62,6 +62,21 @@ class APITest(APITestCase):
         self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
         delete_all_records()
 
+
+    def test_api_one_using_stadsdeel_4_letters(self):
+        create_bouwdossiers(3)
+        dossier = BouwDossier.objects.first()
+        dossier.stadsdeel = 'AAAA'
+        dossier.save()
+
+        pk = dossier.stadsdeel + str(dossier.dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['stadsdeel'], dossier.stadsdeel)
+        self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
+        delete_all_records()
+
     def test_api_with_lowercase_stadsdeel(self):
         create_bouwdossiers(3)
         dossier = BouwDossier.objects.first()
