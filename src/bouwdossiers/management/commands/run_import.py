@@ -88,6 +88,7 @@ class Command(BaseCommand):
             self.import_dossiers(options)
 
         log.info('Add bag IDs')
+        # TODO: Add a required flag to choose either wabo or pre-wabo
         if options['wabo']:
             add_bag_ids_to_wabo()
         else:

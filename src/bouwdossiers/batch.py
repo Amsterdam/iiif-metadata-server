@@ -123,7 +123,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         titel=titel,
         datering=datering,
         dossier_type=dossier_type,
-        olo_liaan_nummer=x_dossier.get('OLO_liaan_nummer'),
+        olo_liaan_nummer=x_dossier.get('OLO_liaan_nummer').replace('OLO', ''),
         wabo_bron=x_dossier.get('bron'),
         access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
         source=models.SOURCE_WABO,
