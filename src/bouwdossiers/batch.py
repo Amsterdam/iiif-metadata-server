@@ -122,7 +122,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     for activiteit in get_list_items(x_dossier, 'activiteiten', 'activiteit'):
         activiteiten.append(activiteit[:250])
         if type(activiteit) is str and len(activiteit) > 250:
-            log.warning(f'The activiteit str {activiteit} is more than 250 characters')
+            log.warning(f'The activiteit str "{activiteit}" is more than 250 characters')
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -159,7 +159,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         locatie_aanduiding = x_adres.get('locatie_aanduiding')
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
             locatie_aanduiding = locatie_aanduiding[:250]
-            log.warning(f'The locatie_aanduiding str {locatie_aanduiding} is more than 250 characters')
+            log.warning(f'The locatie_aanduiding str "{locatie_aanduiding}" is more than 250 characters')
 
         adres = models.Adres(
             bouwdossier=bouwdossier,
@@ -189,12 +189,17 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # to keep the same structure as the pre_wabo dossiers.
             # The removed part below is because we want to be consistent with the pre-wabo urls
             # in that we only store a relave url, not the full url
-            bestanden.append(bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', ''))
-            if type(bestanden[-1]) is str and len(bestanden[-1]) > 250:
-                log.error(f'The bestand str {bestanden[-1]} is more than 250 characters')
-            bestanden_pads.append(bestand.get('oorspronkelijk_pad'))
-            if type(bestanden_pads[-1]) is str and len(bestanden_pads[-1]) > 250:
-                log.error(f'The bestand_pad str {bestanden_pads[-1]} is more than 250 characters')
+            bestand_str = bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', '')
+            if type(bestand_str) is str and len(bestand_str) > 250:
+                log.warning(f'The bestand str "{bestand_str}" is more than 250 characters')
+                bestand_str = bestand_str[:250]
+            bestanden.append(bestand_str)
+
+            bestand_pad = bestand.get('oorspronkelijk_pad')
+            if type(bestand_pad) is str and len(bestand_pad) > 250:
+                log.error(f'The bestand_pad str "{bestand_pad}" is more than 250 characters')
+                bestand_pad = bestand_pad[:250]
+            bestanden_pads.append(bestand_pad)
 
         barcode = x_document.get('barcode')
         if not barcode and bestanden:
@@ -202,12 +207,12 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # one bestand per document, we use the number of the bestand as the barcode
             barcode = bestanden[0].split('/')[-1].split('.')[0]
             if type(barcode) is str and len(barcode) > 250:
-                log.error(f'The barcode str {barcode} is more than 250 characters')
+                log.error(f'The barcode str "{barcode}" is more than 250 characters')
 
         document_omschrijving = x_document.get('document_omschrijving')
         if type(document_omschrijving) is str and len(document_omschrijving) > 250:
             document_omschrijving = document_omschrijving[:250]
-            log.warning(f'The document_omschrijving str {document_omschrijving} is more than 250 characters')
+            log.warning(f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters')
 
         document = models.Document(
             barcode=barcode,
