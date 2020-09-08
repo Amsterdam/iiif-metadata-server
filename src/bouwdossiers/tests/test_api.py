@@ -62,7 +62,6 @@ class APITest(APITestCase):
         self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
         delete_all_records()
 
-
     def test_api_one_using_stadsdeel_4_letters(self):
         create_bouwdossiers(3)
         dossier = BouwDossier.objects.first()
