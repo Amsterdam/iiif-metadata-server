@@ -190,7 +190,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # The removed part below is because we want to be consistent with the pre-wabo urls
             # in that we only store a relave url, not the full url
             bestanden.append(bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', ''))
-            if len(bestanden[-1]) > 250:
+            if type(bestanden[-1]) is str and len(bestanden[-1]) > 250:
                 log.error(f'The bestand str {bestanden[-1]} is more than 250 characters')
             bestanden_pads.append(bestand.get('oorspronkelijk_pad'))
             if type(bestanden_pads[-1]) is str and len(bestanden_pads[-1]) > 250:
@@ -201,11 +201,11 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # This is the case with wabo dossiers, and since wabo dossiers only have
             # one bestand per document, we use the number of the bestand as the barcode
             barcode = bestanden[0].split('/')[-1].split('.')[0]
-            if len(barcode) > 250:
+            if type(barcode) is str and len(barcode) > 250:
                 log.error(f'The barcode str {barcode} is more than 250 characters')
 
         document_omschrijving = x_document.get('document_omschrijving')
-        if type(document_omschrijving) and len(document_omschrijving) > 250:
+        if type(document_omschrijving) is str and len(document_omschrijving) > 250:
             document_omschrijving = document_omschrijving[:250]
             log.warning(f'The document_omschrijving str {document_omschrijving} is more than 250 characters')
 
