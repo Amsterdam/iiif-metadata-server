@@ -58,7 +58,7 @@ class BouwDossier(models.Model):
     stadsdeel = models.CharField(max_length=10, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.DateField(null=True)
-    dossier_type = models.CharField(max_length=64, null=True)
+    dossier_type = models.CharField(max_length=255, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
     source = models.CharField(

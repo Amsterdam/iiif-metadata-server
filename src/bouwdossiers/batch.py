@@ -110,9 +110,15 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
 
     datering = x_dossier.get('begindatum')
     dossier_type = x_dossier.get('omschrijving')
+    if type(dossier_type) is str and len(dossier_type) > 255:
+        dossier_type = dossier_type[:255]  # Cap at 255 characters
+
+    olo_liaan_nummer = x_dossier.get('OLO_liaan_nummer')
+    if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
+        # In some cases the string starts with 'OLO'. We need to remove this
+        olo_liaan_nummer = olo_liaan_nummer.replace('OLO', '')
 
     activiteiten = []
-
     for activiteit in get_list_items(x_dossier, 'activiteiten', 'activiteit'):
         activiteiten.append(activiteit)
 
@@ -123,7 +129,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         titel=titel,
         datering=datering,
         dossier_type=dossier_type,
-        olo_liaan_nummer=x_dossier.get('OLO_liaan_nummer').replace('OLO', ''),
+        olo_liaan_nummer=olo_liaan_nummer,
         wabo_bron=x_dossier.get('bron'),
         access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
         source=models.SOURCE_WABO,
