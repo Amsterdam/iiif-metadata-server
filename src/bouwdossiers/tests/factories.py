@@ -3,7 +3,7 @@ import factory
 from bouwdossiers import models
 
 
-class ImportFileFactory(factory.DjangoModelFactory):
+class ImportFileFactory(factory.django.DjangoModelFactory):
     class Meta:
         django_get_or_create = ('name',)
         model = models.ImportFile
@@ -13,7 +13,7 @@ class ImportFileFactory(factory.DjangoModelFactory):
     last_import = "2019-04-12 13:38:23"
 
 
-class BouwDossierFactory(factory.DjangoModelFactory):
+class BouwDossierFactory(factory.django.DjangoModelFactory):
     class Meta:
         django_get_or_create = ('dossiernr', 'stadsdeel', 'olo_liaan_nummer')
         model = models.BouwDossier
@@ -30,7 +30,7 @@ class BouwDossierFactory(factory.DjangoModelFactory):
     access = models.ACCESS_PUBLIC
 
 
-class AdresFactory(factory.DjangoModelFactory):
+class AdresFactory(factory.django.DjangoModelFactory):
     class Meta:
         django_get_or_create = ('straat', 'huisnummer_van')
         model = models.Adres
@@ -48,7 +48,7 @@ class AdresFactory(factory.DjangoModelFactory):
     stadsdeel = 'AA'
 
 
-class DocumentFactory(factory.DjangoModelFactory):
+class DocumentFactory(factory.django.DjangoModelFactory):
     class Meta:
         django_get_or_create = ('subdossier_titel',)
         model = models.Document
