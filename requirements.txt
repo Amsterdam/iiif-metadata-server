@@ -14,9 +14,9 @@ datapunt-objectstore==2020.9.7  # via -r requirements.in
 debtcollector==2.2.0      # via oslo.config, oslo.utils, python-keystoneclient
 defusedxml==0.6.0         # via djangorestframework-xml
 django-cors-headers==3.5.0  # via -r requirements.in
-django-debug-toolbar==2.2  # via -r requirements.in
-django-extensions==3.0.8  # via -r requirements.in
-django-filter==2.3.0      # via -r requirements.in
+django-debug-toolbar==3.1.1  # via -r requirements.in
+django-extensions==3.0.9  # via -r requirements.in
+django-filter==2.4.0      # via -r requirements.in
 django==2.2.16            # via -r requirements.in, django-cors-headers, django-debug-toolbar, django-filter, djangorestframework, drf-yasg
 djangorestframework-csv==2.1.0  # via drf-amsterdam
 djangorestframework-gis==0.16  # via -r requirements.in
@@ -50,7 +50,7 @@ psycopg2-binary==2.8.6    # via -r requirements.in
 pyparsing==2.4.7          # via oslo.utils, packaging
 pyrsistent==0.17.3        # via jsonschema
 python-dateutil==2.8.1    # via -r requirements.in, datapunt-objectstore, pandas
-python-keystoneclient==4.1.0  # via datapunt-objectstore
+python-keystoneclient==4.1.1  # via datapunt-objectstore
 python-swiftclient==3.10.1  # via datapunt-objectstore
 pytz==2020.1              # via -r requirements.in, django, oslo.serialization, oslo.utils, pandas
 pyyaml==5.3.1             # via datapunt-config-loader, oslo.config
@@ -58,7 +58,7 @@ requests==2.24.0          # via -r requirements.in, coreapi, keystoneauth1, oslo
 rfc3986==1.4.0            # via oslo.config
 ruamel.yaml.clib==0.2.2   # via ruamel.yaml
 ruamel.yaml==0.16.12      # via drf-yasg
-sentry-sdk==0.17.4        # via -r requirements.in
+sentry-sdk==0.17.8        # via -r requirements.in
 simplejson==3.17.2        # via -r requirements.in
 six==1.15.0               # via -r requirements.in, debtcollector, djangorestframework-csv, drf-yasg, jsonschema, keystoneauth1, oslo.i18n, oslo.utils, packaging, python-dateutil, python-keystoneclient, python-swiftclient
 sqlparse==0.3.1           # via -r requirements.in, django, django-debug-toolbar
