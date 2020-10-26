@@ -191,13 +191,19 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # in that we only store a relave url, not the full url
             bestand_str = bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', '')
             if type(bestand_str) is str and len(bestand_str) > 250:
+                # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
+                # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
+                # we'll accept that for now.
                 log.warning(f'The bestand str "{bestand_str}" is more than 250 characters')
                 bestand_str = bestand_str[:250]
             bestanden.append(bestand_str)
 
             bestand_pad = bestand.get('oorspronkelijk_pad')
             if type(bestand_pad) is str and len(bestand_pad) > 250:
-                log.error(f'The bestand_pad str "{bestand_pad}" is more than 250 characters')
+                # Bestand_pads longer than 250 characters are not supported by the DB. Since only one in about 200.000
+                # records had this problem we'll just cap that pad on 250 chars. This means that pad will not work, but
+                # we'll accept that for now.
+                log.warning(f'The bestand_pad str "{bestand_pad}" is more than 250 characters')
                 bestand_pad = bestand_pad[:250]
             bestanden_pads.append(bestand_pad)
 
@@ -462,10 +468,10 @@ WITH adres_pand AS (
     SELECT
         ba.id,
         ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden,
-        ARRAY_AGG(DISTINCT bv.landelijk_id) AS vbos,
+        ARRAY_AGG(bv.landelijk_id) AS verblijfsobjecten,
         ARRAY_AGG(bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
             CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
-            END) AS vbos_label
+            END) AS verblijfsobjecten_label
     FROM bouwdossiers_adres ba
     JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
     AND ba.huisnummer_van = bv._huisnummer
@@ -473,11 +479,12 @@ WITH adres_pand AS (
     JOIN bag_pand bp on bp.id = bvbo.pand_id
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
     WHERE bb.source = 'EDEPOT'
-    GROUP BY ba.id)
+    GROUP BY ba.id
+)
 UPDATE bouwdossiers_adres
 SET panden = adres_pand.panden,
-    verblijfsobjecten = adres_pand.vbos,
-    verblijfsobjecten_label = adres_pand.vbos_label
+    verblijfsobjecten = adres_pand.verblijfsobjecten,
+    verblijfsobjecten_label = adres_pand.verblijfsobjecten_label
 FROM adres_pand
 WHERE bouwdossiers_adres.id = adres_pand.id
     """)
