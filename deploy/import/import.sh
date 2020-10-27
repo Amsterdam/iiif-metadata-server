@@ -1,7 +1,8 @@
 #!/bin/sh
 
-set -e
-set -u
+set -u   # crash on missing env variables
+set -e   # stop on any error
+set -x   # print what we are doing
 
 DIR="$(dirname $0)"
 

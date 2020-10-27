@@ -413,6 +413,7 @@ def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
 def add_bag_ids_to_wabo():
     # This gets the nummeraanduidingen using the verblijfsobjecten instead of using the
     # address as it is done in the pre-wabo dossiers.
+    log.info("Add nummeraanduidingen to wabo dossiers")
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_nummeraanduiding AS (
@@ -434,10 +435,11 @@ nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
 WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
         """)
+    log.info("Finished adding nummeraanduidingen to wabo dossiers")
 
 
 def add_bag_ids_to_pre_wabo():
-    log.info("Add nummeraanduidingen")
+    log.info("Add nummeraanduidingen to pre-wabo dossiers")
     with connection.cursor() as cursor:
         cursor.execute("""
 WITH adres_nummeraanduiding AS (
@@ -459,7 +461,8 @@ SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
 nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
 WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
-    """)
+        """)
+    log.info("Finished adding nummeraanduidingen to pre-wabo dossiers")
 
     log.info("Add panden")
     with connection.cursor() as cursor:
@@ -487,7 +490,8 @@ SET panden = adres_pand.panden,
     verblijfsobjecten_label = adres_pand.verblijfsobjecten_label
 FROM adres_pand
 WHERE bouwdossiers_adres.id = adres_pand.id
-    """)
+        """)
+    log.info("Finished adding panden")
 
     # First we try to match with openbare ruimtes that are streets 01
     log.info("Add openbare ruimtes")
@@ -510,6 +514,7 @@ FROM bag_openbareruimte opr
 WHERE ba.straat = opr.naam
 AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
         """)
+    log.info("Finished adding openbare ruimtes")
 
 
 def validate_import(min_bouwdossiers_count):
