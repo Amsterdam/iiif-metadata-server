@@ -415,7 +415,8 @@ def add_bag_ids_to_wabo():
     # address as it is done in the pre-wabo dossiers.
     log.info("Add nummeraanduidingen to wabo dossiers")
     with connection.cursor() as cursor:
-        cursor.execute("""
+        try:
+            cursor.execute("""
 WITH adres_nummeraanduiding AS (
     SELECT
         ba.id AS id,
@@ -434,7 +435,9 @@ SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
 nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
 WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
-        """)
+            """)
+        except Exception:
+            log.exception("An error occurred while adding the nummeraanduidingen.")
     log.info("Finished adding nummeraanduidingen to wabo dossiers")
 
 
