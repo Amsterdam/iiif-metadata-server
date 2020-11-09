@@ -6,7 +6,7 @@ chardet
 coreapi
 coreschema
 datapunt-objectstore
-Django
+Django<3 # Pinned because djangorestframework-xml dependency (drf-amsterdam) fails with django 3 
 django-cors-headers
 django-debug-toolbar
 django-extensions
