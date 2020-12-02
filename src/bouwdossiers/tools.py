@@ -18,7 +18,7 @@ def separate_dossier(dossier):
 
     try:
         # Check if dossier has correct format
-        assert re.match(r'\D{2,4}\d+', dossier)
+        assert re.match(r'^\D{2,4}\d+$', dossier)
         # split the stadsdeel and dossier by using |
         stadsdeel, dossiernr = re.findall(r'\D{2,4}|\d+', dossier)
         return stadsdeel, dossiernr
