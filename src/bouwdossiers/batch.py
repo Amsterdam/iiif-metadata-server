@@ -220,6 +220,14 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             document_omschrijving = document_omschrijving[:250]
             log.warning(f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters')
 
+        # Do not include metadata for paspoort scans. Een kavel paspoort is not a ID passport.
+        if (
+                document_omschrijving
+                and "paspoort" in document_omschrijving.lower()
+                and "kavel" not in document_omschrijving.lower()
+        ):
+            continue
+
         document = models.Document(
             barcode=barcode,
             bouwdossier=bouwdossier,
@@ -232,8 +240,10 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
 
         documenten.append(document)
 
-    models.Document.objects.bulk_create(documenten)
-
+    if len(documenten) > 0:
+        models.Document.objects.bulk_create(documenten)
+    else:
+        log.warning(f"No documenten for for {bouwdossier.dossiernr} in {file_path}")
     return count, total_count
 
 def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
@@ -323,7 +333,10 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
 
             documenten.append(document)
 
-        models.Document.objects.bulk_create(documenten)
+        if len(documenten) > 0:
+            models.Document.objects.bulk_create(documenten)
+        else:
+            log.warning(f"No documenten for for {bouwdossier.dossiernr} in {file_path}")
 
     return count, total_count
 
