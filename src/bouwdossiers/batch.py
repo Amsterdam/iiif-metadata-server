@@ -76,9 +76,11 @@ def delete_all():
 
 
 def _normalize_bestand(bestand):
-    bestand_parts = bestand.split('/')[-3:]
+    bestand_parts = bestand.split('/')[4:]
     if bestand_parts[1].isdigit():
         bestand_parts[1] = f"{int(bestand_parts[1]):05d}"
+    elif bestand_parts[2].isdigit():
+        bestand_parts[2] = f"{int(bestand_parts[2]):05d}"
     else:
         log.warning(f"Invalid dossiernr in bestand {bestand}")
     return '/'.join(bestand_parts)
