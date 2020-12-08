@@ -223,11 +223,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             log.warning(f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters')
 
         # Do not include metadata for paspoort scans. Een kavel paspoort is not a ID passport.
-        if (
-                document_omschrijving
-                and "paspoort" in document_omschrijving.lower()
-                and "kavel" not in document_omschrijving.lower()
-        ):
+        if document_omschrijving and "paspoort" in document_omschrijving.lower() and "kavel" not in document_omschrijving.lower():
             continue
 
         document = models.Document(
