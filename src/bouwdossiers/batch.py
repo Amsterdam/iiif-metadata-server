@@ -76,9 +76,11 @@ def delete_all():
 
 
 def _normalize_bestand(bestand):
-    bestand_parts = bestand.split('/')[-3:]
+    bestand_parts = bestand.split('/')[4:]
     if bestand_parts[1].isdigit():
         bestand_parts[1] = f"{int(bestand_parts[1]):05d}"
+    elif bestand_parts[2].isdigit():
+        bestand_parts[2] = f"{int(bestand_parts[2]):05d}"
     else:
         log.warning(f"Invalid dossiernr in bestand {bestand}")
     return '/'.join(bestand_parts)
@@ -220,6 +222,10 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             document_omschrijving = document_omschrijving[:250]
             log.warning(f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters')
 
+        # Do not include metadata for paspoort scans. Een kavel paspoort is not a ID passport.
+        if document_omschrijving and "paspoort" in document_omschrijving.lower() and "kavel" not in document_omschrijving.lower():
+            continue
+
         document = models.Document(
             barcode=barcode,
             bouwdossier=bouwdossier,
@@ -232,8 +238,10 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
 
         documenten.append(document)
 
-    models.Document.objects.bulk_create(documenten)
-
+    if len(documenten) > 0:
+        models.Document.objects.bulk_create(documenten)
+    else:
+        log.warning(f"No documenten for for {bouwdossier.dossiernr} in {file_path}")
     return count, total_count
 
 def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
@@ -323,7 +331,10 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
 
             documenten.append(document)
 
-        models.Document.objects.bulk_create(documenten)
+        if len(documenten) > 0:
+            models.Document.objects.bulk_create(documenten)
+        else:
+            log.warning(f"No documenten for for {bouwdossier.dossiernr} in {file_path}")
 
     return count, total_count
 
