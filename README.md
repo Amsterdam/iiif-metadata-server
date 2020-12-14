@@ -1,6 +1,10 @@
 # iiif-metadata-server
 
-Provide API and import for datasets from iiif-metadata-server such as bouwdossiers
+This project provides API and import for datasets from iiif-metadata-server such as bouwdossiers
+
+
+# Project architecture
+This project follows the setup used in multiple projects and is described here: https://github.com/Amsterdam/opdrachten_team_dev.  
 
 
 # Pre_wabo and wabo dossiers
