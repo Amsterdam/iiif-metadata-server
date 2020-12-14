@@ -68,7 +68,6 @@ unicodecsv==0.14.1        # via djangorestframework-csv
 uritemplate==3.0.1        # via -r requirements.in, coreapi, drf-yasg
 urllib3==1.26.2           # via -r requirements.in, requests, sentry-sdk
 wrapt==1.12.1             # via debtcollector
-xlrd==2.0.1               # via -r requirements.in
 xmltodict==0.12.0         # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
