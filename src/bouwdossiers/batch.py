@@ -102,8 +102,8 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     dossier = x_dossier.get('intern_nummer')
     m = re.match(r"([a-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
     if not m:
-        log.warning(f"Invalid intern_nummer {dossier} in {file_path}")
-        return 0,0
+        log.error(f"Invalid intern_nummer {dossier} in {file_path}")
+        return count, total_count
 
     stadsdeel = m.group(1)
     wabo_tag = m.group(2)
@@ -113,7 +113,6 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         source = models.SOURCE_PREWABO
     else:
         source = models.SOURCE_WABO
-
 
     # There were titels longer than the allowed 512 characters, so to avoid errors we cut them off at 512
     titel = x_dossier.get('dossier_titel')[:509] + '...' if len(x_dossier.get('dossier_titel', '')) > 512 \
