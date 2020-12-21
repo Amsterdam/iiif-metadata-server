@@ -154,10 +154,11 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     )
 
     try:
-        bouwdossier.save()
+        with transaction.atomic():
+            bouwdossier.save()
     except IntegrityError as e:
         log.error(f"Exception while saving {dossier} in {file_path} with : {e}")
-        return 0, 0
+        return count, total_count
 
     count += 1
     total_count += 1

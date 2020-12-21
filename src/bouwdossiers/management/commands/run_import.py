@@ -41,6 +41,13 @@ class Command(BaseCommand):
             help='Skip validate import')
 
         parser.add_argument(
+            '--skip_add_bag_ids',
+            action='store_true',
+            dest='skip_add_bag_ids',
+            default=False,
+            help='Skip add bag ids')
+
+        parser.add_argument(
             '--max_files_count',
             # action='store_true',
             dest='max_files_count',
@@ -87,12 +94,13 @@ class Command(BaseCommand):
         if not options['skipimport']:
             self.import_dossiers(options)
 
-        log.info('Add bag IDs')
-        # TODO: Add a required flag to choose either wabo or pre-wabo
-        if options['wabo']:
-            add_bag_ids_to_wabo()
-        else:
-            add_bag_ids_to_pre_wabo()
+        if not options['skip_add_bag_ids']:
+            log.info('Add bag IDs')
+            # TODO: Add a required flag to choose either wabo or pre-wabo
+            if options['wabo']:
+                add_bag_ids_to_wabo()
+            else:
+                add_bag_ids_to_pre_wabo()
 
         if not options['skip_validate_import']:
             log.info('Validate import')
