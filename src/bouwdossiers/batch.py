@@ -4,7 +4,7 @@ import re
 
 import xmltodict
 from django.conf import settings
-from django.db import connection, transaction, IntegrityError
+from django.db import IntegrityError, connection, transaction
 
 from . import models
 
