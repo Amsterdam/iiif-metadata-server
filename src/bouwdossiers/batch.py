@@ -4,7 +4,7 @@ import re
 
 import xmltodict
 from django.conf import settings
-from django.db import connection, transaction
+from django.db import connection, transaction, IntegrityError
 
 from . import models
 
@@ -100,7 +100,20 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     mappings are different and new fields are added.
     """
     dossier = x_dossier.get('intern_nummer')
-    stadsdeel, dossiernr = dossier.split('_')
+    m = re.match(r"([a-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
+    if not m:
+        log.warning(f"Invalid intern_nummer {dossier} in {file_path}")
+        return 0,0
+
+    stadsdeel = m.group(1)
+    wabo_tag = m.group(2)
+    dossiernr = m.group(3)
+
+    if wabo_tag and wabo_tag == 'prewabo':
+        source = models.SOURCE_PREWABO
+    else:
+        source = models.SOURCE_WABO
+
 
     # There were titels longer than the allowed 512 characters, so to avoid errors we cut them off at 512
     titel = x_dossier.get('dossier_titel')[:509] + '...' if len(x_dossier.get('dossier_titel', '')) > 512 \
@@ -136,11 +149,16 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         olo_liaan_nummer=olo_liaan_nummer,
         wabo_bron=x_dossier.get('bron'),
         access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
-        source=models.SOURCE_WABO,
+        source=source,
         activiteiten=activiteiten
     )
 
-    bouwdossier.save()
+    try:
+        bouwdossier.save()
+    except IntegrityError as e:
+        log.error(f"Exception while saving {dossier} in {file_path} with : {e}")
+        return 0, 0
+
     count += 1
     total_count += 1
 
@@ -439,7 +457,7 @@ WITH adres_nummeraanduiding AS (
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
     JOIN bag_verblijfsobject bv ON bv.landelijk_id = any(ba.verblijfsobjecten)
     JOIN bag_nummeraanduiding bag_nra ON bag_nra.verblijfsobject_id = bv.id  -- bag_nra.verblijfsobject_id is het niet-landelijk verblijfsobjectid en daarom maken we de tussen-join mbv bag_verblijfsobject
-    WHERE bb.source = 'WABO'
+    WHERE bb.source in ('WABO', 'PREWABO')
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
 SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
