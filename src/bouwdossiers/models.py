@@ -5,7 +5,6 @@ from django.db.models import CASCADE
 
 SOURCE_EDEPOT = 'EDEPOT'
 SOURCE_WABO = 'WABO'
-SOURCE_PREWABO = 'PREWABO'
 
 SOURCE_CHOICES = (
     (SOURCE_EDEPOT, 'edepot'),

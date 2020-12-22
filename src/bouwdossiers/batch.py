@@ -110,9 +110,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     dossiernr = m.group(3)
 
     if wabo_tag and wabo_tag == 'prewabo':
-        source = models.SOURCE_PREWABO
-    else:
-        source = models.SOURCE_WABO
+        stadsdeel += 'p'
 
     # There were titels longer than the allowed 512 characters, so to avoid errors we cut them off at 512
     titel = x_dossier.get('dossier_titel')[:509] + '...' if len(x_dossier.get('dossier_titel', '')) > 512 \
@@ -131,6 +129,8 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
         # In some cases the string starts with 'OLO'. We need to remove this
         olo_liaan_nummer = olo_liaan_nummer.replace('OLO', '')
+    if not olo_liaan_nummer and wabo_tag == 'prewabo':
+        olo_liaan_nummer = 0
 
     activiteiten = []
     for activiteit in get_list_items(x_dossier, 'activiteiten', 'activiteit'):
@@ -148,7 +148,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         olo_liaan_nummer=olo_liaan_nummer,
         wabo_bron=x_dossier.get('bron'),
         access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
-        source=source,
+        source=models.SOURCE_WABO,
         activiteiten=activiteiten
     )
 
@@ -210,6 +210,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # The removed part below is because we want to be consistent with the pre-wabo urls
             # in that we only store a relave url, not the full url
             bestand_str = bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', '')
+            bestand_str = bestand_str.replace(' ', '+')
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
@@ -457,7 +458,7 @@ WITH adres_nummeraanduiding AS (
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
     JOIN bag_verblijfsobject bv ON bv.landelijk_id = any(ba.verblijfsobjecten)
     JOIN bag_nummeraanduiding bag_nra ON bag_nra.verblijfsobject_id = bv.id  -- bag_nra.verblijfsobject_id is het niet-landelijk verblijfsobjectid en daarom maken we de tussen-join mbv bag_verblijfsobject
-    WHERE bb.source in ('WABO', 'PREWABO')
+    WHERE bb.source = 'WABO'
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
 SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
