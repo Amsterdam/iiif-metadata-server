@@ -210,7 +210,6 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # The removed part below is because we want to be consistent with the pre-wabo urls
             # in that we only store a relave url, not the full url
             bestand_str = bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', '')
-            bestand_str = bestand_str.replace(' ', '+')
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
