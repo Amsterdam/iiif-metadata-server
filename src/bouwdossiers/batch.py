@@ -4,7 +4,7 @@ import re
 
 import xmltodict
 from django.conf import settings
-from django.db import connection, transaction
+from django.db import IntegrityError, connection, transaction
 
 from . import models
 
@@ -98,9 +98,30 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     Add wabo dossier to the the bouwdossier model. Structure of import is
     almost identical to pre_wabo xml to avoid confusion since only a few
     mappings are different and new fields are added.
+
+    Originally this was for importing wabo dossiers. But not it is also
+    used for prewabo dossiers that have the same  XML structure as the
+    wabo dossiers. This structure for files that originate from the 'tussenbestand'
+    and are not archived in de edepot.
     """
+
+    # The intern number can be something like sdz_prewabo_1274 or sdc_33
+    # If prewabo is present it is a prewabo dossier.
     dossier = x_dossier.get('intern_nummer')
-    stadsdeel, dossiernr = dossier.split('_')
+    m = re.match(r"([a-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
+    if not m:
+        log.error(f"Invalid intern_nummer {dossier} in {file_path}")
+        return count, total_count
+
+    stadsdeel = m.group(1)
+    wabo_tag = m.group(2)
+    dossiernr = m.group(3)
+
+    if wabo_tag and wabo_tag == 'prewabo':
+        # prewabo key2 dossiers numbers can have the same values, for the same stadsdeel as existing
+        # prewabo dossiers imported from the edepot. Therefore we add  the letter p to the stadsdeel
+        # to make the combination unique.
+        stadsdeel += 'p'
 
     # There were titels longer than the allowed 512 characters, so to avoid errors we cut them off at 512
     titel = x_dossier.get('dossier_titel')[:509] + '...' if len(x_dossier.get('dossier_titel', '')) > 512 \
@@ -119,6 +140,10 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
         # In some cases the string starts with 'OLO'. We need to remove this
         olo_liaan_nummer = olo_liaan_nummer.replace('OLO', '')
+    # prewabo key2 dossiers do not have a olo number. Because we do not
+    # want a None in the URL we set the olo number to 0
+    if not olo_liaan_nummer and wabo_tag == 'prewabo':
+        olo_liaan_nummer = 0
 
     activiteiten = []
     for activiteit in get_list_items(x_dossier, 'activiteiten', 'activiteit'):
@@ -140,7 +165,13 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         activiteiten=activiteiten
     )
 
-    bouwdossier.save()
+    try:
+        with transaction.atomic():
+            bouwdossier.save()
+    except IntegrityError as e:
+        log.error(f"Exception while saving {dossier} in {file_path} with : {e}")
+        return count, total_count
+
     count += 1
     total_count += 1
 
