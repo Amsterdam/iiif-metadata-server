@@ -29,13 +29,14 @@ dc run importer /deploy/docker-migrate.sh
 echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen, nummeraanduidingen en panden in iiif-metadata-server database"
 
 # dc exec -T database update-db.sh atlas
-dc exec -T database update-table.sh bag bag_verblijfsobject public iiif_metadata_server
-dc exec -T database update-table.sh bag bag_ligplaats public iiif_metadata_server
-dc exec -T database update-table.sh bag bag_standplaats public iiif_metadata_server
-dc exec -T database update-table.sh bag bag_nummeraanduiding public iiif_metadata_server
-dc exec -T database update-table.sh bag bag_pand public iiif_metadata_server
-dc exec -T database update-table.sh bag bag_verblijfsobjectpandrelatie public iiif_metadata_server
-dc exec -T database update-table.sh bag bag_openbareruimte public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_verblijfsobject public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_ligplaats public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_standplaats public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_nummeraanduiding public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_pand public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_verblijfsobjectpandrelatie public iiif_metadata_server
+dc exec -T database update-table.sh bag_v11 bag_openbareruimte public iiif_metadata_server
+dc exec -T database psql -U postgres -c 'CREATE INDEX ON bag_nummeraanduiding(verblijfsobject_id)' iiif_metadata_server
 
 
 echo "Importing data"
