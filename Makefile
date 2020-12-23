@@ -61,4 +61,3 @@ import_bag:                       ## Populate database with Bag data
 	${dc} exec database update-table.sh bag_v11 bag_pand public iiif_metadata_server
 	${dc} exec database update-table.sh bag_v11 bag_verblijfsobjectpandrelatie public iiif_metadata_server
 	${dc} exec database update-table.sh bag_v11 bag_openbareruimte public iiif_metadata_server
-	${dc} exec database psql -U postgres -c 'CREATE INDEX ON bag_nummeraanduiding(verblijfsobject_id)' iiif_metadata_server

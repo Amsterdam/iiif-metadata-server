@@ -458,6 +458,7 @@ def add_bag_ids_to_wabo():
     log.info("Add nummeraanduidingen to wabo dossiers")
     with connection.cursor() as cursor:
         try:
+            cursor.execute("""CREATE INDEX ON bag_nummeraanduiding(verblijfsobject_id)""")
             cursor.execute("""
 WITH adres_nummeraanduiding AS (
     SELECT
