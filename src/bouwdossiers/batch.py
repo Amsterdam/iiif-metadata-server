@@ -468,8 +468,7 @@ WITH adres_nummeraanduiding AS (
             END) AS nummeraanduidingen_label
     FROM bouwdossiers_adres ba
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-    JOIN bag_verblijfsobject bv ON bv.landelijk_id = any(ba.verblijfsobjecten)
-    JOIN bag_nummeraanduiding bag_nra ON bag_nra.verblijfsobject_id = bv.id  -- bag_nra.verblijfsobject_id is het niet-landelijk verblijfsobjectid en daarom maken we de tussen-join mbv bag_verblijfsobject
+    JOIN bag_nummeraanduiding bag_nra ON bag_nra.verblijfsobject_id = ANY(ba.verblijfsobjecten)
     WHERE bb.source = 'WABO'
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
