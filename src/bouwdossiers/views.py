@@ -46,7 +46,7 @@ class BouwDossierFilter(FilterSet):
         if not isinstance(value, list):
             value = [value]
         lookup = '%s__%s' % (_filter_name, 'contains')
-        return queryset.filter(**{lookup: value})
+        return queryset.filter(**{lookup: value}).distinct()
 
 
 class BouwDossierViewSet(DatapuntViewSet):

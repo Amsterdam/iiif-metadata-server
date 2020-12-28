@@ -5,9 +5,6 @@ ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
 ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
 
-ARG https_proxy=http://10.240.2.1:8080/
-ENV https_proxy=$https_proxy
-
 WORKDIR /app_install
 ADD requirements.txt requirements.txt
 RUN pip install -r requirements.txt
@@ -17,7 +14,7 @@ ADD deploy /deploy
 WORKDIR /src
 ADD src .
 
-ARG SECRET_KEY=collectstatic 
+ARG SECRET_KEY=collectstatic
 RUN python manage.py collectstatic --no-input
 
 USER datapunt
