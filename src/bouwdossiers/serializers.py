@@ -54,7 +54,13 @@ class DocumentSerializer(ModelSerializer):
             'bestanden',
             'oorspronkelijk_pad',
             'document_omschrijving',
-            'access')
+            'access',
+            'access_restricted_until',
+            'copyright',
+            'copyright_until',
+            'copyright_holders',
+            'copyright_manufacturers',
+            )
 
 
 class CustomLinksField(LinksField):
@@ -88,9 +94,12 @@ class BouwDossierSerializer(CustomHalSerializer):
             'stadsdeel',
             'datering',
             'dossier_type',
+            'gebruiksdoel',
+            'bwt_nummer',
             'dossier_status',
             'olo_liaan_nummer',
             'access',
+            'access_restricted_until',
             'activiteiten',
             'documenten',
             'adressen'

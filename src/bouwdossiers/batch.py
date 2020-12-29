@@ -42,7 +42,7 @@ log = logging.getLogger(__name__)
 # }
 
 
-def get_datering(value):
+def get_date_from_year(value):
     result = None
     if value:
         if len(value) == 4:
@@ -86,10 +86,23 @@ def _normalize_bestand(bestand):
     return '/'.join(bestand_parts)
 
 
-def openbaar_to_access(openbaar):
-    if openbaar == 'J':
-        return models.ACCESS_PUBLIC
-    return models.ACCESS_RESTRICTED
+def get_access(el):
+    beperking = el.get('openbaarheidsBeperking')
+    if beperking:
+        if beperking == 'N':
+            return models.ACCESS_PUBLIC
+        return models.ACCESS_RESTRICTED
+    else:
+        openbaar = el.get('openbaar')
+        if openbaar == 'J':
+            return models.ACCESS_PUBLIC
+        return models.ACCESS_RESTRICTED
+
+
+def openbaar_to_copyright(copyright):
+    if copyright == 'J':
+        return models.COPYRIGHT_YES
+    return models.COPYRIGHT_NO
 
 
 def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
@@ -285,14 +298,17 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
         titel = ''
         log.warning(f"Missing titel for bouwdossier {dossiernr} in {file_path}")
 
-    datering = get_datering(x_dossier.get('datering'))
+    datering = get_date_from_year(x_dossier.get('datering'))
     dossier_type = x_dossier.get('dossierType')
+    gebruiksdoel = x_dossier.get('gebruiksdoel') or None
+    bwt_nummer = x_dossier.get('bwtNummer') or None
     stadsdeel = x_dossier.get('stadsdeelcode')
 
     if not stadsdeel:
         stadsdeel = ''
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
-    access = openbaar_to_access(x_dossier.get('openbaar'))
+    access = get_access(x_dossier)
+    access_restricted_until = get_date_from_year(x_dossier.get('openbaarheidsBeperkingTot'))
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -301,7 +317,10 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
         titel=titel,
         datering=datering,
         dossier_type=dossier_type,
-        access=access
+        gebruiksdoel=gebruiksdoel,
+        bwt_nummer=bwt_nummer,
+        access=access,
+        access_restricted_until=access_restricted_until
     )
     bouwdossier.save()
     count += 1
@@ -351,13 +370,24 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
         documenten = []
         for x_document in get_list_items(x_sub_dossier, 'documenten', 'document'):
             bestanden = get_list_items(x_document, 'bestanden', 'url')
+            access = get_access(x_document)
+            access_restricted_until = get_date_from_year(x_document.get('openbaarheidsBeperkingTot'))
+            copyright = openbaar_to_copyright(x_document.get('auteursrechtBeperking'))
+            copyright_until = get_date_from_year(x_document.get('auteursrechtBeperkingTot'))
+            copyright_holders = x_document.get('auteursrechtHouders')
+            copyright_manufacturers = x_document.get('auteursrechtVervaardigers')
 
             document = models.Document(
                 barcode=x_document.get('barcode'),
                 bouwdossier=bouwdossier,
                 subdossier_titel=titel,
                 bestanden=list(map(_normalize_bestand, bestanden)),
-                access=openbaar_to_access(x_document.get('openbaar'))
+                access=access,
+                access_restricted_until=access_restricted_until,
+                copyright=copyright,
+                copyright_until=copyright_until,
+                copyright_holders=copyright_holders,
+                copyright_manufacturers=copyright_manufacturers
             )
 
             documenten.append(document)
@@ -417,7 +447,7 @@ def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
     root_dir = settings.DATA_DIR
     for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
         # SAA_BWT_02.xml
-        pre_wabo = re.search('SAA_BWT_.\\w+\\.xml$', file_path)
+        pre_wabo = re.search(r'SAA_BWT_[A-Za-z-_0-9]+\.xml$', file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not pre_wabo or len(importfiles) > 0:

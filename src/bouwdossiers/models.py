@@ -19,6 +19,14 @@ ACCESS_CHOICES = (
     (ACCESS_RESTRICTED, 'Restricted')
 )
 
+COPYRIGHT_YES = 'Y'
+COPYRIGHT_NO = 'N'
+
+COPYRIGHT_CHOICES = (
+    (COPYRIGHT_YES, 'Yes'),
+    (COPYRIGHT_NO, 'No')
+)
+
 STATUS_AANVRAAG = 'A'
 STATUS_BEHANDELING = 'B'
 
@@ -59,8 +67,11 @@ class BouwDossier(models.Model):
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.DateField(null=True)
     dossier_type = models.CharField(max_length=255, null=True)
+    gebruiksdoel = models.CharField(max_length=255, null=True)
+    bwt_nummer = models.CharField(max_length=127, null=True)
     dossier_status = models.CharField(max_length=1, null=True, choices=STATUS_CHOICES)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
+    access_restricted_until = models.DateField(null=True)
     source = models.CharField(
         max_length=20,
         choices=SOURCE_CHOICES,
@@ -131,6 +142,11 @@ class Document(models.Model):
     barcode = models.CharField(max_length=250, db_index=True, null=True)
     bestanden = ArrayField(models.CharField(max_length=250, null=False), blank=True)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)
+    access_restricted_until = models.DateField(null=True)
+    copyright = models.CharField(max_length=1, null=True, choices=COPYRIGHT_CHOICES)
+    copyright_until = models.DateField(null=True)
+    copyright_holders = models.CharField(max_length=512, null=True)
+    copyright_manufacturers = models.CharField(max_length=512, null=True)
 
     # WABO Related fields
     oorspronkelijk_pad = ArrayField(models.CharField(max_length=250, null=False), blank=True, default=list)
