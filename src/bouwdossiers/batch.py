@@ -300,8 +300,8 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
 
     datering = get_date_from_year(x_dossier.get('datering'))
     dossier_type = x_dossier.get('dossierType')
-    gebruiksdoel = x_dossier.get('gebruiksdoel') or None
-    bwt_nummer = x_dossier.get('bwtNummer') or None
+    gebruiksdoel = x_dossier.get('gebruiksdoel')
+    bwt_nummer = x_dossier.get('bwtNummer')
     stadsdeel = x_dossier.get('stadsdeelcode')
 
     if not stadsdeel:
