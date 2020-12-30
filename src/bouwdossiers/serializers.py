@@ -59,8 +59,7 @@ class DocumentSerializer(ModelSerializer):
             'copyright',
             'copyright_until',
             'copyright_holders',
-            'copyright_manufacturers',
-            )
+            'copyright_manufacturers')
 
 
 class CustomLinksField(LinksField):
