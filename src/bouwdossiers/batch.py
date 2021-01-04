@@ -112,8 +112,8 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     almost identical to pre_wabo xml to avoid confusion since only a few
     mappings are different and new fields are added.
 
-    Originally this was for importing wabo dossiers. But not it is also
-    used for prewabo dossiers that have the same  XML structure as the
+    Originally this was for importing wabo dossiers. But now it is also
+    used for prewabo dossiers that have the same XML structure as the
     wabo dossiers. This structure for files that originate from the 'tussenbestand'
     and are not archived in de edepot.
     """

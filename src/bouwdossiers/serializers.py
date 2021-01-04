@@ -1,4 +1,5 @@
 import logging
+import re
 
 from datapunt_api.serializers import DisplayField, HALSerializer, LinksField
 from django.conf import settings
@@ -31,10 +32,16 @@ class DocumentSerializer(ModelSerializer):
         _bestanden = []
 
         for bestand in result['bestanden']:
-            filename = bestand
+            filename = bestand.replace(' ', '%20')
             if instance.bouwdossier.source == SOURCE_EDEPOT:
                 filename = filename.replace('/', '-')
-                url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{filename}"
+                # If stadsdeel en dossiernr are not part of the filename, they  will be added to the beginning of the filename in the form of
+                # SD12345. In this way iiif-auth-proxy can determine the access for this bestand in de the dossier.
+                m = re.search(r"^([A-Z]+)-(\d+)-", filename)
+                if m and m.group(1) == instance.bouwdossier.stadsdeel and int(m.group(2)) == instance.bouwdossier.dossiernr:
+                    url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{filename}"
+                else:
+                    url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{instance.bouwdossier.stadsdeel}{instance.bouwdossier.dossiernr}-{filename}"
 
             elif instance.bouwdossier.source == SOURCE_WABO:
                 file_reference = f"{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}"

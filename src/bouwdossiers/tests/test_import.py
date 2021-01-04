@@ -61,3 +61,28 @@ class APITest(TransactionTestCase):
         self.assertEqual(document12.document_omschrijving, "Procesoverzicht")
         self.assertEqual(document12.bestanden, ['SDW/ACTIVITY_DOCS/Procesinformatie sdw_51322878.pdf'])
         self.assertEqual(document12.oorspronkelijk_pad, ['F:/INZAGEDOCS/SDW/ACTIVITY_DOCS/Procesinformatie sdw_51322878.pdf'])
+
+        # This also tests import of PREWABO dossiers for KEY2 tussenbestand. To the stadsdeel P will be appendend
+        bd1 = models.BouwDossier.objects.get(dossiernr=94076, stadsdeel='SDCP')
+        # self.assertEqual(bd1.stadsdeel, 'SDCP')
+        self.assertEqual(bd1.titel, "Het veranderen van de voorgevel van het gebouwgedeelte Nieuwendijk 200/202")
+        self.assertEqual(bd1.datering.strftime("%Y"), "2009")
+        self.assertEqual(bd1.dossier_type, "bouwvergunning")
+        self.assertEqual(bd1.access, "RESTRICTED")
+        self.assertEqual(bd1.source, "WABO")
+        self.assertEqual(bd1.olo_liaan_nummer, 0)
+        self.assertEqual(bd1.wabo_bron, "KEY2")
+        adres1 = bd1.adressen.first()
+        self.assertEqual(adres1.straat, "Nieuwendijk")
+        self.assertEqual(adres1.huisnummer_van, 200)
+        self.assertEqual(adres1.huisnummer_tot, None)
+        self.assertEqual(adres1.openbareruimte_id, "0363300000003873")
+        self.assertEqual(adres1.verblijfsobjecten, ['0363010001022066'])
+        self.assertEqual(adres1.panden, ['0363100012168047'])
+        documenten1 = bd1.documenten.order_by('id').all()
+        self.assertEqual(len(documenten1), 10)
+        document9 = documenten1[9]
+        self.assertEqual(document9.document_omschrijving, "Procesoverzicht")
+        self.assertEqual(document9.bestanden, ['SDC_PREWABO/ACTIVITY_DOCS/Procesinformatie sdc_prewabo_94076.pdf'])
+        self.assertEqual(document9.oorspronkelijk_pad, ['D:/INZAGE_ACTIVITY/SDC_PREWABO/ACTIVITY_DOCS/Procesinformatie sdc_prewabo_94076.pdf'])
+
