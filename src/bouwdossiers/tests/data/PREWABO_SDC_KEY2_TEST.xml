@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<dossiers>
+<dossier>
+  <dossier_titel>Het veranderen van de voorgevel van het gebouwgedeelte Nieuwendijk 200/202</dossier_titel>
+  <intern_nummer>sdc_prewabo_94076</intern_nummer>
+  <omschrijving>bouwvergunning</omschrijving>
+  <begindatum>2009-10-05</begindatum>
+  <bron>KEY2</bron>
+  <locaties>
+    <locatie>
+      <straatnaam>Nieuwendijk</straatnaam>
+      <huisnummer>200</huisnummer>
+      <bag_id>
+        <verblijfsobjectidentificatie>0363010001022066</verblijfsobjectidentificatie>
+        <pandidentificatie>0363100012168047</pandidentificatie>
+        <openbareruimteidentificatie>0363300000003873</openbareruimteidentificatie>
+      </bag_id>
+    </locatie>
+    <locatie>
+      <straatnaam>Nieuwendijk</straatnaam>
+      <huisnummer>202</huisnummer>
+      <bag_id>
+        <verblijfsobjectidentificatie>0363010001022063</verblijfsobjectidentificatie>
+        <pandidentificatie>0363100012168047</pandidentificatie>
+        <openbareruimteidentificatie>0363300000003873</openbareruimteidentificatie>
+      </bag_id>
+    </locatie>
+  </locaties>
+  <activiteiten>
+    <activiteit>Gemeentelijk Monument</activiteit>
+  </activiteiten>
+  <documenten>
+    <document>
+      <document_omschrijving>verzoek om advies aan BMA</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/ADV/2352914.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/ADV/2352914.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>brief informeren aanvrager</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/NIA/2352913.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/NIA/2352913.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>Publikatie bouwaanvraag/monument/ter-visie(nieuw)</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/PBL/2348370.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/PBL/2348370.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>waarschuwingsbrief nib bij rm</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/NIA/2353974.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/NIA/2353974.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>verzoek om advies aan BMA</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/ADV/2348006.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/ADV/2348006.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>electronisch aanvraagformulier</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/DAF/2348005.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/DAF/2348005.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>ontvangstbevestiging (alles)</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/LEG/2348004.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/LEG/2348004.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>verzoek om advies aan BMA</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/ADV/2369081.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/ADV/2369081.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>vergunning rm</document_omschrijving>
+      <document_type>Correspondentie Overig:Diversen</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_PREWABO/AGM/2369082.PDF</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/AGM/2369082.PDF</URL>
+        </bestand>
+      </bestanden>
+    </document>
+    <document>
+      <document_omschrijving>Procesoverzicht</document_omschrijving>
+      <document_type>Procesoverzicht</document_type>
+      <bestanden>
+        <bestand>
+          <oorspronkelijk_pad>D:/INZAGE_ACTIVITY/SDC_PREWABO/ACTIVITY_DOCS/Procesinformatie sdc_prewabo_94076.pdf</oorspronkelijk_pad>
+          <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_PREWABO/ACTIVITY_DOCS/Procesinformatie sdc_prewabo_94076.pdf</URL>
+        </bestand>
+      </bestanden>
+    </document>
+  </documenten>
+</dossier>
+</dossiers>
+

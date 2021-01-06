@@ -67,10 +67,8 @@ Run server
 
 `python manage.py runserver`
 
+For the metadata API no login is  required
 
-Disable login requirement for local development
-
-`Set 'ALWAYS_OK': LOCAL in DATAPUNT_AUTHZ`
 
 Test API
 
@@ -92,4 +90,4 @@ Test API login in acceptance with SWAGGER :
 # Import database from acceptance
 
 
-docker-compose exec database update-db.sh iiif-metadata-server <your username>
+docker-compose exec database update-db.sh iiif_metadata_server
