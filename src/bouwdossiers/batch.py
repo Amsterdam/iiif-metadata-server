@@ -77,12 +77,13 @@ def delete_all():
 
 def _normalize_bestand(bestand):
     bestand_parts = bestand.split('/')[4:]
+    if len(bestand_parts) < 3:
+        log.error(f"Unexpected bestand : {bestand}")
+        return None
     if bestand_parts[1].isdigit():
         bestand_parts[1] = f"{int(bestand_parts[1]):05d}"
     elif bestand_parts[2].isdigit():
         bestand_parts[2] = f"{int(bestand_parts[2]):05d}"
-    else:
-        log.warning(f"Invalid dossiernr in bestand {bestand}")
     return '/'.join(bestand_parts)
 
 
@@ -361,7 +362,7 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
         # This is to check if there are any bestanden added to a subdossier directly. They are skipped because it is not
         # known if they are public or not
         if len(subdossier_bestanden) > 0:
-            log.warning("bestanden in sub_dossier, unexpexted, no way to determine if this is Public or Restricted")
+            log.warning("bestanden in sub_dossier, unexpected, no way to determine if this is Public or Restricted")
             log.warning(subdossier_bestanden)
             subdossier_bestanden = []
 
@@ -376,12 +377,16 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
             copyright_until = get_date_from_year(x_document.get('auteursrechtBeperkingTot'))
             copyright_holders = x_document.get('auteursrechtHouders')
             copyright_manufacturers = x_document.get('auteursrechtVervaardigers')
-
+            valid_bestanden = []
+            for bestand in bestanden:
+                normalized_bestand = _normalize_bestand(bestand)
+                if normalized_bestand:
+                    valid_bestanden.append(normalized_bestand)
             document = models.Document(
                 barcode=x_document.get('barcode'),
                 bouwdossier=bouwdossier,
                 subdossier_titel=titel,
-                bestanden=list(map(_normalize_bestand, bestanden)),
+                bestanden=valid_bestanden,
                 access=access,
                 access_restricted_until=access_restricted_until,
                 copyright=copyright,
