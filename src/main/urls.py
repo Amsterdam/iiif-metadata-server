@@ -23,7 +23,9 @@ schema_view = get_schema_view(
         terms_of_service="https://data.amsterdam.nl/",
         contact=openapi.Contact(email="datapunt@amsterdam.nl"),
         license=openapi.License(name="CC0 1.0 Universal"),
-    )
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
