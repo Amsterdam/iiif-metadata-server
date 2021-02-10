@@ -24,7 +24,7 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="datapunt@amsterdam.nl"),
         license=openapi.License(name="CC0 1.0 Universal"),
     ),
-    public=False,
+    public=True,
     permission_classes=(permissions.AllowAny,),
 )
 

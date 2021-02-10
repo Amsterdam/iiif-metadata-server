@@ -26,6 +26,7 @@ log = logging.getLogger(__name__)
 #   'ST': 'Zuidoost',
 #   'SN': 'Noord',
 #   'SW': 'Zuid',
+#   'XY': 'Bodemdossiers',
 # }
 
 # Bag stadsdeel codes

@@ -96,7 +96,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/iiif-metadata/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 
 # Django Logging settings
@@ -176,17 +176,7 @@ SWAGGER_SETTINGS = {
         'title': 'Bouwdossiers',
     },
 
-    'doc_expansion': 'list',
-    'SECURITY_DEFINITIONS': {
-        'oauth2': {
-            'type': 'oauth2',
-            'authorizationUrl': DATAPUNT_API_URL + "oauth2/authorize",
-            'flow': 'implicit',
-            'scopes': {
-                "BD/R": "Bouwdossiers access",
-            }
-        }
-    }
+    'doc_expansion': 'list'
 }
 
 HEALTH_MODEL = 'bouwdossiers.Bouwdossier'

@@ -20,6 +20,7 @@ services:
       - 8000:8000
     environment:
       - SECRET_KEY
+      - UWSGI_STATIC_MAP=/iiif-metadata/static=/static
     volumes:
       - ./src:/src
       - ./deploy:/deploy
@@ -37,6 +38,7 @@ services:
       - DEBUG=true
       - SECRET_KEY=dev
       - PYTHONBREAKPOINT
+      - UWSGI_STATIC_MAP=/iiif-metadata/static=/static
     volumes:
       - ./src:/src
       - ./deploy:/deploy
