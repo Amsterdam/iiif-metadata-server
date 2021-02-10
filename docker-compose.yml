@@ -3,7 +3,7 @@ services:
   database:
     image: amsterdam/postgres11
     ports:
-      - 5432:5432
+      - 5432
     environment:
       POSTGRES_DB: iiif_metadata_server
       POSTGRES_USER: iiif_metadata_server
