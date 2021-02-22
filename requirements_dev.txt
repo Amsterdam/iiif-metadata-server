@@ -4,6 +4,10 @@
 #
 #    pip-compile --output-file=requirements_dev.txt requirements_dev.in
 #
+asgiref==3.3.1
+    # via
+    #   -r ./requirements.txt
+    #   django
 attrs==20.3.0
     # via
     #   -r ./requirements.txt
@@ -54,7 +58,7 @@ django-extensions==3.1.1
     # via -r ./requirements.txt
 django-filter==2.4.0
     # via -r ./requirements.txt
-django==2.2.19
+django==3.1.7
     # via
     #   -r ./requirements.txt
     #   django-cors-headers
