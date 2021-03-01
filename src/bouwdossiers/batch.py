@@ -522,6 +522,12 @@ WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
 
 
 def add_bag_ids_to_pre_wabo():
+    """
+    This will try to add bag ids to addresses by matching streetname and house number.
+    Currently all addresses in XML files are in Amsterdam. No residence is given in the XML file.
+    Because Weesp is added to the bag we only use addresses in Amsterdam by
+    adding the  *.id LIKE '0363%' clause.
+    """
     log.info("Add nummeraanduidingen to pre-wabo dossiers")
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -537,6 +543,7 @@ WITH adres_nummeraanduiding AS (
     JOIN bag_nummeraanduiding bn
         ON ba.straat = bn._openbare_ruimte_naam
         AND ba.huisnummer_van = bn.huisnummer
+        AND bn.id LIKE '0363%'
     WHERE bb.source = 'EDEPOT'
     GROUP BY ba.id)
 UPDATE bouwdossiers_adres
@@ -561,6 +568,7 @@ WITH adres_pand AS (
     FROM bouwdossiers_adres ba
     JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
     AND ba.huisnummer_van = bv._huisnummer
+    AND bv.id LIKE '0363%'
     JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
     JOIN bag_pand bp on bp.id = bvbo.pand_id
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
@@ -586,6 +594,7 @@ FROM bag_openbareruimte opr
 WHERE ba.straat = opr.naam
 AND opr.vervallen = false
 AND opr.type = '01'
+AND opr.id LIKE '0363%'
         """)
 
     # If the openbareruimte was not yet found we try to match with other openbare ruimtes
@@ -595,6 +604,7 @@ UPDATE bouwdossiers_adres ba
 SET openbareruimte_id = opr.landelijk_id
 FROM bag_openbareruimte opr
 WHERE ba.straat = opr.naam
+AND opr.id LIKE '0363%'
 AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
         """)
     log.info("Finished adding openbare ruimtes")
