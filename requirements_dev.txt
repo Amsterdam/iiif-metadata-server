@@ -32,7 +32,7 @@ coreschema==0.0.4
     #   -r ./requirements.txt
     #   coreapi
     #   drf-yasg
-coverage==5.4
+coverage==5.5
     # via pytest-cov
 datapunt-config-loader==1.1.2
     # via
@@ -46,7 +46,7 @@ debtcollector==2.2.0
     #   oslo.config
     #   oslo.utils
     #   python-keystoneclient
-defusedxml==0.6.0
+defusedxml==0.7.0
     # via
     #   -r ./requirements.txt
     #   djangorestframework-xml
@@ -94,7 +94,7 @@ drf-yasg==1.20.0
     # via -r ./requirements.txt
 factory-boy==3.2.0
     # via -r requirements_dev.in
-faker==6.4.1
+faker==6.5.0
     # via factory-boy
 flake8==3.8.4
     # via pytest-flake8
@@ -127,7 +127,7 @@ jsonschema==3.2.0
     # via
     #   -r ./requirements.txt
     #   datapunt-config-loader
-keystoneauth1==4.3.0
+keystoneauth1==4.3.1
     # via
     #   -r ./requirements.txt
     #   python-keystoneclient
@@ -160,7 +160,7 @@ os-service-types==1.7.0
     # via
     #   -r ./requirements.txt
     #   keystoneauth1
-oslo.config==8.4.0
+oslo.config==8.5.0
     # via
     #   -r ./requirements.txt
     #   python-keystoneclient
@@ -185,7 +185,7 @@ packaging==20.9
     #   drf-yasg
     #   oslo.utils
     #   pytest
-pandas==1.2.2
+pandas==1.2.3
     # via -r ./requirements.txt
 pbr==5.5.1
     # via
@@ -272,11 +272,11 @@ ruamel.yaml.clib==0.2.2
     # via
     #   -r ./requirements.txt
     #   ruamel.yaml
-ruamel.yaml==0.16.12
+ruamel.yaml==0.16.13
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-sentry-sdk==0.20.3
+sentry-sdk==1.0.0
     # via -r ./requirements.txt
 simplejson==3.17.2
     # via -r ./requirements.txt
