@@ -528,61 +528,92 @@ def add_bag_ids_to_pre_wabo():
     Because Weesp is added to the bag we only use addresses in Amsterdam by
     adding the  *.id LIKE '0363%' clause.
     """
-    log.info("Add nummeraanduidingen to pre-wabo dossiers")
+    log.info("Add nummeraanduidingen,verblijfsobjecten and panden to pre-wabo dossiers")
     with connection.cursor() as cursor:
+        # First add some indexes
         cursor.execute("""
-WITH adres_nummeraanduiding AS (
-    SELECT
-        ba.id AS id,
-        ARRAY_AGG(bn.landelijk_id) AS nummeraanduidingen,
-        ARRAY_AGG(_openbare_ruimte_naam || ' ' || huisnummer || huisletter ||
-            CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
-            END) AS nummeraanduidingen_label
-    FROM bouwdossiers_adres ba
-    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-    JOIN bag_nummeraanduiding bn
-        ON ba.straat = bn._openbare_ruimte_naam
-        AND ba.huisnummer_van = bn.huisnummer
-        AND bn.id LIKE '0363%' -- Only match Amsterdam addresses
-    WHERE bb.source = 'EDEPOT'
-    GROUP BY ba.id)
-UPDATE bouwdossiers_adres
-SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
-nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
-FROM adres_nummeraanduiding
-WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
-        """)
-    log.info("Finished adding nummeraanduidingen to pre-wabo dossiers")
+CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx
+    ON bag_nummeraanduiding(verblijfsobject_id);
+CREATE INDEX IF NOT EXISTS bag_pand_bouwblok_id_idx ON bag_pand(bouwblok_id);
+CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_pand_id_idx
+    ON bag_verblijfsobjectpandrelatie(pand_id);
+CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_verblijfsobjet_id_idx
+    ON bag_verblijfsobjectpandrelatie(verblijfsobject_id);
+DO $$
+BEGIN
+IF NOT EXISTS (SELECT constraint_name from information_schema.table_constraints
+    WHERE table_name IN ('bag_pand', 'bag_verblijfsobject', 'bag_nummeraanduiding') and constraint_type = 'PRIMARY KEY') THEN
+    ALTER TABLE bag_pand ADD PRIMARY KEY(id);
+    ALTER TABLE bag_verblijfsobject ADD PRIMARY KEY(id);
+    ALTER TABLE bag_nummeraanduiding ADD PRIMARY KEY(id);
+END IF;
+END $$
+            """)
+        # Set parameter to disable parallel query. On Postgres docker
+        # parallel query can fail due to lack of /dev/shm shared memory
+        cursor.execute("SET max_parallel_workers_per_gather = 0")
 
-    log.info("Add panden")
-    with connection.cursor() as cursor:
+        # In the bouwdossiers_adres the adresses are given as a range
+        # from huisnummer_van till huisnummer_tot
+        # We want to include all nummeraanduidingen, verblijfsobjecten and panden in range
+        # However, often  we can only use the even or odd number in the range when opposite
+        # sides of the street use even resp odd numbers. But sometimes we have to use all the
+        # numbers in the range. Therefore we use bouwblokken to select all numbers in the range
+        # that also are in the same bouwblok as the start or the end of the range
         cursor.execute("""
-WITH adres_pand AS (
-    SELECT
-        ba.id,
-        ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden,
-        ARRAY_AGG(bv.landelijk_id) AS verblijfsobjecten,
-        ARRAY_AGG(bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
-            CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
-            END) AS verblijfsobjecten_label
+WITH adres_start_end_bouwblok AS (
+    -- First select bouwblokken matching with the start or the end of the range
+    -- and put this in adres_start_end_bouwblok
+    SELECT ba.id,
+    ARRAY_AGG(DISTINCT bp.bouwblok_id) AS bouwblokken
     FROM bouwdossiers_adres ba
     JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
-    AND ba.huisnummer_van = bv._huisnummer
-    AND bv.id LIKE '0363%' -- Only match Amsterdam addresses
+        AND (ba.huisnummer_van = bv._huisnummer OR ba.huisnummer_tot = bv._huisnummer )
+        AND bv.id LIKE '0363%' -- Only match Amsterdam addresses
     JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
     JOIN bag_pand bp on bp.id = bvbo.pand_id
     JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
     WHERE bb.source = 'EDEPOT'
     GROUP BY ba.id
+),
+adres_pand AS (
+    SELECT
+        ba.id,
+        -- Then we  select all verblijfsobjecten and nummeraanduidingen in the range
+        -- that also are in the same bouwblok as the start or end
+        ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden,
+        ARRAY_AGG(DISTINCT bv.landelijk_id) AS verblijfsobjecten,
+        ARRAY_AGG(DISTINCT bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
+            CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
+            END) AS verblijfsobjecten_label,
+        ARRAY_AGG(DISTINCT bn.landelijk_id) AS nummeraanduidingen,
+        ARRAY_AGG(DISTINCT bn._openbare_ruimte_naam || ' ' || bn.huisnummer || bn.huisletter ||
+            CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
+            END) AS nummeraanduidingen_label
+    FROM bouwdossiers_adres ba
+    JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
+    AND bv._huisnummer BETWEEN ba.huisnummer_van AND ba.huisnummer_tot
+    AND bv.id LIKE '0363%' -- Only match Amsterdam addresses
+    JOIN bag_nummeraanduiding bn ON bn.verblijfsobject_id = bv.id
+    AND bn.id LIKE '0363%' -- Only match Amsterdam addresses
+    JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
+    JOIN bag_pand bp on bp.id = bvbo.pand_id
+    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
+    JOIN adres_start_end_bouwblok aseb ON aseb.id = ba.id
+    WHERE bb.source = 'EDEPOT'
+    AND bp.bouwblok_id=ANY(aseb.bouwblokken)
+    GROUP BY ba.id
 )
 UPDATE bouwdossiers_adres
 SET panden = adres_pand.panden,
     verblijfsobjecten = adres_pand.verblijfsobjecten,
-    verblijfsobjecten_label = adres_pand.verblijfsobjecten_label
+    verblijfsobjecten_label = adres_pand.verblijfsobjecten_label,
+    nummeraanduidingen = adres_pand.nummeraanduidingen,
+    nummeraanduidingen_label = adres_pand.nummeraanduidingen_label
 FROM adres_pand
 WHERE bouwdossiers_adres.id = adres_pand.id
         """)
-    log.info("Finished adding panden")
+    log.info("Finished adding nummeraanduidingen, verblijfsobjecten and panden to pre-wabo dossiers")
 
     # First we try to match with openbare ruimtes that are streets 01
     log.info("Add openbare ruimtes")
