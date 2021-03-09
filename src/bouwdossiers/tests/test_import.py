@@ -9,7 +9,7 @@ class APITest(TestCase):
     @classmethod
     def setUpTestData(cls):
         with open('bouwdossiers/tests/data/add_bag.sql') as fbag:
-                bag_data = fbag.read()
+            bag_data = fbag.read()
         with connection.cursor() as cursor:
             cursor.execute(bag_data)
 
