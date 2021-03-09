@@ -1,15 +1,25 @@
 from django.conf import settings
-from django.test import TransactionTestCase
+from django.db import connection
+from django.test import TestCase
 
 from bouwdossiers import batch, models
 
 
-class APITest(TransactionTestCase):
+class APITest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        with open('bouwdossiers/tests/data/add_bag.sql') as fbag:
+                bag_data = fbag.read()
+        with connection.cursor() as cursor:
+            cursor.execute(bag_data)
+
     def setUp(self):
         settings.DATA_DIR = 'bouwdossiers/tests/data'
 
     def test_prewabo_import(self):
         batch.import_pre_wabo_dossiers()
+        batch.add_bag_ids_to_pre_wabo()
+
         bd = models.BouwDossier.objects.get(dossiernr=3)
         self.assertEqual(bd.stadsdeel, 'SA')
         self.assertEqual(bd.titel, "Hoogte Kadijk 40")
@@ -36,6 +46,17 @@ class APITest(TransactionTestCase):
                 self.assertEqual(document123.access, "RESTRICTED")
             elif document123.barcode == "SA00001039":
                 self.assertEqual(document123.access, "PUBLIC")
+
+        bd21388 = models.BouwDossier.objects.get(dossiernr=21388)
+        fdb = bd21388.adressen.get(straat='Feike de Boerlaan')
+        # 0363010000959579 Feike de Boerlaan 29
+        self.assertTrue('0363010000959579' in fdb.verblijfsobjecten)
+        # 0363010000998545 Feike de Boerlaan 14
+        self.assertFalse('0363010000998545' in fdb.verblijfsobjecten)
+        # 0363200000461980 Feike de Boerlaan 83 nummeraanduiding
+        self.assertTrue('0363200000461980' in fdb.nummeraanduidingen)
+        # 0363200000470955 Feike de Boerlaan 290 nummeraanduiding
+        self.assertFalse('0363200000470955' in fdb.nummeraanduidingen)
 
     def test_wabo_import(self):
         batch.import_wabo_dossiers()

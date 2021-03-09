@@ -537,18 +537,9 @@ CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx
 CREATE INDEX IF NOT EXISTS bag_pand_bouwblok_id_idx ON bag_pand(bouwblok_id);
 CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_pand_id_idx
     ON bag_verblijfsobjectpandrelatie(pand_id);
-CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_verblijfsobjet_id_idx
+CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_verblijfsobject_id_idx
     ON bag_verblijfsobjectpandrelatie(verblijfsobject_id);
-DO $$
-BEGIN
-IF NOT EXISTS (SELECT constraint_name from information_schema.table_constraints
-    WHERE table_name IN ('bag_pand', 'bag_verblijfsobject', 'bag_nummeraanduiding') and constraint_type = 'PRIMARY KEY') THEN
-    ALTER TABLE bag_pand ADD PRIMARY KEY(id);
-    ALTER TABLE bag_verblijfsobject ADD PRIMARY KEY(id);
-    ALTER TABLE bag_nummeraanduiding ADD PRIMARY KEY(id);
-END IF;
-END $$
-            """)
+    """)
         # Set parameter to disable parallel query. On Postgres docker
         # parallel query can fail due to lack of /dev/shm shared memory
         cursor.execute("SET max_parallel_workers_per_gather = 0")
