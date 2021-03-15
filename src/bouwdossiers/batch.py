@@ -539,6 +539,9 @@ CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_pand_id_idx
     ON bag_verblijfsobjectpandrelatie(pand_id);
 CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_verblijfsobject_id_idx
     ON bag_verblijfsobjectpandrelatie(verblijfsobject_id);
+CREATE INDEX IF NOT EXISTS bag_pand_id_idx ON bag_pand(id);
+CREATE INDEX IF NOT EXISTS bag_verblijfsobject_id_idx ON bag_verblijfsobject(id);
+CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_id_idx ON bag_nummeraanduiding(id);
     """)
         # Set parameter to disable parallel query. On Postgres docker
         # parallel query can fail due to lack of /dev/shm shared memory

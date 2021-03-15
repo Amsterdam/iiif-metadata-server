@@ -36,9 +36,6 @@ dc exec -T database update-table.sh bag_v11 bag_nummeraanduiding public iiif_met
 dc exec -T database update-table.sh bag_v11 bag_pand public iiif_metadata_server
 dc exec -T database update-table.sh bag_v11 bag_verblijfsobjectpandrelatie public iiif_metadata_server
 dc exec -T database update-table.sh bag_v11 bag_openbareruimte public iiif_metadata_server
-dc exec -T database psql iiif_metadata_server -U postgres -c 'ALTER TABLE bag_pand ADD PRIMARY KEY(id)'
-dc exec -T database psql iiif_metadata_server -U postgres -c 'ALTER TABLE bag_verblijfsobject ADD PRIMARY KEY(id)'
-dc exec -T database psql iiif_metadata_server -U postgres -c 'ALTER TABLE bag_nummeraanduiding ADD PRIMARY KEY(id)'
 
 
 echo "Importing data"
