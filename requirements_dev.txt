@@ -46,7 +46,7 @@ debtcollector==2.2.0
     #   oslo.config
     #   oslo.utils
     #   python-keystoneclient
-defusedxml==0.7.0
+defusedxml==0.7.1
     # via
     #   -r ./requirements.txt
     #   djangorestframework-xml
@@ -84,7 +84,7 @@ djangorestframework==3.12.2
     #   drf-amsterdam
     #   drf-extensions
     #   drf-yasg
-drf-amsterdam==0.4.0
+drf-amsterdam==0.4.1
     # via -r ./requirements.txt
 drf-extensions==0.7.0
     # via
@@ -94,9 +94,9 @@ drf-yasg==1.20.0
     # via -r ./requirements.txt
 factory-boy==3.2.0
     # via -r requirements_dev.in
-faker==6.5.0
+faker==6.6.2
     # via factory-boy
-flake8==3.8.4
+flake8==3.9.0
     # via pytest-flake8
 idna==2.10
     # via
@@ -113,7 +113,7 @@ iso8601==0.1.14
     #   -r ./requirements.txt
     #   keystoneauth1
     #   oslo.utils
-isort==5.7.0
+isort==5.8.0
     # via pytest-isort
 itypes==1.2.0
     # via
@@ -204,9 +204,9 @@ psycopg2-binary==2.8.6
     # via -r ./requirements.txt
 py==1.10.0
     # via pytest
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via flake8
-pyflakes==2.2.0
+pyflakes==2.3.0
     # via flake8
 pyparsing==2.4.7
     # via
@@ -240,7 +240,7 @@ python-keystoneclient==4.2.0
     # via
     #   -r ./requirements.txt
     #   datapunt-objectstore
-python-swiftclient==3.11.0
+python-swiftclient==3.11.1
     # via
     #   -r ./requirements.txt
     #   datapunt-objectstore
@@ -317,7 +317,7 @@ uritemplate==3.0.1
     #   -r ./requirements.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   -r ./requirements.txt
     #   requests
