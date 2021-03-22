@@ -36,7 +36,7 @@ debtcollector==2.2.0
     #   oslo.config
     #   oslo.utils
     #   python-keystoneclient
-defusedxml==0.7.0
+defusedxml==0.7.1
     # via djangorestframework-xml
 django-cors-headers==3.7.0
     # via -r requirements.in
@@ -68,7 +68,7 @@ djangorestframework==3.12.2
     #   drf-amsterdam
     #   drf-extensions
     #   drf-yasg
-drf-amsterdam==0.4.0
+drf-amsterdam==0.4.1
     # via -r requirements.in
 drf-extensions==0.7.0
     # via
@@ -161,7 +161,7 @@ python-dateutil==2.8.1
     #   pandas
 python-keystoneclient==4.2.0
     # via datapunt-objectstore
-python-swiftclient==3.11.0
+python-swiftclient==3.11.1
     # via datapunt-objectstore
 pytz==2021.1
     # via
@@ -222,7 +222,7 @@ uritemplate==3.0.1
     #   -r requirements.in
     #   coreapi
     #   drf-yasg
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   -r requirements.in
     #   requests
