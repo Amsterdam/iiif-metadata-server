@@ -108,5 +108,6 @@ class BouwDossierSerializer(CustomHalSerializer):
             'access_restricted_until',
             'activiteiten',
             'documenten',
-            'adressen'
+            'adressen',
+            'source',
         )
