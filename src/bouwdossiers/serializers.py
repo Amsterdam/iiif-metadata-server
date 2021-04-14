@@ -93,5 +93,6 @@ class BouwDossierSerializer(CustomHalSerializer):
             'access',
             'activiteiten',
             'documenten',
-            'adressen'
+            'adressen',
+            'source',
         )
