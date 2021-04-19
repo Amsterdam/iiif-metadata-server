@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-asgiref==3.3.1
+asgiref==3.3.4
     # via django
 attrs==20.3.0
     # via jsonschema
@@ -40,17 +40,18 @@ defusedxml==0.7.1
     # via djangorestframework-xml
 django-cors-headers==3.7.0
     # via -r requirements.in
-django-debug-toolbar==3.2
+django-debug-toolbar==3.2.1
     # via -r requirements.in
-django-extensions==3.1.1
+django-extensions==3.1.2
     # via -r requirements.in
 django-filter==2.4.0
     # via -r requirements.in
-django==3.1.7
+django==3.2
     # via
     #   -r requirements.in
     #   django-cors-headers
     #   django-debug-toolbar
+    #   django-extensions
     #   django-filter
     #   djangorestframework
     #   drf-yasg
@@ -60,7 +61,7 @@ djangorestframework-gis==0.17
     # via -r requirements.in
 djangorestframework-xml==2.0.0
     # via drf-amsterdam
-djangorestframework==3.12.2
+djangorestframework==3.12.4
     # via
     #   -r requirements.in
     #   djangorestframework-csv
@@ -110,7 +111,7 @@ netaddr==0.8.0
     #   oslo.utils
 netifaces==0.10.9
     # via oslo.utils
-numpy==1.20.1
+numpy==1.20.2
     # via
     #   -r requirements.in
     #   pandas
@@ -135,7 +136,7 @@ packaging==20.9
     # via
     #   drf-yasg
     #   oslo.utils
-pandas==1.2.3
+pandas==1.2.4
     # via -r requirements.in
 pbr==5.5.1
     # via
@@ -186,7 +187,7 @@ rfc3986==1.4.0
     # via oslo.config
 ruamel.yaml.clib==0.2.2
     # via ruamel.yaml
-ruamel.yaml==0.16.13
+ruamel.yaml==0.17.4
     # via drf-yasg
 sentry-sdk==1.0.0
     # via -r requirements.in
