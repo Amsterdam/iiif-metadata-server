@@ -1,12 +1,8 @@
 # Define all requirements, only pin when necessary (and if so, add a comment explaining why).
 # See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 
-#certifi
-#chardet
-#coreapi
-#coreschema
-
 Django
+datapunt-authorization-django
 django-cors-headers
 django-debug-toolbar
 django-extensions
@@ -14,6 +10,7 @@ django-filter
 djangorestframework
 djangorestframework-gis
 drf_yasg
+jwcrypto
 sentry-sdk
 psycopg2-binary
 datapunt-objectstore

@@ -12,6 +12,8 @@ certifi==2021.5.30
     # via
     #   requests
     #   sentry-sdk
+cffi==1.14.6
+    # via cryptography
 chardet==4.0.0
     # via requests
 coreapi==2.3.3
@@ -20,6 +22,10 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
+cryptography==3.4.7
+    # via jwcrypto
+datapunt-authorization-django==1.3.1
+    # via -r requirements.in
 datapunt-config-loader==1.1.2
     # via datapunt-objectstore
 datapunt-objectstore==2020.9.7
@@ -31,9 +37,12 @@ debtcollector==2.2.0
     #   python-keystoneclient
 defusedxml==0.7.1
     # via djangorestframework-xml
+deprecated==1.2.12
+    # via jwcrypto
 django==3.2.5
     # via
     #   -r requirements.in
+    #   datapunt-authorization-django
     #   django-cors-headers
     #   django-debug-toolbar
     #   django-extensions
@@ -82,6 +91,10 @@ jinja2==3.0.1
     # via coreschema
 jsonschema==3.2.0
     # via datapunt-config-loader
+jwcrypto==0.9.1
+    # via
+    #   -r requirements.in
+    #   datapunt-authorization-django
 keystoneauth1==4.3.1
     # via python-keystoneclient
 markupsafe==2.0.1
@@ -124,6 +137,8 @@ pbr==5.6.0
     #   stevedore
 psycopg2-binary==2.9.1
     # via -r requirements.in
+pycparser==2.20
+    # via cffi
 pyparsing==2.4.7
     # via
     #   oslo.utils
@@ -148,6 +163,7 @@ pyyaml==5.4.1
 requests==2.25.1
     # via
     #   coreapi
+    #   datapunt-authorization-django
     #   keystoneauth1
     #   oslo.config
     #   python-keystoneclient
@@ -165,6 +181,7 @@ six==1.16.0
     #   debtcollector
     #   djangorestframework-csv
     #   jsonschema
+    #   jwcrypto
     #   keystoneauth1
     #   oslo.i18n
     #   python-dateutil
@@ -190,7 +207,9 @@ urllib3==1.26.6
     #   requests
     #   sentry-sdk
 wrapt==1.12.1
-    # via debtcollector
+    # via
+    #   debtcollector
+    #   deprecated
 xmltodict==0.12.0
     # via -r requirements.in
 

@@ -14,6 +14,10 @@ SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
 
 LOCAL = DEBUG = SECRET_KEY == insecure_key
 
+BOUWDOSSIER_PUBLIC_SCOPE = 'BD/P'  # BouwDossiers_Public_Read. Access to anybody with e-mail link
+BOUWDOSSIER_READ_SCOPE = 'BD/R'  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
+BOUWDOSSIER_EXTENDED_SCOPE = 'BD/X'  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
+
 ALLOWED_HOSTS = ['*']
 
 DATAPUNT_API_URL = os.getenv(
@@ -26,16 +30,12 @@ INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
-
     'django_filters',
     'django_extensions',
-
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-    # 'rest_framework_swagger',
     'drf_yasg',
-
     'bouwdossiers',
     'health',
 ]
@@ -49,7 +49,37 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'authorization_django.authorization_middleware',
 ]
+
+
+# The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
+# This is a test public/private key def and added for testing .
+JWKS_TEST_KEY = """
+    {
+        "keys": [
+            {
+                "kty": "EC",
+                "key_ops": [
+                    "verify",
+                    "sign"
+                ],
+                "kid": "2aedafba-8170-4064-b704-ce92b7c89cc6",
+                "crv": "P-256",
+                "x": "6r8PYwqfZbq_QzoMA4tzJJsYUIIXdeyPA27qTgEJCDw=",
+                "y": "Cf2clfAfFuuCB06NMfIat9ultkMyrMQO9Hd2H7O9ZVE=",
+                "d": "N1vu0UQUp0vLfaNeM0EDbl4quvvL6m_ltjoAXXzkI3U="
+            }
+        ]
+    }
+"""
+
+DATAPUNT_AUTHZ = {
+    'ALWAYS_OK': False,
+    'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
+    "JWKS_URL": os.getenv("KEYCLOAK_JWKS_URL"),
+    'FORCED_ANONYMOUS_ROUTES': ['/status/health']
+}
 
 ROOT_URLCONF = 'main.urls'
 
@@ -80,7 +110,6 @@ DATABASES = {
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv('DATABASE_HOST', 'database'),
         'PORT': os.getenv('DATABASE_PORT', '5432'),
-
     }
 }
 

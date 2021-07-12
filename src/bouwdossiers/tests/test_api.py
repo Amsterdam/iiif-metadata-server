@@ -4,13 +4,15 @@ from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from bouwdossiers.models import SOURCE_WABO, Adres, BouwDossier, Document
+from bouwdossiers.models import (SOURCE_EDEPOT, SOURCE_WABO, Adres,
+                                 BouwDossier, Document)
 from bouwdossiers.tests import factories
+from bouwdossiers.tests.tools_for_testing import create_authz_token
 
 
-def create_bouwdossiers(n, stadsdeel='AA'):
+def create_bouwdossiers(n, stadsdeel='AA', source=SOURCE_EDEPOT):
     return [factories.BouwDossierFactory(dossiernr=randint(10, 10000), stadsdeel=stadsdeel,
-                                         olo_liaan_nummer=randint(10, 10000)) for i in range(n)]
+                                         olo_liaan_nummer=randint(10, 10000), source=source) for i in range(n)]
 
 
 def delete_all_records():
@@ -25,13 +27,27 @@ class APITest(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
 
-    def test_api_list(self):
-        create_bouwdossiers(3)
+    def test_api_list_without_auth(self):
+        create_bouwdossiers(3, source=SOURCE_EDEPOT)
+        create_bouwdossiers(4, source=SOURCE_WABO)
+
         url = reverse('bouwdossier-list')
         response = self.client.get(url)
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        self.assertGreaterEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 3)
+        delete_all_records()
+
+    def test_api_list_with_auth(self):
+        create_bouwdossiers(3, source=SOURCE_EDEPOT)
+        create_bouwdossiers(4, source=SOURCE_WABO)
+
+        url = reverse('bouwdossier-list')
+        header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)}
+        response = self.client.get(url, **header)
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 7)
         delete_all_records()
 
     def test_api_malformed_code(self):
@@ -41,9 +57,28 @@ class APITest(APITestCase):
 
     def test_api_one_using_stadsdeel_and_dossier(self):
         dossiers = create_bouwdossiers(3)
+
         pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
         url = reverse('bouwdossier-detail', kwargs={'pk': pk})
         response = self.client.get(url)
+        self.assertEqual(response.data['stadsdeel'], dossiers[0].stadsdeel)
+        self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
+        delete_all_records()
+
+    def test_api_one_wabo_using_stadsdeel_and_dossier_without_auth(self):
+        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
+        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+        delete_all_records()
+
+    def test_api_one_wabo_using_stadsdeel_and_dossier_with_auth(self):
+        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
+        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+        header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)}
+        response = self.client.get(url, **header)
         self.assertEqual(response.data['stadsdeel'], dossiers[0].stadsdeel)
         self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
         delete_all_records()
@@ -411,7 +446,8 @@ class APITest(APITestCase):
         adres.save()
 
         url = reverse('bouwdossier-detail', kwargs={'pk': 'AA12345'})
-        response = self.client.get(url)
+        header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)}
+        response = self.client.get(url, **header)
         documents = response.data.get('documenten')
         adressen = response.data['adressen']
         self.assertEqual(response.data['olo_liaan_nummer'], 67890)
