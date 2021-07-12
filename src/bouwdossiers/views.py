@@ -56,9 +56,9 @@ class BouwDossierViewSet(DatapuntViewSet):
     def get_queryset(self):
         allowed_scopes = [settings.BOUWDOSSIER_READ_SCOPE, settings.BOUWDOSSIER_EXTENDED_SCOPE]
         if any(scope in self.request.get_token_scopes for scope in allowed_scopes):
-            return models.BouwDossier.objects.all().prefetch_related('adressen').prefetch_related('documenten')
+            return models.BouwDossier.objects.all().prefetch_related('adressen', 'documenten')
         else:
-            return models.BouwDossier.objects.filter(source='EDEPOT').prefetch_related('adressen').prefetch_related('documenten')
+            return models.BouwDossier.objects.filter(source='EDEPOT').prefetch_related('adressen', 'documenten')
 
     def get_serializer_class(self):
         return serializers.BouwDossierSerializer

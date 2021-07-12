@@ -21,33 +21,30 @@ def delete_all_records():
     Document.objects.all().delete()
 
 
-class APITest(APITestCase):
+class TestAPI(APITestCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-    def test_api_list_without_auth(self):
+    def test_api_list(self):
         create_bouwdossiers(3, source=SOURCE_EDEPOT)
         create_bouwdossiers(4, source=SOURCE_WABO)
-
         url = reverse('bouwdossier-list')
-        response = self.client.get(url)
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 3)
-        delete_all_records()
 
-    def test_api_list_with_auth(self):
-        create_bouwdossiers(3, source=SOURCE_EDEPOT)
-        create_bouwdossiers(4, source=SOURCE_WABO)
+        test_parameters = [
+            (None, 3),
+            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 3),
+            (settings.BOUWDOSSIER_READ_SCOPE, 7),
+            (settings.BOUWDOSSIER_EXTENDED_SCOPE, 7)
+       ]
+        for scope, num_exptected in test_parameters:
+            header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(scope)} if scope else {}
+            response = self.client.get(url, **header)
+            self.assertIn('results', response.data)
+            self.assertIn('count', response.data)
+            self.assertEqual(response.data['count'], num_exptected)
 
-        url = reverse('bouwdossier-list')
-        header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)}
-        response = self.client.get(url, **header)
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 7)
         delete_all_records()
 
     def test_api_malformed_code(self):
@@ -55,7 +52,7 @@ class APITest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 400)
 
-    def test_api_one_using_stadsdeel_and_dossier(self):
+    def test_api_detail_using_stadsdeel_and_dossier(self):
         dossiers = create_bouwdossiers(3)
 
         pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
@@ -65,25 +62,41 @@ class APITest(APITestCase):
         self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
         delete_all_records()
 
-    def test_api_one_wabo_using_stadsdeel_and_dossier_without_auth(self):
+    def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
         dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
         pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
         url = reverse('bouwdossier-detail', kwargs={'pk': pk})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
+
+        test_parameters = [
+            None,
+            settings.BOUWDOSSIER_PUBLIC_SCOPE,
+            'non-existing',
+        ]
+        for scope in test_parameters:
+            header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(scope)} if scope else {}
+            response = self.client.get(url, **header)
+            self.assertEqual(response.status_code, 404)
+
         delete_all_records()
 
-    def test_api_one_wabo_using_stadsdeel_and_dossier_with_auth(self):
+    def test_api_detail_wabo_using_stadsdeel_and_dossier_with_auth(self):
         dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
         pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
         url = reverse('bouwdossier-detail', kwargs={'pk': pk})
-        header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)}
-        response = self.client.get(url, **header)
-        self.assertEqual(response.data['stadsdeel'], dossiers[0].stadsdeel)
-        self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
+
+        test_parameters = [
+            settings.BOUWDOSSIER_READ_SCOPE,
+            settings.BOUWDOSSIER_EXTENDED_SCOPE
+        ]
+        for scope in test_parameters:
+            header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(scope)}
+            response = self.client.get(url, **header)
+            self.assertEqual(response.data['stadsdeel'], dossiers[0].stadsdeel)
+            self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
+
         delete_all_records()
 
-    def test_api_one_using_stadsdeel_3_letters(self):
+    def test_api_detail_using_stadsdeel_3_letters(self):
         create_bouwdossiers(3)
         dossier = BouwDossier.objects.first()
         dossier.stadsdeel = 'AAA'
@@ -97,7 +110,7 @@ class APITest(APITestCase):
         self.assertEqual(response.data['dossiernr'], dossier.dossiernr)
         delete_all_records()
 
-    def test_api_one_using_stadsdeel_4_letters(self):
+    def test_api_detail_using_stadsdeel_4_letters(self):
         create_bouwdossiers(3)
         dossier = BouwDossier.objects.first()
         dossier.stadsdeel = 'AAAA'
