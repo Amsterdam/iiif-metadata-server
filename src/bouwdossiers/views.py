@@ -1,6 +1,7 @@
 import logging
 
 from datapunt_api.rest import DatapuntViewSet
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import FilterSet, filters
 
@@ -52,11 +53,12 @@ class BouwDossierFilter(FilterSet):
 class BouwDossierViewSet(DatapuntViewSet):
     filter_class = BouwDossierFilter
 
-    queryset = (
-        models.BouwDossier.objects.all()
-        .prefetch_related('adressen')
-        .prefetch_related('documenten')
-    )
+    def get_queryset(self):
+        allowed_scopes = [settings.BOUWDOSSIER_READ_SCOPE, settings.BOUWDOSSIER_EXTENDED_SCOPE]
+        if any(scope in self.request.get_token_scopes for scope in allowed_scopes):
+            return models.BouwDossier.objects.all().prefetch_related('adressen', 'documenten')
+        else:
+            return models.BouwDossier.objects.filter(source='EDEPOT').prefetch_related('adressen', 'documenten')
 
     def get_serializer_class(self):
         return serializers.BouwDossierSerializer
@@ -65,6 +67,6 @@ class BouwDossierViewSet(DatapuntViewSet):
         # We expect a key of the form AA0000123 in which AA is the code for the
         # stadsdeel and the numberic part (which can vary in length) is the dossiernumber
         stadsdeel, dossiernr = tools.separate_dossier(self.kwargs['pk'])
-        obj = get_object_or_404(self.queryset, stadsdeel=stadsdeel.upper(), dossiernr=dossiernr)
+        obj = get_object_or_404(self.get_queryset(), stadsdeel=stadsdeel.upper(), dossiernr=dossiernr)
 
         return obj

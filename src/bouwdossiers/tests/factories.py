@@ -15,7 +15,7 @@ class ImportFileFactory(factory.django.DjangoModelFactory):
 
 class BouwDossierFactory(factory.django.DjangoModelFactory):
     class Meta:
-        django_get_or_create = ('dossiernr', 'stadsdeel', 'olo_liaan_nummer')
+        django_get_or_create = ('dossiernr', 'stadsdeel', 'olo_liaan_nummer', 'source')
         model = models.BouwDossier
 
     source = models.SOURCE_EDEPOT
