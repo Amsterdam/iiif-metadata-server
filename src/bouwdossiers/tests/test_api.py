@@ -37,7 +37,7 @@ class TestAPI(APITestCase):
             (settings.BOUWDOSSIER_PUBLIC_SCOPE, 3),
             (settings.BOUWDOSSIER_READ_SCOPE, 7),
             (settings.BOUWDOSSIER_EXTENDED_SCOPE, 7)
-       ]
+        ]
         for scope, num_exptected in test_parameters:
             header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(scope)} if scope else {}
             response = self.client.get(url, **header)
