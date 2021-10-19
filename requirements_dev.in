@@ -4,5 +4,6 @@
 factory-boy
 pytest-django
 pytest-isort
+flake8<4  # see https://github.com/tholo/pytest-flake8/issues/81
 pytest-flake8
 pytest-cov
