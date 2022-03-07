@@ -36,6 +36,7 @@ services:
       - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
       - DEBUG=true
       - SECRET_KEY=dev
+      - JWKS_USE_TEST_KEY=true
       - PYTHONBREAKPOINT
       - UWSGI_STATIC_MAP=/iiif-metadata/static=/static
     volumes:
@@ -59,6 +60,7 @@ services:
     environment:
       - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
       - SECRET_KEY=insecure
+      - JWKS_USE_TEST_KEY=true
       - DATABASE_NAME=iiif_metadata_server
       - DATABASE_USER=iiif_metadata_server
       - DATABASE_PASSWORD=insecure

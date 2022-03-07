@@ -9,10 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-insecure_key = 'insecure'
-SECRET_KEY = os.getenv('SECRET_KEY', insecure_key)
-
-LOCAL = DEBUG = SECRET_KEY == insecure_key
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
 
 BOUWDOSSIER_PUBLIC_SCOPE = 'BD/P'  # BouwDossiers_Public_Read. Access to anybody with e-mail link
 BOUWDOSSIER_READ_SCOPE = 'BD/R'  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
@@ -74,9 +72,14 @@ JWKS_TEST_KEY = """
     }
 """
 
+if os.getenv('JWKS_USE_TEST_KEY', False):
+    JWKS = JWKS_TEST_KEY
+else:
+    JWKS = os.environ['PUB_JWKS']
+
 DATAPUNT_AUTHZ = {
     'ALWAYS_OK': False,
-    'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
+    'JWKS': JWKS,
     "JWKS_URL": os.getenv("KEYCLOAK_JWKS_URL"),
     'FORCED_ANONYMOUS_ROUTES': ['/status/health']
 }
