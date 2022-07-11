@@ -6,7 +6,7 @@ datapunt-authorization-django
 django-cors-headers
 django-debug-toolbar
 django-extensions
-django-filter<22  # After upgrade to 22.1 many tests failed. Not sure why. TODO: investigate more later
+django-filter
 djangorestframework
 djangorestframework-gis
 drf_yasg
