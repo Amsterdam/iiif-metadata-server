@@ -51,7 +51,7 @@ class BouwDossierFilter(FilterSet):
 
 
 class BouwDossierViewSet(DatapuntViewSet):
-    filter_class = BouwDossierFilter
+    filterset_class = BouwDossierFilter
 
     def get_queryset(self):
         allowed_scopes = [settings.BOUWDOSSIER_READ_SCOPE, settings.BOUWDOSSIER_EXTENDED_SCOPE]
