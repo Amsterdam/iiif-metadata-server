@@ -13,6 +13,10 @@ attrs==21.4.0
     #   -r ./requirements.txt
     #   jsonschema
     #   pytest
+backports.zoneinfo==0.2.1
+    # via
+    #   -r ./requirements.txt
+    #   django
 certifi==2022.6.15
     # via
     #   -r ./requirements.txt
@@ -52,8 +56,8 @@ datapunt-objectstore==2020.9.7
 debtcollector==2.5.0
     # via
     #   -r ./requirements.txt
-    #   oslo-config
-    #   oslo-utils
+    #   oslo.config
+    #   oslo.utils
     #   python-keystoneclient
 defusedxml==0.7.1
     # via
@@ -63,7 +67,7 @@ deprecated==1.2.13
     # via
     #   -r ./requirements.txt
     #   jwcrypto
-django==3.2.14
+django==4.0.6
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
@@ -79,7 +83,7 @@ django-debug-toolbar==3.5.0
     # via -r ./requirements.txt
 django-extensions==3.2.0
     # via -r ./requirements.txt
-django-filter==22.1
+django-filter==21.1
     # via -r ./requirements.txt
 djangorestframework==3.13.1
     # via
@@ -131,7 +135,7 @@ iso8601==1.0.2
     # via
     #   -r ./requirements.txt
     #   keystoneauth1
-    #   oslo-utils
+    #   oslo.utils
 isort==5.10.1
     # via pytest-isort
 itypes==1.2.0
@@ -142,7 +146,7 @@ jinja2==3.1.2
     # via
     #   -r ./requirements.txt
     #   coreschema
-jsonschema==4.6.2
+jsonschema==4.7.1
     # via
     #   -r ./requirements.txt
     #   datapunt-config-loader
@@ -163,44 +167,44 @@ mccabe==0.6.1
 msgpack==1.0.4
     # via
     #   -r ./requirements.txt
-    #   oslo-serialization
+    #   oslo.serialization
 netaddr==0.8.0
     # via
     #   -r ./requirements.txt
-    #   oslo-config
-    #   oslo-utils
+    #   oslo.config
+    #   oslo.utils
 netifaces==0.11.0
     # via
     #   -r ./requirements.txt
-    #   oslo-utils
+    #   oslo.utils
 os-service-types==1.7.0
     # via
     #   -r ./requirements.txt
     #   keystoneauth1
-oslo-config==8.8.0
+oslo.config==8.8.0
     # via
     #   -r ./requirements.txt
     #   python-keystoneclient
-oslo-i18n==5.1.0
+oslo.i18n==5.1.0
     # via
     #   -r ./requirements.txt
-    #   oslo-config
-    #   oslo-utils
+    #   oslo.config
+    #   oslo.utils
     #   python-keystoneclient
-oslo-serialization==4.3.0
+oslo.serialization==4.3.0
     # via
     #   -r ./requirements.txt
     #   python-keystoneclient
-oslo-utils==6.0.0
+oslo.utils==6.0.0
     # via
     #   -r ./requirements.txt
-    #   oslo-serialization
+    #   oslo.serialization
     #   python-keystoneclient
 packaging==21.3
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-    #   oslo-utils
+    #   oslo.utils
     #   pytest
     #   python-keystoneclient
 pbr==5.9.0
@@ -208,8 +212,8 @@ pbr==5.9.0
     #   -r ./requirements.txt
     #   keystoneauth1
     #   os-service-types
-    #   oslo-i18n
-    #   oslo-serialization
+    #   oslo.i18n
+    #   oslo.serialization
     #   python-keystoneclient
     #   stevedore
 pluggy==1.0.0
@@ -229,7 +233,7 @@ pyflakes==2.4.0
 pyparsing==3.0.9
     # via
     #   -r ./requirements.txt
-    #   oslo-utils
+    #   oslo.utils
     #   packaging
 pyrsistent==0.18.1
     # via
@@ -265,37 +269,36 @@ python-swiftclient==4.0.0
 pytz==2022.1
     # via
     #   -r ./requirements.txt
-    #   django
     #   djangorestframework
-    #   oslo-serialization
-    #   oslo-utils
+    #   oslo.serialization
+    #   oslo.utils
 pyyaml==6.0
     # via
     #   -r ./requirements.txt
     #   datapunt-config-loader
-    #   oslo-config
+    #   oslo.config
 requests==2.28.1
     # via
     #   -r ./requirements.txt
     #   coreapi
     #   datapunt-authorization-django
     #   keystoneauth1
-    #   oslo-config
+    #   oslo.config
     #   python-keystoneclient
     #   python-swiftclient
 rfc3986==2.0.0
     # via
     #   -r ./requirements.txt
-    #   oslo-config
-ruamel-yaml==0.17.21
+    #   oslo.config
+ruamel.yaml==0.17.21
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-ruamel-yaml-clib==0.2.6
+ruamel.yaml.clib==0.2.6
     # via
     #   -r ./requirements.txt
-    #   ruamel-yaml
-sentry-sdk==1.6.0
+    #   ruamel.yaml
+sentry-sdk==1.7.0
     # via -r ./requirements.txt
 six==1.16.0
     # via
@@ -313,7 +316,7 @@ stevedore==3.5.0
     # via
     #   -r ./requirements.txt
     #   keystoneauth1
-    #   oslo-config
+    #   oslo.config
     #   python-keystoneclient
 tomli==2.0.1
     # via
