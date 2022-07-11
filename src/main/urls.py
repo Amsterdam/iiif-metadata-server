@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include
+from django.urls import re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -8,10 +9,10 @@ from bouwdossiers import urls as bouwdossiers_urls
 
 grouped_url_patterns = {
     'base_patterns': [
-        url(r'^status/', include('health.urls')),
+        re_path(r'^status/', include('health.urls')),
     ],
     'bouwdossiers_patterns': [
-        url(r'^iiif-metadata/', include(bouwdossiers_urls.urls)),
+        re_path(r'^iiif-metadata/', include(bouwdossiers_urls.urls)),
     ],
 }
 
@@ -29,17 +30,17 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    url(
+    re_path(
         r'^iiif-metadata/docs/swagger(?P<format>\.json|\.yaml)$',
         schema_view.without_ui(cache_timeout=None),
         name='schema-json'
     ),
-    url(
+    re_path(
         r'^iiif-metadata/docs/swagger/$',
         schema_view.with_ui('swagger', cache_timeout=None),
         name='schema-swagger-ui'
     ),
-    url(
+    re_path(
         r'^iiif-metadata/docs/redoc/$',
         schema_view.with_ui('redoc', cache_timeout=None),
         name='schema-redoc'
@@ -54,5 +55,5 @@ if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns.extend([
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        re_path(r'^__debug__/', include(debug_toolbar.urls)),
     ])

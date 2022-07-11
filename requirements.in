@@ -1,12 +1,12 @@
 # Define all requirements, only pin when necessary (and if so, add a comment explaining why).
 # See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 
-Django<4  # Django 4 not yet supported by djangorestframework-gis
+Django
 datapunt-authorization-django
 django-cors-headers
 django-debug-toolbar
 django-extensions
-django-filter
+django-filter<22  # After upgrade to 22.1 many tests failed. Not sure why. TODO: investigate more later
 djangorestframework
 djangorestframework-gis
 drf_yasg
