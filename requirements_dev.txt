@@ -13,7 +13,7 @@ attrs==22.1.0
     #   -r ./requirements.txt
     #   jsonschema
     #   pytest
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   -r ./requirements.txt
     #   requests
@@ -107,8 +107,6 @@ drf-extensions==0.7.1
     #   drf-amsterdam
 drf-yasg==1.21.4
     # via -r ./requirements.txt
-exceptiongroup==1.0.4
-    # via pytest
 factory-boy==3.2.1
     # via -r requirements_dev.in
 faker==15.3.4
@@ -287,10 +285,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-ruamel-yaml-clib==0.2.7
-    # via
-    #   -r ./requirements.txt
-    #   ruamel-yaml
 sentry-sdk==1.11.1
     # via -r ./requirements.txt
 six==1.16.0
@@ -311,10 +305,6 @@ stevedore==4.1.1
     #   keystoneauth1
     #   oslo-config
     #   python-keystoneclient
-tomli==2.0.1
-    # via
-    #   coverage
-    #   pytest
 unicodecsv==0.14.1
     # via
     #   -r ./requirements.txt
