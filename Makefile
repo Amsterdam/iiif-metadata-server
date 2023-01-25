@@ -15,8 +15,10 @@ install: pip-tools                  ## Install requirements and sync venv with e
 	pip-sync requirements_dev.txt
 
 requirements: pip-tools             ## Upgrade requirements (in requirements.in) to latest versions and compile requirements.txt
-	pip-compile --upgrade --output-file requirements.txt requirements.in
-	pip-compile --upgrade --output-file requirements_dev.txt requirements_dev.in
+	## The --allow-unsafe flag should be used and will become the default behaviour of pip-compile in the future
+	## https://stackoverflow.com/questions/58843905
+	pip-compile --upgrade --output-file requirements.txt --allow-unsafe requirements.in
+	pip-compile --upgrade --output-file requirements_dev.txt --allow-unsafe requirements_dev.in
 
 upgrade: requirements install       ## Run 'requirements' and 'install' targets
 
@@ -61,3 +63,7 @@ import_bag:                       ## Populate database with Bag data
 	${dc} exec database update-table.sh bag_v11 bag_pand public iiif_metadata_server
 	${dc} exec database update-table.sh bag_v11 bag_verblijfsobjectpandrelatie public iiif_metadata_server
 	${dc} exec database update-table.sh bag_v11 bag_openbareruimte public iiif_metadata_server
+
+trivy: 								## Detect image vulnerabilities
+	$(dc) build app
+	trivy image --ignore-unfixed docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server

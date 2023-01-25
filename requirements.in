@@ -16,3 +16,4 @@ psycopg2-binary
 datapunt-objectstore
 drf-amsterdam
 xmltodict
+setuptools  # Needed to solve Trivy security risk
