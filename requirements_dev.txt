@@ -37,7 +37,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage[toml]==7.0.5
     # via pytest-cov
-cryptography==39.0.0
+cryptography==39.0.1
     # via
     #   -r ./requirements.txt
     #   jwcrypto
@@ -107,8 +107,6 @@ drf-extensions==0.7.1
     #   drf-amsterdam
 drf-yasg==1.21.4
     # via -r ./requirements.txt
-exceptiongroup==1.1.0
-    # via pytest
 factory-boy==3.2.1
     # via -r requirements_dev.in
 faker==16.4.0
@@ -286,10 +284,6 @@ ruamel-yaml==0.17.21
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-ruamel-yaml-clib==0.2.7
-    # via
-    #   -r ./requirements.txt
-    #   ruamel-yaml
 sentry-sdk==1.13.0
     # via -r ./requirements.txt
 six==1.16.0
@@ -310,10 +304,6 @@ stevedore==4.1.1
     #   keystoneauth1
     #   oslo-config
     #   python-keystoneclient
-tomli==2.0.1
-    # via
-    #   coverage
-    #   pytest
 unicodecsv==0.14.1
     # via
     #   -r ./requirements.txt
