@@ -25,7 +25,7 @@ pipeline {
         SHORT_UUID = sh( script: "head /dev/urandom | tr -dc A-Za-z0-9 | head -c10", returnStdout: true).trim()
         COMPOSE_PROJECT_NAME = "${PROJECT_NAME}-${env.SHORT_UUID}"
         VERSION = env.BRANCH_NAME.replace('/', '-').toLowerCase().replace(
-            'master', 'latest'
+            'main', 'latest'
         )
         IS_RELEASE = "${env.BRANCH_NAME ==~ "pre-release/.*"}"
     }
@@ -46,7 +46,7 @@ pipeline {
         stage('Push and deploy') {
             when { 
                 anyOf {
-                    branch 'master'
+                    branch 'main'
                     buildingTag()
                     environment name: 'IS_RELEASE', value: 'true'
                 }
@@ -64,7 +64,7 @@ pipeline {
                     when {
                         anyOf {
                             environment name: 'IS_RELEASE', value: 'true'
-                            branch 'master'
+                            branch 'main'
                         }
                     }
                     steps {
