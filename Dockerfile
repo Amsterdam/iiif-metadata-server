@@ -1,10 +1,19 @@
-FROM amsterdam/python:3.8-buster as app
+FROM python:3.8-buster as app
 
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED 1 \
+    PIP_NO_CACHE_DIR=off
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
 ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
 ARG JWKS_USE_TEST_KEY=true
+
+RUN apt-get update \
+ && apt-get dist-upgrade -y \
+ && apt-get install --no-install-recommends -y \
+        gdal-bin \
+ && pip install --upgrade pip \
+ && pip install uwsgi \
+ && useradd --user-group --system datapunt
 
 WORKDIR /app_install
 ADD requirements.txt requirements.txt
