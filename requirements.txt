@@ -8,7 +8,7 @@ asgiref==3.6.0
     # via django
 attrs==23.1.0
     # via jsonschema
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   requests
     #   sentry-sdk
@@ -39,7 +39,7 @@ defusedxml==0.7.1
     # via djangorestframework-xml
 deprecated==1.2.13
     # via jwcrypto
-django==4.1.8
+django==4.1.9
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
@@ -49,7 +49,7 @@ django==4.1.8
     #   django-filter
     #   djangorestframework
     #   drf-yasg
-django-cors-headers==3.14.0
+django-cors-headers==4.0.0
     # via -r requirements.in
 django-debug-toolbar==4.0.0
     # via -r requirements.in
@@ -158,7 +158,7 @@ pyyaml==6.0
     # via
     #   datapunt-config-loader
     #   oslo-config
-requests==2.29.0
+requests==2.30.0
     # via
     #   coreapi
     #   datapunt-authorization-django
@@ -168,9 +168,11 @@ requests==2.29.0
     #   python-swiftclient
 rfc3986==2.0.0
     # via oslo-config
-ruamel-yaml==0.17.22
+ruamel-yaml==0.17.26
     # via drf-yasg
-sentry-sdk==1.21.1
+ruamel-yaml-clib==0.2.7
+    # via ruamel-yaml
+sentry-sdk==1.22.2
     # via -r requirements.in
 six==1.16.0
     # via
@@ -182,7 +184,7 @@ sqlparse==0.4.4
     # via
     #   django
     #   django-debug-toolbar
-stevedore==5.0.0
+stevedore==5.1.0
     # via
     #   keystoneauth1
     #   oslo-config
