@@ -12,7 +12,7 @@ attrs==23.1.0
     # via
     #   -r ./requirements.txt
     #   jsonschema
-certifi==2022.12.7
+certifi==2023.5.7
     # via
     #   -r ./requirements.txt
     #   requests
@@ -62,7 +62,7 @@ deprecated==1.2.13
     # via
     #   -r ./requirements.txt
     #   jwcrypto
-django==4.1.8
+django==4.1.9
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
@@ -72,7 +72,7 @@ django==4.1.8
     #   django-filter
     #   djangorestframework
     #   drf-yasg
-django-cors-headers==3.14.0
+django-cors-headers==4.0.0
     # via -r ./requirements.txt
 django-debug-toolbar==4.0.0
     # via -r ./requirements.txt
@@ -108,7 +108,7 @@ drf-yasg==1.21.5
     # via -r ./requirements.txt
 factory-boy==3.2.1
     # via -r requirements_dev.in
-faker==18.6.1
+faker==18.7.0
     # via factory-boy
 flake8==6.0.0
     # via pytest-flake8
@@ -266,7 +266,7 @@ pyyaml==6.0
     #   -r ./requirements.txt
     #   datapunt-config-loader
     #   oslo-config
-requests==2.29.0
+requests==2.30.0
     # via
     #   -r ./requirements.txt
     #   coreapi
@@ -279,11 +279,15 @@ rfc3986==2.0.0
     # via
     #   -r ./requirements.txt
     #   oslo-config
-ruamel-yaml==0.17.22
+ruamel-yaml==0.17.26
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-sentry-sdk==1.21.1
+ruamel-yaml-clib==0.2.7
+    # via
+    #   -r ./requirements.txt
+    #   ruamel-yaml
+sentry-sdk==1.22.2
     # via -r ./requirements.txt
 six==1.16.0
     # via
@@ -297,7 +301,7 @@ sqlparse==0.4.4
     #   -r ./requirements.txt
     #   django
     #   django-debug-toolbar
-stevedore==5.0.0
+stevedore==5.1.0
     # via
     #   -r ./requirements.txt
     #   keystoneauth1
