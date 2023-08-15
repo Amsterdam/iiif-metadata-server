@@ -16,6 +16,8 @@ BOUWDOSSIER_PUBLIC_SCOPE = 'BD/P'  # BouwDossiers_Public_Read. Access to anybody
 BOUWDOSSIER_READ_SCOPE = 'BD/R'  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
 BOUWDOSSIER_EXTENDED_SCOPE = 'BD/X'  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
+WABO_BASE_URL = os.getenv('WABO_BASE_URL', 'https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/')
+
 ALLOWED_HOSTS = ['*']
 
 DATAPUNT_API_URL = os.getenv(
