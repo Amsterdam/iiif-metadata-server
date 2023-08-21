@@ -58,40 +58,39 @@ class APITest(TestCase):
         # 0363200000470955 Feike de Boerlaan 290 nummeraanduiding
         self.assertFalse('0363200000470955' in fdb.nummeraanduidingen)
 
-    # def test_wabo_import(self):
-    #     batch.import_wabo_dossiers()
+    def test_wabo_import(self):
+        batch.import_wabo_dossiers()
 
-    #     # And another test for the WABO_centrum file from the new WABO server. The old wabo server is phased out.
-    #     bd = models.BouwDossier.objects.get(dossiernr=189)
-    #     self.assertEqual(bd.stadsdeel, 'SDC')
-    #     self.assertEqual(bd.titel, "het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 116 met bestemming daarvan tot kantoor")
-    #     self.assertEqual(bd.datering.strftime("%Y"), "2010")
-    #     self.assertEqual(bd.dossier_type, "omgevingsvergunning")
-    #     self.assertEqual(bd.access, "PUBLIC")
-    #     self.assertEqual(bd.source, "WABO")
-    #     self.assertEqual(bd.olo_liaan_nummer, 189)
-    #     self.assertEqual(bd.wabo_bron, "KEY2")
-    #     self.assertEqual(bd.adressen.count(), 25)
+        bd = models.BouwDossier.objects.get(dossiernr=189)
+        self.assertEqual(bd.stadsdeel, 'SDC')
+        self.assertEqual(bd.titel, "het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 116 met bestemming daarvan tot kantoor")
+        self.assertEqual(bd.datering.strftime("%Y"), "2010")
+        self.assertEqual(bd.dossier_type, "omgevingsvergunning")
+        self.assertEqual(bd.access, "PUBLIC")
+        self.assertEqual(bd.source, "WABO")
+        self.assertEqual(bd.olo_liaan_nummer, 189)
+        self.assertEqual(bd.wabo_bron, "KEY2")
+        self.assertEqual(bd.adressen.count(), 25)
 
-    #     adres0 = bd.adressen.first()
-    #     self.assertEqual(adres0.straat, "Lauriergracht")
-    #     self.assertEqual(adres0.huisnummer_van, 116)
-    #     self.assertEqual(adres0.huisnummer_toevoeging, "H")
-    #     self.assertEqual(adres0.huisnummer_tot, None)
-    #     self.assertEqual(adres0.openbareruimte_id, "0363300000004136")
-    #     self.assertEqual(adres0.verblijfsobjecten, ['0363010000719556'])
-    #     self.assertEqual(adres0.panden, ['0363100012168986'])
+        adres0 = bd.adressen.first()
+        self.assertEqual(adres0.straat, "Lauriergracht")
+        self.assertEqual(adres0.huisnummer_van, 116)
+        self.assertEqual(adres0.huisnummer_toevoeging, "H")
+        self.assertEqual(adres0.huisnummer_tot, None)
+        self.assertEqual(adres0.openbareruimte_id, "0363300000004136")
+        self.assertEqual(adres0.verblijfsobjecten, ['0363010000719556'])
+        self.assertEqual(adres0.panden, ['0363100012168986'])
 
-    #     documenten = bd.documenten.order_by('id').all()
-    #     self.assertEqual(len(documenten), 20)
-    #     document5 = documenten[5]
-    #     self.assertEqual(document5.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage16.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
-    #     self.assertEqual(document5.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcb.pdf'])
-    #     self.assertEqual(document5.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcb'])
-    #     self.assertEqual(document5.access, models.ACCESS_PUBLIC)
+        documenten = bd.documenten.order_by('id').all()
+        self.assertEqual(len(documenten), 20)
+        document5 = documenten[5]
+        self.assertEqual(document5.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage16.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
+        self.assertEqual(document5.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcb.pdf'])
+        self.assertEqual(document5.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcb'])
+        self.assertEqual(document5.access, models.ACCESS_PUBLIC)
 
-    #     document6 = documenten[6]
-    #     self.assertEqual(document6.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage01.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
-    #     self.assertEqual(document6.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf'])
-    #     self.assertEqual(document6.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcd'])
-    #     self.assertEqual(document6.access, models.ACCESS_RESTRICTED)
+        document6 = documenten[6]
+        self.assertEqual(document6.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage01.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
+        self.assertEqual(document6.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf'])
+        self.assertEqual(document6.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcd'])
+        self.assertEqual(document6.access, models.ACCESS_RESTRICTED)
