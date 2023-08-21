@@ -89,13 +89,20 @@ def _normalize_bestand(bestand):
 
 
 def get_access(el):
-    if (
-        el.get('openbaarheidsBeperking', 'N').lower() == 'j'
-        or el.get('openbaar', 'J').lower() == 'n'
-        or el.get('gevoelig_object', 'N').lower() == "j"
-        or el.get('bevat_persoonsgegevens', 'false').lower() == 'true'
-    ):
+    checks = {
+        'openbaarheidsBeperking': ('N', 'j'),
+        'openbaar': ('J', 'n'),
+        'gevoelig_object': ('N', 'j'),
+        'bevat_persoonsgegevens': ('false', 'true')
+    }
+
+    if not any(el.get(check) for check in checks.keys()):
         return models.ACCESS_RESTRICTED
+
+    for key, (default_value, expected_value) in checks.items():
+        if el.get(key, default_value).lower() == expected_value:
+            return models.ACCESS_RESTRICTED
+
     return models.ACCESS_PUBLIC
 
 

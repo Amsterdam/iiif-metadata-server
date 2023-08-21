@@ -61,27 +61,27 @@ class APITest(TestCase):
     def test_wabo_import(self):
         batch.import_wabo_dossiers()
 
-        bd = models.BouwDossier.objects.get(dossiernr=189)
-        self.assertEqual(bd.stadsdeel, 'SDC')
-        self.assertEqual(bd.titel, "het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 116 met bestemming daarvan tot kantoor")
-        self.assertEqual(bd.datering.strftime("%Y"), "2010")
-        self.assertEqual(bd.dossier_type, "omgevingsvergunning")
-        self.assertEqual(bd.access, "PUBLIC")
-        self.assertEqual(bd.source, "WABO")
-        self.assertEqual(bd.olo_liaan_nummer, 189)
-        self.assertEqual(bd.wabo_bron, "KEY2")
-        self.assertEqual(bd.adressen.count(), 25)
+        bd1 = models.BouwDossier.objects.get(dossiernr=189)
+        self.assertEqual(bd1.stadsdeel, 'SDC')
+        self.assertEqual(bd1.titel, "het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 116 met bestemming daarvan tot kantoor")
+        self.assertEqual(bd1.datering.strftime("%Y"), "2010")
+        self.assertEqual(bd1.dossier_type, "omgevingsvergunning")
+        self.assertEqual(bd1.access, "PUBLIC")
+        self.assertEqual(bd1.source, "WABO")
+        self.assertEqual(bd1.olo_liaan_nummer, 189)
+        self.assertEqual(bd1.wabo_bron, "KEY2")
+        self.assertEqual(bd1.adressen.count(), 25)
 
-        adres0 = bd.adressen.first()
-        self.assertEqual(adres0.straat, "Lauriergracht")
-        self.assertEqual(adres0.huisnummer_van, 116)
-        self.assertEqual(adres0.huisnummer_toevoeging, "H")
-        self.assertEqual(adres0.huisnummer_tot, None)
-        self.assertEqual(adres0.openbareruimte_id, "0363300000004136")
-        self.assertEqual(adres0.verblijfsobjecten, ['0363010000719556'])
-        self.assertEqual(adres0.panden, ['0363100012168986'])
+        adres1 = bd1.adressen.first()
+        self.assertEqual(adres1.straat, "Lauriergracht")
+        self.assertEqual(adres1.huisnummer_van, 116)
+        self.assertEqual(adres1.huisnummer_toevoeging, "H")
+        self.assertEqual(adres1.huisnummer_tot, None)
+        self.assertEqual(adres1.openbareruimte_id, "0363300000004136")
+        self.assertEqual(adres1.verblijfsobjecten, ['0363010000719556'])
+        self.assertEqual(adres1.panden, ['0363100012168986'])
 
-        documenten = bd.documenten.order_by('id').all()
+        documenten = bd1.documenten.order_by('id').all()
         self.assertEqual(len(documenten), 20)
         document5 = documenten[5]
         self.assertEqual(document5.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage16.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
@@ -94,3 +94,11 @@ class APITest(TestCase):
         self.assertEqual(document6.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf'])
         self.assertEqual(document6.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcd'])
         self.assertEqual(document6.access, models.ACCESS_RESTRICTED)
+
+        # Test whether the dossier and document with no accesibility keys are set to restricted
+        bd2 = models.BouwDossier.objects.get(dossiernr=233)
+        self.assertEqual(bd2.access, models.ACCESS_RESTRICTED)
+
+        documenten = bd2.documenten.order_by('id').all()
+        document1 = documenten[0]
+        self.assertEqual(document1.access, models.ACCESS_RESTRICTED)
