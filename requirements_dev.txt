@@ -18,17 +18,17 @@ certifi==2023.7.22
     #   -r ./requirements.txt
     #   requests
     #   sentry-sdk
-cffi==1.15.1
+cffi==1.16.0
     # via
     #   -r ./requirements.txt
     #   cryptography
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
     # via
     #   -r ./requirements.txt
     #   requests
 coverage[toml]==7.3.1
     # via pytest-cov
-cryptography==41.0.3
+cryptography==41.0.4
     # via
     #   -r ./requirements.txt
     #   jwcrypto
@@ -70,7 +70,7 @@ django-debug-toolbar==4.2.0
     # via -r ./requirements.txt
 django-extensions==3.2.3
     # via -r ./requirements.txt
-django-filter==23.2
+django-filter==23.3
     # via -r ./requirements.txt
 djangorestframework==3.14.0
     # via
@@ -102,7 +102,7 @@ exceptiongroup==1.1.3
     # via pytest
 factory-boy==3.3.0
     # via -r requirements_dev.in
-faker==19.6.1
+faker==19.6.2
     # via factory-boy
 flake8==6.1.0
     # via pytest-flake8
@@ -123,7 +123,7 @@ iso8601==2.0.0
     #   oslo-utils
 isort==5.12.0
     # via pytest-isort
-jsonschema==4.19.0
+jsonschema==4.19.1
     # via
     #   -r ./requirements.txt
     #   datapunt-config-loader
@@ -141,11 +141,11 @@ keystoneauth1==5.3.0
     #   python-keystoneclient
 mccabe==0.7.0
     # via flake8
-msgpack==1.0.5
+msgpack==1.0.7
     # via
     #   -r ./requirements.txt
     #   oslo-serialization
-netaddr==0.8.0
+netaddr==0.9.0
     # via
     #   -r ./requirements.txt
     #   oslo-config
@@ -195,7 +195,7 @@ pbr==5.11.1
     #   stevedore
 pluggy==1.3.0
     # via pytest
-psycopg2-binary==2.9.7
+psycopg2-binary==2.9.8
     # via -r ./requirements.txt
 pycodestyle==2.11.0
     # via flake8
@@ -294,7 +294,7 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-typing-extensions==4.7.1
+typing-extensions==4.8.0
     # via
     #   -r ./requirements.txt
     #   asgiref
@@ -311,7 +311,7 @@ uritemplate==4.1.1
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-urllib3==2.0.4
+urllib3==2.0.5
     # via
     #   -r ./requirements.txt
     #   requests
