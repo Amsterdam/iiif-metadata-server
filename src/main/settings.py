@@ -251,4 +251,4 @@ REST_FRAMEWORK = dict(
     COERCE_DECIMAL_TO_STRING=True,
 )
 
-IIIF_BASE_URL = os.getenv('IIIF_BASE_URL', 'https://images.data.amsterdam.nl/iiif/2/')
+IIIF_BASE_URL = os.getenv('IIIF_BASE_URL', 'https://bouwdossiers.amsterdam.nl/iiif/2/')
