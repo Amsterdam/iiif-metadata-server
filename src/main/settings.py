@@ -18,10 +18,6 @@ BOUWDOSSIER_EXTENDED_SCOPE = 'BD/X'  # BouwDossiers_eXtended. Access civil serva
 
 ALLOWED_HOSTS = ['*']
 
-DATAPUNT_API_URL = os.getenv(
-    'DATAPUNT_API_URL', 'https://api.data.amsterdam.nl/')
-
-
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
 
@@ -172,7 +168,7 @@ PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 DATA_DIR = '/tmp/bouwdossiers'
 
 # SWAGGER
-SWAG_PATH = 'acc.api.data.amsterdam.nl/iiif-metadata-server/docs'
+SWAG_PATH = 'acc.bouwdossiers.amsterdam.nl/iiif-metadata-server/docs'
 
 if DEBUG:
     SWAG_PATH = '127.0.0.1:8000/iiif-metadata-server/docs'

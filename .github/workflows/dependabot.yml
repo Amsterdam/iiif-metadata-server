@@ -17,5 +17,5 @@ jobs:
       timetell_code: 21079  # Timetell project id
       acceptance_pipeline: "https://ci.data.amsterdam.nl/job/opdrachten-team/job/iiif-metadata-server/job/iiif-metadata-server-pipeline/job/main/"
       production_pipeline: "https://ci.data.amsterdam.nl/job/opdrachten-team/job/iiif-metadata-server/job/iiif-metadata-server-pipeline/view/tags/"
-      acceptance_urls: "https://acc.api.data.amsterdam.nl/iiif-metadata/bouwdossier/"
-      production_urls: "https://api.data.amsterdam.nl/iiif-metadata/bouwdossier/"
+      acceptance_urls: "https://acc.bouwdossiers.amsterdam.nl/iiif-metadata/bouwdossier/"
+      production_urls: "https://bouwdossiers.amsterdam.nl/iiif-metadata/bouwdossier/"
