@@ -84,7 +84,7 @@ or
 
 Test API login in acceptance with SWAGGER :
  
-`https://acc.api.data.amsterdam.nl/api/swagger/?url=/iiif-metadata/docs/swagger.json`
+`https://acc.bouwdossiers.amsterdam.nl/api/swagger/?url=/iiif-metadata/docs/swagger.json`
 
 
 # Import database from acceptance

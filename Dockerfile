@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1 \
     PIP_NO_CACHE_DIR=off
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
-ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://bouwdossiers.amsterdam.nl/}
 ARG JWKS_USE_TEST_KEY=true
 
 RUN apt-get update \

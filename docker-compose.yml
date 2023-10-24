@@ -33,7 +33,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://bouwdossiers.amsterdam.nl/}
       - DEBUG=true
       - SECRET_KEY=dev
       - JWKS_USE_TEST_KEY=true
@@ -58,7 +58,7 @@ services:
     depends_on:
       - database
     environment:
-      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://bouwdossiers.amsterdam.nl/}
       - SECRET_KEY=insecure
       - JWKS_USE_TEST_KEY=true
       - DATABASE_NAME=iiif_metadata_server
@@ -77,7 +77,7 @@ services:
     depends_on:
       - database
     environment:
-      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      - DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://bouwdossiers.amsterdam.nl/}
       - SECRET_KEY=insecure
       - BOUWDOSSIERS_OBJECTSTORE_CONTAINER
       - BOUWDOSSIERS_OBJECTSTORE_PASSWORD
