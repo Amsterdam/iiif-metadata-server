@@ -68,10 +68,11 @@ JWKS_TEST_KEY = """
     }
 """
 
-if os.getenv('JWKS_USE_TEST_KEY', False):
+JWKS_USE_TEST_KEY = os.getenv('JWKS_USE_TEST_KEY') and os.getenv('JWKS_USE_TEST_KEY').lower() == 'true'
+if JWKS_USE_TEST_KEY:
     JWKS = JWKS_TEST_KEY
 else:
-    JWKS = os.environ['PUB_JWKS']
+    JWKS = os.getenv('PUB_JWKS')
 
 DATAPUNT_AUTHZ = {
     'ALWAYS_OK': False,

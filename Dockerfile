@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1 \
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
 ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://bouwdossiers.amsterdam.nl/}
-ARG JWKS_USE_TEST_KEY=true
+ARG JWKS_USE_TEST_KEY=${JWKS_USE_TEST_KEY}
 
 RUN apt-get update \
  && apt-get dist-upgrade -y \
