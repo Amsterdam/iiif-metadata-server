@@ -68,8 +68,7 @@ JWKS_TEST_KEY = """
     }
 """
 
-JWKS_USE_TEST_KEY = os.getenv('JWKS_USE_TEST_KEY') and os.getenv('JWKS_USE_TEST_KEY').lower() == 'true'
-if JWKS_USE_TEST_KEY:
+if os.getenv('JWKS_USE_TEST_KEY', 'false').lower() == 'true':
     JWKS = JWKS_TEST_KEY
 else:
     JWKS = os.getenv('PUB_JWKS')
