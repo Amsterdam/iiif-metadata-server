@@ -5,7 +5,7 @@
 .PHONY = help pip-tools install requirements update test init
 dc = docker compose
 
-REGISTRY = localhost:5000
+REGISTRY ?= localhost:5000
 ENVIRONMENT ?= local
 VERSION ?= latest
 HELM_ARGS = manifests/chart \
