@@ -1,8 +1,9 @@
 import os
 import sys
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+from .azure_settings import Azure
+
+azure = Azure()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -101,14 +102,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'main.wsgi.application'
 
 
+DATABASE_HOST = os.getenv("DATABASE_HOST", "database")
+DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD", "dev")
+DATABASE_OPTIONS = {"sslmode": "allow", "connect_timeout": 5}
+if "azure.com" in DATABASE_HOST:
+    DATABASE_PASSWORD = azure.auth.db_password
+    DATABASE_OPTIONS["sslmode"] = "require"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'iiif_metadata_server'),
-        'USER': os.getenv('DATABASE_USER', 'iiif_metadata_server'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
-        'HOST': os.getenv('DATABASE_HOST', 'database'),
+        'USER': os.getenv('DATABASE_USER', 'dev'),
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST,
         'PORT': os.getenv('DATABASE_PORT', '5432'),
+        "OPTIONS": DATABASE_OPTIONS,
     }
 }
 
@@ -208,13 +217,6 @@ SWAGGER_SETTINGS = {
 }
 
 HEALTH_MODEL = 'bouwdossiers.Bouwdossier'
-
-SENTRY_DSN = os.getenv('SENTRY_DSN')
-if SENTRY_DSN:
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()]
-    )
 
 
 DUMP_DIR = 'mks-dump'
