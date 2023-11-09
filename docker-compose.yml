@@ -6,8 +6,8 @@ services:
       - 5432
     environment:
       POSTGRES_DB: iiif_metadata_server
-      POSTGRES_USER: iiif_metadata_server
-      POSTGRES_PASSWORD: insecure
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
@@ -15,7 +15,7 @@ services:
     build:
       context: .
       target: app
-    image: docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server:${VERSION:-latest}
+    image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-opdrachten/iiif-metadata-server}:${VERSION:-latest}
     ports:
       - 8000:8000
     environment:
@@ -62,8 +62,8 @@ services:
       - SECRET_KEY=insecure
       - JWKS_USE_TEST_KEY=true
       - DATABASE_NAME=iiif_metadata_server
-      - DATABASE_USER=iiif_metadata_server
-      - DATABASE_PASSWORD=insecure
+      - DATABASE_USER=dev
+      - DATABASE_PASSWORD=dev
     entrypoint: /deploy/wait-for-it.sh database:5432 --
 
   run_import:

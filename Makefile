@@ -3,7 +3,17 @@
 #
 # VERSION = 2020.01.29
 .PHONY = help pip-tools install requirements update test init
-dc = docker-compose
+dc = docker compose
+
+REGISTRY = localhost:5000
+ENVIRONMENT ?= local
+VERSION ?= latest
+HELM_ARGS = manifests/chart \
+	-f manifests/values.yaml \
+	-f manifests/env/${ENVIRONMENT}.yaml \
+	--set image.tag=${VERSION} \
+	--set image.registry=${REGISTRY}
+
 
 help:                               ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -67,3 +77,17 @@ import_bag:                       ## Populate database with Bag data
 trivy: 								## Detect image vulnerabilities
 	$(dc) build app
 	trivy image --ignore-unfixed docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server
+
+manifests:
+	helm template iiif-metadata-server $(HELM_ARGS) $(ARGS)
+
+deploy: manifests
+	helm upgrade --install iiif-metadata-server $(HELM_ARGS) $(ARGS)
+
+make destroy:
+	helm uninstall iiif-metadata-server
+
+update-chart:
+	rm -rf manifests/chart
+	git clone --branch 1.7.0 --depth 1 git@github.com:Amsterdam/helm-application.git manifests/chart
+	rm -rf manifests/chart/.git

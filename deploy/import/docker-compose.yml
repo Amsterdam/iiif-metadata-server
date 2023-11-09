@@ -4,8 +4,8 @@ services:
     image: amsterdam/postgres11
     environment:
       POSTGRES_DB: iiif_metadata_server
-      POSTGRES_USER: iiif_metadata_server
-      POSTGRES_PASSWORD: insecure
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
     volumes:
       - ./backups:/tmp/backups
 
