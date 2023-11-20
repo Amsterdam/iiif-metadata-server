@@ -30,33 +30,33 @@ secrets:
       - use-jwks-test-key
 
 jobs:
-  # migrate:
-  #   annotations:
-  #     helm.sh/hook: post-install,post-upgrade
-  #     helm.sh/hook-weight: "-5"
-  #   volumes:
-  #     - name: tmp
-  #       spec:
-  #         emptyDir: {}
-  #   resources:
-  #     requests:
-  #       cpu: 100m
-  #       memory: "256Mi"
-  #     limits:
-  #       cpu: 2
-  #       memory: "512Mi"
-  #   containers:
-  #     - name: main
-  #       volumes:
-  #         - name: tmp
-  #           mountPath: /tmp
-  #       secrets:
-  #         - database
-  #         - vault
-  #       command:
-  #         - python
-  #         - manage.py
-  #         - migrate
+  migrate:
+    annotations:
+      helm.sh/hook: post-install,post-upgrade
+      helm.sh/hook-weight: "-5"
+    volumes:
+      - name: tmp
+        spec:
+          emptyDir: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: "256Mi"
+      limits:
+        cpu: 2
+        memory: "512Mi"
+    containers:
+      - name: main
+        volumes:
+          - name: tmp
+            mountPath: /tmp
+        secrets:
+          - database
+          - vault
+        command:
+          - python
+          - manage.py
+          - migrate
 
   certificate-init:
     secrets:

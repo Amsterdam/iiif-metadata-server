@@ -69,14 +69,13 @@ JWKS_TEST_KEY = """
     }
 """
 
-if os.getenv('JWKS_USE_TEST_KEY', 'false').lower() == 'true':
-    JWKS = JWKS_TEST_KEY
-else:
-    JWKS = os.environ['PUB_JWKS']
+USE_JWKS_TEST_KEY = os.getenv("USE_JWKS_TEST_KEY", "false").lower() == "true"
+PUB_JWKS = JWKS_TEST_KEY if USE_JWKS_TEST_KEY else os.getenv("PUB_JWKS")
+
 
 DATAPUNT_AUTHZ = {
     'ALWAYS_OK': False,
-    'JWKS': JWKS,
+    'JWKS': PUB_JWKS,
     "JWKS_URL": os.getenv("KEYCLOAK_JWKS_URL"),
     'FORCED_ANONYMOUS_ROUTES': ['/status/health']
 }
