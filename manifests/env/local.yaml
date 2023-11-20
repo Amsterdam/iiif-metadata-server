@@ -15,7 +15,7 @@ secrets:
   database:
     type: opaque
     secrets:
-      database-host: database-iiif-metadata-server
+      database-host: database
       database-name: dev
       database-user: dev
 

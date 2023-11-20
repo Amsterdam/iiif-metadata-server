@@ -19,7 +19,7 @@ network:
 secrets:
   certificate:
     type: keyvault
-    tls: iiif-metadata-server
+    tls: bouwdossiers
 
   vault:
     type: keyvault
