@@ -111,7 +111,7 @@ if "azure.com" in DATABASE_HOST:
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'iiif_metadata_server'),
+        'NAME': os.getenv('DATABASE_NAME', 'dev'),
         'USER': os.getenv('DATABASE_USER', 'dev'),
         'PASSWORD': DATABASE_PASSWORD,
         'HOST': DATABASE_HOST,

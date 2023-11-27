@@ -5,7 +5,7 @@ services:
     ports:
       - 5432
     environment:
-      POSTGRES_DB: iiif_metadata_server
+      POSTGRES_DB: dev
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: dev
     volumes:

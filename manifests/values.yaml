@@ -27,7 +27,6 @@ secrets:
       helm.sh/hook-weight: "-5"
     secrets:
       - secret-key
-      - use-jwks-test-key
 
 jobs:
   migrate:
