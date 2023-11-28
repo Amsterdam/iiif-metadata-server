@@ -16,6 +16,8 @@ BOUWDOSSIER_PUBLIC_SCOPE = 'BD/P'  # BouwDossiers_Public_Read. Access to anybody
 BOUWDOSSIER_READ_SCOPE = 'BD/R'  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
 BOUWDOSSIER_EXTENDED_SCOPE = 'BD/X'  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
+WABO_BASE_URL = os.getenv('WABO_BASE_URL', 'https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/')
+
 ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
@@ -118,7 +120,6 @@ DATABASES = {
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)

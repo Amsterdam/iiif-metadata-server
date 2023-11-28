@@ -89,16 +89,21 @@ def _normalize_bestand(bestand):
 
 
 def get_access(el):
-    beperking = el.get('openbaarheidsBeperking')
-    if beperking:
-        if beperking == 'N':
-            return models.ACCESS_PUBLIC
+    checks = {
+        'openbaarheidsBeperking': ('N', 'j'),
+        'openbaar': ('J', 'n'),
+        'gevoelig_object': ('N', 'j'),
+        'bevat_persoonsgegevens': ('false', 'true')
+    }
+
+    if not any(el.get(check) for check in checks.keys()):
         return models.ACCESS_RESTRICTED
-    else:
-        openbaar = el.get('openbaar')
-        if openbaar == 'J':
-            return models.ACCESS_PUBLIC
-        return models.ACCESS_RESTRICTED
+
+    for key, (default_value, expected_value) in checks.items():
+        if el.get(key, default_value).lower() == expected_value:
+            return models.ACCESS_RESTRICTED
+
+    return models.ACCESS_PUBLIC
 
 
 def openbaar_to_copyright(copyright):
@@ -147,7 +152,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         log.warning(f"Missing titel for Wabo dossier {dossiernr} in {file_path}")
 
     datering = x_dossier.get('begindatum')
-    dossier_type = x_dossier.get('omschrijving')
+    dossier_type = x_dossier.get('omschrijving').lower()
     if type(dossier_type) is str and len(dossier_type) > 255:
         dossier_type = dossier_type[:255]  # Cap at 255 characters
 
@@ -175,7 +180,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         dossier_type=dossier_type,
         olo_liaan_nummer=olo_liaan_nummer,
         wabo_bron=x_dossier.get('bron'),
-        access=models.ACCESS_RESTRICTED,  # Until further notice, all wabo dossiers are restricted.
+        access=get_access(x_dossier),
         source=models.SOURCE_WABO,
         activiteiten=activiteiten
     )
@@ -198,11 +203,13 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         panden = []
         verblijfsobjecten = []
         openbareruimte_id = None
+        nummeraanduidingen = []
 
         if bag_id:  # if no bag_ids, locatie aanduiding is available.
             panden.append(bag_id.get('pandidentificatie'))
             verblijfsobjecten.append(bag_id.get('verblijfsobjectidentificatie'))
             openbareruimte_id = bag_id.get('openbareruimteidentificatie')
+            nummeraanduidingen.append(bag_id.get('Nummeraanduidingidentificatie'))
 
         locatie_aanduiding = x_adres.get('locatie_aanduiding')
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
@@ -216,10 +223,10 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             huisnummer_toevoeging=x_adres.get('huisnummertoevoeging'),
             huisnummer_letter=x_adres.get('huisletter'),
             stadsdeel=stadsdeel,
-            nummeraanduidingen=[],
+            nummeraanduidingen=nummeraanduidingen,
             nummeraanduidingen_label=[],
             openbareruimte_id=openbareruimte_id,
-            panden=panden if panden else [],
+            panden=panden,
             verblijfsobjecten=verblijfsobjecten if verblijfsobjecten else [],
             verblijfsobjecten_label=[],
             locatie_aanduiding=locatie_aanduiding
@@ -237,7 +244,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             # to keep the same structure as the pre_wabo dossiers.
             # The removed part below is because we want to be consistent with the pre-wabo urls
             # in that we only store a relave url, not the full url
-            bestand_str = bestand.get('URL').replace('https://conversiestraatwabo.amsterdam.nl/webDAV/', '')
+            bestand_str = bestand.get('URL').replace(settings.WABO_BASE_URL, '')
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
@@ -278,7 +285,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             subdossier_titel=x_document.get('document_type'),
             oorspronkelijk_pad=bestanden_pads,
             bestanden=bestanden,
-            access=models.ACCESS_RESTRICTED,
+            access=get_access(x_document),
             document_omschrijving=document_omschrijving
         )
 
@@ -289,6 +296,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
     else:
         log.warning(f"No documenten for for {bouwdossier.dossiernr} in {file_path}")
     return count, total_count
+
 
 def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # noqa C901
     """
@@ -446,6 +454,7 @@ def import_wabo_dossiers(max_file_count=None):  # noqa C901
             import_file.save()
 
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
+
 
 def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
     total_count = 0
