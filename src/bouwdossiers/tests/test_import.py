@@ -63,7 +63,7 @@ class APITest(TestCase):
 
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, 'SDC')
-        self.assertEqual(bd1.titel, "het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 116 met bestemming daarvan tot kantoor")
+        self.assertEqual(bd1.titel, "het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 1161 met bestemming daarvan tot kantoor")
         self.assertEqual(bd1.datering.strftime("%Y"), "2010")
         self.assertEqual(bd1.dossier_type, "omgevingsvergunning")
         self.assertEqual(bd1.access, "PUBLIC")
@@ -74,7 +74,7 @@ class APITest(TestCase):
 
         adres1 = bd1.adressen.first()
         self.assertEqual(adres1.straat, "Lauriergracht")
-        self.assertEqual(adres1.huisnummer_van, 116)
+        self.assertEqual(adres1.huisnummer_van, 1161)
         self.assertEqual(adres1.huisnummer_toevoeging, "H")
         self.assertEqual(adres1.huisnummer_tot, None)
         self.assertEqual(adres1.openbareruimte_id, "0363300000004136")

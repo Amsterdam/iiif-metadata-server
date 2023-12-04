@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dossiers>
   <dossier>
-    <dossier_titel><![CDATA[het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 116 met bestemming daarvan tot kantoor]]></dossier_titel>
+    <dossier_titel><![CDATA[het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 1161 met bestemming daarvan tot kantoor]]></dossier_titel>
     <intern_nummer>sdc_189</intern_nummer>
     <OLO_liaan_nummer>189</OLO_liaan_nummer>
     <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
@@ -11,7 +11,7 @@
     <locaties>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>H</huisnummertoevoeging>
         <bag_id>
           <verblijfsobjectidentificatie>0363010000719556</verblijfsobjectidentificatie>
@@ -22,7 +22,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>A</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063412</verblijfsobjectidentificatie>
@@ -33,7 +33,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>1</huisnummertoevoeging>
         <huisletter>B</huisletter>
         <bag_id>
@@ -45,7 +45,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>2</huisnummertoevoeging>
         <huisletter>B</huisletter>
         <bag_id>
@@ -57,7 +57,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>3</huisnummertoevoeging>
         <huisletter>B</huisletter>
         <bag_id>
@@ -69,7 +69,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>4</huisnummertoevoeging>
         <huisletter>B</huisletter>
         <bag_id>
@@ -81,7 +81,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>C</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063434</verblijfsobjectidentificatie>
@@ -92,7 +92,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>1</huisnummertoevoeging>
         <huisletter>D</huisletter>
         <bag_id>
@@ -104,7 +104,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisnummertoevoeging>2</huisnummertoevoeging>
         <huisletter>D</huisletter>
         <bag_id>
@@ -116,7 +116,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>E</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063435</verblijfsobjectidentificatie>
@@ -127,7 +127,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>F</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063436</verblijfsobjectidentificatie>
@@ -138,7 +138,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>G</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063433</verblijfsobjectidentificatie>
@@ -149,7 +149,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>K</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063430</verblijfsobjectidentificatie>
@@ -160,7 +160,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>L</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063431</verblijfsobjectidentificatie>
@@ -171,7 +171,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>M</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063432</verblijfsobjectidentificatie>
@@ -182,7 +182,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>N</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063425</verblijfsobjectidentificatie>
@@ -193,7 +193,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>P</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063420</verblijfsobjectidentificatie>
@@ -204,7 +204,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>R</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063415</verblijfsobjectidentificatie>
@@ -215,7 +215,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>S</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063414</verblijfsobjectidentificatie>
@@ -226,7 +226,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>T</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063413</verblijfsobjectidentificatie>
@@ -237,7 +237,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>U</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063416</verblijfsobjectidentificatie>
@@ -248,7 +248,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>V</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012064199</verblijfsobjectidentificatie>
@@ -259,7 +259,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>W</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063419</verblijfsobjectidentificatie>
@@ -270,7 +270,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>X</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063418</verblijfsobjectidentificatie>
@@ -281,7 +281,7 @@
       </locatie>
       <locatie>
         <straatnaam>Lauriergracht</straatnaam>
-        <huisnummer>116</huisnummer>
+        <huisnummer>1,161</huisnummer>
         <huisletter>Z</huisletter>
         <bag_id>
           <verblijfsobjectidentificatie>0363010012063417</verblijfsobjectidentificatie>
@@ -298,7 +298,7 @@
     </activiteiten>
     <documenten>
       <document>
-        <document_omschrijving><![CDATA[Omgevingsvergunning - Besluit verlening 2011-8183, Lauriergracht 116.pdf | Omgevingsvergunning: Besluit verlening 2011-8183, Lauriergra]]></document_omschrijving>
+        <document_omschrijving><![CDATA[Omgevingsvergunning - Besluit verlening 2011-8183, Lauriergracht 1161.pdf | Omgevingsvergunning: Besluit verlening 2011-8183, Lauriergra]]></document_omschrijving>
         <document_type>Beschikking</document_type>
         <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
         <bestanden>
@@ -410,7 +410,7 @@
         </bestanden>
       </document>
       <document>
-        <document_omschrijving><![CDATA[2011-3596, Lauriergracht 116 | Kennisgeving ontwerpbesluit inzake aanvraag omgevingsvergunning Lauriergracht 116]]></document_omschrijving>
+        <document_omschrijving><![CDATA[2011-3596, Lauriergracht 1161 | Kennisgeving ontwerpbesluit inzake aanvraag omgevingsvergunning Lauriergracht 1161]]></document_omschrijving>
         <document_type>Overige</document_type>
         <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
         <bestanden>
