@@ -219,7 +219,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
         adres = models.Adres(
             bouwdossier=bouwdossier,
             straat=x_adres.get('straatnaam'),
-            huisnummer_van=x_adres.get('huisnummer'),
+            huisnummer_van=x_adres.get('huisnummer').replace(",", ""),
             huisnummer_toevoeging=x_adres.get('huisnummertoevoeging'),
             huisnummer_letter=x_adres.get('huisletter'),
             stadsdeel=stadsdeel,

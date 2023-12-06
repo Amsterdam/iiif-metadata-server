@@ -4,6 +4,8 @@
 # VERSION = 2020.01.29
 .PHONY = help pip-tools install requirements update test init
 dc = docker-compose
+run = $(dc) run --rm
+manage = $(run) dev python manage.py
 
 help:                               ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -23,10 +25,10 @@ requirements: pip-tools             ## Upgrade requirements (in requirements.in)
 upgrade: requirements install       ## Run 'requirements' and 'install' targets
 
 migrations:                         ## Make migrations
-	$(dc) run --rm app python manage.py makemigrations
+	$(manage) makemigrations
 
 migrate:                            ## Migrate
-	$(dc) run --rm app python manage.py migrate
+	$(manage) migrate
 
 build:                              ## Build docker image
 	$(dc) build
@@ -42,12 +44,16 @@ push_semver:
 app:                                ## Run app
 	$(dc) run --service-ports app
 
+dev: migrate				        ## Run the development app (and run extra migrations first)
+	$(run) --service-ports dev
+
+
 bash:                               ## Run the container and start bash
-	$(dc) run --rm app bash
+	$(run) app bash
 
 test:                               ## Execute tests
-	$(dc) run --rm test pytest $(ARGS)
-	$(dc) run --rm test flake8 --config=./flake8.cfg
+	$(run) test pytest $(ARGS)
+	$(run) test flake8 --config=./flake8.cfg
 
 clean:                              ## Clean docker stuff
 	$(dc) down -v
