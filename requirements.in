@@ -1,8 +1,15 @@
 # Define all requirements, only pin when necessary (and if so, add a comment explaining why).
 # See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 
-Django<4.2  # django 4.2 and up don't support postgres 11 anymore
 datapunt-authorization-django
+jwcrypto
+psycopg2-binary
+datapunt-objectstore
+xmltodict
+setuptools  # Needed to solve Trivy security risk
+
+# Django
+django<4.2  # Django 4.2 does not support Postgres 11 anymore
 django-cors-headers
 django-debug-toolbar
 django-extensions
@@ -10,10 +17,18 @@ django-filter
 djangorestframework
 djangorestframework-gis
 drf_yasg
-jwcrypto
-sentry-sdk
-psycopg2-binary
-datapunt-objectstore
 drf-amsterdam
-xmltodict
-setuptools  # Needed to solve Trivy security risk
+
+
+# Azure
+azure-cli
+azure-core
+azure-identity
+azure-storage-blob
+azure-keyvault
+azure-keyvault-secrets
+opencensus-ext-django
+opencensus-ext-azure
+opencensus-ext-postgresql
+opencensus-ext-logging
+opencensus-ext-requests
