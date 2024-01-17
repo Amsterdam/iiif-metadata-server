@@ -232,6 +232,7 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             locatie_aanduiding=locatie_aanduiding
         )
         adres.save()
+        log.info(f'Address id: {adres.id}')
 
     documenten = []
     for x_document in get_list_items(x_dossier, 'documenten', 'document'):
@@ -453,7 +454,7 @@ def import_wabo_dossiers(max_file_count=None):  # noqa C901
             import_file.status = models.IMPORT_ERROR
             import_file.save()
 
-    log.info(f"Import finished. Bouwdossiers total: {total_count}")
+    log.info(f"Import finished. Bouwdossiers total: {total_count}. Bouwdossiers count query: {models.BouwDossier.objects.count()}")
 
 
 def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
