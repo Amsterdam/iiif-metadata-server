@@ -232,7 +232,6 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count):  # 
             locatie_aanduiding=locatie_aanduiding
         )
         adres.save()
-        log.info(f'Address id: {adres.id}')
 
     documenten = []
     for x_document in get_list_items(x_dossier, 'documenten', 'document'):
