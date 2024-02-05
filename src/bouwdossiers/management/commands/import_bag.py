@@ -12,9 +12,10 @@ log = logging.getLogger(__name__)
 class BagRetrievalError(Exception):
     pass
 
-# TODO: Remove comments and split into functions to improve readability
+# TODO: Remove comments and split/extract into functions to improve readability
+# TODO: Incorporate this into run_import
 class Command(BaseCommand):
-    help = "Import BAG tables from datadienst export into new schema"
+    help = "Create new schema and import BAG tables from datadienst export into new schema"
 
     def handle(self, *args, **options):
         bag = BagLoader()
