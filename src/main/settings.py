@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'drf_yasg',
     'bouwdossiers',
+    'bag',
     'health',
 ]
 
