@@ -105,12 +105,12 @@ class BagLoader:
             f.write(response.content)
         return path
 
-    def load_all_tables(self):
+    def load_all_tables(self, schema):
         assert self.tables, "No tables have been defined for import"
 
         for table in self.tables:
             logger.info(f"Loading table {table}")
             path_zip = self.download_zip(table_name=table, endpoint=self.tables[table])
             path_csv = self.unpack_zip(table_name=table, endpoint=path_zip)
-            self.import_table_from_csv(table_name=table, path=path_csv)
+            self.import_table_from_csv(table_name=f"{schema}.{table}", path=path_csv)
             logger.info(f"Table {table} was loaded")
