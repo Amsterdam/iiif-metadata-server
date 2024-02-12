@@ -46,8 +46,7 @@ IMPORT_CHOICES = (
 )
 
 
-class ImportFile(models.Model):
-    id = models.AutoField(primary_key=True)
+class ImportFileBase(models.Model):
     name = models.CharField(max_length=512, null=False, unique=True)
     status = models.CharField(max_length=1, null=False, choices=IMPORT_CHOICES)
     last_import = models.DateTimeField(auto_now=True)
@@ -57,11 +56,13 @@ class ImportFile(models.Model):
 
     class Meta:
         ordering = ('name',)
+        abstract = True
 
-
-class BouwDossier(models.Model):
+class ImportFile(ImportFileBase):
     id = models.AutoField(primary_key=True)
-    importfile = models.ForeignKey(ImportFile, related_name='bouwdossiers', on_delete=CASCADE)
+    
+class BouwDossierBase(models.Model):
+    importfile = models.ForeignKey(ImportFile, related_name='+', on_delete=CASCADE)
     dossiernr = models.IntegerField(null=False)
     stadsdeel = models.CharField(max_length=10, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
@@ -93,17 +94,22 @@ class BouwDossier(models.Model):
 
     class Meta:
         ordering = ('stadsdeel', 'dossiernr',)
+        abstract = True
+
+class BouwDossier(BouwDossierBase):
+    id = models.AutoField(primary_key=True)
+    importfile = models.ForeignKey(ImportFile, related_name='bouwdossiers', on_delete=CASCADE)
+
+    class Meta:
         constraints = [
             models.UniqueConstraint(fields=['stadsdeel', 'dossiernr'], name='unique_bouwdossier'),
         ]
 
-
 # TODO Do we need multiple adres instances for the same street and huisnummer van/tot
 # ?? If there are multiple bouwdossiers for the same adres can we use the same adres instance ?
-class Adres(models.Model):
-    id = models.AutoField(primary_key=True)
+class AdresBase(models.Model):
     bouwdossier = models.ForeignKey(BouwDossier,
-                                    related_name='adressen',
+                                    related_name='+',
                                     on_delete=CASCADE)
     straat = models.CharField(max_length=150, null=True)
     huisnummer_van = models.IntegerField(null=True)
@@ -126,6 +132,13 @@ class Adres(models.Model):
 
     class Meta:
         indexes = [GinIndex(fields=['nummeraanduidingen']), GinIndex(fields=['panden'])]
+        abstract = True
+
+class Adres(AdresBase):
+    id = models.AutoField(primary_key=True)
+    bouwdossier = models.ForeignKey(BouwDossier,
+                                    related_name='adressen',
+                                    on_delete=CASCADE)
 
 
 # SubDossier Model has been replaced by Document Model for the following reasons:
@@ -134,9 +147,8 @@ class Adres(models.Model):
 # is skipped and each document has the subdossier_titel
 # The previous structure did not differentiate between documents in a dossier.
 # All bestanden (scans) that are public were grouped in the same subdossier and nonpublic ones were ignored
-class Document(models.Model):
-    id = models.AutoField(primary_key=True)
-    bouwdossier = models.ForeignKey(BouwDossier, related_name='documenten', on_delete=CASCADE)
+class DocumentBase(models.Model):
+    bouwdossier = models.ForeignKey(BouwDossier, related_name='+', on_delete=CASCADE)
     subdossier_titel = models.TextField(blank=True, null=True)
     document_omschrijving = models.CharField(max_length=250, blank=True, null=True)
     barcode = models.CharField(max_length=250, db_index=True, null=True)
@@ -153,3 +165,11 @@ class Document(models.Model):
 
     def __str__(self):
         return f'{self.barcode}'
+    
+    class Meta:
+        abstract = True
+
+class Document(DocumentBase):
+    id = models.AutoField(primary_key=True)
+    bouwdossier = models.ForeignKey(BouwDossier, related_name='documenten', on_delete=CASCADE)
+    
