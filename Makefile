@@ -62,13 +62,7 @@ env:                                ## Print current env
 	env | sort
 
 import_bag:                       ## Populate database with Bag data
-	${dc} exec database update-table.sh bag_v11 bag_verblijfsobject public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_ligplaats public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_standplaats public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_nummeraanduiding public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_pand public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_verblijfsobjectpandrelatie public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_openbareruimte public iiif_metadata_server
+	$(manage) import_bag
 
 trivy: 								## Detect image vulnerabilities
 	$(dc) build app
