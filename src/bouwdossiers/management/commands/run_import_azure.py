@@ -47,7 +47,7 @@ def drop_all_tables():
 
 def get_container_client(container_name):
     default_credential = DefaultAzureCredential()
-    blob_service_client = BlobServiceClient(STORAGE_ACCOUNT_URL, credential=default_credential)
+    blob_service_client = BlobServiceClient(settings.STORAGE_ACCOUNT_URL, credential=default_credential)
     container_client = blob_service_client.get_container_client(container=container_name)
     return container_client
 
