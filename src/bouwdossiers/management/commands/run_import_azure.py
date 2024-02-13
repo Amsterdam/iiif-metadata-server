@@ -15,9 +15,6 @@ from bouwdossiers.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
 log = logging.getLogger(__name__)
 
 
-# TODO: get the STORAGE_ACCOUNT_URL and MANAGED_IDENTITY from the settings
-STORAGE_ACCOUNT_URL = "https://bouwdossiersdataoi5sk6et.blob.core.windows.net"
-MANAGED_IDENTITY = 'bouwdossiers-metadata-o'
 BAG_FILE_NAME = 'bag_v11_latest.gz'
 TABLES_TO_BE_IMPORTED = (
     'bag_verblijfsobject',
@@ -76,14 +73,15 @@ def download_xml_files():
 
 
 def import_bag_dump():
+    database_user = settings.DATABASE_USER['default']['USER']
     for table in TABLES_TO_BE_IMPORTED:
         pg_restore_command = f"export PGPASSWORD={settings.DATABASE_PASSWORD} && " \
-            f"pg_restore -U {MANAGED_IDENTITY} -c --if-exists --no-acl --no-owner --table={table} " \
+            f"pg_restore -U {database_user} -c --if-exists --no-acl --no-owner --table={table} " \
             f"--role ${settings.DATABASE_NAME}_writer --schema=public /tmp/bag_v11_latest.gz > {table}_table.pg"
         subprocess.run(pg_restore_command, shell=True, check=True, capture_output=True, text=True)
 
         psql_command = f"export PGPASSWORD={settings.DATABASE_PASSWORD} && " \
-                       f"psql -v ON_ERROR_STOP=1 -U {MANAGED_IDENTITY} {settings.DATABASE_NAME} < {table}_table.pg"
+                       f"psql -v ON_ERROR_STOP=1 -U {database_user} {settings.DATABASE_NAME} < {table}_table.pg"
         subprocess.run(psql_command, shell=True, check=True, capture_output=True, text=True)
 
 
