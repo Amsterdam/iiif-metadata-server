@@ -1,5 +1,7 @@
-from bouwdossiers.models import *
 from django.db.models import CASCADE
+
+from bouwdossiers.models import *
+
 
 class ImportFile(ImportFileBase):
     id = models.AutoField(primary_key=True)

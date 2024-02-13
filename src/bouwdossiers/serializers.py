@@ -6,8 +6,8 @@ from django.conf import settings
 from rest_framework.reverse import reverse
 from rest_framework.serializers import ModelSerializer
 
-from importer.models import (SOURCE_CHOICES, SOURCE_EDEPOT, SOURCE_WABO,
-                                 Adres, BouwDossier, Document)
+from importer.models import (SOURCE_CHOICES, SOURCE_EDEPOT, SOURCE_WABO, Adres,
+                             BouwDossier, Document)
 
 log = logging.getLogger(__name__)
 

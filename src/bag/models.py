@@ -4,11 +4,8 @@ from django.contrib.gis.db.models.functions import Centroid, Transform
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from bag.querysets import (
-    NummeraanduidingQuerySet,
-    PandQuerySet,
-    VerblijfsobjectQuerySet,
-)
+from bag.querysets import (NummeraanduidingQuerySet, PandQuerySet,
+                           VerblijfsobjectQuerySet)
 
 
 class BagObject:

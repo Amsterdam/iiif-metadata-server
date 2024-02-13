@@ -4,20 +4,12 @@ import time
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 
-from bag.constants import (
-    BAG_TYPE_LIGPLAATS,
-    BAG_TYPE_NUMMERAANDUIDING,
-    BAG_TYPE_OPENBARE_RUIMTE,
-    BAG_TYPE_PAND,
-    BAG_TYPE_STANDPLAATS,
-    BAG_TYPE_VERBLIJFSOBJECT,
-)
-from bag.exceptions import (
-    BagIdException,
-    IncorrectBagIdLengthException,
-    IncorrectGemeenteCodeException,
-    IncorrectObjectTypeException,
-)
+from bag.constants import (BAG_TYPE_LIGPLAATS, BAG_TYPE_NUMMERAANDUIDING,
+                           BAG_TYPE_OPENBARE_RUIMTE, BAG_TYPE_PAND,
+                           BAG_TYPE_STANDPLAATS, BAG_TYPE_VERBLIJFSOBJECT)
+from bag.exceptions import (BagIdException, IncorrectBagIdLengthException,
+                            IncorrectGemeenteCodeException,
+                            IncorrectObjectTypeException)
 from bag.models import Ligplaats, Standplaats, Verblijfsobject
 
 logger = logging.getLogger(__name__)
