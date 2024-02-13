@@ -4,9 +4,6 @@ from django.contrib.gis.db.models.functions import Centroid, Transform
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-from bag.querysets import (NummeraanduidingQuerySet, PandQuerySet,
-                           VerblijfsobjectQuerySet)
-
 
 class BagObject:
     def is_verblijfsobject(self):
@@ -203,14 +200,6 @@ class Pand(GeoModel):
         max_length=80, db_column="bagprocesomschrijving", null=True
     )
 
-    objects = PandQuerySet.as_manager()
-
-    def is_rijtjeswoning(self):
-        try:
-            return self.rijtjeshuis is not None
-        except Rijtjeshuis.DoesNotExist:
-            return False
-
     def __str__(self):
         return self.id
 
@@ -303,8 +292,6 @@ class Verblijfsobject(GeoModel, BagObject):
         max_length=80, db_column="bagprocesomschrijving", null=True
     )
 
-    objects = VerblijfsobjectQuerySet.as_manager()
-
     def __str__(self):
         return self.id
 
@@ -379,8 +366,6 @@ class Nummeraanduiding(models.Model):
     proces_omschrijving = models.CharField(
         max_length=80, db_column="bagprocesomschrijving", null=True
     )
-
-    objects = NummeraanduidingQuerySet.as_manager()
 
     def __str__(self):
         huisnr_toevoeging = (
