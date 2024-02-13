@@ -53,7 +53,8 @@ bash:                               ## Run the container and start bash
 
 test:                               ## Execute tests
 	$(run) test pytest $(ARGS)
-	$(run) test flake8 --config=./flake8.cfg
+
+# TODO: Add lint and fixlint commands to replace linting in test
 
 clean:                              ## Clean docker stuff
 	$(dc) down -v
