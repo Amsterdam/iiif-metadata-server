@@ -56,8 +56,6 @@ class APITest(TestCase):
         bd21388 = models.BouwDossier.objects.get(dossiernr=21388)
         bd21388_addressen = models.Adres.objects.filter(bouwdossier_id=bd21388.id)
         fdb = bd21388_addressen.get(straat='Feike de Boerlaan')
-        print('fdb.verblijfsobjecten', fdb.verblijfsobjecten)
-        print('fdb.nummeraanduidingen', fdb.nummeraanduidingen)
         # 0363010000959579 Feike de Boerlaan 29
         self.assertTrue('0363010000959579' in fdb.verblijfsobjecten)
         # 0363010000998545 Feike de Boerlaan 14
