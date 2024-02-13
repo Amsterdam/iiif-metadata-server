@@ -32,14 +32,20 @@ TABLES_TO_BE_IMPORTED = (
 
 def drop_all_tables():
     # Get all table names
+    TABLE_NAMES_QUERY = "SELECT table_name " \
+        "FROM information_schema.tables " \
+        "WHERE table_schema = 'public' " \
+        "AND table_type = 'BASE TABLE' " \
+        "AND table_name != 'spatial_ref_sys';"
+
     cursor = connection.cursor()
-    cursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'")
+    cursor.execute(TABLE_NAMES_QUERY)
     tables = cursor.fetchall()
 
     # Drop all tables
     with connection.cursor() as cursor:
         for table in tables:
-            cursor.execute(f"DROP TABLE IF EXISTS {table[0]} CASCADE")
+            cursor.execute(f"DROP TABLE IF EXISTS {table[0]} CASCADE;")
 
 
 def get_container_client(container_name):
