@@ -33,8 +33,8 @@ class TestAPI(APITestCase):
         url = reverse('bouwdossier-list')
 
         test_parameters = [
-            (None, 7),
-            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 7),
+            (None, 3),
+            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 3),
             (settings.BOUWDOSSIER_READ_SCOPE, 7),
             (settings.BOUWDOSSIER_EXTENDED_SCOPE, 7)
         ]
@@ -60,6 +60,23 @@ class TestAPI(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.data['stadsdeel'], dossiers[0].stadsdeel)
         self.assertEqual(response.data['dossiernr'], dossiers[0].dossiernr)
+        delete_all_records()
+
+    def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
+        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
+        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        url = reverse('bouwdossier-detail', kwargs={'pk': pk})
+
+        test_parameters = [
+            None,
+            settings.BOUWDOSSIER_PUBLIC_SCOPE,
+            'non-existing',
+        ]
+        for scope in test_parameters:
+            header = {'HTTP_AUTHORIZATION': "Bearer " + create_authz_token(scope)} if scope else {}
+            response = self.client.get(url, **header)
+            self.assertEqual(response.status_code, 404)
+
         delete_all_records()
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_with_auth(self):

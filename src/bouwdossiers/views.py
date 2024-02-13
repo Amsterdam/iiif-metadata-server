@@ -1,6 +1,7 @@
 import logging
 
 from datapunt_api.rest import DatapuntViewSet
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import FilterSet, filters
 
@@ -53,7 +54,11 @@ class BouwDossierViewSet(DatapuntViewSet):
     filterset_class = BouwDossierFilter
 
     def get_queryset(self):
-        return models.BouwDossier.objects.all().prefetch_related('adressen', 'documenten')
+        allowed_scopes = [settings.BOUWDOSSIER_READ_SCOPE, settings.BOUWDOSSIER_EXTENDED_SCOPE]
+        if any(scope in self.request.get_token_scopes for scope in allowed_scopes):
+            return models.BouwDossier.objects.all().prefetch_related('adressen', 'documenten')
+        else:
+            return models.BouwDossier.objects.filter(source='EDEPOT').prefetch_related('adressen', 'documenten')
 
     def get_serializer_class(self):
         return serializers.BouwDossierSerializer
