@@ -62,8 +62,12 @@ clean:                              ## Clean docker stuff
 env:                                ## Print current env
 	env | sort
 
-run_import:                       ## Populate database with Bag data
+# TODO: Combine run_import and run_importer_import
+run_import:                       	## Populate database with manual bag dump
 	$(manage) run_import
+
+run_importer_import:                ## Populate database with Bag data
+	$(manage) run_importer_import
 
 trivy: 								## Detect image vulnerabilities
 	$(dc) build app
