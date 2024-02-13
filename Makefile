@@ -3,7 +3,7 @@
 #
 # VERSION = 2020.01.29
 .PHONY = help pip-tools install requirements update test init
-dc = docker-compose
+dc = docker compose
 run = $(dc) run --rm
 manage = $(run) dev python manage.py
 
