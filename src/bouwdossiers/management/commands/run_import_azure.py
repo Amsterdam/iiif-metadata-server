@@ -42,6 +42,7 @@ def drop_all_tables():
     # Drop all tables
     with connection.cursor() as cursor:
         for table in tables:
+            log.info(f"Dropping table {table[0]}")
             cursor.execute(f"DROP TABLE IF EXISTS {table[0]} CASCADE;")
 
 
@@ -53,6 +54,7 @@ def get_container_client(container_name):
 
 
 def download_bag_dump():
+    log.info("Downloading BAG dump")
     container_client = get_container_client('bag')
     download_file_path = os.path.join('/tmp/', BAG_FILE_NAME)
     with open(file=download_file_path, mode="wb") as download_file:
@@ -64,24 +66,30 @@ def download_xml_files():
         shutil.rmtree(settings.DATA_DIR)
     os.makedirs(settings.DATA_DIR)
 
+    log.info("Downloading XML files")
     container_client = get_container_client('dossiers')
     blob_list = container_client.list_blobs()
     for blob in blob_list:
-        log.info("\t" + blob.name)
+        log.info(f"Downloading {blob.name}")
         with open(f'{settings.DATA_DIR}{blob.name}', "wb") as xml_file:
             xml_file.write(container_client.download_blob(blob.name).readall())
 
 
 def import_bag_dump():
-    database_user = settings.DATABASE_USER['default']['USER']
+    log.info("Importing BAG dump")
+    db_user = settings.DATABASES['default']['USER']
+    db_password = settings.DATABASES['default']['PASSWORD']
+    db_name = settings.DATABASES['default']['NAME']
+
     for table in TABLES_TO_BE_IMPORTED:
-        pg_restore_command = f"export PGPASSWORD={settings.DATABASE_PASSWORD} && " \
-            f"pg_restore -U {database_user} -c --if-exists --no-acl --no-owner --table={table} " \
-            f"--role ${settings.DATABASE_NAME}_writer --schema=public /tmp/bag_v11_latest.gz > {table}_table.pg"
+        log.info("Importing table {table} from BAG dump")
+        pg_restore_command = f"export PGPASSWORD={db_password} && " \
+            f"pg_restore -U {db_user} -c --if-exists --no-acl --no-owner --table={table} " \
+            f"--role ${db_name}_writer --schema=public /tmp/bag_v11_latest.gz > {table}_table.pg"
         subprocess.run(pg_restore_command, shell=True, check=True, capture_output=True, text=True)
 
-        psql_command = f"export PGPASSWORD={settings.DATABASE_PASSWORD} && " \
-                       f"psql -v ON_ERROR_STOP=1 -U {database_user} {settings.DATABASE_NAME} < {table}_table.pg"
+        psql_command = f"export PGPASSWORD={db_password} && " \
+                       f"psql -v ON_ERROR_STOP=1 -U {db_user} {db_name} < {table}_table.pg"
         subprocess.run(psql_command, shell=True, check=True, capture_output=True, text=True)
 
 
