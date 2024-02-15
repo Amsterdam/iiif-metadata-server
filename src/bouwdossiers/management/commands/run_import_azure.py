@@ -85,11 +85,11 @@ def import_bag_dump():
         log.info("Importing table {table} from BAG dump")
         pg_restore_command = f"export PGPASSWORD={db_password} && " \
             f"pg_restore -U {db_user} -c --if-exists --no-acl --no-owner --table={table} " \
-            f"--role ${db_name}_writer --schema=public /tmp/bag_v11_latest.gz > {table}_table.pg"
+            f"--role ${db_name}_writer --schema=public /tmp/bag_v11_latest.gz > /tmp/{table}_table.pg"
         subprocess.run(pg_restore_command, shell=True, check=True, capture_output=True, text=True)
 
         psql_command = f"export PGPASSWORD={db_password} && " \
-                       f"psql -v ON_ERROR_STOP=1 -U {db_user} {db_name} < {table}_table.pg"
+                       f"psql -v ON_ERROR_STOP=1 -U {db_user} {db_name} < /tmp/{table}_table.pg"
         subprocess.run(psql_command, shell=True, check=True, capture_output=True, text=True)
 
 
