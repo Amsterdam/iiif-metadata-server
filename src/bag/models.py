@@ -52,6 +52,7 @@ class Ligplaats(GeoModel, BagObject):
     buurt = models.CharField(max_length=16, db_column="ligtinbuurtid", null=True)
 
     volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     statuscode = models.CharField(max_length=1)
     heeft_hoofdadres = models.CharField(
@@ -97,6 +98,7 @@ class Openbareruimte(GeoModel):
     status = models.CharField(max_length=80, db_column="statusomschrijving")
 
     volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     straatcode = models.CharField(max_length=16, null=True)
     straatnaam = models.CharField(max_length=80, null=True, db_column="straatnaamptt")
@@ -128,6 +130,7 @@ class Standplaats(GeoModel, BagObject):
     status = models.CharField(max_length=80, db_column="statusomschrijving")
 
     volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     statuscode = models.CharField(max_length=1)
     hoofdadres = models.CharField(
@@ -188,6 +191,7 @@ class Pand(GeoModel):
     status = models.CharField(max_length=80, db_column="statusomschrijving")
 
     volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     geconstateerd = models.BooleanField()
     statuscode = models.CharField(max_length=3)
@@ -253,6 +257,7 @@ class Verblijfsobject(GeoModel, BagObject):
     )
 
     volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     cbsnummer = models.CharField(max_length=16, null=True)
     indicatie_woningvoorraad = models.CharField(
@@ -349,6 +354,7 @@ class Nummeraanduiding(models.Model):
     status = models.CharField(max_length=80, db_column="statusomschrijving", null=True)
 
     volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateTimeField()
     geconstateerd = models.BooleanField()
     woonplaats = models.CharField(
