@@ -173,6 +173,8 @@ BOUWDOSSIERS_OBJECTSTORE_CONTAINER = os.getenv(
     'BOUWDOSSIERS_OBJECTSTORE_CONTAINER', 'dossiers_acceptance'
 )
 
+STORAGE_ACCOUNT_URL = os.getenv('STORAGE_ACCOUNT_URL')
+
 PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 DATA_DIR = '/tmp/bouwdossiers'
 

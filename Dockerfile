@@ -1,19 +1,20 @@
-FROM python:3.8-buster as app
+FROM python:3.12-bookworm as app
 
 ENV PYTHONUNBUFFERED 1 \
     PIP_NO_CACHE_DIR=off
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
-ENV DATAPUNT_API_URL=${DATAPUNT_API_URL:-https://bouwdossiers.amsterdam.nl/}
 ARG USE_JWKS_TEST_KEY=true
 
 RUN apt-get update \
  && apt-get dist-upgrade -y \
  && apt-get install --no-install-recommends -y \
-        gdal-bin \
+        gdal-bin postgresql-client \
  && pip install --upgrade pip \
  && pip install uwsgi \
- && useradd --user-group --system datapunt
+ && useradd --user-group --system datapunt \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app_install
 ADD requirements.txt requirements.txt
