@@ -179,7 +179,7 @@ class Pand(GeoModel):
     hoogste_bouwlaag = models.IntegerField(null=True, db_column="hoogstebouwlaag")
     geometrie = gis_models.PolygonField(srid=28992)
     pandnaam = models.CharField(max_length=80, null=True, db_column="naam")
-    bouwblok = models.CharField(max_length=16, db_column="ligtinbouwblokid", null=True)
+    bouwblok = models.CharField(max_length=16, db_column="ligtinbouwblokid", db_index=True, null=True)
 
     bouwlagen = models.IntegerField(null=True, db_column="aantalbouwlagen")
     ligging = models.CharField(

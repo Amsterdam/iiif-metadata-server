@@ -543,19 +543,6 @@ def add_bag_ids_to_pre_wabo():
     """
     log.info("Add nummeraanduidingen,verblijfsobjecten and panden to pre-wabo dossiers")
     with connection.cursor() as cursor:
-        # First add some indexes
-#         cursor.execute("""
-# CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx ON bag_nummeraanduiding(adresseertverblijfsobjectid);
-# CREATE INDEX IF NOT EXISTS bag_pand_bouwblok_id_idx ON bag_pand(ligtinbouwblokid);
-# CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_pand_id_idx
-#     ON bag_verblijfsobjectpandrelatie(pand_id);
-# CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_verblijfsobject_id_idx
-#     ON bag_verblijfsobjectpandrelatie(verblijfsobject_id);
-# CREATE INDEX IF NOT EXISTS bag_pand_id_idx ON bag_pand(identificatie);
-# CREATE INDEX IF NOT EXISTS bag_verblijfsobject_id_idx ON bag_verblijfsobject(identificatie);            
-# CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_id_idx ON bag_nummeraanduiding(identificatie);
-#     """)
-        
         # Set parameter to disable parallel query. On Postgres docker
         # parallel query can fail due to lack of /dev/shm shared memory
         cursor.execute("SET max_parallel_workers_per_gather = 0")
