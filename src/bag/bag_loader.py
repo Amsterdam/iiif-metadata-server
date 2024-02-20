@@ -1,5 +1,3 @@
-# the tables we get from the BAG dump do not contain primary keys. These
-# are required if we want to reference them in our Django models.
 import logging
 import os
 import subprocess
