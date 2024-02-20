@@ -28,6 +28,8 @@ class Command(BaseCommand):
         koppeltabel.load()
 
     def import_dossiers(self):
+        # TODO: Truncate importer tables
+
         logger.info('Importing pre wabo dossiers')
         import_pre_wabo_dossiers()
         add_bag_ids_to_pre_wabo()
@@ -41,6 +43,9 @@ class Command(BaseCommand):
         try:
             self.import_bag()
             self.import_dossiers()
+
+            # TODO: Rename bouwdossiers tables to backup or similar
+            # TODO: Rename importer tables to bouwdossiers
 
         except Exception as e:
             raise Exception(
