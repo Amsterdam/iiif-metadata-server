@@ -95,8 +95,6 @@ class BagLoader:
         return path
 
     def load_all_tables(self):
-        assert self.tables, "No tables have been defined for import"
-
         for table in self.tables:
             logger.info(f"Loading table {table}")
             path_zip = self.download_zip(table_name=table, endpoint=self.tables[table])
