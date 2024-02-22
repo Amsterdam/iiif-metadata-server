@@ -109,4 +109,8 @@ pip-selfcheck.json
 .DS_Store
 
 # static files
+static/
 src/static/
+
+# docker personal settings
+docker-compose.override.yml
