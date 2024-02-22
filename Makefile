@@ -62,7 +62,7 @@ clean:                              ## Clean docker stuff
 env:                                ## Print current env
 	env | sort
 
-run_import:                       	## Populate database with manual bag dump          ## Populate database with Bag data
+run_import:                       	## Populate database with new bag data and dossiers
 	$(manage) run_import $(ARGS)
 
 trivy: 								## Detect image vulnerabilities
