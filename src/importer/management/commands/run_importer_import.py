@@ -2,13 +2,17 @@ import logging
 
 from django.core.management.base import BaseCommand
 
+
 from bag.bag_loader import BagLoader
 from bag.koppeltabel_loader import KoppeltabelLoader
 from importer.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
-                            import_pre_wabo_dossiers, import_wabo_dossiers)
+                            import_pre_wabo_dossiers, import_wabo_dossiers, 
+                            validate_import)
+from importer.azure import download_xml_files
+from importer.db import (swap_tables_between_apps, truncate_tables)
 
-logger = logging.getLogger(__name__)
 
+log = logging.getLogger(__name__)
 
 class BagRetrievalError(Exception):
     pass
@@ -19,7 +23,6 @@ class Command(BaseCommand):
 
     def import_bag(self):
         bag = BagLoader()
-        bag.truncate_bag_tables_cascade()
         bag.load_all_tables()
 
         # # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
@@ -28,24 +31,45 @@ class Command(BaseCommand):
         koppeltabel.load()
 
     def import_dossiers(self):
-        # TODO: Truncate importer tables
-
-        logger.info('Importing pre wabo dossiers')
+        log.info('Importing pre wabo dossiers')
         import_pre_wabo_dossiers()
         add_bag_ids_to_pre_wabo()
         
-        logger.info('Importing wabo dossiers')
+        log.info('Importing wabo dossiers')
         import_wabo_dossiers()
         add_bag_ids_to_wabo()
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--skipgetfiles',
+            action='store_true',
+            dest='skipgetfiles',
+            default=False,
+            help='Skip getting files from objectstore')
+         
+        parser.add_argument(
+            '--min_bouwdossiers_count',
+            dest='min_bouwdossiers_count',
+            type=int,
+            default=10000,
+            help='Minimum amount of bouwdossiers to be added')
+        
     def handle(self, *args, **options):
-        logger.info('Metadata import started')
+        log.info('Metadata import started')
         try:
+            truncate_tables(['bag', 'importer'])
             self.import_bag()
+
+            if not options['skipgetfiles']:
+                download_xml_files()
+
             self.import_dossiers()
 
-            # TODO: Rename bouwdossiers tables to backup or similar
-            # TODO: Rename importer tables to bouwdossiers
+            # TODO: Test with previous code if this outputs the same results for the current test dossiers?
+            # validate_import(options['min_bouwdossiers_count'])
+
+            swap_tables_between_apps('importer', 'bouwdossiers')
+
 
         except Exception as e:
             raise Exception(

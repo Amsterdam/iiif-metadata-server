@@ -67,7 +67,7 @@ run_import:                       	## Populate database with manual bag dump
 	$(manage) run_import
 
 run_importer_import:                ## Populate database with Bag data
-	$(manage) run_importer_import
+	$(manage) run_importer_import $(ARGS)
 
 trivy: 								## Detect image vulnerabilities
 	$(dc) build app

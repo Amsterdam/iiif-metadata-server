@@ -23,15 +23,6 @@ class BagLoader:
         "bag_nummeraanduiding": "bag_nummeraanduidingen.csv.zip",
     }
 
-    def truncate_bag_tables_cascade(self):
-        logger.info("Truncating bag tables")
-        drop_table_sql = "TRUNCATE TABLE {table} CASCADE;"
-        drop_bag_tables_sql = "\n".join(
-            [drop_table_sql.format(table=table) for table in self.tables]
-        )
-        with connection.cursor() as cursor:
-            cursor.execute(drop_bag_tables_sql)
-
     def _execute_psql_command(self, path, *, command, mode):
         database = settings.DATABASES["default"]
         command.extend(
