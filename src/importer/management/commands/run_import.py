@@ -8,16 +8,12 @@ from bag.koppeltabel_loader import KoppeltabelLoader
 from importer.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
                             import_pre_wabo_dossiers, import_wabo_dossiers, 
                             validate_import)
-from importer.azure import download_xml_files
-from importer.db import (swap_tables_between_apps, truncate_tables)
+from importer.util_azure import download_xml_files
+from importer.util_db import (swap_tables_between_apps, truncate_tables)
 
 
 log = logging.getLogger(__name__)
 
-class BagRetrievalError(Exception):
-    pass
-
-# TODO: This command should accept options to modify its behaviour
 class Command(BaseCommand):
     help = "Import (pre)WABO dossiers and combine with BAG data from datadienst export"
 
