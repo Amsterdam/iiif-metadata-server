@@ -47,7 +47,6 @@ app:                                ## Run app
 dev: migrate				        ## Run the development app (and run extra migrations first)
 	$(run) --service-ports dev
 
-
 bash:                               ## Run the container and start bash
 	$(run) app bash
 
@@ -55,6 +54,15 @@ test:                               ## Execute tests
 	$(run) test pytest $(ARGS)
 	$(run) test flake8 --config=./flake8.cfg
 
+lint:                               ## Execute lint checks
+	$(run) test autoflake . --check --recursive --quiet
+	$(run) test isort --diff --check /src/$(APP)
+
+lintfix:                            ## Execute lint fixes
+	$(run) test black /src/$(APP)
+	$(run) test autoflake /src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
+	$(run) test isort /src/$(APP)
+	
 clean:                              ## Clean docker stuff
 	$(dc) down -v
 
