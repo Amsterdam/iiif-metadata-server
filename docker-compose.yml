@@ -59,7 +59,7 @@ services:
     environment:
       - SECRET_KEY=insecure
       - USE_JWKS_TEST_KEY=true
-      - DATABASE_NAME=iiif_metadata_server
+      - DATABASE_NAME=dev
       - DATABASE_USER=dev
       - DATABASE_PASSWORD=dev
     entrypoint: /deploy/wait-for-it.sh database:5432 --
