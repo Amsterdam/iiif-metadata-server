@@ -37,6 +37,13 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
+            '--skipgetbag',
+            action='store_true',
+            dest='skipgetbag',
+            default=False,
+            help='Skip getting bag data')
+                
+        parser.add_argument(
             '--skipgetfiles',
             action='store_true',
             dest='skipgetfiles',
@@ -53,10 +60,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         log.info('Metadata import started')
         try:
-            truncate_tables(['bag', 'importer'])
-            self.import_bag()
+            if not options['skipgetbag']:
+                truncate_tables(['bag'])
+                self.import_bag()
 
             if not options['skipgetfiles']:
+                truncate_tables(['importer'])
                 download_xml_files()
 
             self.import_dossiers()
