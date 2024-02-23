@@ -1,4 +1,4 @@
-FROM python:3.12-bookworm as app
+FROM python:3.11-bullseye as app
 
 ENV PYTHONUNBUFFERED 1 \
     PIP_NO_CACHE_DIR=off
