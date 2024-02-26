@@ -6,7 +6,7 @@ import xmltodict
 from django.conf import settings
 from django.db import IntegrityError, connection, transaction
 
-from . import models
+from importer import models
 
 log = logging.getLogger(__name__)
 
@@ -453,7 +453,7 @@ def import_wabo_dossiers(max_file_count=None):  # noqa C901
             import_file.status = models.IMPORT_ERROR
             import_file.save()
 
-    log.info(f"Import finished. Bouwdossiers total: {total_count}")
+    log.info(f"Import finished. Bouwdossiers total: {total_count}. Bouwdossiers count query: {models.BouwDossier.objects.count()}")
 
 
 def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
@@ -504,26 +504,30 @@ def add_bag_ids_to_wabo():
     with connection.cursor() as cursor:
         try:
             cursor.execute("""
-CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx ON bag_nummeraanduiding(verblijfsobject_id)
+CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx ON bag_nummeraanduiding(adresseertverblijfsobjectid)
+                """)
+            cursor.execute("""
+CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_openbareruimte_id_idx ON bag_nummeraanduiding(ligtaanopenbareruimteid)
                 """)
             cursor.execute("""
 WITH adres_nummeraanduiding AS (
     SELECT
         ba.id AS id,
-        ARRAY_AGG(bag_nra.landelijk_id) AS nummeraanduidingen,
-        ARRAY_AGG(bag_nra._openbare_ruimte_naam || ' ' || bag_nra.huisnummer || bag_nra.huisletter ||
-            CASE WHEN (bag_nra.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bag_nra.huisnummer_toevoeging
+        ARRAY_AGG(bag_nra.identificatie) AS nummeraanduidingen,
+        ARRAY_AGG(bag_opr.naam || ' ' || bag_nra.huisnummer || bag_nra.huisletter ||
+            CASE WHEN (bag_nra.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bag_nra.huisnummertoevoeging
             END) AS nummeraanduidingen_label
-    FROM bouwdossiers_adres ba
-    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-    JOIN bag_nummeraanduiding bag_nra ON bag_nra.verblijfsobject_id = ANY(ba.verblijfsobjecten)
+    FROM importer_adres ba
+    JOIN importer_bouwdossier bb ON bb.id = ba.bouwdossier_id
+    JOIN bag_nummeraanduiding bag_nra ON bag_nra.adresseertverblijfsobjectid = ANY(ba.verblijfsobjecten)
+    JOIN bag_openbareruimte bag_opr ON bag_opr.identificatie = bag_nra.ligtaanopenbareruimteid
     WHERE bb.source = 'WABO'
     GROUP BY ba.id)
-UPDATE bouwdossiers_adres
+UPDATE importer_adres
 SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
 nummeraanduidingen_label = adres_nummeraanduiding.nummeraanduidingen_label
 FROM adres_nummeraanduiding
-WHERE bouwdossiers_adres.id = adres_nummeraanduiding.id
+WHERE importer_adres.id = adres_nummeraanduiding.id
             """)
         except Exception:
             log.exception("An error occurred while adding the nummeraanduidingen.")
@@ -539,24 +543,11 @@ def add_bag_ids_to_pre_wabo():
     """
     log.info("Add nummeraanduidingen,verblijfsobjecten and panden to pre-wabo dossiers")
     with connection.cursor() as cursor:
-        # First add some indexes
-        cursor.execute("""
-CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx
-    ON bag_nummeraanduiding(verblijfsobject_id);
-CREATE INDEX IF NOT EXISTS bag_pand_bouwblok_id_idx ON bag_pand(bouwblok_id);
-CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_pand_id_idx
-    ON bag_verblijfsobjectpandrelatie(pand_id);
-CREATE INDEX IF NOT EXISTS bag_verblijfsobjectpandrelatie_verblijfsobject_id_idx
-    ON bag_verblijfsobjectpandrelatie(verblijfsobject_id);
-CREATE INDEX IF NOT EXISTS bag_pand_id_idx ON bag_pand(id);
-CREATE INDEX IF NOT EXISTS bag_verblijfsobject_id_idx ON bag_verblijfsobject(id);
-CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_id_idx ON bag_nummeraanduiding(id);
-    """)
         # Set parameter to disable parallel query. On Postgres docker
         # parallel query can fail due to lack of /dev/shm shared memory
         cursor.execute("SET max_parallel_workers_per_gather = 0")
 
-        # In the bouwdossiers_adres the adresses are given as a range
+        # In the importer_adres the adresses are given as a range
         # from huisnummer_van till huisnummer_tot
         # We want to include all nummeraanduidingen, verblijfsobjecten and panden in range
         # However, often  we can only use the even or odd number in the range when opposite
@@ -565,56 +556,58 @@ CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_id_idx ON bag_nummeraanduiding(i
         # that also are in the same bouwblok as the start or the end of the range
         cursor.execute("""
 WITH adres_start_end_bouwblok AS (
-    -- First select bouwblokken matching with the start or the end of the range
-    -- and put this in adres_start_end_bouwblok
-    SELECT ba.id,
-    ARRAY_AGG(DISTINCT bp.bouwblok_id) AS bouwblokken
-    FROM bouwdossiers_adres ba
-    JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
-        AND (ba.huisnummer_van = bv._huisnummer OR ba.huisnummer_tot = bv._huisnummer )
-        AND bv.id LIKE '0363%' -- Only match Amsterdam addresses
-    JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
-    JOIN bag_pand bp on bp.id = bvbo.pand_id
-    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-    WHERE bb.source = 'EDEPOT'
-    GROUP BY ba.id
+	SELECT iadre.id, ARRAY_AGG(DISTINCT bpand.ligtinbouwblokid) AS bouwblokken
+		FROM importer_adres iadre
+		JOIN bag_openbareruimte bopen ON bopen.naam = iadre.straat
+		join bag_nummeraanduiding bnumm
+			on bnumm.ligtaanopenbareruimteid = bopen.identificatie 
+			and (bnumm.huisnummer = iadre.huisnummer_van 
+				or bnumm.huisnummer = iadre.huisnummer_tot)
+			and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
+		join bag_verblijfsobject bver on bver.identificatie = bnumm.adresseertverblijfsobjectid 
+		join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bver.identificatie
+		join bag_pand bpand on bpand.identificatie = bvpr.pand_id
+		JOIN importer_bouwdossier ibouw ON ibouw.id = iadre.bouwdossier_id
+		where ibouw.source = 'EDEPOT'
+		group by iadre.id
 ),
 adres_pand AS (
     SELECT
-        ba.id,
-        -- Then we  select all verblijfsobjecten and nummeraanduidingen in the range
+	    iadre.id,
+	    -- Then we  select all verblijfsobjecten and nummeraanduidingen in the range
         -- that also are in the same bouwblok as the start or end
-        ARRAY_AGG(DISTINCT bp.landelijk_id) AS panden,
-        ARRAY_AGG(DISTINCT bv.landelijk_id) AS verblijfsobjecten,
-        ARRAY_AGG(DISTINCT bv._openbare_ruimte_naam || ' ' || bv._huisnummer || bv._huisletter ||
-            CASE WHEN (bv._huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bv._huisnummer_toevoeging
+        ARRAY_AGG(DISTINCT bpand.identificatie) AS panden,
+        ARRAY_AGG(DISTINCT bverb.identificatie) AS verblijfsobjecten,
+        ARRAY_AGG(DISTINCT bopen.naam || ' ' || bnumm.huisnummer || bnumm.huisletter ||
+            CASE WHEN (bnumm.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bnumm.huisnummertoevoeging
             END) AS verblijfsobjecten_label,
-        ARRAY_AGG(DISTINCT bn.landelijk_id) AS nummeraanduidingen,
-        ARRAY_AGG(DISTINCT bn._openbare_ruimte_naam || ' ' || bn.huisnummer || bn.huisletter ||
-            CASE WHEN (bn.huisnummer_toevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bn.huisnummer_toevoeging
+        ARRAY_AGG(DISTINCT bnumm.identificatie) AS nummeraanduidingen,
+        ARRAY_AGG(DISTINCT bopen.naam || ' ' || bnumm.huisnummer || bnumm.huisletter ||
+            CASE WHEN (bnumm.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bnumm.huisnummertoevoeging
             END) AS nummeraanduidingen_label
-    FROM bouwdossiers_adres ba
-    JOIN bag_verblijfsobject bv ON ba.straat = bv._openbare_ruimte_naam
-    AND bv._huisnummer BETWEEN ba.huisnummer_van AND ba.huisnummer_tot
-    AND bv.id LIKE '0363%' -- Only match Amsterdam addresses
-    JOIN bag_nummeraanduiding bn ON bn.verblijfsobject_id = bv.id
-    AND bn.id LIKE '0363%' -- Only match Amsterdam addresses
-    JOIN bag_verblijfsobjectpandrelatie bvbo ON bvbo.verblijfsobject_id = bv.id
-    JOIN bag_pand bp on bp.id = bvbo.pand_id
-    JOIN bouwdossiers_bouwdossier bb ON bb.id = ba.bouwdossier_id
-    JOIN adres_start_end_bouwblok aseb ON aseb.id = ba.id
-    WHERE bb.source = 'EDEPOT'
-    AND bp.bouwblok_id=ANY(aseb.bouwblokken)
-    GROUP BY ba.id
+	FROM importer_adres iadre
+	JOIN bag_openbareruimte bopen ON bopen.naam = iadre.straat
+	join bag_nummeraanduiding bnumm
+		on bnumm.ligtaanopenbareruimteid = bopen.identificatie 
+		and bnumm.huisnummer BETWEEN iadre.huisnummer_van and iadre.huisnummer_tot
+		and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
+	join bag_verblijfsobject bverb on bverb.identificatie = bnumm.adresseertverblijfsobjectid 
+	join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bverb.identificatie
+	join bag_pand bpand on bpand.identificatie = bvpr.pand_id
+	JOIN importer_bouwdossier ibouw ON ibouw.id = iadre.bouwdossier_id
+	JOIN adres_start_end_bouwblok aseb ON aseb.id = iadre.id
+    WHERE ibouw.source = 'EDEPOT'
+    	AND bpand.ligtinbouwblokid=ANY(aseb.bouwblokken)
+    GROUP BY iadre.id
 )
-UPDATE bouwdossiers_adres
+UPDATE importer_adres
 SET panden = adres_pand.panden,
     verblijfsobjecten = adres_pand.verblijfsobjecten,
     verblijfsobjecten_label = adres_pand.verblijfsobjecten_label,
     nummeraanduidingen = adres_pand.nummeraanduidingen,
     nummeraanduidingen_label = adres_pand.nummeraanduidingen_label
 FROM adres_pand
-WHERE bouwdossiers_adres.id = adres_pand.id
+WHERE importer_adres.id = adres_pand.id
         """)
     log.info("Finished adding nummeraanduidingen, verblijfsobjecten and panden to pre-wabo dossiers")
 
@@ -622,24 +615,25 @@ WHERE bouwdossiers_adres.id = adres_pand.id
     log.info("Add openbare ruimtes")
     with connection.cursor() as cursor:
         cursor.execute("""
-UPDATE bouwdossiers_adres ba
-SET openbareruimte_id = opr.landelijk_id
-FROM bag_openbareruimte opr
-WHERE ba.straat = opr.naam
-AND opr.vervallen = false
-AND opr.type = '01'
-AND opr.id LIKE '0363%' -- Only match Amsterdam streets
+UPDATE importer_adres iadre
+SET openbareruimte_id = bopen.identificatie
+FROM bag_openbareruimte bopen
+WHERE iadre.straat = bopen.naam
+AND (bopen.eindgeldigheid is NULL 
+		OR bopen.eindgeldigheid >= NOW())
+	AND bopen.typecode = '1'
+	AND bopen.identificatie like '0363%' -- Only match Amsterdam streets
         """)
 
     # If the openbareruimte was not yet found we try to match with other openbare ruimtes
     with connection.cursor() as cursor:
         cursor.execute("""
-UPDATE bouwdossiers_adres ba
-SET openbareruimte_id = opr.landelijk_id
-FROM bag_openbareruimte opr
-WHERE ba.straat = opr.naam
-AND opr.id LIKE '0363%'  -- Only match Amsterdam streets
-AND (ba.openbareruimte_id IS NULL OR ba.openbareruimte_id = '')
+UPDATE importer_adres iadre
+SET openbareruimte_id = bopen.identificatie
+FROM bag_openbareruimte bopen
+WHERE iadre.straat = bopen.naam
+AND bopen.identificatie LIKE '0363%'  -- Only match Amsterdam streets
+AND (iadre.openbareruimte_id IS NULL OR iadre.openbareruimte_id = '')
         """)
     log.info("Finished adding openbare ruimtes")
 
@@ -652,7 +646,7 @@ SELECT
     array_length(panden, 1) IS NOT NULL AS has_panden,
     array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen,
     openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
-FROM bouwdossiers_adres
+FROM importer_adres
 GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
         """)
         rows = cursor.fetchall()
