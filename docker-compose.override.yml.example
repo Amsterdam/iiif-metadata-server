@@ -1,0 +1,10 @@
+services:
+  database:
+    ports:
+      - "5903:5432"
+  
+  dev:
+    volumes:
+      - ./src:/src
+      - ./deploy:/deploy
+      - ./static:/tmp/bouwdossiers # Small collection

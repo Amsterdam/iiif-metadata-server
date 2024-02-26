@@ -2,36 +2,40 @@ from django.conf import settings
 from django.db import connection
 from django.test import TestCase
 
-from bouwdossiers import batch, models
+from importer import batch, models
 
 
 class APITest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        with open('bouwdossiers/tests/data/add_bag.sql') as fbag:
+        with open('importer/tests/data/add_bag.sql') as fbag:
             bag_data = fbag.read()
         with connection.cursor() as cursor:
             cursor.execute(bag_data)
 
     def setUp(self):
-        settings.DATA_DIR = 'bouwdossiers/tests/data'
+        settings.DATA_DIR = 'importer/tests/data'
 
     def test_prewabo_import(self):
         batch.import_pre_wabo_dossiers()
         batch.add_bag_ids_to_pre_wabo()
 
-        bd = models.BouwDossier.objects.get(dossiernr=3)
-        self.assertEqual(bd.stadsdeel, 'SA')
-        self.assertEqual(bd.titel, "Hoogte Kadijk 40")
-        self.assertEqual(bd.datering.strftime("%Y"), "2003")
-        self.assertEqual(bd.dossier_type, "verbouwing")
-        self.assertEqual(bd.access, "PUBLIC")
-        self.assertEqual(bd.source, "EDEPOT")
-        adres0 = bd.adressen.first()
+        bd3 = models.BouwDossier.objects.get(dossiernr=3)
+        self.assertEqual(bd3.stadsdeel, 'SA')
+        self.assertEqual(bd3.titel, "Hoogte Kadijk 40")
+        self.assertEqual(bd3.datering.strftime("%Y"), "2003")
+        self.assertEqual(bd3.dossier_type, "verbouwing")
+        self.assertEqual(bd3.access, "PUBLIC")
+        self.assertEqual(bd3.source, "EDEPOT")
+
+        bd3_addressen = models.Adres.objects.filter(bouwdossier_id=bd3.id)
+        adres0 = bd3_addressen.first()
         self.assertEqual(adres0.straat, "Hoogte Kadijk")
         self.assertEqual(adres0.huisnummer_van, 40)
         self.assertEqual(adres0.huisnummer_tot, 40)
-        document0 = bd.documenten.first()
+
+        bd3_documenten = models.Document.objects.filter(bouwdossier_id=bd3.id).order_by('id').all()
+        document0 = bd3_documenten.first()
         self.assertEqual(document0.barcode, "SA00000007")
         self.assertEqual(document0.subdossier_titel, "Aanvraag en behandeling")
         self.assertEqual(document0.bestanden, [
@@ -40,15 +44,18 @@ class APITest(TestCase):
             "SA/00003/SA00000007_00003.jpg"
         ])
         self.assertEqual(document0.access, "PUBLIC")
+
         bd123 = models.BouwDossier.objects.get(dossiernr=123)
-        for document123 in bd123.documenten.all():
+        bd123_documenten = models.Document.objects.filter(bouwdossier_id=bd123.id).order_by('id').all()
+        for document123 in bd123_documenten.all():
             if document123.barcode == "SA00001038":
                 self.assertEqual(document123.access, "RESTRICTED")
             elif document123.barcode == "SA00001039":
                 self.assertEqual(document123.access, "PUBLIC")
 
         bd21388 = models.BouwDossier.objects.get(dossiernr=21388)
-        fdb = bd21388.adressen.get(straat='Feike de Boerlaan')
+        bd21388_addressen = models.Adres.objects.filter(bouwdossier_id=bd21388.id)
+        fdb = bd21388_addressen.get(straat='Feike de Boerlaan')
         # 0363010000959579 Feike de Boerlaan 29
         self.assertTrue('0363010000959579' in fdb.verblijfsobjecten)
         # 0363010000998545 Feike de Boerlaan 14
@@ -70,9 +77,11 @@ class APITest(TestCase):
         self.assertEqual(bd1.source, "WABO")
         self.assertEqual(bd1.olo_liaan_nummer, 189)
         self.assertEqual(bd1.wabo_bron, "KEY2")
-        self.assertEqual(bd1.adressen.count(), 25)
 
-        adres1 = bd1.adressen.first()
+        bd1_addressen = models.Adres.objects.filter(bouwdossier_id=bd1.id)
+        self.assertEqual(bd1_addressen.count(), 25)
+
+        adres1 = bd1_addressen.first()
         self.assertEqual(adres1.straat, "Lauriergracht")
         self.assertEqual(adres1.huisnummer_van, 1161)
         self.assertEqual(adres1.huisnummer_toevoeging, "H")
@@ -81,15 +90,15 @@ class APITest(TestCase):
         self.assertEqual(adres1.verblijfsobjecten, ['0363010000719556'])
         self.assertEqual(adres1.panden, ['0363100012168986'])
 
-        documenten = bd1.documenten.order_by('id').all()
-        self.assertEqual(len(documenten), 20)
-        document5 = documenten[5]
+        bd1_documenten = models.Document.objects.filter(bouwdossier_id=bd1.id).order_by('id').all()
+        self.assertEqual(len(bd1_documenten), 20)
+        document5 = bd1_documenten[5]
         self.assertEqual(document5.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage16.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
         self.assertEqual(document5.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcb.pdf'])
         self.assertEqual(document5.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcb'])
         self.assertEqual(document5.access, models.ACCESS_PUBLIC)
 
-        document6 = documenten[6]
+        document6 = bd1_documenten[6]
         self.assertEqual(document6.document_omschrijving, "Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage01.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset")
         self.assertEqual(document6.bestanden, ['SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf'])
         self.assertEqual(document6.oorspronkelijk_pad, ['G:\\Export files\\documentum\\primary/25/0901b69980335dcd'])
@@ -99,6 +108,9 @@ class APITest(TestCase):
         bd2 = models.BouwDossier.objects.get(dossiernr=233)
         self.assertEqual(bd2.access, models.ACCESS_RESTRICTED)
 
-        documenten = bd2.documenten.order_by('id').all()
-        document1 = documenten[0]
+        bd2_documenten = models.Document.objects.filter(bouwdossier_id=bd2.id).order_by('id').all()
+        document1 = bd2_documenten[0]
         self.assertEqual(document1.access, models.ACCESS_RESTRICTED)
+
+        batch.add_bag_ids_to_wabo()
+        # test import bag ids

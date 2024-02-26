@@ -53,7 +53,8 @@ bash:                               ## Run the container and start bash
 
 test:                               ## Execute tests
 	$(run) test pytest $(ARGS)
-	$(run) test flake8 --config=./flake8.cfg
+
+# TODO: Add lint and fixlint commands to replace linting in test
 
 clean:                              ## Clean docker stuff
 	$(dc) down -v
@@ -61,14 +62,8 @@ clean:                              ## Clean docker stuff
 env:                                ## Print current env
 	env | sort
 
-import_bag:                       ## Populate database with Bag data
-	${dc} exec database update-table.sh bag_v11 bag_verblijfsobject public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_ligplaats public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_standplaats public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_nummeraanduiding public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_pand public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_verblijfsobjectpandrelatie public iiif_metadata_server
-	${dc} exec database update-table.sh bag_v11 bag_openbareruimte public iiif_metadata_server
+run_import:                       	## Populate database with new bag data and dossiers
+	$(manage) run_import $(ARGS)
 
 trivy: 								## Detect image vulnerabilities
 	$(dc) build app

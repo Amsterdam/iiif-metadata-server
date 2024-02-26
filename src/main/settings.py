@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'drf_yasg',
     'bouwdossiers',
+    'bag',
+    'importer',
     'health',
 ]
 
@@ -252,3 +254,6 @@ REST_FRAMEWORK = dict(
 )
 
 IIIF_BASE_URL = os.getenv('IIIF_BASE_URL', 'https://bouwdossiers.amsterdam.nl/iiif/2/')
+
+DATADIENSTEN_API_BASE_URL = os.getenv("DATADIENSTEN_API_BASE_URL", "https://api.data.amsterdam.nl")
+BAG_CSV_BASE_URL = os.getenv("BAG_CSV_BASE_URL", "https://amsterdamdadipub.blob.core.windows.net/bulk-data/csv")
