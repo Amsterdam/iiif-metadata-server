@@ -1,4 +1,4 @@
-from django.db import connection
+from django.db import connection, transaction
 from django.apps import apps 
 
 
@@ -6,6 +6,7 @@ def get_app_model_names(model_name):
     app_models = apps.get_app_config(model_name).get_models()
     return [model._meta.db_table for model in app_models]
 
+@transaction.atomic
 def truncate_tables(apps):
     models = [model for app in apps for model in get_app_model_names(app)]
     query = ""
@@ -14,6 +15,7 @@ def truncate_tables(apps):
     with connection.cursor() as cursor:
         cursor.execute(query)
 
+@transaction.atomic
 def swap_tables_between_apps(app1, app2):
         importer_models = get_app_model_names(app1)
         bouwdossier_models = get_app_model_names(app2)

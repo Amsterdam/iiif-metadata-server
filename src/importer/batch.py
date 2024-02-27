@@ -504,12 +504,6 @@ def add_bag_ids_to_wabo():
     with connection.cursor() as cursor:
         try:
             cursor.execute("""
-CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_verblijfsobject_id_idx ON bag_nummeraanduiding(adresseertverblijfsobjectid)
-                """)
-            cursor.execute("""
-CREATE INDEX IF NOT EXISTS bag_nummeraanduiding_openbareruimte_id_idx ON bag_nummeraanduiding(ligtaanopenbareruimteid)
-                """)
-            cursor.execute("""
 WITH adres_nummeraanduiding AS (
     SELECT
         ba.id AS id,
@@ -672,7 +666,7 @@ GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
         f" ({result['has_panden'] / result['total'] * 100}%) has one or more panden."
         f" The required minimum is {0.8 * result['total']} (80%)."
     )
-    assert result['total'] > min_bouwdossiers_count, \
+    assert result['total'] >= min_bouwdossiers_count, \
         f'Imported total of {result["total"]} bouwdossiers is less than the required number {min_bouwdossiers_count}'
     assert result['has_panden'] > 0.8 * result['total'], \
         f"{result['has_panden']} number of records of a total of {result['total']} records " \
