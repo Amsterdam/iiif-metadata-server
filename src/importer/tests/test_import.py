@@ -114,3 +114,11 @@ class APITest(TestCase):
 
         batch.add_bag_ids_to_wabo()
         # test import bag ids
+
+    def validate_import(self):
+        batch.import_pre_wabo_dossiers()
+        batch.add_bag_ids_to_pre_wabo()
+        batch.import_wabo_dossiers()
+        batch.add_bag_ids_to_wabo()
+        batch.validate_import(min_bouwdossiers_count=38)
+

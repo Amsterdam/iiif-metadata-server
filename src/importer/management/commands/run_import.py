@@ -70,8 +70,7 @@ class Command(BaseCommand):
 
             self.import_dossiers()
 
-            # TODO: Test with previous code if this outputs the same results for the current test dossiers?
-            # validate_import(options['min_bouwdossiers_count'])
+            validate_import(options['min_bouwdossiers_count'])
 
             swap_tables_between_apps('importer', 'bouwdossiers')
 
