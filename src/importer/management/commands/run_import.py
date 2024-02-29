@@ -65,9 +65,9 @@ class Command(BaseCommand):
                 self.import_bag()
 
             if not options['skipgetfiles']:
-                truncate_tables(['importer'])
                 download_xml_files()
 
+            truncate_tables(['importer'])
             self.import_dossiers()
 
             validate_import(options['min_bouwdossiers_count'])

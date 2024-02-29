@@ -113,7 +113,10 @@ class APITest(TestCase):
         self.assertEqual(document1.access, models.ACCESS_RESTRICTED)
 
         batch.add_bag_ids_to_wabo()
-        # test import bag ids
+        self.assertEqual(bd1_addressen.count(), 25)
+        adres1_new = bd1_addressen.first()
+        self.assertEqual(adres1_new.nummeraanduidingen_label, ['Lauriergracht 116-H'])
+
 
     def validate_import(self):
         batch.import_pre_wabo_dossiers()

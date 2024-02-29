@@ -508,7 +508,8 @@ WITH adres_nummeraanduiding AS (
     SELECT
         ba.id AS id,
         ARRAY_AGG(bag_nra.identificatie) AS nummeraanduidingen,
-        ARRAY_AGG(bag_opr.naam || ' ' || bag_nra.huisnummer || bag_nra.huisletter ||
+        ARRAY_AGG(bag_opr.naam || ' ' || bag_nra.huisnummer ||
+            CASE WHEN (bag_nra.huisletter = '') IS NOT FALSE THEN '' ELSE bag_nra.huisletter END ||
             CASE WHEN (bag_nra.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bag_nra.huisnummertoevoeging
             END) AS nummeraanduidingen_label
     FROM importer_adres ba
@@ -555,8 +556,8 @@ WITH adres_start_end_bouwblok AS (
 		JOIN bag_openbareruimte bopen ON bopen.naam = iadre.straat
 		join bag_nummeraanduiding bnumm
 			on bnumm.ligtaanopenbareruimteid = bopen.identificatie 
-			and (bnumm.huisnummer = iadre.huisnummer_van 
-				or bnumm.huisnummer = iadre.huisnummer_tot)
+			and (bnumm.huisnummer >= iadre.huisnummer_van 
+		        or bnumm.huisnummer <= iadre.huisnummer_tot)
 			and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
 		join bag_verblijfsobject bver on bver.identificatie = bnumm.adresseertverblijfsobjectid 
 		join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bver.identificatie
@@ -572,18 +573,21 @@ adres_pand AS (
         -- that also are in the same bouwblok as the start or end
         ARRAY_AGG(DISTINCT bpand.identificatie) AS panden,
         ARRAY_AGG(DISTINCT bverb.identificatie) AS verblijfsobjecten,
-        ARRAY_AGG(DISTINCT bopen.naam || ' ' || bnumm.huisnummer || bnumm.huisletter ||
+        ARRAY_AGG(DISTINCT bopen.naam || ' ' || bnumm.huisnummer || 
+            CASE WHEN (bnumm.huisletter = '') IS NOT FALSE THEN '' ELSE bnumm.huisletter END ||
             CASE WHEN (bnumm.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bnumm.huisnummertoevoeging
             END) AS verblijfsobjecten_label,
         ARRAY_AGG(DISTINCT bnumm.identificatie) AS nummeraanduidingen,
-        ARRAY_AGG(DISTINCT bopen.naam || ' ' || bnumm.huisnummer || bnumm.huisletter ||
+        ARRAY_AGG(DISTINCT bopen.naam || ' ' || bnumm.huisnummer || 
+            CASE WHEN (bnumm.huisletter = '') IS NOT FALSE THEN '' ELSE bnumm.huisletter END ||
             CASE WHEN (bnumm.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bnumm.huisnummertoevoeging
             END) AS nummeraanduidingen_label
 	FROM importer_adres iadre
 	JOIN bag_openbareruimte bopen ON bopen.naam = iadre.straat
 	join bag_nummeraanduiding bnumm
 		on bnumm.ligtaanopenbareruimteid = bopen.identificatie 
-		and bnumm.huisnummer BETWEEN iadre.huisnummer_van and iadre.huisnummer_tot
+		and (bnumm.huisnummer >= iadre.huisnummer_van 
+		        or bnumm.huisnummer <= iadre.huisnummer_tot)
 		and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
 	join bag_verblijfsobject bverb on bverb.identificatie = bnumm.adresseertverblijfsobjectid 
 	join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bverb.identificatie
