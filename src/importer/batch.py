@@ -556,8 +556,8 @@ WITH adres_start_end_bouwblok AS (
 		JOIN bag_openbareruimte bopen ON bopen.naam = iadre.straat
 		join bag_nummeraanduiding bnumm
 			on bnumm.ligtaanopenbareruimteid = bopen.identificatie 
-			and (bnumm.huisnummer >= iadre.huisnummer_van 
-		        or bnumm.huisnummer <= iadre.huisnummer_tot)
+			and (bnumm.huisnummer = iadre.huisnummer_van 
+		        or bnumm.huisnummer = iadre.huisnummer_tot)
 			and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
 		join bag_verblijfsobject bver on bver.identificatie = bnumm.adresseertverblijfsobjectid 
 		join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bver.identificatie
@@ -587,7 +587,7 @@ adres_pand AS (
 	join bag_nummeraanduiding bnumm
 		on bnumm.ligtaanopenbareruimteid = bopen.identificatie 
 		and (bnumm.huisnummer >= iadre.huisnummer_van 
-		        or bnumm.huisnummer <= iadre.huisnummer_tot)
+		    and bnumm.huisnummer <= iadre.huisnummer_tot)
 		and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
 	join bag_verblijfsobject bverb on bverb.identificatie = bnumm.adresseertverblijfsobjectid 
 	join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bverb.identificatie

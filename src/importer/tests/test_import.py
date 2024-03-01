@@ -33,6 +33,7 @@ class APITest(TestCase):
         self.assertEqual(adres0.straat, "Hoogte Kadijk")
         self.assertEqual(adres0.huisnummer_van, 40)
         self.assertEqual(adres0.huisnummer_tot, 40)
+        self.assertEqual(adres0.nummeraanduidingen_label, ['Hoogte Kadijk 40-1','Hoogte Kadijk 40-2','Hoogte Kadijk 40-3','Hoogte Kadijk 40-H'])
 
         bd3_documenten = models.Document.objects.filter(bouwdossier_id=bd3.id).order_by('id').all()
         document0 = bd3_documenten.first()
