@@ -87,7 +87,7 @@ class Openbareruimte(GeoModel):
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
     type = models.CharField(max_length=80, db_column="typeomschrijving")
     naam = models.CharField(max_length=80)
-    naam_nen = models.CharField(max_length=80, db_column="naamnen")
+    naam_nen = models.CharField(max_length=80, null=True, db_column="naamnen")
     geometrie = gis_models.GeometryField(srid=28992, null=True)
     omschrijving = models.TextField(
         null=True, db_column="beschrijvingnaam"
