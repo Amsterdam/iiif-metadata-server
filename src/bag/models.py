@@ -82,7 +82,7 @@ class Ligplaats(GeoModel, BagObject):
 class Openbareruimte(GeoModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     document_mutatie = models.DateField(db_column="documentdatum")
-    document_nummer = models.CharField(max_length=20, db_column="documentnummer")
+    document_nummer = models.CharField(max_length=40, db_column="documentnummer") # FIXME: Remove after problem in sources for id: 0363300011951944 is fixed.
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
     type = models.CharField(max_length=80, db_column="typeomschrijving")
