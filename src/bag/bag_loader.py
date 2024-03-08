@@ -1,3 +1,4 @@
+import csv
 import logging
 import os
 import subprocess
@@ -5,7 +6,6 @@ from zipfile import ZipFile
 
 import requests
 from django.conf import settings
-from django.db import connection
 
 from bag.utils import retry
 
@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 class BagLoader:
     tmp_folder = "/tmp"
+    local_bag_backup_default = "${tmp_folder}/local_bag_backup.psql"
+    
     tables = {
         "bag_ligplaats": "bag_ligplaatsen.csv.zip",
         "bag_openbareruimte": "bag_openbareruimtes.csv.zip",
@@ -22,6 +24,31 @@ class BagLoader:
         "bag_verblijfsobject": "bag_verblijfsobjecten.csv.zip",
         "bag_nummeraanduiding": "bag_nummeraanduidingen.csv.zip",
     }
+
+    def create_local_backup(self, backup_path=local_bag_backup_default):
+        """create a local backup of the bag and brk tables"""
+        logger.info(f"Creating local bag backup in {backup_path}")
+        if os.path.exists(backup_path):
+            os.remove(backup_path)
+        # Dump all tables starting with bag_ or brk_
+        command = [
+            "pg_dump",
+            "--clean",
+            "--if-exists",
+            "--no-privileges",
+            "--table=bag_*",
+        ]
+        logger.info(f"Creating local bag backup in {backup_path}")
+        self._execute_psql_command(backup_path, command=command, mode="wb")
+        return backup_path
+
+    def restore_local_backup(self, backup_path=local_bag_backup_default):
+        """restore a local backup of the bag tables"""
+        command = ["psql"]
+        logger.info(f"Restoring local bag backup from {backup_path}")
+        self._execute_psql_command(backup_path, command=command, mode="r")
+        return backup_path
+    
 
     def _execute_psql_command(self, path, *, command, mode):
         database = settings.DATABASES["default"]
@@ -73,8 +100,26 @@ class BagLoader:
             )
         return path_target
 
+    def preprocess_csv(self, csv_path_in, csv_path_out):
+        seen = {}
+        with open(csv_path_in, mode='r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                key = row['Identificatie']
+                if (key not in seen):
+                    seen[key] = row
+                elif row['Volgnummer'] > seen[key]['Volgnummer']:
+                    seen[key] = row
+        
+        filtered_rows = list(seen.values())
+        with open(csv_path_out, 'w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=filtered_rows[0].keys())
+            writer.writeheader()
+            for row in filtered_rows:
+                writer.writerow(row)
+
     @retry(tries=5)
-    def download_zip(self, *, table_name: str, endpoint: str):
+    def download_zip(self, *, table_name: str, endpoint: str, path_base: str):
         base_url = settings.BAG_CSV_BASE_URL
         url = f"{base_url}/{endpoint}"
         logger.info(
@@ -86,7 +131,7 @@ class BagLoader:
             headers={"User-Agent": "Mozilla/5.0"},
         )
         response.raise_for_status()
-        path = f"{self.tmp_folder}/{endpoint}"
+        path = f"{path_base}/{endpoint}"
         if os.path.exists(path):
             os.remove(path)
             logger.info(f"Zip {path} was removed")
@@ -95,9 +140,16 @@ class BagLoader:
         return path
 
     def load_all_tables(self):
-        for table in self.tables:
+        for table, endpoint in self.tables.items():
             logger.info(f"Loading table {table}")
-            path_zip = self.download_zip(table_name=table, endpoint=self.tables[table])
+            path_base = f"{self.tmp_folder}"
+            path_zip = self.download_zip(table_name=table, endpoint=endpoint, path_base=path_base)
             path_csv = self.unpack_zip(table_name=table, endpoint=path_zip)
-            self.import_table_from_csv(table_name=table, path=path_csv)
+            try:
+                self.import_table_from_csv(table_name=table, path=path_csv)
+            except Exception as e:
+                logger.warn("Failed to process csv. Trying to preprocess duplicate ids")
+                path_csv_processed = f"{path_base}/processed-{table}.csv"
+                self.preprocess_csv(csv_path_in=path_csv, csv_path_out=path_csv_processed)
+                self.import_table_from_csv(table_name=table, path=path_csv_processed)
             logger.info(f"Table {table} was loaded")

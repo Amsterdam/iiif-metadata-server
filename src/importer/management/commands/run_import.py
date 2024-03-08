@@ -2,7 +2,6 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-
 from bag.bag_loader import BagLoader
 from bag.koppeltabel_loader import KoppeltabelLoader
 from importer.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
@@ -19,12 +18,21 @@ class Command(BaseCommand):
 
     def import_bag(self):
         bag = BagLoader()
-        bag.load_all_tables()
+        backup_path = bag.create_local_backup(backup_path=f"{bag.tmp_folder}/local_bag_backup.psql")
+        try:
+            truncate_tables(['bag'])
 
-        # # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
-        # # constructed manually
-        koppeltabel = KoppeltabelLoader()
-        koppeltabel.load()
+            bag.load_all_tables()
+
+            # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
+            # constructed manually
+            koppeltabel = KoppeltabelLoader()
+            koppeltabel.load()
+        except Exception as e:
+            bag.restore_local_backup(backup_path)
+            raise Exception(
+                "An exception occurred importing the BAG. Backup restored"
+            ) from e
 
     def import_dossiers(self):
         log.info('Importing pre wabo dossiers')
@@ -61,7 +69,6 @@ class Command(BaseCommand):
         log.info('Metadata import started')
         try:
             if not options['skipgetbag']:
-                truncate_tables(['bag'])
                 self.import_bag()
 
             if not options['skipgetfiles']:
