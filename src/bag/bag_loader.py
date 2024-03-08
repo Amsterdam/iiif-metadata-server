@@ -25,31 +25,6 @@ class BagLoader:
         "bag_nummeraanduiding": "bag_nummeraanduidingen.csv.zip",
     }
 
-    def create_local_backup(self, backup_path=local_bag_backup_default):
-        """create a local backup of the bag and brk tables"""
-        logger.info(f"Creating local bag backup in {backup_path}")
-        if os.path.exists(backup_path):
-            os.remove(backup_path)
-        # Dump all tables starting with bag_ or brk_
-        command = [
-            "pg_dump",
-            "--clean",
-            "--if-exists",
-            "--no-privileges",
-            "--table=bag_*",
-        ]
-        logger.info(f"Creating local bag backup in {backup_path}")
-        self._execute_psql_command(backup_path, command=command, mode="wb")
-        return backup_path
-
-    def restore_local_backup(self, backup_path=local_bag_backup_default):
-        """restore a local backup of the bag tables"""
-        command = ["psql"]
-        logger.info(f"Restoring local bag backup from {backup_path}")
-        self._execute_psql_command(backup_path, command=command, mode="r")
-        return backup_path
-    
-
     def _execute_psql_command(self, path, *, command, mode):
         database = settings.DATABASES["default"]
         command.extend(

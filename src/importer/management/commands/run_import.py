@@ -18,21 +18,14 @@ class Command(BaseCommand):
 
     def import_bag(self):
         bag = BagLoader()
-        backup_path = bag.create_local_backup(backup_path=f"{bag.tmp_folder}/local_bag_backup.psql")
-        try:
-            truncate_tables(['bag'])
+        truncate_tables(['bag'])
 
-            bag.load_all_tables()
+        bag.load_all_tables()
 
-            # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
-            # constructed manually
-            koppeltabel = KoppeltabelLoader()
-            koppeltabel.load()
-        except Exception as e:
-            bag.restore_local_backup(backup_path)
-            raise Exception(
-                "An exception occurred importing the BAG. Backup restored"
-            ) from e
+        # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
+        # constructed manually
+        koppeltabel = KoppeltabelLoader()
+        koppeltabel.load()
 
     def import_dossiers(self):
         log.info('Importing pre wabo dossiers')
