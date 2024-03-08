@@ -100,23 +100,25 @@ class BagLoader:
             )
         return path_target
 
-    def preprocess_csv(self, csv_path_in, csv_path_out):
+    def preprocess_csv_rows(self, reader: csv.DictReader, writer: csv.DictWriter):
         seen = {}
-        with open(csv_path_in, mode='r') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                key = row['Identificatie']
-                if (key not in seen):
-                    seen[key] = row
-                elif row['Volgnummer'] > seen[key]['Volgnummer']:
-                    seen[key] = row
+        for row in reader:
+            key = row['Identificatie']
+            if (key not in seen):
+                seen[key] = row
+            elif row['Volgnummer'] > seen[key]['Volgnummer']:
+                seen[key] = row
         
         filtered_rows = list(seen.values())
-        with open(csv_path_out, 'w', newline='') as file:
-            writer = csv.DictWriter(file, fieldnames=filtered_rows[0].keys())
-            writer.writeheader()
-            for row in filtered_rows:
-                writer.writerow(row)
+        writer.writeheader()
+        for row in filtered_rows:
+            writer.writerow(row)
+
+    def preprocess_csv_files(self, csv_path_in, csv_path_out):
+        with open(csv_path_in, 'r') as infile, open(csv_path_out, 'w', newline='') as outfile:
+            reader = csv.DictReader(infile)
+            writer = csv.DictWriter(outfile, fieldnames=reader.fieldnames)
+            self.preprocess_csv_rows(reader, writer)
 
     @retry(tries=5)
     def download_zip(self, *, table_name: str, endpoint: str, path_base: str):
@@ -148,8 +150,8 @@ class BagLoader:
             try:
                 self.import_table_from_csv(table_name=table, path=path_csv)
             except Exception as e:
-                logger.warn("Failed to process csv. Trying to preprocess duplicate ids")
+                logger.warn("Failed to import csv. Trying to preprocess csv first")
                 path_csv_processed = f"{path_base}/processed-{table}.csv"
-                self.preprocess_csv(csv_path_in=path_csv, csv_path_out=path_csv_processed)
+                self.preprocess_csv_files(csv_path_in=path_csv, csv_path_out=path_csv_processed)
                 self.import_table_from_csv(table_name=table, path=path_csv_processed)
             logger.info(f"Table {table} was loaded")

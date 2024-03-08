@@ -1,12 +1,24 @@
 import logging
 
 from django.conf import settings
-from django.db import connection
 from django.test import TestCase
 
 from bag.bag_loader import BagLoader
 
 log = logging.getLogger(__name__)
+
+class MockWriter:
+    content = []
+
+    def writeheader(self):
+        pass
+    
+    def writerow(self, row):
+        self.content.append(row)
+
+    def __str__(self):
+        return list(self.content.values())
+
 
 class APITest(TestCase):
     @classmethod
@@ -15,19 +27,19 @@ class APITest(TestCase):
         settings.DATA_DIR = 'bag/tests/data'
 
     def test_preprocess_csv(self):
-        csv_path_input = f"{settings.DATA_DIR}/bag_panden_duplicate_id.csv"
-        csv_path_output = f"{settings.DATA_DIR}/bag_panden_filtered.csv"
-        with open(csv_path_input) as fpand:
-            pand_data = fpand.read()
-            self.assertIn("0457100000068588,1", pand_data)
+        csv_data = [
+            {"Identificatie": "0457100000068588", "Volgnummer": "3"},
+            {"Identificatie": "0457100000068549", "Volgnummer": "3"},
+            {"Identificatie": "0457100000068588", "Volgnummer": "1"}
+        ]
 
+        reader = iter(csv_data)
+        writer = MockWriter()
         bag = BagLoader()
-        bag.preprocess_csv(csv_path_input, csv_path_output)
+        bag.preprocess_csv_rows(reader, writer)
 
-        with open(csv_path_output) as fpand:
-            pand_data = fpand.read()
-            self.assertNotIn("0457100000068588,1", pand_data)
-            self.assertIn("0457100000068588,3", pand_data)
-
+        self.assertNotIn({'Identificatie': '0457100000068588', 'Volgnummer': '1'}, writer.content)
+        self.assertIn({'Identificatie': '0457100000068588', 'Volgnummer': '3'}, writer.content)
+        self.assertIn({'Identificatie': '0457100000068549', 'Volgnummer': '3'}, writer.content)
 
 
