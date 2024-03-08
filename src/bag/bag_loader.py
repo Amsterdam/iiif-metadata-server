@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 class BagLoader:
     tmp_folder = "/tmp"
-    local_bag_backup_default = "${tmp_folder}/local_bag_backup.psql"
     
     tables = {
         "bag_ligplaats": "bag_ligplaatsen.csv.zip",
