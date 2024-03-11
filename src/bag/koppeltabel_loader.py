@@ -58,7 +58,7 @@ class KoppeltabelLoader:
                 for record in records[i : i + batch_size]
             )
 
-    @retry()  # The endpoint is sometimes unstable and needs retries
+    @retry(tries=10, delay=5)  # The endpoint is sometimes unstable and needs retries
     def _make_request(self, page, url):
         params = {
             "_pageSize": 5000,
@@ -66,6 +66,6 @@ class KoppeltabelLoader:
             "page": page,
         }
         logger.info(f"Downloading {url} page {page}", extra=params)
-        response = requests.get(url, timeout=720, params=params)
+        response = requests.get(url, timeout=360, params=params)
         response.raise_for_status()
         return response.json()
