@@ -2,7 +2,6 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-
 from bag.bag_loader import BagLoader
 from bag.koppeltabel_loader import KoppeltabelLoader
 from importer.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
@@ -19,10 +18,12 @@ class Command(BaseCommand):
 
     def import_bag(self):
         bag = BagLoader()
+        truncate_tables(['bag'])
+
         bag.load_all_tables()
 
-        # # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
-        # # constructed manually
+        # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
+        # constructed manually
         koppeltabel = KoppeltabelLoader()
         koppeltabel.load()
 
@@ -61,13 +62,12 @@ class Command(BaseCommand):
         log.info('Metadata import started')
         try:
             if not options['skipgetbag']:
-                truncate_tables(['bag'])
                 self.import_bag()
 
             if not options['skipgetfiles']:
-                truncate_tables(['importer'])
                 download_xml_files()
 
+            truncate_tables(['importer'])
             self.import_dossiers()
 
             validate_import(options['min_bouwdossiers_count'])

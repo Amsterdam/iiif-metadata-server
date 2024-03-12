@@ -1,3 +1,4 @@
+import csv
 import logging
 import os
 import subprocess
@@ -5,7 +6,6 @@ from zipfile import ZipFile
 
 import requests
 from django.conf import settings
-from django.db import connection
 
 from bag.utils import retry
 
@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 class BagLoader:
     tmp_folder = "/tmp"
+    
     tables = {
         "bag_ligplaats": "bag_ligplaatsen.csv.zip",
         "bag_openbareruimte": "bag_openbareruimtes.csv.zip",
@@ -73,8 +74,28 @@ class BagLoader:
             )
         return path_target
 
+    def preprocess_csv_rows(self, reader: csv.DictReader, writer: csv.DictWriter):
+        seen = {}
+        for row in reader:
+            key = row['Identificatie']
+            if (key not in seen):
+                seen[key] = row
+            elif row['Volgnummer'] > seen[key]['Volgnummer']:
+                seen[key] = row
+        
+        filtered_rows = list(seen.values())
+        writer.writeheader()
+        for row in filtered_rows:
+            writer.writerow(row)
+
+    def preprocess_csv_files(self, csv_path_in, csv_path_out):
+        with open(csv_path_in, 'r') as infile, open(csv_path_out, 'w', newline='') as outfile:
+            reader = csv.DictReader(infile)
+            writer = csv.DictWriter(outfile, fieldnames=reader.fieldnames)
+            self.preprocess_csv_rows(reader, writer)
+
     @retry(tries=5)
-    def download_zip(self, *, table_name: str, endpoint: str):
+    def download_zip(self, *, table_name: str, endpoint: str, path_base: str):
         base_url = settings.BAG_CSV_BASE_URL
         url = f"{base_url}/{endpoint}"
         logger.info(
@@ -86,7 +107,7 @@ class BagLoader:
             headers={"User-Agent": "Mozilla/5.0"},
         )
         response.raise_for_status()
-        path = f"{self.tmp_folder}/{endpoint}"
+        path = f"{path_base}/{endpoint}"
         if os.path.exists(path):
             os.remove(path)
             logger.info(f"Zip {path} was removed")
@@ -95,9 +116,16 @@ class BagLoader:
         return path
 
     def load_all_tables(self):
-        for table in self.tables:
+        for table, endpoint in self.tables.items():
             logger.info(f"Loading table {table}")
-            path_zip = self.download_zip(table_name=table, endpoint=self.tables[table])
+            path_base = f"{self.tmp_folder}"
+            path_zip = self.download_zip(table_name=table, endpoint=endpoint, path_base=path_base)
             path_csv = self.unpack_zip(table_name=table, endpoint=path_zip)
-            self.import_table_from_csv(table_name=table, path=path_csv)
+            try:
+                self.import_table_from_csv(table_name=table, path=path_csv)
+            except Exception as e:
+                logger.warn("Failed to import csv. Trying to preprocess csv first")
+                path_csv_processed = f"{path_base}/processed-{table}.csv"
+                self.preprocess_csv_files(csv_path_in=path_csv, csv_path_out=path_csv_processed)
+                self.import_table_from_csv(table_name=table, path=path_csv_processed)
             logger.info(f"Table {table} was loaded")
