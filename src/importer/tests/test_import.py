@@ -8,16 +8,16 @@ from importer import batch, models
 class APITest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        with open('importer/tests/data/add_bag.sql') as fbag:
+        with open(f"{settings.DATA_DIR}/add_bag.sql") as fbag:
             bag_data = fbag.read()
         with connection.cursor() as cursor:
             cursor.execute(bag_data)
 
     def setUp(self):
-        settings.DATA_DIR = 'importer/tests/data'
+        pass
 
     def test_prewabo_import(self):
-        batch.import_pre_wabo_dossiers()
+        batch.import_pre_wabo_dossiers(settings.DATA_DIR)
         batch.add_bag_ids_to_pre_wabo()
 
         bd3 = models.BouwDossier.objects.get(dossiernr=3)
@@ -67,7 +67,7 @@ class APITest(TestCase):
         self.assertFalse('0363200000470955' in fdb.nummeraanduidingen)
 
     def test_wabo_import(self):
-        batch.import_wabo_dossiers()
+        batch.import_wabo_dossiers(settings.DATA_DIR)
 
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, 'SDC')

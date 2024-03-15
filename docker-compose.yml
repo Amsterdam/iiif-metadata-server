@@ -11,6 +11,11 @@ services:
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000"  # Blob service
+
   app:
     build:
       context: .
@@ -38,10 +43,12 @@ services:
       - USE_JWKS_TEST_KEY=true
       - PYTHONBREAKPOINT
       - UWSGI_STATIC_MAP=/iiif-metadata/static=/static
+      - AZURITE_STORAGE_CONNECTION_STRING=AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;
     volumes:
       - ./src:/src
       - ./deploy:/deploy
     depends_on:
+      - azurite
       - database
     entrypoint: /deploy/wait-for-it.sh database:5432 --
     command: python manage.py runserver 0.0.0.0:8000
@@ -62,21 +69,5 @@ services:
       - DATABASE_NAME=dev
       - DATABASE_USER=dev
       - DATABASE_PASSWORD=dev
+      - AZURITE_STORAGE_CONNECTION_STRING=AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;
     entrypoint: /deploy/wait-for-it.sh database:5432 --
-
-  run_import:
-    build:
-      context: .
-      target: tests
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./src:/src
-    depends_on:
-      - database
-    environment:
-      - SECRET_KEY=insecure
-      - BOUWDOSSIERS_OBJECTSTORE_CONTAINER
-      - BOUWDOSSIERS_OBJECTSTORE_PASSWORD
-    entrypoint: /deploy/wait-for-it.sh database:5432 --
-    command: python manage.py run_import --skip_validate_import
