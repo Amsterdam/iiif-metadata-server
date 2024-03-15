@@ -74,7 +74,7 @@ class Command(BaseCommand):
             '--min_bouwdossiers_count',
             dest='min_bouwdossiers_count',
             type=int,
-            default=10000,
+            default=settings.MIN_BOUWDOSSIERS_COUNT,
             help='Minimum amount of bouwdossiers to be added')
         
     def handle(self, *args, **options):
