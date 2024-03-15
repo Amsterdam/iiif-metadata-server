@@ -413,10 +413,9 @@ def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count):
 
     return count, total_count
 
-def import_wabo_dossiers(max_file_count=None):  # noqa C901
+def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # noqa C901
     total_count = 0
     file_count = 0
-    root_dir = settings.DATA_DIR
     for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
         wabo = re.search('WABO_.+\\.xml$', file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
@@ -456,10 +455,9 @@ def import_wabo_dossiers(max_file_count=None):  # noqa C901
     log.info(f"Import finished. Bouwdossiers total: {total_count}. Bouwdossiers count query: {models.BouwDossier.objects.count()}")
 
 
-def import_pre_wabo_dossiers(max_file_count=None):  # noqa C901
+def import_pre_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # noqa C901
     total_count = 0
     file_count = 0
-    root_dir = settings.DATA_DIR
     for file_path in glob.iglob(root_dir + '/**/*.xml', recursive=True):
         # SAA_BWT_02.xml
         pre_wabo = re.search(r'SAA_BWT_[A-Za-z-_0-9]+\.xml$', file_path)

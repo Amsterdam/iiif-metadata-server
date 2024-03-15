@@ -24,7 +24,7 @@ class APITest(TestCase):
     @classmethod
 
     def setUp(self):
-        settings.DATA_DIR = 'bag/tests/data'
+        pass
 
     def test_preprocess_csv(self):
         csv_data = [

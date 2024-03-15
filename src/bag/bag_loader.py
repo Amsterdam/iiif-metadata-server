@@ -115,17 +115,19 @@ class BagLoader:
             f.write(response.content)
         return path
 
-    def load_all_tables(self):
+    def load_tables_from_csv(self, csv_files):
+        for table, path_csv in csv_files.items():
+            self.import_table_from_csv(table_name=table, path=path_csv)
+            logger.info(f"Table {table} was loaded")
+
+    def import_tables_from_endpoint(self):
+        csv_files = {}
         for table, endpoint in self.tables.items():
             logger.info(f"Loading table {table}")
             path_base = f"{self.tmp_folder}"
             path_zip = self.download_zip(table_name=table, endpoint=endpoint, path_base=path_base)
             path_csv = self.unpack_zip(table_name=table, endpoint=path_zip)
-            try:
-                self.import_table_from_csv(table_name=table, path=path_csv)
-            except Exception as e:
-                logger.warn("Failed to import csv. Trying to preprocess csv first")
-                path_csv_processed = f"{path_base}/processed-{table}.csv"
-                self.preprocess_csv_files(csv_path_in=path_csv, csv_path_out=path_csv_processed)
-                self.import_table_from_csv(table_name=table, path=path_csv_processed)
-            logger.info(f"Table {table} was loaded")
+            path_csv_processed = f"{path_csv}-processed.csv"
+            self.preprocess_csv_files(csv_path_in=path_csv, csv_path_out=path_csv_processed)
+            csv_files[table] = path_csv_processed
+        self.load_tables_from_csv(csv_files)

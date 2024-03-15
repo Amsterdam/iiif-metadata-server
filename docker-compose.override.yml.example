@@ -7,4 +7,9 @@ services:
     volumes:
       - ./src:/src
       - ./deploy:/deploy
-      - ./static:/tmp/bouwdossiers # Small collection
+      - ./src/importer/tests/data:/tmp/bouwdossiers
+
+  test:
+    volumes:
+      - ./src:/src
+      - ./src/importer/tests/data:/tmp/bouwdossiers

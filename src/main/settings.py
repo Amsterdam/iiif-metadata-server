@@ -257,3 +257,10 @@ IIIF_BASE_URL = os.getenv('IIIF_BASE_URL', 'https://bouwdossiers.amsterdam.nl/ii
 
 DATADIENSTEN_API_BASE_URL = os.getenv("DATADIENSTEN_API_BASE_URL", "https://api.data.amsterdam.nl")
 BAG_CSV_BASE_URL = os.getenv("BAG_CSV_BASE_URL", "https://amsterdamdadipub.blob.core.windows.net/bulk-data/csv")
+
+AZURITE_STORAGE_CONNECTION_STRING = os.getenv('AZURITE_STORAGE_CONNECTION_STRING')
+
+AZURE_CONTAINER_NAME_BAG = 'bag'
+AZURE_CONTAINER_NAME_DOSSIERS = 'dossiers'
+
+MIN_BOUWDOSSIERS_COUNT = os.getenv('MIN_BOUWDOSSIERS_COUNT', 10000)
