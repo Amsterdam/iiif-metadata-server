@@ -8,9 +8,8 @@ services:
       - ./src:/src
       - ./deploy:/deploy
       - ./src/importer/tests/data:/tmp/bouwdossiers
-  
+
   test:
     volumes:
       - ./src:/src
-      - ./deploy:/deploy
       - ./src/importer/tests/data:/tmp/bouwdossiers

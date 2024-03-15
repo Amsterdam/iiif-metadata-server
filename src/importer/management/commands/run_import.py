@@ -8,7 +8,7 @@ from bag.koppeltabel_loader import KoppeltabelLoader
 from importer.batch import (add_bag_ids_to_pre_wabo, add_bag_ids_to_wabo,
                             import_pre_wabo_dossiers, import_wabo_dossiers, 
                             validate_import)
-from importer.util_azure import download_storage_all_files, download_blob_to_file, remove_directory
+from importer.util_azure import download_all_files_from_container, download_blob_to_file, remove_directory
 from importer.util_db import (swap_tables_between_apps, truncate_tables)
 
 BAG_SOURCE_SKIP = 0
@@ -90,7 +90,7 @@ class Command(BaseCommand):
             if not options['skipgetfiles']:
                 dossier_path = f"{settings.DATA_DIR}/dossiers"
                 remove_directory(dossier_path)
-                download_storage_all_files(settings.AZURE_CONTAINER_NAME_DOSSIERS, dossier_path)
+                download_all_files_from_container(settings.AZURE_CONTAINER_NAME_DOSSIERS, dossier_path)
 
             truncate_tables(['importer'])
             self.import_dossiers(dossier_path)

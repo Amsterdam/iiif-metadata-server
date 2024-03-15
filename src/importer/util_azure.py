@@ -38,13 +38,7 @@ def download_blob_to_file(container_name, blob_name, output_dir):
         file.write(blob)
     return file_path
 
-def store_object_on_storage_account(container, file_path, filename):
-    blob_client = get_blob_client(container, filename)
-    with open(file=file_path, mode="rb") as data:
-        blob_client.upload_blob(data)
-    return blob_client
-
-def download_storage_all_files(container_name, output_dir=settings.DATA_DIR):
+def download_all_files_from_container(container_name, output_dir=settings.DATA_DIR):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 

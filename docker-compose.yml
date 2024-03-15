@@ -63,6 +63,7 @@ services:
       - ./src:/src
     depends_on:
       - database
+      - azurite
     environment:
       - SECRET_KEY=insecure
       - USE_JWKS_TEST_KEY=true
