@@ -10,45 +10,51 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
-BOUWDOSSIER_PUBLIC_SCOPE = 'BD/P'  # BouwDossiers_Public_Read. Access to anybody with e-mail link
-BOUWDOSSIER_READ_SCOPE = 'BD/R'  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
-BOUWDOSSIER_EXTENDED_SCOPE = 'BD/X'  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
+BOUWDOSSIER_PUBLIC_SCOPE = (
+    "BD/P"  # BouwDossiers_Public_Read. Access to anybody with e-mail link
+)
+BOUWDOSSIER_READ_SCOPE = (
+    "BD/R"  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
+)
+BOUWDOSSIER_EXTENDED_SCOPE = "BD/X"  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
-WABO_BASE_URL = os.getenv('WABO_BASE_URL', 'https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/')
+WABO_BASE_URL = os.getenv(
+    "WABO_BASE_URL", "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/"
+)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
-INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
+INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
 
 INSTALLED_APPS = [
-    'django.contrib.contenttypes',
-    'django.contrib.staticfiles',
-    'django_filters',
-    'django_extensions',
-    'django.contrib.gis',
-    'rest_framework',
-    'rest_framework_gis',
-    'drf_yasg',
-    'bouwdossiers',
-    'bag',
-    'importer',
-    'health',
+    "django.contrib.contenttypes",
+    "django.contrib.staticfiles",
+    "django_filters",
+    "django_extensions",
+    "django.contrib.gis",
+    "rest_framework",
+    "rest_framework_gis",
+    "drf_yasg",
+    "bouwdossiers",
+    "bag",
+    "importer",
+    "health",
 ]
 
 if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar',)
+    INSTALLED_APPS += ("debug_toolbar",)
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'authorization_django.authorization_middleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "authorization_django.authorization_middleware",
 ]
 
 
@@ -78,31 +84,31 @@ PUB_JWKS = JWKS_TEST_KEY if USE_JWKS_TEST_KEY else os.getenv("PUB_JWKS")
 
 
 DATAPUNT_AUTHZ = {
-    'ALWAYS_OK': False,
-    'JWKS': PUB_JWKS,
+    "ALWAYS_OK": False,
+    "JWKS": PUB_JWKS,
     "JWKS_URL": os.getenv("KEYCLOAK_JWKS_URL"),
-    'FORCED_ANONYMOUS_ROUTES': ['/status/health']
+    "FORCED_ANONYMOUS_ROUTES": ["/status/health"],
 }
 
-ROOT_URLCONF = 'main.urls'
+ROOT_URLCONF = "main.urls"
 
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = "main.wsgi.application"
 
 
 DATABASE_HOST = os.getenv("DATABASE_HOST", "database")
@@ -113,13 +119,13 @@ if "azure.com" in DATABASE_HOST:
     DATABASE_OPTIONS["sslmode"] = "require"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'dev'),
-        'USER': os.getenv('DATABASE_USER', 'dev'),
-        'PASSWORD': DATABASE_PASSWORD,
-        'HOST': DATABASE_HOST,
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": os.getenv("DATABASE_NAME", "dev"),
+        "USER": os.getenv("DATABASE_USER", "dev"),
+        "PASSWORD": DATABASE_PASSWORD,
+        "HOST": DATABASE_HOST,
+        "PORT": os.getenv("DATABASE_PORT", "5432"),
         "OPTIONS": DATABASE_OPTIONS,
     }
 }
@@ -127,140 +133,127 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_URL = '/iiif-metadata/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
+STATIC_URL = "/iiif-metadata/static/"
+STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", "static"))
 
 # Django Logging settings
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'console': {
-            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        }
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"}
     },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'console'
-        },
-
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "console"},
     },
-    'root': {
-        'handlers': ['console'],
-        'level': os.getenv('LOG_LEVEL', 'INFO'),
+    "root": {
+        "handlers": ["console"],
+        "level": os.getenv("LOG_LEVEL", "INFO"),
     },
 }
 
 
 OBJECTSTORE = dict(
-    VERSION='2.0',
-    AUTHURL='https://identity.stack.cloudvps.com/v2.0',
-    TENANT_NAME='BGE000081_BOUWDOSSIERS',
-    TENANT_ID='9d078258c1a547c09e0b5f88834554f1',
-    USER=os.getenv('OBJECTSTORE_USER', 'bouwdossiers'),
-    PASSWORD=os.getenv('BOUWDOSSIERS_OBJECTSTORE_PASSWORD'),
-    REGION_NAME='NL',
+    VERSION="2.0",
+    AUTHURL="https://identity.stack.cloudvps.com/v2.0",
+    TENANT_NAME="BGE000081_BOUWDOSSIERS",
+    TENANT_ID="9d078258c1a547c09e0b5f88834554f1",
+    USER=os.getenv("OBJECTSTORE_USER", "bouwdossiers"),
+    PASSWORD=os.getenv("BOUWDOSSIERS_OBJECTSTORE_PASSWORD"),
+    REGION_NAME="NL",
 )
 
 BOUWDOSSIERS_OBJECTSTORE_CONTAINER = os.getenv(
-    'BOUWDOSSIERS_OBJECTSTORE_CONTAINER', 'dossiers_acceptance'
+    "BOUWDOSSIERS_OBJECTSTORE_CONTAINER", "dossiers_acceptance"
 )
 
-STORAGE_ACCOUNT_URL = os.getenv('STORAGE_ACCOUNT_URL')
+STORAGE_ACCOUNT_URL = os.getenv("STORAGE_ACCOUNT_URL")
 
-PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
-DATA_DIR = '/tmp/bouwdossiers'
+PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+DATA_DIR = "/tmp/bouwdossiers"
 
 # SWAGGER
-SWAG_PATH = 'acc.bouwdossiers.amsterdam.nl/iiif-metadata-server/docs'
+SWAG_PATH = "acc.bouwdossiers.amsterdam.nl/iiif-metadata-server/docs"
 
 if DEBUG:
-    SWAG_PATH = '127.0.0.1:8000/iiif-metadata-server/docs'
+    SWAG_PATH = "127.0.0.1:8000/iiif-metadata-server/docs"
 
 SWAGGER_SETTINGS = {
-    'exclude_namespaces': [],
-    'api_version': '0.1',
-    'api_path': '/',
-
-    'enabled_methods': [
-        'get',
+    "exclude_namespaces": [],
+    "api_version": "0.1",
+    "api_path": "/",
+    "enabled_methods": [
+        "get",
     ],
-
-    'api_key': '',
-    'USE_SESSION_AUTH': False,
-    'VALIDATOR_URL': None,
-
-    'is_authenticated': False,
-    'is_superuser': False,
-
-    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
-    'permission_denied_handler': None,
-    'resource_access_handler': None,
-
-    'protocol': 'https' if not DEBUG else '',
-    'base_path': SWAG_PATH,
-
-    'info': {
-        'contact': 'atlas.basisinformatie@amsterdam.nl',
-        'description': 'This is the Bouwdossiers API server.',
-        'license': 'Not known yet',
-        'termsOfServiceUrl': 'https://data.amsterdam.nl/terms/',
-        'title': 'Bouwdossiers',
+    "api_key": "",
+    "USE_SESSION_AUTH": False,
+    "VALIDATOR_URL": None,
+    "is_authenticated": False,
+    "is_superuser": False,
+    "unauthenticated_user": "django.contrib.auth.models.AnonymousUser",
+    "permission_denied_handler": None,
+    "resource_access_handler": None,
+    "protocol": "https" if not DEBUG else "",
+    "base_path": SWAG_PATH,
+    "info": {
+        "contact": "atlas.basisinformatie@amsterdam.nl",
+        "description": "This is the Bouwdossiers API server.",
+        "license": "Not known yet",
+        "termsOfServiceUrl": "https://data.amsterdam.nl/terms/",
+        "title": "Bouwdossiers",
     },
-
-    'doc_expansion': 'list'
+    "doc_expansion": "list",
 }
 
-HEALTH_MODEL = 'bouwdossiers.Bouwdossier'
+HEALTH_MODEL = "bouwdossiers.Bouwdossier"
 
 
-DUMP_DIR = 'mks-dump'
+DUMP_DIR = "mks-dump"
 
-TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 
 REST_FRAMEWORK = dict(
     PAGE_SIZE=100,
     MAX_PAGINATE_BY=100,
-    DEFAULT_PAGINATION_CLASS='rest_framework.pagination.PageNumberPagination',
-
+    DEFAULT_PAGINATION_CLASS="rest_framework.pagination.PageNumberPagination",
     UNAUTHENTICATED_USER={},
     UNAUTHENTICATED_TOKEN={},
-
     DEFAULT_AUTHENTICATION_CLASSES=(
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
     ),
-
     DEFAULT_RENDERER_CLASSES=(
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer'
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
     ),
     DEFAULT_FILTER_BACKENDS=(
         # 'rest_framework.filters.DjangoFilterBackend',
-        'django_filters.rest_framework.DjangoFilterBackend',
+        "django_filters.rest_framework.DjangoFilterBackend",
         # 'rest_framework.filters.OrderingFilter',
-
     ),
     COERCE_DECIMAL_TO_STRING=True,
 )
 
-IIIF_BASE_URL = os.getenv('IIIF_BASE_URL', 'https://bouwdossiers.amsterdam.nl/iiif/2/')
+IIIF_BASE_URL = os.getenv("IIIF_BASE_URL", "https://bouwdossiers.amsterdam.nl/iiif/2/")
 
-DATADIENSTEN_API_BASE_URL = os.getenv("DATADIENSTEN_API_BASE_URL", "https://api.data.amsterdam.nl")
-BAG_CSV_BASE_URL = os.getenv("BAG_CSV_BASE_URL", "https://amsterdamdadipub.blob.core.windows.net/bulk-data/csv")
+DATADIENSTEN_API_BASE_URL = os.getenv(
+    "DATADIENSTEN_API_BASE_URL", "https://api.data.amsterdam.nl"
+)
+BAG_CSV_BASE_URL = os.getenv(
+    "BAG_CSV_BASE_URL", "https://amsterdamdadipub.blob.core.windows.net/bulk-data/csv"
+)
 
-AZURITE_STORAGE_CONNECTION_STRING = os.getenv('AZURITE_STORAGE_CONNECTION_STRING')
+AZURITE_STORAGE_CONNECTION_STRING = os.getenv("AZURITE_STORAGE_CONNECTION_STRING")
 
-AZURE_CONTAINER_NAME_BAG = 'bag'
-AZURE_CONTAINER_NAME_DOSSIERS = 'dossiers'
+AZURE_CONTAINER_NAME_BAG = "bag"
+AZURE_CONTAINER_NAME_DOSSIERS = "dossiers"
 
-MIN_BOUWDOSSIERS_COUNT = os.getenv('MIN_BOUWDOSSIERS_COUNT', 10000)
+MIN_BOUWDOSSIERS_COUNT = os.getenv("MIN_BOUWDOSSIERS_COUNT", 10000)

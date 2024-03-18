@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bouwdossiers', '0006_auto_20201228_1449'),
+        ("bouwdossiers", "0006_auto_20201228_1449"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='bouwdossier',
+            name="bouwdossier",
             options={},
         ),
     ]

@@ -54,7 +54,10 @@ CMD ["./manage.py", "runserver", "0.0.0.0"]
 FROM dev as tests
 
 USER datapunt
+WORKDIR /src
+COPY pyproject.toml /.
 
 ENV COVERAGE_FILE=/tmp/.coverage
+ENV PYTHONPATH=/src
 
 CMD ["pytest"]

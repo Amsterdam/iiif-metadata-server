@@ -53,17 +53,15 @@ bash:                               ## Run the container and start bash
 test:                               ## Execute tests
 	$(run) test pytest $(ARGS)
 
-# TODO: Add lint and fixlint commands to replace linting in test
-
-lint:                               ## Execute lint checks
-	$(run) test autoflake . --check --recursive --quiet
-	$(run) test isort --diff --check /src/$(APP)
-
 lintfix:                            ## Execute lint fixes
 	$(run) test black /src/$(APP)
 	$(run) test autoflake /src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
 	$(run) test isort /src/$(APP)
-	
+
+lint:                               ## Execute lint checks
+	$(run) test autoflake /src --check --recursive --quiet
+	$(run) test isort --diff --check /src/$(APP)
+
 clean:                              ## Clean docker stuff
 	$(dc) down -v
 

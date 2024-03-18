@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bouwdossiers', '0003_auto_20200501_1642'),
+        ("bouwdossiers", "0003_auto_20200501_1642"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='adres',
-            name='stadsdeel',
+            model_name="adres",
+            name="stadsdeel",
             field=models.CharField(db_index=True, max_length=10),
         ),
         migrations.AlterField(
-            model_name='bouwdossier',
-            name='stadsdeel',
+            model_name="bouwdossier",
+            name="stadsdeel",
             field=models.CharField(db_index=True, max_length=10),
         ),
     ]
