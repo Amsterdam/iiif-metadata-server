@@ -8,18 +8,18 @@ from rest_framework import permissions
 from bouwdossiers import urls as bouwdossiers_urls
 
 grouped_url_patterns = {
-    'base_patterns': [
-        re_path(r'^status/', include('health.urls')),
+    "base_patterns": [
+        re_path(r"^status/", include("health.urls")),
     ],
-    'bouwdossiers_patterns': [
-        re_path(r'^iiif-metadata/', include(bouwdossiers_urls.urls)),
+    "bouwdossiers_patterns": [
+        re_path(r"^iiif-metadata/", include(bouwdossiers_urls.urls)),
     ],
 }
 
 schema_view = get_schema_view(
     openapi.Info(
         title="Bouwdossiers API",
-        default_version='v1',
+        default_version="v1",
         description="Bouwdossiers API",
         terms_of_service="https://data.amsterdam.nl/",
         contact=openapi.Contact(email="datapunt@amsterdam.nl"),
@@ -31,19 +31,19 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path(
-        r'^iiif-metadata/docs/swagger(?P<format>\.json|\.yaml)$',
+        r"^iiif-metadata/docs/swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=None),
-        name='schema-json'
+        name="schema-json",
     ),
     re_path(
-        r'^iiif-metadata/docs/swagger/$',
-        schema_view.with_ui('swagger', cache_timeout=None),
-        name='schema-swagger-ui'
+        r"^iiif-metadata/docs/swagger/$",
+        schema_view.with_ui("swagger", cache_timeout=None),
+        name="schema-swagger-ui",
     ),
     re_path(
-        r'^iiif-metadata/docs/redoc/$',
-        schema_view.with_ui('redoc', cache_timeout=None),
-        name='schema-redoc'
+        r"^iiif-metadata/docs/redoc/$",
+        schema_view.with_ui("redoc", cache_timeout=None),
+        name="schema-redoc",
     ),
 ]
 
@@ -54,6 +54,8 @@ urlpatterns += [
 if settings.DEBUG:
     import debug_toolbar
 
-    urlpatterns.extend([
-        re_path(r'^__debug__/', include(debug_toolbar.urls)),
-    ])
+    urlpatterns.extend(
+        [
+            re_path(r"^__debug__/", include(debug_toolbar.urls)),
+        ]
+    )

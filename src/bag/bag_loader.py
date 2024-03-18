@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class BagLoader:
     tmp_folder = "/tmp"
-    
+
     tables = {
         "bag_ligplaats": "bag_ligplaatsen.csv.zip",
         "bag_openbareruimte": "bag_openbareruimtes.csv.zip",
@@ -77,19 +77,21 @@ class BagLoader:
     def preprocess_csv_rows(self, reader: csv.DictReader, writer: csv.DictWriter):
         seen = {}
         for row in reader:
-            key = row['Identificatie']
-            if (key not in seen):
+            key = row["Identificatie"]
+            if key not in seen:
                 seen[key] = row
-            elif row['Volgnummer'] > seen[key]['Volgnummer']:
+            elif row["Volgnummer"] > seen[key]["Volgnummer"]:
                 seen[key] = row
-        
+
         filtered_rows = list(seen.values())
         writer.writeheader()
         for row in filtered_rows:
             writer.writerow(row)
 
     def preprocess_csv_files(self, csv_path_in, csv_path_out):
-        with open(csv_path_in, 'r') as infile, open(csv_path_out, 'w', newline='') as outfile:
+        with open(csv_path_in, "r") as infile, open(
+            csv_path_out, "w", newline=""
+        ) as outfile:
             reader = csv.DictReader(infile)
             writer = csv.DictWriter(outfile, fieldnames=reader.fieldnames)
             self.preprocess_csv_rows(reader, writer)
@@ -98,9 +100,7 @@ class BagLoader:
     def download_zip(self, *, table_name: str, endpoint: str, path_base: str):
         base_url = settings.BAG_CSV_BASE_URL
         url = f"{base_url}/{endpoint}"
-        logger.info(
-            f"Downloading {table_name} from {url}"
-        )
+        logger.info(f"Downloading {table_name} from {url}")
         response = requests.get(
             url,
             timeout=300,
@@ -125,9 +125,13 @@ class BagLoader:
         for table, endpoint in self.tables.items():
             logger.info(f"Loading table {table}")
             path_base = f"{self.tmp_folder}"
-            path_zip = self.download_zip(table_name=table, endpoint=endpoint, path_base=path_base)
+            path_zip = self.download_zip(
+                table_name=table, endpoint=endpoint, path_base=path_base
+            )
             path_csv = self.unpack_zip(table_name=table, endpoint=path_zip)
             path_csv_processed = f"{path_csv}-processed.csv"
-            self.preprocess_csv_files(csv_path_in=path_csv, csv_path_out=path_csv_processed)
+            self.preprocess_csv_files(
+                csv_path_in=path_csv, csv_path_out=path_csv_processed
+            )
             csv_files[table] = path_csv_processed
         self.load_tables_from_csv(csv_files)

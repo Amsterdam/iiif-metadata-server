@@ -10,82 +10,181 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='BouwDossier',
+            name="BouwDossier",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('source', models.CharField(choices=[('EDEPOT', 'edepot'), ('WABO', 'wabo')], default='EDEPOT', max_length=20)),
-                ('dossiernr', models.IntegerField()),
-                ('stadsdeel', models.CharField(db_index=True, max_length=3)),
-                ('titel', models.CharField(db_index=True, max_length=512)),
-                ('datering', models.DateField(null=True)),
-                ('dossier_type', models.CharField(max_length=64, null=True)),
-                ('dossier_status', models.CharField(choices=[('A', 'Aanvraag'), ('B', 'Behandeling')], max_length=1, null=True)),
-                ('access', models.CharField(choices=[('PUBLIC', 'Public'), ('RESTRICTED', 'Restricted')], max_length=20, null=True)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                (
+                    "source",
+                    models.CharField(
+                        choices=[("EDEPOT", "edepot"), ("WABO", "wabo")],
+                        default="EDEPOT",
+                        max_length=20,
+                    ),
+                ),
+                ("dossiernr", models.IntegerField()),
+                ("stadsdeel", models.CharField(db_index=True, max_length=3)),
+                ("titel", models.CharField(db_index=True, max_length=512)),
+                ("datering", models.DateField(null=True)),
+                ("dossier_type", models.CharField(max_length=64, null=True)),
+                (
+                    "dossier_status",
+                    models.CharField(
+                        choices=[("A", "Aanvraag"), ("B", "Behandeling")],
+                        max_length=1,
+                        null=True,
+                    ),
+                ),
+                (
+                    "access",
+                    models.CharField(
+                        choices=[("PUBLIC", "Public"), ("RESTRICTED", "Restricted")],
+                        max_length=20,
+                        null=True,
+                    ),
+                ),
             ],
             options={
-                'ordering': ('stadsdeel', 'dossiernr'),
+                "ordering": ("stadsdeel", "dossiernr"),
             },
         ),
         migrations.CreateModel(
-            name='ImportFile',
+            name="ImportFile",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=512, unique=True)),
-                ('status', models.CharField(choices=[('B', 'Busy'), ('F', 'Finished'), ('E', 'Error')], max_length=1)),
-                ('last_import', models.DateTimeField(auto_now=True)),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("name", models.CharField(max_length=512, unique=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("B", "Busy"), ("F", "Finished"), ("E", "Error")],
+                        max_length=1,
+                    ),
+                ),
+                ("last_import", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'ordering': ('name',),
+                "ordering": ("name",),
             },
         ),
         migrations.CreateModel(
-            name='Document',
+            name="Document",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('subdossier_titel', models.CharField(max_length=128)),
-                ('barcode', models.CharField(db_index=True, max_length=250)),
-                ('bestanden', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=128), blank=True, size=None)),
-                ('access', models.CharField(choices=[('PUBLIC', 'Public'), ('RESTRICTED', 'Restricted')], max_length=20, null=True)),
-                ('bouwdossier', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documenten', to='bouwdossiers.BouwDossier')),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("subdossier_titel", models.CharField(max_length=128)),
+                ("barcode", models.CharField(db_index=True, max_length=250)),
+                (
+                    "bestanden",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=128),
+                        blank=True,
+                        size=None,
+                    ),
+                ),
+                (
+                    "access",
+                    models.CharField(
+                        choices=[("PUBLIC", "Public"), ("RESTRICTED", "Restricted")],
+                        max_length=20,
+                        null=True,
+                    ),
+                ),
+                (
+                    "bouwdossier",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="documenten",
+                        to="bouwdossiers.BouwDossier",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='bouwdossier',
-            name='importfile',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='bouwdossiers', to='bouwdossiers.ImportFile'),
+            model_name="bouwdossier",
+            name="importfile",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="bouwdossiers",
+                to="bouwdossiers.ImportFile",
+            ),
         ),
         migrations.CreateModel(
-            name='Adres',
+            name="Adres",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('straat', models.CharField(max_length=150)),
-                ('huisnummer_van', models.IntegerField(null=True)),
-                ('huisnummer_tot', models.IntegerField(null=True)),
-                ('openbareruimte_id', models.CharField(db_index=True, max_length=16)),
-                ('stadsdeel', models.CharField(db_index=True, max_length=3)),
-                ('nummeraanduidingen', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=16), blank=True, size=None)),
-                ('nummeraanduidingen_label', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=256), blank=True, size=None)),
-                ('panden', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=16), blank=True, size=None)),
-                ('verblijfsobjecten', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=16), blank=True, size=None)),
-                ('verblijfsobjecten_label', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=256), blank=True, size=None)),
-                ('bouwdossier', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='adressen', to='bouwdossiers.BouwDossier')),
+                ("id", models.AutoField(primary_key=True, serialize=False)),
+                ("straat", models.CharField(max_length=150)),
+                ("huisnummer_van", models.IntegerField(null=True)),
+                ("huisnummer_tot", models.IntegerField(null=True)),
+                ("openbareruimte_id", models.CharField(db_index=True, max_length=16)),
+                ("stadsdeel", models.CharField(db_index=True, max_length=3)),
+                (
+                    "nummeraanduidingen",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=16),
+                        blank=True,
+                        size=None,
+                    ),
+                ),
+                (
+                    "nummeraanduidingen_label",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=256),
+                        blank=True,
+                        size=None,
+                    ),
+                ),
+                (
+                    "panden",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=16),
+                        blank=True,
+                        size=None,
+                    ),
+                ),
+                (
+                    "verblijfsobjecten",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=16),
+                        blank=True,
+                        size=None,
+                    ),
+                ),
+                (
+                    "verblijfsobjecten_label",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=256),
+                        blank=True,
+                        size=None,
+                    ),
+                ),
+                (
+                    "bouwdossier",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="adressen",
+                        to="bouwdossiers.BouwDossier",
+                    ),
+                ),
             ],
         ),
         migrations.AddConstraint(
-            model_name='bouwdossier',
-            constraint=models.UniqueConstraint(fields=('stadsdeel', 'dossiernr'), name='unique_bouwdossier'),
+            model_name="bouwdossier",
+            constraint=models.UniqueConstraint(
+                fields=("stadsdeel", "dossiernr"), name="unique_bouwdossier"
+            ),
         ),
         migrations.AddIndex(
-            model_name='adres',
-            index=django.contrib.postgres.indexes.GinIndex(fields=['nummeraanduidingen'], name='bouwdossier_nummera_fb3aa1_gin'),
+            model_name="adres",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["nummeraanduidingen"], name="bouwdossier_nummera_fb3aa1_gin"
+            ),
         ),
         migrations.AddIndex(
-            model_name='adres',
-            index=django.contrib.postgres.indexes.GinIndex(fields=['panden'], name='bouwdossier_panden_b87c3c_gin'),
+            model_name="adres",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["panden"], name="bouwdossier_panden_b87c3c_gin"
+            ),
         ),
     ]

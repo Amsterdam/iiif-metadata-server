@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bag', '0002_alter_pand_managers_alter_verblijfsobject_managers_and_more'),
+        ("bag", "0002_alter_pand_managers_alter_verblijfsobject_managers_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='pand',
-            name='bouwblok',
-            field=models.CharField(db_column='ligtinbouwblokid', db_index=True, max_length=16, null=True),
+            model_name="pand",
+            name="bouwblok",
+            field=models.CharField(
+                db_column="ligtinbouwblokid", db_index=True, max_length=16, null=True
+            ),
         ),
     ]

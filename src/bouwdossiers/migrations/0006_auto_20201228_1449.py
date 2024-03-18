@@ -6,48 +6,50 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bouwdossiers', '0005_auto_20200908_1438'),
+        ("bouwdossiers", "0005_auto_20200908_1438"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='bouwdossier',
-            name='access_restricted_until',
+            model_name="bouwdossier",
+            name="access_restricted_until",
             field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='bouwdossier',
-            name='bwt_nummer',
+            model_name="bouwdossier",
+            name="bwt_nummer",
             field=models.CharField(max_length=127, null=True),
         ),
         migrations.AddField(
-            model_name='bouwdossier',
-            name='gebruiksdoel',
+            model_name="bouwdossier",
+            name="gebruiksdoel",
             field=models.CharField(max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='document',
-            name='access_restricted_until',
+            model_name="document",
+            name="access_restricted_until",
             field=models.DateField(null=True),
         ),
         migrations.AddField(
-            model_name='document',
-            name='copyright',
-            field=models.CharField(choices=[('Y', 'Yes'), ('N', 'No')], max_length=1, null=True),
+            model_name="document",
+            name="copyright",
+            field=models.CharField(
+                choices=[("Y", "Yes"), ("N", "No")], max_length=1, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='document',
-            name='copyright_holders',
+            model_name="document",
+            name="copyright_holders",
             field=models.CharField(max_length=512, null=True),
         ),
         migrations.AddField(
-            model_name='document',
-            name='copyright_manufacturers',
+            model_name="document",
+            name="copyright_manufacturers",
             field=models.CharField(max_length=512, null=True),
         ),
         migrations.AddField(
-            model_name='document',
-            name='copyright_until',
+            model_name="document",
+            name="copyright_until",
             field=models.DateField(null=True),
         ),
     ]

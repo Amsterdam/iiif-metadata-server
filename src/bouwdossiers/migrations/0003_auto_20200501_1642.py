@@ -7,28 +7,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bouwdossiers', '0002_auto_20200416_1318'),
+        ("bouwdossiers", "0002_auto_20200416_1318"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='document',
-            old_name='document_type',
-            new_name='document_omschrijving',
+            model_name="document",
+            old_name="document_type",
+            new_name="document_omschrijving",
         ),
         migrations.AddField(
-            model_name='bouwdossier',
-            name='activiteiten',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=250), blank=True, default=list, size=None),
+            model_name="bouwdossier",
+            name="activiteiten",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.CharField(max_length=250),
+                blank=True,
+                default=list,
+                size=None,
+            ),
         ),
         migrations.AlterField(
-            model_name='bouwdossier',
-            name='source',
-            field=models.CharField(choices=[('EDEPOT', 'edepot'), ('WABO', 'wabo')], default='EDEPOT', help_text='Field that defines wabo and pre_wabo dossier', max_length=20),
+            model_name="bouwdossier",
+            name="source",
+            field=models.CharField(
+                choices=[("EDEPOT", "edepot"), ("WABO", "wabo")],
+                default="EDEPOT",
+                help_text="Field that defines wabo and pre_wabo dossier",
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
-            model_name='bouwdossier',
-            name='wabo_bron',
-            field=models.CharField(default=None, help_text='Should contain the origin of the dossier. Can be for example digital or paper dossier.', max_length=30, null=True),
+            model_name="bouwdossier",
+            name="wabo_bron",
+            field=models.CharField(
+                default=None,
+                help_text="Should contain the origin of the dossier. Can be for example digital or paper dossier.",
+                max_length=30,
+                null=True,
+            ),
         ),
     ]

@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.db.models.functions import Centroid, Transform
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 
@@ -39,6 +38,7 @@ class GeoModel(models.Model):
 
     class Meta:
         abstract = True
+
 
 class Ligplaats(GeoModel, BagObject):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
@@ -179,7 +179,9 @@ class Pand(GeoModel):
     hoogste_bouwlaag = models.IntegerField(null=True, db_column="hoogstebouwlaag")
     geometrie = gis_models.PolygonField(srid=28992)
     pandnaam = models.CharField(max_length=80, null=True, db_column="naam")
-    bouwblok = models.CharField(max_length=16, db_column="ligtinbouwblokid", db_index=True, null=True)
+    bouwblok = models.CharField(
+        max_length=16, db_column="ligtinbouwblokid", db_index=True, null=True
+    )
 
     bouwlagen = models.IntegerField(null=True, db_column="aantalbouwlagen")
     ligging = models.CharField(
