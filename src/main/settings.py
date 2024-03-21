@@ -26,7 +26,7 @@ WABO_BASE_URL = os.getenv(
 )
 
 ALLOWED_HOSTS = ["*"]
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "bag",
     "importer",
     "health",
+    "corsheaders",
 ]
 
 if DEBUG:
@@ -51,6 +52,7 @@ if DEBUG:
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
