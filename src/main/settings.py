@@ -27,13 +27,15 @@ WABO_BASE_URL = os.getenv(
 )
 
 ALLOWED_HOSTS = ["*"]
-CORS_ALLOWED_ORIGIN_REGEXES = [
-r"^https://\S+\.amsterdam\.nl$",
-]
-CORS_ALLOW_HEADERS = [
-    *default_headers,
-    'X-Api-Key',
-]
+CORS_ORIGIN_ALLOW_ALL = os.getenv("CORS_ORIGIN_ALLOW_ALL", "false").lower() == "true"
+if not CORS_ORIGIN_ALLOW_ALL:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://\S+\.amsterdam\.nl$",
+    ]
+    CORS_ALLOW_HEADERS = [
+        *default_headers,
+        'X-Api-Key',
+    ]
 
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
