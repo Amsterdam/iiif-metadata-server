@@ -1,6 +1,7 @@
 import os
 import sys
 
+from corsheaders.defaults import default_headers
 from .azure_settings import Azure
 
 azure = Azure()
@@ -26,7 +27,13 @@ WABO_BASE_URL = os.getenv(
 )
 
 ALLOWED_HOSTS = ["*"]
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGIN_REGEXES = [
+r"^https://\S+\.amsterdam\.nl$",
+]
+CORS_ALLOW_HEADERS = [
+    *default_headers,
+    'X-Api-Key',
+]
 
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
