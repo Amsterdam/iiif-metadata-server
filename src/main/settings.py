@@ -28,8 +28,8 @@ WABO_BASE_URL = os.getenv(
 )
 
 ALLOWED_HOSTS = ["*"]
-CORS_ORIGIN_ALLOW_ALL = os.getenv("CORS_ORIGIN_ALLOW_ALL", "false").lower() == "true"
-if not CORS_ORIGIN_ALLOW_ALL:
+CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", "false").lower() == "true"
+if not CORS_ALLOW_ALL_ORIGINS:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         r"^https://\S+\.amsterdam\.nl$",
     ]
