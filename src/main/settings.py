@@ -2,6 +2,7 @@ import os
 import sys
 
 from corsheaders.defaults import default_headers
+
 from .azure_settings import Azure
 
 azure = Azure()
@@ -32,9 +33,10 @@ if not CORS_ORIGIN_ALLOW_ALL:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         r"^https://\S+\.amsterdam\.nl$",
     ]
+    CORS_ALLOW_METHODS = ("GET",)
     CORS_ALLOW_HEADERS = [
         *default_headers,
-        'X-Api-Key',
+        "X-Api-Key",
     ]
 
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
