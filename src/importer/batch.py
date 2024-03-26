@@ -529,6 +529,8 @@ def import_pre_wabo_dossiers(
             log.error(f"Error while processing file {file_path} : {e}")
             import_file.status = models.IMPORT_ERROR
             import_file.save()
+        
+        log.info(f"Import in process. Imported files: {file_count}. Imported dossiers: {total_count}")
 
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
 
