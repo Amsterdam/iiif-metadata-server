@@ -162,15 +162,44 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", "static"))
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "root": {
+        "level": "INFO",
+        "handlers": ["console"],
+    },
     "formatters": {
-        "console": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"}
+        "console": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"},
     },
     "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "console"},
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+        },
     },
-    "root": {
-        "handlers": ["console"],
-        "level": os.getenv("LOG_LEVEL", "INFO"),
+    "loggers": {
+        "bouwdossiers-metadata-server": {
+            "level": "WARNING",
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        "main": {
+            "level": "WARNING",
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        "django": {
+            "handlers": ["console"],
+            "level": os.getenv(
+                "DJANGO_LOG_LEVEL", "ERROR" if "pytest" in sys.argv[0] else "INFO"
+            ).upper(),
+            "propagate": False,
+        },
+        # Log all unhandled exceptions
+        "django.request": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
     },
 }
 
