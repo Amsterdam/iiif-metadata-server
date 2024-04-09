@@ -66,6 +66,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "authorization_django.authorization_middleware",
+    "opencensus.ext.django.middleware.OpencensusMiddleware",
 ]
 
 
@@ -199,6 +200,27 @@ LOGGING = {
         },
     },
 }
+
+APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"
+)
+
+if APPLICATIONINSIGHTS_CONNECTION_STRING:
+    OPENCENSUS = {
+        "TRACE": {
+            "SAMPLER": "opencensus.trace.samplers.ProbabilitySampler(rate=1)",
+            "EXPORTER": f"opencensus.ext.azure.trace_exporter.AzureExporter(connection_string='{APPLICATIONINSIGHTS_CONNECTION_STRING}')",
+        }
+    }
+    LOGGING["handlers"]["azure"] = {
+        "level": "DEBUG",
+        "class": "opencensus.ext.azure.log_exporter.AzureLogHandler",
+        "connection_string": APPLICATIONINSIGHTS_CONNECTION_STRING,
+    }
+    LOGGING["loggers"]["django"]["handlers"].append("azure")
+    LOGGING["loggers"]["django.request"]["handlers"].append("azure")
+    LOGGING["loggers"]["main"]["handlers"].append("azure")
+    LOGGING["loggers"]["bouwdossiers-metadata-server"]["handlers"].append("azure")
 
 
 OBJECTSTORE = dict(
