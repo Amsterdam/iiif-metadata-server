@@ -29,12 +29,13 @@ WABO_BASE_URL = os.getenv(
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_DOMAINS", '').split(',')
-CORS_ALLOW_METHODS = ("GET",)
-CORS_ALLOW_HEADERS = [
-    *default_headers,
-    "X-Api-Key",
-]
+if CORS_DOMAINS := os.getenv("CORS_DOMAINS", ""):
+    CORS_ALLOWED_ORIGINS = CORS_DOMAINS.split(",")
+    CORS_ALLOW_METHODS = ("GET",)
+    CORS_ALLOW_HEADERS = [
+        *default_headers,
+        "X-Api-Key",
+    ]
 
 INTERNAL_IPS = ("127.0.0.1", "0.0.0.0")
 
