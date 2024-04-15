@@ -1,7 +1,9 @@
+import json
 import os
 import sys
 
 from corsheaders.defaults import default_headers
+from opencensus.trace import config_integration
 
 from .azure_settings import Azure
 
@@ -157,6 +159,10 @@ STATIC_URL = "/iiif-metadata/static/"
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", "static"))
 
 # Django Logging settings
+base_log_fmt = {"time": "%(asctime)s", "name": "%(name)s", "level": "%(levelname)s"}
+log_fmt = base_log_fmt.copy()
+log_fmt["message"] = "%(message)s"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -165,25 +171,35 @@ LOGGING = {
         "handlers": ["console"],
     },
     "formatters": {
-        "console": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"},
+        "json": {"format": json.dumps(log_fmt)},
     },
     "handlers": {
         "console": {
             "level": "INFO",
             "class": "logging.StreamHandler",
-            "formatter": "console",
+            "formatter": "json",
         },
     },
     "loggers": {
-        "bouwdossiers-metadata-server": {
+        "bag": {
             "level": "WARNING",
             "handlers": ["console"],
-            "propagate": True,
+            "propagate": False,
+        },
+        "bouwdossiers": {
+            "level": "WARNING",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "importer": {
+            "level": "WARNING",
+            "handlers": ["console"],
+            "propagate": False,
         },
         "main": {
             "level": "WARNING",
             "handlers": ["console"],
-            "propagate": True,
+            "propagate": False,
         },
         "django": {
             "handlers": ["console"],
@@ -198,8 +214,44 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
+        "opencensus": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False
+        },
+        "azure.core.pipeline.policies.http_logging_policy": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
     },
 }
+
+APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"
+)
+
+if APPLICATIONINSIGHTS_CONNECTION_STRING:
+    MIDDLEWARE.append("opencensus.ext.django.middleware.OpencensusMiddleware")
+    OPENCENSUS = {
+        "TRACE": {
+            "SAMPLER": "opencensus.trace.samplers.ProbabilitySampler(rate=1)",
+            "EXPORTER": f"""opencensus.ext.azure.trace_exporter.AzureExporter(
+                connection_string='{APPLICATIONINSIGHTS_CONNECTION_STRING}', 
+                service_name='app-iiif-metadata-server'
+            )""",
+        }
+    }
+    config_integration.trace_integrations(["logging"])
+    LOGGING["handlers"]["azure"] = {
+        "level": "DEBUG",
+        "class": "opencensus.ext.azure.log_exporter.AzureLogHandler",
+        "connection_string": APPLICATIONINSIGHTS_CONNECTION_STRING,
+        "formatter": "json"
+    }
+    LOGGING["root"]["handlers"].append("azure")
+    for logger_name, logger_details in LOGGING["loggers"].items():
+        LOGGING["loggers"][logger_name]["handlers"].append("azure")
 
 
 OBJECTSTORE = dict(
