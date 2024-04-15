@@ -69,7 +69,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "authorization_django.authorization_middleware",
-    "opencensus.ext.django.middleware.OpencensusMiddleware",
 ]
 
 
