@@ -6,27 +6,29 @@
 #
 adal==1.2.7
     # via msrestazure
-antlr4-python3-runtime==4.9.3
+antlr4-python3-runtime==4.13.1
     # via azure-cli
 applicationinsights==0.11.10
     # via azure-cli-telemetry
-argcomplete==3.1.4
+argcomplete==3.1.6
     # via
     #   azure-cli-core
     #   knack
-asgiref==3.7.2
-    # via django
-attrs==23.1.0
+asgiref==3.8.1
+    # via
+    #   django
+    #   django-cors-headers
+attrs==23.2.0
     # via
     #   jsonschema
     #   referencing
 azure-appconfiguration==1.1.1
     # via azure-cli
-azure-batch==14.0.0
+azure-batch==14.1.0
     # via azure-cli
-azure-cli==2.53.1
+azure-cli==2.59.0
     # via -r requirements.in
-azure-cli-core==2.53.1
+azure-cli-core==2.59.0
     # via azure-cli
 azure-cli-telemetry==1.1.0
     # via azure-cli-core
@@ -38,7 +40,6 @@ azure-common==1.1.28
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
-    #   azure-loganalytics
     #   azure-mgmt-advisor
     #   azure-mgmt-apimanagement
     #   azure-mgmt-appconfiguration
@@ -107,7 +108,7 @@ azure-common==1.1.28
     #   azure-synapse-artifacts
     #   azure-synapse-managedprivateendpoints
     #   azure-synapse-spark
-azure-core==1.29.5
+azure-core==1.30.1
     # via
     #   -r requirements.in
     #   azure-appconfiguration
@@ -118,6 +119,7 @@ azure-core==1.29.5
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
     #   azure-mgmt-core
+    #   azure-monitor-query
     #   azure-multiapi-storage
     #   azure-storage-blob
     #   azure-synapse-accesscontrol
@@ -133,19 +135,19 @@ azure-datalake-store==0.0.53
     # via azure-cli
 azure-graphrbac==0.60.0
     # via azure-cli
-azure-identity==1.14.1
+azure-identity==1.16.0
     # via
     #   -r requirements.in
     #   opencensus-ext-azure
 azure-keyvault==4.2.0
     # via -r requirements.in
-azure-keyvault-administration==4.3.0
+azure-keyvault-administration==4.4.0b2
     # via azure-cli
 azure-keyvault-certificates==4.7.0
     # via
     #   azure-cli
     #   azure-keyvault
-azure-keyvault-keys==4.8.0b2
+azure-keyvault-keys==4.9.0b3
     # via
     #   azure-cli
     #   azure-keyvault
@@ -154,8 +156,6 @@ azure-keyvault-secrets==4.7.0
     #   -r requirements.in
     #   azure-cli
     #   azure-keyvault
-azure-loganalytics==0.1.1
-    # via azure-cli
 azure-mgmt-advisor==9.0.0
     # via azure-cli
 azure-mgmt-apimanagement==4.0.0
@@ -168,7 +168,7 @@ azure-mgmt-applicationinsights==1.0.0
     # via azure-cli
 azure-mgmt-authorization==4.0.0
     # via azure-cli
-azure-mgmt-batch==17.0.0
+azure-mgmt-batch==17.2.0
     # via azure-cli
 azure-mgmt-batchai==7.0.0b1
     # via azure-cli
@@ -180,13 +180,13 @@ azure-mgmt-cdn==12.0.0
     # via azure-cli
 azure-mgmt-cognitiveservices==13.5.0
     # via azure-cli
-azure-mgmt-compute==30.0.0
+azure-mgmt-compute==30.6.0
     # via azure-cli
 azure-mgmt-containerinstance==10.1.0
     # via azure-cli
-azure-mgmt-containerregistry==10.1.0
+azure-mgmt-containerregistry==10.3.0
     # via azure-cli
-azure-mgmt-containerservice==26.0.0
+azure-mgmt-containerservice==29.1.0
     # via azure-cli
 azure-mgmt-core==1.4.0
     # via
@@ -250,7 +250,7 @@ azure-mgmt-core==1.4.0
     #   azure-mgmt-trafficmanager
     #   azure-mgmt-web
     #   azure-synapse-artifacts
-azure-mgmt-cosmosdb==9.2.0
+azure-mgmt-cosmosdb==9.4.0
     # via azure-cli
 azure-mgmt-databoxedge==1.0.0
     # via azure-cli
@@ -272,15 +272,15 @@ azure-mgmt-extendedlocation==1.0.0b2
     # via azure-cli
 azure-mgmt-hdinsight==9.0.0
     # via azure-cli
-azure-mgmt-imagebuilder==1.2.0
+azure-mgmt-imagebuilder==1.3.0
     # via azure-cli
 azure-mgmt-iotcentral==10.0.0b2
     # via azure-cli
-azure-mgmt-iothub==2.3.0
+azure-mgmt-iothub==3.0.0
     # via azure-cli
 azure-mgmt-iothubprovisioningservices==1.1.0
     # via azure-cli
-azure-mgmt-keyvault==10.2.3
+azure-mgmt-keyvault==10.3.0
     # via azure-cli
 azure-mgmt-kusto==0.3.0
     # via azure-cli
@@ -308,15 +308,15 @@ azure-mgmt-policyinsights==1.1.0b4
     # via azure-cli
 azure-mgmt-privatedns==1.0.0
     # via azure-cli
-azure-mgmt-rdbms==10.2.0b11
+azure-mgmt-rdbms==10.2.0b16
     # via azure-cli
 azure-mgmt-recoveryservices==2.5.0
     # via azure-cli
-azure-mgmt-recoveryservicesbackup==7.0.0
+azure-mgmt-recoveryservicesbackup==8.0.0
     # via azure-cli
-azure-mgmt-redhatopenshift==1.3.0
+azure-mgmt-redhatopenshift==1.4.0
     # via azure-cli
-azure-mgmt-redis==14.1.0
+azure-mgmt-redis==14.3.0
     # via azure-cli
 azure-mgmt-resource==23.1.0b2
     # via azure-cli
@@ -328,45 +328,47 @@ azure-mgmt-servicebus==8.2.0
     # via azure-cli
 azure-mgmt-servicefabric==1.0.0
     # via azure-cli
-azure-mgmt-servicefabricmanagedclusters==1.0.0
+azure-mgmt-servicefabricmanagedclusters==2.0.0b6
     # via azure-cli
 azure-mgmt-servicelinker==1.2.0b1
     # via azure-cli
-azure-mgmt-signalr==1.1.0
+azure-mgmt-signalr==2.0.0b1
     # via azure-cli
-azure-mgmt-sql==4.0.0b12
+azure-mgmt-sql==4.0.0b15
     # via azure-cli
 azure-mgmt-sqlvirtualmachine==1.0.0b5
     # via azure-cli
-azure-mgmt-storage==21.0.0
+azure-mgmt-storage==21.1.0
     # via azure-cli
 azure-mgmt-synapse==2.1.0b5
     # via azure-cli
 azure-mgmt-trafficmanager==1.0.0
     # via azure-cli
-azure-mgmt-web==7.0.0
+azure-mgmt-web==7.2.0
+    # via azure-cli
+azure-monitor-query==1.2.0
     # via azure-cli
 azure-multiapi-storage==1.2.0
     # via azure-cli
 azure-nspkg==3.0.2
     # via azure-mgmt-nspkg
-azure-storage-blob==12.19.0
+azure-storage-blob==12.19.1
     # via -r requirements.in
 azure-storage-common==1.4.2
     # via azure-cli
 azure-synapse-accesscontrol==0.5.0
     # via azure-cli
-azure-synapse-artifacts==0.17.0
+azure-synapse-artifacts==0.18.0
     # via azure-cli
 azure-synapse-managedprivateendpoints==0.4.0
     # via azure-cli
 azure-synapse-spark==0.2.0
     # via azure-cli
-bcrypt==4.0.1
+bcrypt==4.1.2
     # via paramiko
-cachetools==5.3.2
+cachetools==5.3.3
     # via google-auth
-certifi==2023.7.22
+certifi==2024.2.2
     # via
     #   msrest
     #   requests
@@ -375,13 +377,13 @@ cffi==1.16.0
     #   azure-datalake-store
     #   cryptography
     #   pynacl
-chardet==3.0.4
+chardet==5.2.0
     # via azure-cli
 charset-normalizer==3.3.2
     # via requests
 colorama==0.4.6
     # via azure-cli
-cryptography==41.0.5
+cryptography==42.0.5
     # via
     #   adal
     #   azure-cli-core
@@ -401,18 +403,20 @@ datapunt-config-loader==1.1.2
     # via datapunt-objectstore
 datapunt-objectstore==2020.9.7
     # via -r requirements.in
-debtcollector==2.5.0
+debtcollector==3.0.0
     # via
     #   oslo-config
     #   oslo-utils
     #   python-keystoneclient
+decorator==5.1.1
+    # via fabric
 defusedxml==0.7.1
     # via djangorestframework-xml
 deprecated==1.2.14
     # via
-    #   jwcrypto
+    #   fabric
     #   pygithub
-distro==1.8.0
+distro==1.9.0
     # via
     #   azure-cli
     #   azure-cli-core
@@ -427,15 +431,15 @@ django==4.1.13
     #   djangorestframework
     #   drf-yasg
     #   opencensus-ext-django
-django-cors-headers==4.3.0
+django-cors-headers==4.3.1
     # via -r requirements.in
-django-debug-toolbar==4.2.0
+django-debug-toolbar==4.3.0
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-filter==23.3
+django-filter==23.5
     # via -r requirements.in
-djangorestframework==3.14.0
+djangorestframework==3.15.1
     # via
     #   -r requirements.in
     #   djangorestframework-csv
@@ -443,33 +447,33 @@ djangorestframework==3.14.0
     #   drf-amsterdam
     #   drf-extensions
     #   drf-yasg
-djangorestframework-csv==3.0.1
+djangorestframework-csv==3.0.2
     # via drf-amsterdam
 djangorestframework-gis==1.0
     # via -r requirements.in
 djangorestframework-xml==2.0.0
     # via drf-amsterdam
-drf-amsterdam==0.4.1
+drf-amsterdam==1.0.1
     # via -r requirements.in
 drf-extensions==0.7.1
     # via drf-amsterdam
 drf-yasg==1.21.7
     # via -r requirements.in
-fabric==2.7.1
+fabric==3.2.2
     # via azure-cli
-google-api-core==2.13.0
+google-api-core==2.18.0
     # via opencensus
-google-auth==2.23.4
+google-auth==2.29.0
     # via google-api-core
-googleapis-common-protos==1.61.0
+googleapis-common-protos==1.63.0
     # via google-api-core
 humanfriendly==10.0
     # via azure-cli-core
-idna==3.4
+idna==3.7
     # via requests
 inflection==0.5.1
     # via drf-yasg
-invoke==1.7.3
+invoke==2.2.0
     # via fabric
 iso8601==2.1.0
     # via
@@ -484,22 +488,31 @@ isodate==0.6.1
     #   azure-mgmt-apimanagement
     #   azure-mgmt-appconfiguration
     #   azure-mgmt-authorization
+    #   azure-mgmt-batch
     #   azure-mgmt-cognitiveservices
     #   azure-mgmt-compute
     #   azure-mgmt-containerinstance
+    #   azure-mgmt-containerregistry
     #   azure-mgmt-containerservice
     #   azure-mgmt-cosmosdb
     #   azure-mgmt-imagebuilder
+    #   azure-mgmt-iothub
     #   azure-mgmt-keyvault
     #   azure-mgmt-netapp
     #   azure-mgmt-rdbms
     #   azure-mgmt-recoveryservices
     #   azure-mgmt-recoveryservicesbackup
     #   azure-mgmt-redhatopenshift
+    #   azure-mgmt-redis
     #   azure-mgmt-resource
     #   azure-mgmt-search
     #   azure-mgmt-security
+    #   azure-mgmt-servicefabricmanagedclusters
+    #   azure-mgmt-signalr
     #   azure-mgmt-sql
+    #   azure-mgmt-storage
+    #   azure-mgmt-web
+    #   azure-monitor-query
     #   azure-storage-blob
     #   azure-synapse-artifacts
     #   msrest
@@ -511,46 +524,42 @@ jmespath==1.0.1
     #   knack
 jsondiff==2.0.0
     # via azure-cli
-jsonschema==4.19.2
+jsonschema==4.21.1
     # via datapunt-config-loader
-jsonschema-specifications==2023.7.1
+jsonschema-specifications==2023.12.1
     # via jsonschema
-jwcrypto==1.5.0
+jwcrypto==1.5.6
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
-keystoneauth1==5.3.0
+keystoneauth1==5.6.0
     # via python-keystoneclient
 knack==0.11.0
     # via azure-cli-core
-msal[broker]==1.24.0b2
+msal[broker]==1.27.0
     # via
     #   azure-cli-core
     #   azure-datalake-store
     #   azure-identity
-    #   msal
     #   msal-extensions
 msal-extensions==1.0.0
     # via
     #   azure-cli-core
     #   azure-identity
-msgpack==1.0.7
+msgpack==1.0.8
     # via oslo-serialization
 msrest==0.7.1
     # via
     #   azure-appconfiguration
     #   azure-data-tables
     #   azure-graphrbac
-    #   azure-loganalytics
     #   azure-mgmt-advisor
     #   azure-mgmt-appcontainers
     #   azure-mgmt-applicationinsights
-    #   azure-mgmt-batch
     #   azure-mgmt-batchai
     #   azure-mgmt-billing
     #   azure-mgmt-botservice
     #   azure-mgmt-cdn
-    #   azure-mgmt-containerregistry
     #   azure-mgmt-databoxedge
     #   azure-mgmt-datamigration
     #   azure-mgmt-devtestlabs
@@ -560,7 +569,6 @@ msrest==0.7.1
     #   azure-mgmt-extendedlocation
     #   azure-mgmt-hdinsight
     #   azure-mgmt-iotcentral
-    #   azure-mgmt-iothub
     #   azure-mgmt-iothubprovisioningservices
     #   azure-mgmt-kusto
     #   azure-mgmt-loganalytics
@@ -573,23 +581,18 @@ msrest==0.7.1
     #   azure-mgmt-msi
     #   azure-mgmt-policyinsights
     #   azure-mgmt-privatedns
-    #   azure-mgmt-redis
     #   azure-mgmt-servicebus
     #   azure-mgmt-servicefabric
-    #   azure-mgmt-servicefabricmanagedclusters
     #   azure-mgmt-servicelinker
-    #   azure-mgmt-signalr
     #   azure-mgmt-sqlvirtualmachine
-    #   azure-mgmt-storage
     #   azure-mgmt-synapse
     #   azure-mgmt-trafficmanager
-    #   azure-mgmt-web
     #   azure-multiapi-storage
     #   azure-synapse-accesscontrol
     #   azure-synapse-managedprivateendpoints
     #   azure-synapse-spark
     #   msrestazure
-msrestazure==0.6.4
+msrestazure==0.6.4.post1
     # via
     #   azure-batch
     #   azure-cli-core
@@ -598,7 +601,7 @@ msrestazure==0.6.4
     #   azure-mgmt-devtestlabs
     #   azure-mgmt-kusto
     #   azure-mgmt-managedservices
-netaddr==0.9.0
+netaddr==1.2.1
     # via
     #   oslo-config
     #   oslo-utils
@@ -606,7 +609,7 @@ netifaces==0.11.0
     # via oslo-utils
 oauthlib==3.2.2
     # via requests-oauthlib
-opencensus==0.11.3
+opencensus==0.11.4
     # via
     #   opencensus-ext-azure
     #   opencensus-ext-django
@@ -615,7 +618,7 @@ opencensus==0.11.3
     #   opencensus-ext-requests
 opencensus-context==0.1.3
     # via opencensus
-opencensus-ext-azure==1.1.11
+opencensus-ext-azure==1.1.13
     # via -r requirements.in
 opencensus-ext-django==0.8.0
     # via -r requirements.in
@@ -627,20 +630,20 @@ opencensus-ext-requests==0.8.0
     # via -r requirements.in
 os-service-types==1.7.0
     # via keystoneauth1
-oslo-config==9.2.0
+oslo-config==9.4.0
     # via python-keystoneclient
-oslo-i18n==6.1.0
+oslo-i18n==6.3.0
     # via
     #   oslo-config
     #   oslo-utils
     #   python-keystoneclient
-oslo-serialization==5.2.0
+oslo-serialization==5.4.0
     # via python-keystoneclient
-oslo-utils==6.2.1
+oslo-utils==7.1.0
     # via
     #   oslo-serialization
     #   python-keystoneclient
-packaging==23.2
+packaging==24.0
     # via
     #   azure-cli
     #   azure-cli-core
@@ -648,14 +651,12 @@ packaging==23.2
     #   knack
     #   oslo-utils
     #   python-keystoneclient
-paramiko==3.3.1
+paramiko==3.4.0
     # via
     #   azure-cli-core
     #   fabric
     #   scp
     #   sshtunnel
-pathlib2==2.3.7.post1
-    # via fabric
 pbr==6.0.0
     # via
     #   keystoneauth1
@@ -664,17 +665,20 @@ pbr==6.0.0
     #   oslo-serialization
     #   python-keystoneclient
     #   stevedore
-pkginfo==1.9.6
+pkginfo==1.10.0
     # via azure-cli-core
 portalocker==2.8.2
     # via
     #   azure-cli-telemetry
     #   msal-extensions
-protobuf==4.25.0
+proto-plus==1.23.0
+    # via google-api-core
+protobuf==4.25.3
     # via
     #   google-api-core
     #   googleapis-common-protos
-psutil==5.9.6
+    #   proto-plus
+psutil==5.9.8
     # via
     #   azure-cli-core
     #   opencensus-ext-azure
@@ -682,19 +686,19 @@ psycopg2-binary==2.9.9
     # via
     #   -r requirements.in
     #   opencensus-ext-postgresql
-pyasn1==0.5.0
+pyasn1==0.6.0
     # via
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.3.0
+pyasn1-modules==0.4.0
     # via google-auth
 pycomposefile==0.0.30
     # via azure-cli
-pycparser==2.21
+pycparser==2.22
     # via cffi
 pygithub==1.59.1
     # via azure-cli
-pygments==2.16.1
+pygments==2.17.2
     # via knack
 pyjwt[crypto]==2.8.0
     # via
@@ -707,36 +711,33 @@ pynacl==1.5.0
     #   azure-cli
     #   paramiko
     #   pygithub
-pyopenssl==23.3.0
+pyopenssl==24.1.0
     # via azure-cli-core
-pyparsing==3.1.1
+pyparsing==3.1.2
     # via oslo-utils
 pysocks==1.7.1
     # via requests
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   adal
     #   azure-multiapi-storage
     #   azure-storage-common
     #   datapunt-objectstore
-python-keystoneclient==5.2.0
+python-keystoneclient==5.4.0
     # via datapunt-objectstore
-python-swiftclient==4.4.0
+python-swiftclient==4.5.0
     # via datapunt-objectstore
-pytz==2023.3.post1
-    # via
-    #   djangorestframework
-    #   drf-yasg
-    #   oslo-serialization
-    #   oslo-utils
+pytz==2024.1
+    # via drf-yasg
 pyyaml==6.0.1
     # via
     #   datapunt-config-loader
     #   drf-yasg
     #   knack
     #   oslo-config
+    #   oslo-utils
     #   pycomposefile
-referencing==0.30.2
+referencing==0.34.0
     # via
     #   jsonschema
     #   jsonschema-specifications
@@ -761,11 +762,11 @@ requests[socks]==2.31.0
     #   python-keystoneclient
     #   python-swiftclient
     #   requests-oauthlib
-requests-oauthlib==1.3.1
+requests-oauthlib==2.0.0
     # via msrest
 rfc3986==2.0.0
     # via oslo-config
-rpds-py==0.12.0
+rpds-py==0.18.0
     # via
     #   jsonschema
     #   referencing
@@ -783,23 +784,22 @@ six==1.16.0
     #   isodate
     #   javaproperties
     #   msrestazure
-    #   pathlib2
+    #   opencensus
     #   python-dateutil
-    #   python-keystoneclient
-sqlparse==0.4.4
+sqlparse==0.5.0
     # via
     #   django
     #   django-debug-toolbar
 sshtunnel==0.1.5
     # via azure-cli
-stevedore==5.1.0
+stevedore==5.2.0
     # via
     #   keystoneauth1
     #   oslo-config
     #   python-keystoneclient
 tabulate==0.9.0
     # via knack
-typing-extensions==4.8.0
+typing-extensions==4.11.0
     # via
     #   asgiref
     #   azure-core
@@ -807,14 +807,16 @@ typing-extensions==4.8.0
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
+    #   azure-monitor-query
     #   azure-storage-blob
-tzdata==2023.3
+    #   jwcrypto
+tzdata==2024.1
     # via
     #   oslo-serialization
     #   oslo-utils
 uritemplate==4.1.1
     # via drf-yasg
-urllib3==2.0.7
+urllib3==2.2.1
     # via
     #   azure-cli
     #   requests
@@ -831,5 +833,5 @@ xmltodict==0.13.0
     #   azure-cli
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==68.2.2
+setuptools==69.5.1
     # via -r requirements.in
