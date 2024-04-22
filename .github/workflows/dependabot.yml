@@ -19,4 +19,3 @@ jobs:
       production_pipeline: "https://dev.azure.com/CloudCompetenceCenter/Opdrachten/_build?definitionId=2678"
       acceptance_urls: "https://acc.bouwdossiers.amsterdam.nl/iiif-metadata/bouwdossier/"
       production_urls: "https://bouwdossiers.amsterdam.nl/iiif-metadata/bouwdossier/"
-      release_stop: true
