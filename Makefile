@@ -5,7 +5,7 @@
 .PHONY = help pip-tools install requirements update test init
 dc = docker compose
 run = $(dc) run --rm
-manage = $(run) dev python manage.py
+manage = $(run) metadata-dev python manage.py
 
 help:                               ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -42,25 +42,25 @@ push_semver:
 	VERSION=$${VERSION%%\.*} $(MAKE) push
 
 app:                                ## Run app
-	$(dc) run --service-ports app
+	$(dc) run --service-ports metadata-app
 
 dev: migrate				        ## Run the development app (and run extra migrations first)
-	$(run) --service-ports dev
+	$(run) --service-ports metadata-dev
 
 bash:                               ## Run the container and start bash
-	$(run) app bash
+	$(run) metadata-app bash
 
 test:                               ## Execute tests
-	$(run) test pytest $(ARGS)
+	$(run) metadata-test pytest $(ARGS)
 
 lintfix:                            ## Execute lint fixes
-	$(run) test black /src/$(APP)
-	$(run) test autoflake /src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
-	$(run) test isort /src/$(APP)
+	$(run) metadata-test black /src/$(APP)
+	$(run) metadata-test autoflake /src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
+	$(run) metadata-test isort /src/$(APP)
 
 lint:                               ## Execute lint checks
-	$(run) test autoflake /src --check --recursive --quiet
-	$(run) test isort --diff --check /src/$(APP)
+	$(run) metadata-test autoflake /src --check --recursive --quiet
+	$(run) metadata-test isort --diff --check /src/$(APP)
 
 clean:                              ## Clean docker stuff
 	$(dc) down -v
@@ -72,5 +72,5 @@ run_import:                       	## Populate database with new bag data and do
 	$(manage) run_import $(ARGS)
 
 trivy: 								## Detect image vulnerabilities
-	$(dc) build app
+	$(dc) build metadata-app
 	trivy image --ignore-unfixed docker-registry.data.amsterdam.nl/datapunt/iiif-metadata-server

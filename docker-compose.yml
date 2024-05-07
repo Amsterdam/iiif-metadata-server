@@ -1,6 +1,35 @@
-version: "3.4"
+version: "3.5"
+
+name: iiif-metadata-server
+
+networks:
+  amsterdam-bouwdossiers:
+    name: amsterdam-bouwdossiers
+    driver: bridge
+
+x-app: &base-app
+  build:
+    context: .
+    target: app
+  depends_on:
+    - metadata-database
+    - metadata-azurite
+  volumes:
+    - ./src:/src
+    - ./deploy:/deploy
+  networks:
+    - amsterdam-bouwdossiers
+    - default
+  environment: &base-app-env
+    SECRET_KEY: 'dev'
+    DATABASE_HOST: 'metadata-database'
+    PYTHONBREAKPOINT: true
+    UWSGI_STATIC_MAP: '/iiif-metadata/static=/static'
+    AZURITE_STORAGE_CONNECTION_STRING: 'AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://metadata-azurite:10000/devstoreaccount1/;'
+  entrypoint: /deploy/wait-for-it.sh metadata-database:5432 --
+
 services:
-  database:
+  metadata-database:
     image: amsterdam/postgres12
     ports:
       - 5432
@@ -11,64 +40,41 @@ services:
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
-  azurite:
+  metadata-azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
-      - "10000:10000"  # Blob service
+      - "10010:10000"  # Blob service
 
-  app:
+  metadata-app:
+    <<: *base-app
     build:
       context: .
       target: app
     image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-opdrachten/iiif-metadata-server}:${VERSION:-latest}
-    ports:
-      - 8000:8000
-    environment:
-      - SECRET_KEY
-    volumes:
-      - ./src:/src
-      - ./deploy:/deploy
     depends_on:
-      - database
+      - metadata-database
 
-  dev:
+  metadata-dev:
+    <<: *base-app
+    hostname: metadata-server
     build:
       context: .
       target: dev
-    ports:
-      - 8000:8000
     environment:
-      - DEBUG=true
-      - SECRET_KEY=dev
-      - USE_JWKS_TEST_KEY=true
-      - PYTHONBREAKPOINT
-      - UWSGI_STATIC_MAP=/iiif-metadata/static=/static
-      - AZURITE_STORAGE_CONNECTION_STRING=AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;
-    volumes:
-      - ./src:/src
-      - ./deploy:/deploy
-    depends_on:
-      - azurite
-      - database
-    entrypoint: /deploy/wait-for-it.sh database:5432 --
+      <<: *base-app-env
+      DEBUG: 'true'
+      USE_JWKS_TEST_KEY: 'true'
+    external_links:
+      - metadata-dev:metadata-server
     command: python manage.py runserver 0.0.0.0:8000
 
-  test:
-    build:
+  metadata-test:
+    <<: *base-app
+    build:  
       context: .
       target: tests
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./src:/src
-    depends_on:
-      - database
-      - azurite
     environment:
-      - SECRET_KEY=insecure
-      - USE_JWKS_TEST_KEY=true
-      - DATABASE_NAME=dev
-      - DATABASE_USER=dev
-      - DATABASE_PASSWORD=dev
-      - AZURITE_STORAGE_CONNECTION_STRING=AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;
-    entrypoint: /deploy/wait-for-it.sh database:5432 --
+      <<: *base-app-env
+      USE_JWKS_TEST_KEY: 'true'
+      SECRET_KEY: 'insecure'
+      DATABASE_NAME: 'test'
