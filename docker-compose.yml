@@ -1,7 +1,5 @@
 version: "3.5"
 
-name: iiif-metadata-server
-
 networks:
   amsterdam-bouwdossiers:
     name: amsterdam-bouwdossiers
@@ -12,8 +10,8 @@ x-app: &base-app
     context: .
     target: app
   depends_on:
-    - metadata-database
-    - metadata-azurite
+    - database
+    - azurite
   volumes:
     - ./src:/src
     - ./deploy:/deploy
@@ -22,14 +20,14 @@ x-app: &base-app
     - default
   environment: &base-app-env
     SECRET_KEY: 'dev'
-    DATABASE_HOST: 'metadata-database'
+    DATABASE_HOST: 'database'
     PYTHONBREAKPOINT: true
     UWSGI_STATIC_MAP: '/iiif-metadata/static=/static'
-    AZURITE_STORAGE_CONNECTION_STRING: 'AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://metadata-azurite:10000/devstoreaccount1/;'
-  entrypoint: /deploy/wait-for-it.sh metadata-database:5432 --
+    AZURITE_STORAGE_CONNECTION_STRING: 'AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;'
+  entrypoint: /deploy/wait-for-it.sh database:5432 --
 
 services:
-  metadata-database:
+  database:
     image: amsterdam/postgres12
     ports:
       - 5432
@@ -40,21 +38,21 @@ services:
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
-  metadata-azurite:
+  azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - "10010:10000"  # Blob service
 
-  metadata-app:
+  app:
     <<: *base-app
     build:
       context: .
       target: app
     image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-opdrachten/iiif-metadata-server}:${VERSION:-latest}
     depends_on:
-      - metadata-database
+      - database
 
-  metadata-dev:
+  dev:
     <<: *base-app
     hostname: metadata-server
     build:
@@ -64,11 +62,9 @@ services:
       <<: *base-app-env
       DEBUG: 'true'
       USE_JWKS_TEST_KEY: 'true'
-    external_links:
-      - metadata-dev:metadata-server
     command: python manage.py runserver 0.0.0.0:8000
 
-  metadata-test:
+  test:
     <<: *base-app
     build:  
       context: .

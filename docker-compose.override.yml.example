@@ -1,15 +1,13 @@
 services:
-  metadata-database:
+  dev:
     ports:
-      - "5903:5432"
-  
-  metadata-dev:
+      - "8002:8000"
     volumes:
       - ./src:/src
       - ./deploy:/deploy
       - ./src/importer/tests/data:/tmp/bouwdossiers
 
-  metadata-test:
+  test:
     volumes:
       - ./src:/src
       - ./src/importer/tests/data:/tmp/bouwdossiers
