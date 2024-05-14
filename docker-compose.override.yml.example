@@ -1,9 +1,7 @@
 services:
-  database:
-    ports:
-      - "5903:5432"
-  
   dev:
+    ports:
+      - "8002:8000"
     volumes:
       - ./src:/src
       - ./deploy:/deploy
