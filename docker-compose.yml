@@ -41,7 +41,7 @@ services:
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
-      - "10010:10000"  # Blob service
+      - 10000 # Blob service
 
   app:
     <<: *base-app
