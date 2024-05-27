@@ -5,6 +5,11 @@ import sys
 from corsheaders.defaults import default_headers
 from opencensus.trace import config_integration
 
+from main.utils_azure_insights import (
+    create_azure_log_handler_config,
+    create_azure_trace_config,
+)
+
 from .azure_settings import Azure
 
 azure = Azure()
@@ -12,6 +17,7 @@ azure = Azure()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+APP_NAME = os.getenv("APP_NAME", "iiif-metadata-server")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -214,11 +220,7 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "opencensus": {
-            "handlers": ["console"],
-            "level": "WARNING",
-            "propagate": False
-        },
+        "opencensus": {"handlers": ["console"], "level": "WARNING", "propagate": False},
         "azure.core.pipeline.policies.http_logging_policy": {
             "handlers": ["console"],
             "level": "WARNING",
@@ -233,22 +235,15 @@ APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
 
 if APPLICATIONINSIGHTS_CONNECTION_STRING:
     MIDDLEWARE.append("opencensus.ext.django.middleware.OpencensusMiddleware")
-    OPENCENSUS = {
-        "TRACE": {
-            "SAMPLER": "opencensus.trace.samplers.ProbabilitySampler(rate=1)",
-            "EXPORTER": f"""opencensus.ext.azure.trace_exporter.AzureExporter(
-                connection_string='{APPLICATIONINSIGHTS_CONNECTION_STRING}', 
-                service_name='app-iiif-metadata-server'
-            )""",
-        }
-    }
+
+    OPENCENSUS = create_azure_trace_config(
+        APPLICATIONINSIGHTS_CONNECTION_STRING, APP_NAME
+    )
+    LOGGING["handlers"]["azure"] = create_azure_log_handler_config(
+        APPLICATIONINSIGHTS_CONNECTION_STRING, APP_NAME
+    )
     config_integration.trace_integrations(["logging"])
-    LOGGING["handlers"]["azure"] = {
-        "level": "DEBUG",
-        "class": "opencensus.ext.azure.log_exporter.AzureLogHandler",
-        "connection_string": APPLICATIONINSIGHTS_CONNECTION_STRING,
-        "formatter": "json"
-    }
+
     LOGGING["root"]["handlers"].append("azure")
     for logger_name, logger_details in LOGGING["loggers"].items():
         LOGGING["loggers"][logger_name]["handlers"].append("azure")
