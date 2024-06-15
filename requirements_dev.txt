@@ -128,7 +128,7 @@ azure-common==1.1.28
     #   azure-synapse-artifacts
     #   azure-synapse-managedprivateendpoints
     #   azure-synapse-spark
-azure-core==1.30.1
+azure-core==1.30.2
     # via
     #   -r ./requirements.txt
     #   azure-appconfiguration
@@ -163,7 +163,7 @@ azure-graphrbac==0.60.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
-azure-identity==1.16.0
+azure-identity==1.16.1
     # via
     #   -r ./requirements.txt
     #   opencensus-ext-azure
@@ -431,7 +431,7 @@ azure-mgmt-privatedns==1.0.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
-azure-mgmt-rdbms==10.2.0b16
+azure-mgmt-rdbms==10.2.0b17
     # via
     #   -r ./requirements.txt
     #   azure-cli
@@ -551,7 +551,7 @@ cachetools==5.3.3
     # via
     #   -r ./requirements.txt
     #   google-auth
-certifi==2024.2.2
+certifi==2024.6.2
     # via
     #   -r ./requirements.txt
     #   msrest
@@ -578,7 +578,7 @@ colorama==0.4.6
     #   azure-cli
 coverage[toml]==7.5.3
     # via pytest-cov
-cryptography==42.0.7
+cryptography==42.0.8
     # via
     #   -r ./requirements.txt
     #   adal
@@ -678,17 +678,17 @@ fabric==3.2.2
     #   azure-cli
 factory-boy==3.3.0
     # via -r requirements_dev.in
-faker==25.3.0
+faker==25.8.0
     # via factory-boy
 google-api-core==2.19.0
     # via
     #   -r ./requirements.txt
     #   opencensus
-google-auth==2.29.0
+google-auth==2.30.0
     # via
     #   -r ./requirements.txt
     #   google-api-core
-googleapis-common-protos==1.63.0
+googleapis-common-protos==1.63.1
     # via
     #   -r ./requirements.txt
     #   google-api-core
@@ -919,7 +919,7 @@ oslo-utils==7.1.0
     #   -r ./requirements.txt
     #   oslo-serialization
     #   python-keystoneclient
-packaging==24.0
+packaging==24.1
     # via
     #   -r ./requirements.txt
     #   azure-cli
@@ -948,7 +948,7 @@ pbr==6.0.0
     #   oslo-serialization
     #   python-keystoneclient
     #   stevedore
-pkginfo==1.11.0
+pkginfo==1.11.1
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
@@ -1032,7 +1032,7 @@ pysocks==1.7.1
     # via
     #   -r ./requirements.txt
     #   requests
-pytest==8.2.1
+pytest==8.2.2
     # via
     #   pytest-cov
     #   pytest-django
@@ -1158,7 +1158,7 @@ tomli==2.0.1
     #   black
     #   coverage
     #   pytest
-typing-extensions==4.12.0
+typing-extensions==4.12.2
     # via
     #   -r ./requirements.txt
     #   asgiref
