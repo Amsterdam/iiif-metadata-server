@@ -163,7 +163,7 @@ azure-graphrbac==0.60.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
-azure-identity==1.16.1
+azure-identity==1.17.1
     # via
     #   -r ./requirements.txt
     #   opencensus-ext-azure
@@ -576,7 +576,7 @@ colorama==0.4.6
     # via
     #   -r ./requirements.txt
     #   azure-cli
-coverage[toml]==7.5.3
+coverage[toml]==7.5.4
     # via pytest-cov
 cryptography==42.0.8
     # via
@@ -636,7 +636,7 @@ django==4.1.13
     #   djangorestframework
     #   drf-yasg
     #   opencensus-ext-django
-django-cors-headers==4.3.1
+django-cors-headers==4.4.0
     # via -r ./requirements.txt
 django-debug-toolbar==4.3.0
     # via -r ./requirements.txt
@@ -678,9 +678,9 @@ fabric==3.2.2
     #   azure-cli
 factory-boy==3.3.0
     # via -r requirements_dev.in
-faker==25.8.0
+faker==26.0.0
     # via factory-boy
-google-api-core==2.19.0
+google-api-core==2.19.1
     # via
     #   -r ./requirements.txt
     #   opencensus
@@ -688,7 +688,7 @@ google-auth==2.30.0
     # via
     #   -r ./requirements.txt
     #   google-api-core
-googleapis-common-protos==1.63.1
+googleapis-common-protos==1.63.2
     # via
     #   -r ./requirements.txt
     #   google-api-core
@@ -956,16 +956,16 @@ platformdirs==4.2.2
     # via black
 pluggy==1.5.0
     # via pytest
-portalocker==2.8.2
+portalocker==2.10.0
     # via
     #   -r ./requirements.txt
     #   azure-cli-telemetry
     #   msal-extensions
-proto-plus==1.23.0
+proto-plus==1.24.0
     # via
     #   -r ./requirements.txt
     #   google-api-core
-protobuf==4.25.3
+protobuf==5.27.2
     # via
     #   -r ./requirements.txt
     #   google-api-core
@@ -1163,6 +1163,7 @@ typing-extensions==4.12.2
     #   -r ./requirements.txt
     #   asgiref
     #   azure-core
+    #   azure-identity
     #   azure-keyvault-administration
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
@@ -1180,7 +1181,7 @@ uritemplate==4.1.1
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-urllib3==2.2.1
+urllib3==2.2.2
     # via
     #   -r ./requirements.txt
     #   azure-cli
@@ -1201,5 +1202,5 @@ xmltodict==0.13.0
     #   azure-cli
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==70.0.0
+setuptools==70.1.1
     # via -r ./requirements.txt
