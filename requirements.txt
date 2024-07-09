@@ -135,7 +135,7 @@ azure-datalake-store==0.0.53
     # via azure-cli
 azure-graphrbac==0.60.0
     # via azure-cli
-azure-identity==1.16.1
+azure-identity==1.17.1
     # via
     #   -r requirements.in
     #   opencensus-ext-azure
@@ -431,7 +431,7 @@ django==4.1.13
     #   djangorestframework
     #   drf-yasg
     #   opencensus-ext-django
-django-cors-headers==4.3.1
+django-cors-headers==4.4.0
     # via -r requirements.in
 django-debug-toolbar==4.3.0
     # via -r requirements.in
@@ -461,11 +461,11 @@ drf-yasg==1.21.7
     # via -r requirements.in
 fabric==3.2.2
     # via azure-cli
-google-api-core==2.19.0
+google-api-core==2.19.1
     # via opencensus
 google-auth==2.30.0
     # via google-api-core
-googleapis-common-protos==1.63.1
+googleapis-common-protos==1.63.2
     # via google-api-core
 humanfriendly==10.0
     # via azure-cli-core
@@ -667,13 +667,13 @@ pbr==6.0.0
     #   stevedore
 pkginfo==1.11.1
     # via azure-cli-core
-portalocker==2.8.2
+portalocker==2.10.0
     # via
     #   azure-cli-telemetry
     #   msal-extensions
-proto-plus==1.23.0
+proto-plus==1.24.0
     # via google-api-core
-protobuf==4.25.3
+protobuf==5.27.2
     # via
     #   google-api-core
     #   googleapis-common-protos
@@ -805,6 +805,7 @@ typing-extensions==4.12.2
     # via
     #   asgiref
     #   azure-core
+    #   azure-identity
     #   azure-keyvault-administration
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
@@ -818,7 +819,7 @@ tzdata==2024.1
     #   oslo-utils
 uritemplate==4.1.1
     # via drf-yasg
-urllib3==2.2.1
+urllib3==2.2.2
     # via
     #   azure-cli
     #   requests
@@ -835,5 +836,5 @@ xmltodict==0.13.0
     #   azure-cli
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==70.0.0
+setuptools==70.1.1
     # via -r requirements.in
