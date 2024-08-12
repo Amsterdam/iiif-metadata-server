@@ -8,7 +8,7 @@ adal==1.2.7
     # via
     #   -r ./requirements.txt
     #   msrestazure
-antlr4-python3-runtime==4.13.1
+antlr4-python3-runtime==4.13.2
     # via
     #   -r ./requirements.txt
     #   azure-cli
@@ -26,7 +26,7 @@ asgiref==3.8.1
     #   -r ./requirements.txt
     #   django
     #   django-cors-headers
-attrs==23.2.0
+attrs==24.2.0
     # via
     #   -r ./requirements.txt
     #   jsonschema
@@ -41,9 +41,9 @@ azure-batch==14.2.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
-azure-cli==2.62.0
+azure-cli==2.63.0
     # via -r ./requirements.txt
-azure-cli-core==2.62.0
+azure-cli-core==2.63.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
@@ -247,7 +247,7 @@ azure-mgmt-containerregistry==10.3.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
-azure-mgmt-containerservice==30.0.0
+azure-mgmt-containerservice==31.0.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
@@ -502,7 +502,7 @@ azure-multiapi-storage==1.2.0
     # via
     #   -r ./requirements.txt
     #   azure-cli
-azure-storage-blob==12.21.0
+azure-storage-blob==12.22.0
     # via -r ./requirements.txt
 azure-storage-common==1.4.2
     # via
@@ -528,7 +528,7 @@ bcrypt==4.2.0
     # via
     #   -r ./requirements.txt
     #   paramiko
-black==24.4.2
+black==24.8.0
     # via -r requirements_dev.in
 cachetools==5.4.0
     # via
@@ -539,7 +539,7 @@ certifi==2024.7.4
     #   -r ./requirements.txt
     #   msrest
     #   requests
-cffi==1.16.0
+cffi==1.17.0
     # via
     #   -r ./requirements.txt
     #   azure-datalake-store
@@ -559,7 +559,7 @@ colorama==0.4.6
     # via
     #   -r ./requirements.txt
     #   azure-cli
-coverage[toml]==7.6.0
+coverage[toml]==7.6.1
     # via pytest-cov
 cryptography==43.0.0
     # via
@@ -608,7 +608,7 @@ distro==1.9.0
     #   -r ./requirements.txt
     #   azure-cli
     #   azure-cli-core
-django==5.0.7
+django==5.1
     # via
     #   -r ./requirements.txt
     #   datapunt-authorization-django
@@ -625,7 +625,7 @@ django-debug-toolbar==4.4.6
     # via -r ./requirements.txt
 django-extensions==3.2.3
     # via -r ./requirements.txt
-django-filter==24.2
+django-filter==24.3
     # via -r ./requirements.txt
 djangorestframework==3.15.2
     # via
@@ -661,13 +661,13 @@ fabric==3.2.2
     #   azure-cli
 factory-boy==3.3.0
     # via -r requirements_dev.in
-faker==26.0.0
+faker==26.3.0
     # via factory-boy
 google-api-core==2.19.1
     # via
     #   -r ./requirements.txt
     #   opencensus
-google-auth==2.32.0
+google-auth==2.33.0
     # via
     #   -r ./requirements.txt
     #   google-api-core
@@ -773,14 +773,14 @@ knack==0.11.0
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
-msal[broker]==1.28.1
+msal[broker]==1.30.0
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
     #   azure-datalake-store
     #   azure-identity
     #   msal-extensions
-msal-extensions==1.2.0b1
+msal-extensions==1.2.0
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
@@ -912,7 +912,7 @@ packaging==24.1
     #   oslo-utils
     #   pytest
     #   python-keystoneclient
-paramiko==3.4.0
+paramiko==3.4.1
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
@@ -953,7 +953,7 @@ protobuf==5.27.3
     #   google-api-core
     #   googleapis-common-protos
     #   proto-plus
-psutil==5.9.8
+psutil==6.0.0
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
@@ -989,7 +989,7 @@ pygments==2.18.0
     # via
     #   -r ./requirements.txt
     #   knack
-pyjwt[crypto]==2.8.0
+pyjwt[crypto]==2.9.0
     # via
     #   -r ./requirements.txt
     #   adal
@@ -1042,7 +1042,7 @@ pytz==2024.1
     # via
     #   -r ./requirements.txt
     #   drf-yasg
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   -r ./requirements.txt
     #   datapunt-config-loader
@@ -1086,7 +1086,7 @@ rfc3986==2.0.0
     # via
     #   -r ./requirements.txt
     #   oslo-config
-rpds-py==0.19.1
+rpds-py==0.20.0
     # via
     #   -r ./requirements.txt
     #   jsonschema
@@ -1150,6 +1150,7 @@ typing-extensions==4.12.2
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
+    #   azure-mgmt-containerservice
     #   azure-monitor-query
     #   azure-storage-blob
     #   black
