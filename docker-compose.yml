@@ -28,7 +28,7 @@ x-app: &base-app
 
 services:
   database:
-    image: amsterdam/postgres12
+    image: postgis/postgis:15-3.4
     ports:
       - 5432
     environment:
