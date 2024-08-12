@@ -73,4 +73,3 @@ services:
       <<: *base-app-env
       USE_JWKS_TEST_KEY: 'true'
       SECRET_KEY: 'insecure'
-      DATABASE_NAME: 'test'
