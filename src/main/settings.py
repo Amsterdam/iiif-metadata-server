@@ -220,6 +220,11 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
+        "django.db.backend": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
         "opencensus": {"handlers": ["console"], "level": "WARNING", "propagate": False},
         "azure.core.pipeline.policies.http_logging_policy": {
             "handlers": ["console"],
