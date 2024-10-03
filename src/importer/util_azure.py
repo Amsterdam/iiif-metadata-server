@@ -5,6 +5,7 @@ import shutil
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 from django.conf import settings
+from main.azure_settings import Azure
 
 log = logging.getLogger(__name__)
 
@@ -15,9 +16,9 @@ def get_container_client():
             settings.AZURITE_STORAGE_CONNECTION_STRING
         )
     else:
-        default_credential = DefaultAzureCredential()
+        azure = Azure()
         blob_service_client = BlobServiceClient(
-            settings.STORAGE_ACCOUNT_URL, credential=default_credential
+            settings.STORAGE_ACCOUNT_URL, credential=azure.auth.credential
         )
 
     return blob_service_client
