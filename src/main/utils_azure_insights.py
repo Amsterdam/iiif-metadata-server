@@ -41,7 +41,7 @@ class AzureLogHandlerWithAppName(AzureLogHandler):
 def create_azure_log_handler_config(connection_string, app_name):
     AzureLogHandlerWithAppName.set_app_name(app_name)
     return {
-        "level": "DEBUG",
+        "level": "INFO",
         "()": AzureLogHandlerWithAppName,
         "connection_string": connection_string,
         "formatter": "json",
