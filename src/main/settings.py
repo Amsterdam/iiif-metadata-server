@@ -247,7 +247,6 @@ if APPLICATIONINSIGHTS_CONNECTION_STRING:
     LOGGING["handlers"]["azure"] = create_azure_log_handler_config(
         APPLICATIONINSIGHTS_CONNECTION_STRING, APP_NAME
     )
-    config_integration.trace_integrations(["none"])
 
     LOGGING["root"]["handlers"].append("azure")
     for logger_name, logger_details in LOGGING["loggers"].items():
