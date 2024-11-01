@@ -106,7 +106,7 @@ azure-common==1.1.28
     #   azure-synapse-artifacts
     #   azure-synapse-managedprivateendpoints
     #   azure-synapse-spark
-azure-core==1.31.0
+azure-core==1.32.0
     # via
     #   -r requirements.in
     #   azure-appconfiguration
@@ -186,7 +186,7 @@ azure-mgmt-containerregistry==10.3.0
     # via azure-cli
 azure-mgmt-containerservice==32.0.0
     # via azure-cli
-azure-mgmt-core==1.4.0
+azure-mgmt-core==1.5.0
     # via
     #   azure-cli-core
     #   azure-mgmt-advisor
@@ -755,7 +755,7 @@ requests-oauthlib==2.0.0
     # via msrest
 rfc3986==2.0.0
     # via oslo-config
-rpds-py==0.20.0
+rpds-py==0.20.1
     # via
     #   jsonschema
     #   referencing
