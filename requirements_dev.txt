@@ -7,10 +7,12 @@
 asgiref==3.8.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   django
     #   django-cors-headers
 attrs==24.2.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   jsonschema
     #   referencing
@@ -28,22 +30,20 @@ azure-core==1.32.0
 azure-identity==1.19.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   opencensus-ext-azure
 azure-keyvault==4.2.0
     # via -r ./requirements.txt
-azure-keyvault-administration==4.4.0b2
+azure-keyvault-certificates==4.9.0
     # via
     #   -r ./requirements.txt
-    #   azure-cli
-azure-keyvault-certificates==4.7.0
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
     #   azure-keyvault
+azure-keyvault-keys==4.10.0
 azure-keyvault-keys==4.10.0
     # via
     #   -r ./requirements.txt
     #   azure-keyvault
+azure-keyvault-secrets==4.9.0
 azure-keyvault-secrets==4.9.0
     # via
     #   -r ./requirements.txt
@@ -54,6 +54,7 @@ black==24.10.0
     # via -r requirements_dev.in
 cachetools==5.5.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   google-auth
 certifi==2024.8.30
@@ -67,10 +68,11 @@ cffi==1.17.1
 charset-normalizer==3.4.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   requests
 click==8.1.7
     # via black
-coverage[toml]==7.6.9
+coverage[toml]==7.6.8
     # via pytest-cov
 cryptography==44.0.0
     # via
@@ -83,14 +85,18 @@ cryptography==44.0.0
     #   pyjwt
 datapunt-authorization-django==1.3.3
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 datapunt-config-loader==1.1.2
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   datapunt-objectstore
 datapunt-objectstore==2020.9.7
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 debtcollector==3.0.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   oslo-config
     #   oslo-utils
@@ -98,9 +104,11 @@ debtcollector==3.0.0
 defusedxml==0.7.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   djangorestframework-xml
-django==5.1.4
+django==5.1.3
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   datapunt-authorization-django
     #   django-cors-headers
@@ -113,16 +121,21 @@ django==5.1.4
     #   opencensus-ext-django
 django-cors-headers==4.6.0
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 django-debug-toolbar==4.4.6
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 django-extensions==3.2.3
+    # via -r ./requirements.txt
     # via -r ./requirements.txt
 django-filter==24.3
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   djangorestframework-gis
 djangorestframework==3.15.2
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   djangorestframework-csv
     #   djangorestframework-gis
@@ -132,52 +145,67 @@ djangorestframework==3.15.2
 djangorestframework-csv==3.0.2
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   drf-amsterdam
 djangorestframework-gis==1.1
+    # via -r ./requirements.txt
     # via -r ./requirements.txt
 djangorestframework-xml==2.0.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   drf-amsterdam
 drf-amsterdam==1.0.1
+    # via -r ./requirements.txt
     # via -r ./requirements.txt
 drf-extensions==0.7.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   drf-amsterdam
 drf-yasg==1.21.8
+    # via -r ./requirements.txt
     # via -r ./requirements.txt
 exceptiongroup==1.2.2
     # via pytest
 factory-boy==3.3.1
     # via -r requirements_dev.in
-faker==33.1.0
+faker==33.0.0
     # via factory-boy
+google-api-core==2.23.0
 google-api-core==2.23.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   opencensus
+google-auth==2.36.0
 google-auth==2.36.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   google-api-core
 googleapis-common-protos==1.66.0
+googleapis-common-protos==1.66.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   google-api-core
 idna==3.10
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   requests
     #   yarl
 inflection==0.5.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   drf-yasg
 iniconfig==2.0.0
     # via pytest
 iso8601==2.1.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   keystoneauth1
     #   oslo-utils
@@ -193,30 +221,25 @@ isort==5.13.2
 jsonschema==4.23.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   datapunt-config-loader
 jsonschema-specifications==2024.10.1
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   jsonschema
 jwcrypto==1.5.6
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   datapunt-authorization-django
+keystoneauth1==5.9.1
 keystoneauth1==5.9.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   python-keystoneclient
-knack==0.11.0
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli-core
-microsoft-security-utilities-secret-masker==1.0.0b3
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli-core
-model-bakery==1.20.0
-    # via -r requirements_dev.in
-msal[broker]==1.31.0
+msal==1.31.1
     # via
     #   -r ./requirements.txt
     #   azure-identity
@@ -228,62 +251,19 @@ msal-extensions==1.2.0
 msgpack==1.1.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   oslo-serialization
-msrest==0.7.1
-    # via
-    #   -r ./requirements.txt
-    #   azure-data-tables
-    #   azure-mgmt-advisor
-    #   azure-mgmt-appcontainers
-    #   azure-mgmt-applicationinsights
-    #   azure-mgmt-batchai
-    #   azure-mgmt-billing
-    #   azure-mgmt-botservice
-    #   azure-mgmt-cdn
-    #   azure-mgmt-databoxedge
-    #   azure-mgmt-datalake-store
-    #   azure-mgmt-datamigration
-    #   azure-mgmt-devtestlabs
-    #   azure-mgmt-dns
-    #   azure-mgmt-eventgrid
-    #   azure-mgmt-eventhub
-    #   azure-mgmt-extendedlocation
-    #   azure-mgmt-iotcentral
-    #   azure-mgmt-iothubprovisioningservices
-    #   azure-mgmt-loganalytics
-    #   azure-mgmt-managementgroups
-    #   azure-mgmt-maps
-    #   azure-mgmt-marketplaceordering
-    #   azure-mgmt-media
-    #   azure-mgmt-monitor
-    #   azure-mgmt-msi
-    #   azure-mgmt-policyinsights
-    #   azure-mgmt-privatedns
-    #   azure-mgmt-sqlvirtualmachine
-    #   azure-mgmt-synapse
-    #   azure-mgmt-trafficmanager
-    #   azure-multiapi-storage
-    #   azure-synapse-accesscontrol
-    #   azure-synapse-managedprivateendpoints
-    #   azure-synapse-spark
-    #   msrestazure
-msrestazure==0.6.4.post1
-    # via
-    #   -r ./requirements.txt
-    #   azure-batch
-    #   azure-cli-core
-    #   azure-mgmt-devtestlabs
-multidict==6.1.0
-    # via yarl
 mypy-extensions==1.0.0
     # via black
 netaddr==1.3.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   oslo-config
     #   oslo-utils
 opencensus==0.11.4
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   opencensus-ext-azure
     #   opencensus-ext-django
@@ -293,40 +273,56 @@ opencensus==0.11.4
 opencensus-context==0.1.3
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   opencensus
 opencensus-ext-azure==1.1.13
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 opencensus-ext-django==0.8.0
+    # via -r ./requirements.txt
     # via -r ./requirements.txt
 opencensus-ext-logging==0.1.1
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 opencensus-ext-postgresql==0.1.3
     # via -r ./requirements.txt
+    # via -r ./requirements.txt
 opencensus-ext-requests==0.8.0
+    # via -r ./requirements.txt
     # via -r ./requirements.txt
 os-service-types==1.7.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   keystoneauth1
+oslo-config==9.7.0
 oslo-config==9.7.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   python-keystoneclient
 oslo-i18n==6.5.0
+oslo-i18n==6.5.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   oslo-config
     #   oslo-utils
     #   python-keystoneclient
 oslo-serialization==5.6.0
+oslo-serialization==5.6.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   python-keystoneclient
-oslo-utils==8.0.0
+oslo-utils==7.4.0
+oslo-utils==7.4.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   oslo-serialization
     #   python-keystoneclient
+packaging==24.2
 packaging==24.2
     # via
     #   -r ./requirements.txt
@@ -335,19 +331,11 @@ packaging==24.2
     #   oslo-utils
     #   pytest
     #   python-keystoneclient
-parameterized==0.9.0
-    # via -r requirements_dev.in
-paramiko==3.5.0
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
-    #   fabric
-    #   scp
-    #   sshtunnel
 pathspec==0.12.1
     # via black
 pbr==6.1.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   keystoneauth1
     #   os-service-types
@@ -355,10 +343,6 @@ pbr==6.1.0
     #   oslo-serialization
     #   python-keystoneclient
     #   stevedore
-pkginfo==1.12.0
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli-core
 platformdirs==4.3.6
     # via black
 pluggy==1.5.0
@@ -372,9 +356,11 @@ propcache==0.2.1
 proto-plus==1.25.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   google-api-core
 protobuf==5.29.1
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   google-api-core
     #   googleapis-common-protos
@@ -384,34 +370,40 @@ psutil==6.1.0
     #   -r ./requirements.txt
     #   opencensus-ext-azure
     #   oslo-utils
+    #   oslo-utils
 psycopg2-binary==2.9.10
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   opencensus-ext-postgresql
 pyasn1==0.6.1
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   pyasn1-modules
     #   rsa
 pyasn1-modules==0.4.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   google-auth
 pycparser==2.22
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   cffi
 pyflakes==3.2.0
     # via autoflake
-pyjwt[crypto]==2.10.1
+pyjwt[crypto]==2.10.0
     # via
     #   -r ./requirements.txt
     #   msal
 pyparsing==3.2.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   oslo-utils
-pytest==8.3.4
+pytest==8.3.3
     # via
     #   pytest-cov
     #   pytest-django
@@ -427,29 +419,33 @@ python-dateutil==2.9.0.post0
 python-keystoneclient==5.5.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   datapunt-objectstore
 python-swiftclient==4.6.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   datapunt-objectstore
 pytz==2024.2
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   drf-yasg
 pyyaml==6.0.2
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   datapunt-config-loader
     #   drf-yasg
     #   oslo-config
     #   oslo-utils
-    #   pycomposefile
-    #   vcrpy
 referencing==0.35.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   jsonschema
     #   jsonschema-specifications
+requests==2.32.3
 requests==2.32.3
     # via
     #   -r ./requirements.txt
@@ -466,43 +462,40 @@ requests==2.32.3
 rfc3986==2.0.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   oslo-config
-rpds-py==0.22.0
+rpds-py==0.21.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   jsonschema
     #   referencing
 rsa==4.9
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   google-auth
-scp==0.13.6
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
-semver==2.13.0
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
 six==1.16.0
     # via
     #   -r ./requirements.txt
-    #   azure-cli
     #   azure-core
     #   opencensus
     #   python-dateutil
 sqlparse==0.5.2
+sqlparse==0.5.2
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   django
     #   django-debug-toolbar
 stevedore==5.4.0
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   keystoneauth1
     #   oslo-config
     #   python-keystoneclient
-tomli==2.2.1
+tomli==2.1.0
     # via
     #   autoflake
     #   black
@@ -512,6 +505,7 @@ toolz==1.0.0
     # via -r ./requirements.txt
 typing-extensions==4.12.2
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   asgiref
     #   azure-core
@@ -524,42 +518,31 @@ typing-extensions==4.12.2
     #   faker
     #   jwcrypto
     #   keystoneauth1
-    #   multidict
 tzdata==2024.2
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   oslo-serialization
     #   oslo-utils
 uritemplate==4.1.1
     # via
     #   -r ./requirements.txt
+    #   -r ./requirements.txt
     #   drf-yasg
 urllib3==2.2.3
     # via
     #   -r ./requirements.txt
     #   requests
-    #   vcrpy
-vcrpy==6.0.2
-    # via -r requirements_dev.in
-websocket-client==1.3.3
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
 wrapt==1.17.0
     # via
+    #   -r ./requirements.txt
     #   -r ./requirements.txt
     #   debtcollector
     #   opencensus-ext-requests
     #   vcrpy
 xmltodict==0.14.2
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
-yarl==1.18.3
-    # via vcrpy
+    # via -r ./requirements.txt
 
 # The following packages are considered to be unsafe in a requirements file:
 setuptools==75.6.0
-    # via
-    #   -r ./requirements.txt
-    #   azure-cli
+    # via -r ./requirements.txt

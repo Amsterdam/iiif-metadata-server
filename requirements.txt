@@ -110,7 +110,9 @@ drf-yasg==1.21.8
 google-api-core==2.23.0
     # via opencensus
 google-auth==2.36.0
+google-auth==2.36.0
     # via google-api-core
+googleapis-common-protos==1.66.0
 googleapis-common-protos==1.66.0
     # via google-api-core
 idna==3.10
@@ -135,6 +137,7 @@ jwcrypto==1.5.6
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
+keystoneauth1==5.9.1
 keystoneauth1==5.9.1
     # via python-keystoneclient
 msal==1.31.1
@@ -171,18 +174,22 @@ opencensus-ext-requests==0.8.0
 os-service-types==1.7.0
     # via keystoneauth1
 oslo-config==9.7.0
+oslo-config==9.7.0
     # via python-keystoneclient
+oslo-i18n==6.5.0
 oslo-i18n==6.5.0
     # via
     #   oslo-config
     #   oslo-utils
     #   python-keystoneclient
 oslo-serialization==5.6.0
+oslo-serialization==5.6.0
     # via python-keystoneclient
 oslo-utils==8.0.0
     # via
     #   oslo-serialization
     #   python-keystoneclient
+packaging==24.2
 packaging==24.2
     # via
     #   drf-yasg
@@ -208,6 +215,7 @@ protobuf==5.29.1
 psutil==6.1.0
     # via
     #   opencensus-ext-azure
+    #   oslo-utils
     #   oslo-utils
 psycopg2-binary==2.9.10
     # via
@@ -271,6 +279,7 @@ six==1.17.0
     #   opencensus
     #   python-dateutil
 sqlparse==0.5.2
+sqlparse==0.5.2
     # via
     #   django
     #   django-debug-toolbar
@@ -291,6 +300,7 @@ typing-extensions==4.12.2
     #   azure-keyvault-secrets
     #   azure-storage-blob
     #   jwcrypto
+    #   keystoneauth1
     #   keystoneauth1
 tzdata==2024.2
     # via
