@@ -45,7 +45,7 @@ cffi==1.17.1
     # via cryptography
 charset-normalizer==3.4.0
     # via requests
-cryptography==43.0.3
+cryptography==44.0.0
     # via
     #   azure-identity
     #   azure-keyvault-keys
@@ -230,7 +230,7 @@ pyasn1-modules==0.4.1
     # via google-auth
 pycparser==2.22
     # via cffi
-pyjwt[crypto]==2.10.0
+pyjwt[crypto]==2.10.1
     # via
     #   msal
     #   pyjwt
