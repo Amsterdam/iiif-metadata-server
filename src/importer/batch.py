@@ -130,7 +130,7 @@ def add_wabo_dossier(
     # The intern number can be something like sdz_prewabo_1274 or sdc_33
     # If prewabo is present it is a prewabo dossier.
     dossier = x_dossier.get("intern_nummer")
-    m = re.match(r"([a-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
+    m = re.match(r"([A-Za-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
     if not m:
         log.error(f"Invalid intern_nummer {dossier} in {file_path}")
         return count, total_count
@@ -449,7 +449,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     total_count = 0
     file_count = 0
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search("WABO_.+\\.xml$", file_path)
+        wabo = re.search("\/WABO\/SD[A-Z]\/.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:

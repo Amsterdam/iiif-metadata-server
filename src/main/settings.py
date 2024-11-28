@@ -32,7 +32,7 @@ BOUWDOSSIER_READ_SCOPE = (
 BOUWDOSSIER_EXTENDED_SCOPE = "BD/X"  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
 WABO_BASE_URL = os.getenv(
-    "WABO_BASE_URL", "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/"
+    "WABO_BASE_URL", "J:/INZAGEDOCS/Datapunt/"
 )
 
 ALLOWED_HOSTS = ["*"]
