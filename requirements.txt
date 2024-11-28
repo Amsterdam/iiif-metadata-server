@@ -200,7 +200,7 @@ portalocker==2.10.1
     # via msal-extensions
 proto-plus==1.25.0
     # via google-api-core
-protobuf==5.29.1
+protobuf==5.29.0
     # via
     #   google-api-core
     #   googleapis-common-protos
