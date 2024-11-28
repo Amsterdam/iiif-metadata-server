@@ -170,7 +170,7 @@ exceptiongroup==1.2.2
     # via pytest
 factory-boy==3.3.1
     # via -r requirements_dev.in
-faker==33.0.0
+faker==33.1.0
     # via factory-boy
 google-api-core==2.23.0
 google-api-core==2.23.0
@@ -394,7 +394,7 @@ pycparser==2.22
     #   cffi
 pyflakes==3.2.0
     # via autoflake
-pyjwt[crypto]==2.10.0
+pyjwt[crypto]==2.10.1
     # via
     #   -r ./requirements.txt
     #   msal
@@ -495,7 +495,7 @@ stevedore==5.4.0
     #   keystoneauth1
     #   oslo-config
     #   python-keystoneclient
-tomli==2.1.0
+tomli==2.2.1
     # via
     #   autoflake
     #   black
