@@ -95,10 +95,10 @@ class Command(BaseCommand):
         log.info("Metadata import started")
 
         try:
-            if options["bag_source"] == BAG_SOURCE_API:
-                self.import_bag_from_api()
-            elif options["bag_source"] == BAG_SOURCE_AZURE_STORAGE:
-                self.import_bag_from_azure_storage()
+            # if options["bag_source"] == BAG_SOURCE_API:
+            #     self.import_bag_from_api()
+            # elif options["bag_source"] == BAG_SOURCE_AZURE_STORAGE:
+            #     self.import_bag_from_azure_storage()
 
             dossier_path = settings.DATA_DIR
             if not options["skipgetfiles"]:

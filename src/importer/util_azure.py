@@ -52,17 +52,16 @@ def download_blob_to_file(container_name, blob_name, output_dir):
 
 
 def download_all_files_from_container(container_name, output_dir=settings.DATA_DIR):
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
     log.info(f"Downloading files from {container_name}")
     container_client = get_blob_container_client(container_name)
     blob_list = container_client.list_blobs()
 
     files = []
     for blob in blob_list:
-        file_path = f"{output_dir}/{blob.name}"
-        with open(f"{output_dir}/{blob.name}", "wb") as file:
+        file_path = os.path.join(output_dir, blob.name)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+        with open(file_path, "wb") as file:
             file.write(container_client.download_blob(blob.name).readall())
             files.append(file_path)
     return files

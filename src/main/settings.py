@@ -198,7 +198,7 @@ LOGGING = {
             "propagate": False,
         },
         "importer": {
-            "level": "WARNING",
+            "level": "INFO", #"WARNING",
             "handlers": ["console"],
             "propagate": False,
         },
