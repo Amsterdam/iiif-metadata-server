@@ -200,7 +200,7 @@ portalocker==2.10.1
     # via msal-extensions
 proto-plus==1.25.0
     # via google-api-core
-protobuf==5.29.0
+protobuf==5.29.1
     # via
     #   google-api-core
     #   googleapis-common-protos
@@ -259,7 +259,7 @@ requests==2.32.3
     #   python-swiftclient
 rfc3986==2.0.0
     # via oslo-config
-rpds-py==0.22.1
+rpds-py==0.22.3
     # via
     #   jsonschema
     #   referencing
