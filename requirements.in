@@ -7,7 +7,6 @@ jwcrypto
 psycopg2-binary
 datapunt-objectstore
 xmltodict
-setuptools  # Needed to solve Trivy security risk
 
 # Django
 django
