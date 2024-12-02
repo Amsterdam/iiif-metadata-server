@@ -471,5 +471,3 @@ wrapt==1.17.0
     #   vcrpy
 xmltodict==0.14.2
     # via -r ./requirements.txt
-yarl==1.18.3
-    # via vcrpy
