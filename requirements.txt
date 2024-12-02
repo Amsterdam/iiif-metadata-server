@@ -12,6 +12,91 @@ attrs==24.2.0
     # via
     #   jsonschema
     #   referencing
+azure-appconfiguration==1.7.1
+    # via azure-cli
+azure-batch==14.2.0
+    # via azure-cli
+azure-cli==2.67.0
+    # via -r requirements.in
+azure-cli-core==2.67.0
+    # via azure-cli
+azure-cli-telemetry==1.1.0
+    # via azure-cli-core
+azure-common==1.1.28
+    # via
+    #   azure-batch
+    #   azure-keyvault-administration
+    #   azure-keyvault-certificates
+    #   azure-keyvault-keys
+    #   azure-keyvault-secrets
+    #   azure-mgmt-advisor
+    #   azure-mgmt-apimanagement
+    #   azure-mgmt-appconfiguration
+    #   azure-mgmt-appcontainers
+    #   azure-mgmt-applicationinsights
+    #   azure-mgmt-authorization
+    #   azure-mgmt-batch
+    #   azure-mgmt-batchai
+    #   azure-mgmt-billing
+    #   azure-mgmt-botservice
+    #   azure-mgmt-cdn
+    #   azure-mgmt-cognitiveservices
+    #   azure-mgmt-compute
+    #   azure-mgmt-containerinstance
+    #   azure-mgmt-containerregistry
+    #   azure-mgmt-containerservice
+    #   azure-mgmt-cosmosdb
+    #   azure-mgmt-databoxedge
+    #   azure-mgmt-datalake-store
+    #   azure-mgmt-datamigration
+    #   azure-mgmt-devtestlabs
+    #   azure-mgmt-dns
+    #   azure-mgmt-eventgrid
+    #   azure-mgmt-eventhub
+    #   azure-mgmt-extendedlocation
+    #   azure-mgmt-hdinsight
+    #   azure-mgmt-imagebuilder
+    #   azure-mgmt-iotcentral
+    #   azure-mgmt-iothub
+    #   azure-mgmt-iothubprovisioningservices
+    #   azure-mgmt-keyvault
+    #   azure-mgmt-loganalytics
+    #   azure-mgmt-managementgroups
+    #   azure-mgmt-maps
+    #   azure-mgmt-marketplaceordering
+    #   azure-mgmt-media
+    #   azure-mgmt-monitor
+    #   azure-mgmt-msi
+    #   azure-mgmt-mysqlflexibleservers
+    #   azure-mgmt-netapp
+    #   azure-mgmt-policyinsights
+    #   azure-mgmt-postgresqlflexibleservers
+    #   azure-mgmt-privatedns
+    #   azure-mgmt-rdbms
+    #   azure-mgmt-recoveryservices
+    #   azure-mgmt-recoveryservicesbackup
+    #   azure-mgmt-redhatopenshift
+    #   azure-mgmt-redis
+    #   azure-mgmt-resource
+    #   azure-mgmt-search
+    #   azure-mgmt-security
+    #   azure-mgmt-servicebus
+    #   azure-mgmt-servicefabric
+    #   azure-mgmt-servicefabricmanagedclusters
+    #   azure-mgmt-servicelinker
+    #   azure-mgmt-signalr
+    #   azure-mgmt-sql
+    #   azure-mgmt-sqlvirtualmachine
+    #   azure-mgmt-storage
+    #   azure-mgmt-synapse
+    #   azure-mgmt-trafficmanager
+    #   azure-mgmt-web
+    #   azure-multiapi-storage
+    #   azure-storage-common
+    #   azure-synapse-accesscontrol
+    #   azure-synapse-artifacts
+    #   azure-synapse-managedprivateendpoints
+    #   azure-synapse-spark
 azure-core==1.32.0
     # via
     #   -r requirements.in
@@ -21,6 +106,12 @@ azure-core==1.32.0
     #   azure-keyvault-secrets
     #   azure-storage-blob
     #   opencensus-ext-azure
+azure-cosmos==3.2.0
+    # via azure-cli
+azure-data-tables==12.4.0
+    # via azure-cli
+azure-datalake-store==0.0.53
+    # via azure-cli
 azure-identity==1.19.0
     # via
     #   -r requirements.in
@@ -35,8 +126,213 @@ azure-keyvault-secrets==4.9.0
     # via
     #   -r requirements.in
     #   azure-keyvault
+azure-mgmt-advisor==9.0.0
+    # via azure-cli
+azure-mgmt-apimanagement==4.0.0
+    # via azure-cli
+azure-mgmt-appconfiguration==3.1.0
+    # via azure-cli
+azure-mgmt-appcontainers==2.0.0
+    # via azure-cli
+azure-mgmt-applicationinsights==1.0.0
+    # via azure-cli
+azure-mgmt-authorization==4.0.0
+    # via azure-cli
+azure-mgmt-batch==17.3.0
+    # via azure-cli
+azure-mgmt-batchai==7.0.0b1
+    # via azure-cli
+azure-mgmt-billing==6.0.0
+    # via azure-cli
+azure-mgmt-botservice==2.0.0
+    # via azure-cli
+azure-mgmt-cdn==12.0.0
+    # via azure-cli
+azure-mgmt-cognitiveservices==13.5.0
+    # via azure-cli
+azure-mgmt-compute==33.0.0
+    # via azure-cli
+azure-mgmt-containerinstance==10.2.0b1
+    # via azure-cli
+azure-mgmt-containerregistry==10.3.0
+    # via azure-cli
+azure-mgmt-containerservice==33.0.0
+    # via azure-cli
+azure-mgmt-core==1.5.0
+    # via
+    #   azure-cli-core
+    #   azure-mgmt-advisor
+    #   azure-mgmt-apimanagement
+    #   azure-mgmt-appconfiguration
+    #   azure-mgmt-appcontainers
+    #   azure-mgmt-applicationinsights
+    #   azure-mgmt-authorization
+    #   azure-mgmt-batch
+    #   azure-mgmt-batchai
+    #   azure-mgmt-billing
+    #   azure-mgmt-botservice
+    #   azure-mgmt-cdn
+    #   azure-mgmt-cognitiveservices
+    #   azure-mgmt-compute
+    #   azure-mgmt-containerinstance
+    #   azure-mgmt-containerregistry
+    #   azure-mgmt-containerservice
+    #   azure-mgmt-cosmosdb
+    #   azure-mgmt-databoxedge
+    #   azure-mgmt-datalake-store
+    #   azure-mgmt-datamigration
+    #   azure-mgmt-dns
+    #   azure-mgmt-eventgrid
+    #   azure-mgmt-eventhub
+    #   azure-mgmt-extendedlocation
+    #   azure-mgmt-hdinsight
+    #   azure-mgmt-imagebuilder
+    #   azure-mgmt-iotcentral
+    #   azure-mgmt-iothub
+    #   azure-mgmt-iothubprovisioningservices
+    #   azure-mgmt-keyvault
+    #   azure-mgmt-loganalytics
+    #   azure-mgmt-managementgroups
+    #   azure-mgmt-maps
+    #   azure-mgmt-marketplaceordering
+    #   azure-mgmt-media
+    #   azure-mgmt-monitor
+    #   azure-mgmt-msi
+    #   azure-mgmt-mysqlflexibleservers
+    #   azure-mgmt-netapp
+    #   azure-mgmt-policyinsights
+    #   azure-mgmt-postgresqlflexibleservers
+    #   azure-mgmt-privatedns
+    #   azure-mgmt-rdbms
+    #   azure-mgmt-recoveryservices
+    #   azure-mgmt-recoveryservicesbackup
+    #   azure-mgmt-redhatopenshift
+    #   azure-mgmt-redis
+    #   azure-mgmt-resource
+    #   azure-mgmt-search
+    #   azure-mgmt-security
+    #   azure-mgmt-servicebus
+    #   azure-mgmt-servicefabric
+    #   azure-mgmt-servicefabricmanagedclusters
+    #   azure-mgmt-servicelinker
+    #   azure-mgmt-signalr
+    #   azure-mgmt-sql
+    #   azure-mgmt-sqlvirtualmachine
+    #   azure-mgmt-storage
+    #   azure-mgmt-synapse
+    #   azure-mgmt-trafficmanager
+    #   azure-mgmt-web
+    #   azure-synapse-artifacts
+azure-mgmt-cosmosdb==9.6.0
+    # via azure-cli
+azure-mgmt-databoxedge==1.0.0
+    # via azure-cli
+azure-mgmt-datalake-store==1.1.0b1
+    # via azure-cli
+azure-mgmt-datamigration==10.0.0
+    # via azure-cli
+azure-mgmt-devtestlabs==4.0.0
+    # via azure-cli
+azure-mgmt-dns==8.0.0
+    # via azure-cli
+azure-mgmt-eventgrid==10.2.0b2
+    # via azure-cli
+azure-mgmt-eventhub==10.1.0
+    # via azure-cli
+azure-mgmt-extendedlocation==1.0.0b2
+    # via azure-cli
+azure-mgmt-hdinsight==9.0.0b3
+    # via azure-cli
+azure-mgmt-imagebuilder==1.3.0
+    # via azure-cli
+azure-mgmt-iotcentral==10.0.0b2
+    # via azure-cli
+azure-mgmt-iothub==3.0.0
+    # via azure-cli
+azure-mgmt-iothubprovisioningservices==1.1.0
+    # via azure-cli
+azure-mgmt-keyvault==10.3.0
+    # via azure-cli
+azure-mgmt-loganalytics==13.0.0b4
+    # via azure-cli
+azure-mgmt-managementgroups==1.0.0
+    # via azure-cli
+azure-mgmt-maps==2.0.0
+    # via azure-cli
+azure-mgmt-marketplaceordering==1.1.0
+    # via azure-cli
+azure-mgmt-media==9.0.0
+    # via azure-cli
+azure-mgmt-monitor==5.0.1
+    # via azure-cli
+azure-mgmt-msi==7.0.0
+    # via azure-cli
+azure-mgmt-mysqlflexibleservers==1.0.0b2
+    # via azure-cli
+azure-mgmt-netapp==10.1.0
+    # via azure-cli
+azure-mgmt-policyinsights==1.1.0b4
+    # via azure-cli
+azure-mgmt-postgresqlflexibleservers==1.1.0b1
+    # via azure-cli
+azure-mgmt-privatedns==1.0.0
+    # via azure-cli
+azure-mgmt-rdbms==10.2.0b17
+    # via azure-cli
+azure-mgmt-recoveryservices==3.0.0
+    # via azure-cli
+azure-mgmt-recoveryservicesbackup==9.1.0
+    # via azure-cli
+azure-mgmt-redhatopenshift==1.5.0
+    # via azure-cli
+azure-mgmt-redis==14.4.0
+    # via azure-cli
+azure-mgmt-resource==23.1.1
+    # via azure-cli
+azure-mgmt-search==9.1.0
+    # via azure-cli
+azure-mgmt-security==6.0.0
+    # via azure-cli
+azure-mgmt-servicebus==8.2.1
+    # via azure-cli
+azure-mgmt-servicefabric==2.1.0
+    # via azure-cli
+azure-mgmt-servicefabricmanagedclusters==2.0.0b6
+    # via azure-cli
+azure-mgmt-servicelinker==1.2.0b3
+    # via azure-cli
+azure-mgmt-signalr==2.0.0b2
+    # via azure-cli
+azure-mgmt-sql==4.0.0b20
+    # via azure-cli
+azure-mgmt-sqlvirtualmachine==1.0.0b5
+    # via azure-cli
+azure-mgmt-storage==21.2.0
+    # via azure-cli
+azure-mgmt-synapse==2.1.0b5
+    # via azure-cli
+azure-mgmt-trafficmanager==1.0.0
+    # via azure-cli
+azure-mgmt-web==7.2.0
+    # via azure-cli
+azure-monitor-query==1.2.0
+    # via azure-cli
+azure-multiapi-storage==1.3.0
+    # via azure-cli
 azure-storage-blob==12.24.0
     # via -r requirements.in
+azure-storage-common==1.4.2
+    # via azure-cli
+azure-synapse-accesscontrol==0.5.0
+    # via azure-cli
+azure-synapse-artifacts==0.19.0
+    # via azure-cli
+azure-synapse-managedprivateendpoints==0.4.0
+    # via azure-cli
+azure-synapse-spark==0.2.0
+    # via azure-cli
+bcrypt==4.2.1
+    # via paramiko
 cachetools==5.5.0
     # via google-auth
 certifi==2024.8.30
@@ -45,6 +341,8 @@ cffi==1.17.1
     # via cryptography
 charset-normalizer==3.4.0
     # via requests
+colorama==0.4.6
+    # via azure-cli
 cryptography==44.0.0
     # via
     #   azure-identity
@@ -107,6 +405,8 @@ drf-extensions==0.7.1
     # via drf-amsterdam
 drf-yasg==1.21.8
     # via -r requirements.in
+fabric==3.2.2
+    # via azure-cli
 google-api-core==2.23.0
     # via opencensus
 google-auth==2.36.0
@@ -128,6 +428,40 @@ isodate==0.7.2
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
+    #   azure-mgmt-apimanagement
+    #   azure-mgmt-appconfiguration
+    #   azure-mgmt-authorization
+    #   azure-mgmt-batch
+    #   azure-mgmt-cognitiveservices
+    #   azure-mgmt-compute
+    #   azure-mgmt-containerinstance
+    #   azure-mgmt-containerregistry
+    #   azure-mgmt-containerservice
+    #   azure-mgmt-cosmosdb
+    #   azure-mgmt-hdinsight
+    #   azure-mgmt-imagebuilder
+    #   azure-mgmt-iothub
+    #   azure-mgmt-keyvault
+    #   azure-mgmt-mysqlflexibleservers
+    #   azure-mgmt-netapp
+    #   azure-mgmt-postgresqlflexibleservers
+    #   azure-mgmt-rdbms
+    #   azure-mgmt-recoveryservices
+    #   azure-mgmt-recoveryservicesbackup
+    #   azure-mgmt-redhatopenshift
+    #   azure-mgmt-redis
+    #   azure-mgmt-resource
+    #   azure-mgmt-search
+    #   azure-mgmt-security
+    #   azure-mgmt-servicebus
+    #   azure-mgmt-servicefabric
+    #   azure-mgmt-servicefabricmanagedclusters
+    #   azure-mgmt-servicelinker
+    #   azure-mgmt-signalr
+    #   azure-mgmt-sql
+    #   azure-mgmt-storage
+    #   azure-mgmt-web
+    #   azure-monitor-query
     #   azure-storage-blob
 jsonschema==4.23.0
     # via datapunt-config-loader
@@ -148,10 +482,54 @@ msal-extensions==1.2.0
     # via azure-identity
 msgpack==1.1.0
     # via oslo-serialization
+msrest==0.7.1
+    # via
+    #   azure-data-tables
+    #   azure-mgmt-advisor
+    #   azure-mgmt-appcontainers
+    #   azure-mgmt-applicationinsights
+    #   azure-mgmt-batchai
+    #   azure-mgmt-billing
+    #   azure-mgmt-botservice
+    #   azure-mgmt-cdn
+    #   azure-mgmt-databoxedge
+    #   azure-mgmt-datalake-store
+    #   azure-mgmt-datamigration
+    #   azure-mgmt-devtestlabs
+    #   azure-mgmt-dns
+    #   azure-mgmt-eventgrid
+    #   azure-mgmt-eventhub
+    #   azure-mgmt-extendedlocation
+    #   azure-mgmt-iotcentral
+    #   azure-mgmt-iothubprovisioningservices
+    #   azure-mgmt-loganalytics
+    #   azure-mgmt-managementgroups
+    #   azure-mgmt-maps
+    #   azure-mgmt-marketplaceordering
+    #   azure-mgmt-media
+    #   azure-mgmt-monitor
+    #   azure-mgmt-msi
+    #   azure-mgmt-policyinsights
+    #   azure-mgmt-privatedns
+    #   azure-mgmt-sqlvirtualmachine
+    #   azure-mgmt-synapse
+    #   azure-mgmt-trafficmanager
+    #   azure-multiapi-storage
+    #   azure-synapse-accesscontrol
+    #   azure-synapse-managedprivateendpoints
+    #   azure-synapse-spark
+    #   msrestazure
+msrestazure==0.6.4.post1
+    # via
+    #   azure-batch
+    #   azure-cli-core
+    #   azure-mgmt-devtestlabs
 netaddr==1.3.0
     # via
     #   oslo-config
     #   oslo-utils
+oauthlib==3.2.2
+    # via requests-oauthlib
 opencensus==0.11.4
     # via
     #   opencensus-ext-azure
@@ -195,6 +573,12 @@ packaging==24.2
     #   drf-yasg
     #   oslo-utils
     #   python-keystoneclient
+paramiko==3.5.0
+    # via
+    #   azure-cli
+    #   fabric
+    #   scp
+    #   sshtunnel
 pbr==6.1.0
     # via
     #   keystoneauth1
@@ -229,10 +613,21 @@ pyasn1-modules==0.4.1
     # via google-auth
 pycparser==2.22
     # via cffi
+pygithub==1.59.1
+    # via azure-cli
+pygments==2.18.0
+    # via knack
 pyjwt[crypto]==2.10.1
     # via
     #   msal
-    #   pyjwt
+    #   pygithub
+pynacl==1.5.0
+    # via
+    #   azure-cli
+    #   paramiko
+    #   pygithub
+pyopenssl==24.3.0
+    # via azure-cli-core
 pyparsing==3.2.0
     # via oslo-utils
 python-dateutil==2.9.0.post0
@@ -283,6 +678,8 @@ sqlparse==0.5.2
     # via
     #   django
     #   django-debug-toolbar
+sshtunnel==0.1.5
+    # via azure-cli
 stevedore==5.4.0
     # via
     #   keystoneauth1
@@ -298,6 +695,19 @@ typing-extensions==4.12.2
     #   azure-keyvault-certificates
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
+    #   azure-mgmt-appconfiguration
+    #   azure-mgmt-compute
+    #   azure-mgmt-containerinstance
+    #   azure-mgmt-containerservice
+    #   azure-mgmt-cosmosdb
+    #   azure-mgmt-hdinsight
+    #   azure-mgmt-mysqlflexibleservers
+    #   azure-mgmt-postgresqlflexibleservers
+    #   azure-mgmt-redhatopenshift
+    #   azure-mgmt-servicebus
+    #   azure-mgmt-servicelinker
+    #   azure-mgmt-sql
+    #   azure-monitor-query
     #   azure-storage-blob
     #   jwcrypto
     #   keystoneauth1
@@ -309,10 +719,22 @@ tzdata==2024.2
 uritemplate==4.1.1
     # via drf-yasg
 urllib3==2.2.3
-    # via requests
+    # via
+    #   azure-cli
+    #   requests
+websocket-client==1.3.3
+    # via azure-cli
 wrapt==1.17.0
     # via
     #   debtcollector
     #   opencensus-ext-requests
 xmltodict==0.14.2
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   azure-cli
+
+# The following packages are considered to be unsafe in a requirements file:
+setuptools==75.6.0
+    # via
+    #   -r requirements.in
+    #   azure-cli
