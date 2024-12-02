@@ -2,9 +2,12 @@ import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.db import transaction
 
-from bag.bag_loader import BagLoader
-from bag.koppeltabel_loader import KoppeltabelLoader
+from bag import bag_api
+from bag.bag_controller import BagController
+from bag.models import BagUpdatedAt
+
 from importer.batch import (
     add_bag_ids_to_pre_wabo,
     add_bag_ids_to_wabo,
@@ -30,18 +33,37 @@ class Command(BaseCommand):
     help = "Import (pre)WABO dossiers and combine with BAG data from datadienst export"
 
     def import_bag_from_api(self):
-        log.info("Importing bag data from api")
-        bag = BagLoader()
-        truncate_tables(["bag"])
+        with transaction.atomic():
+            bag_zip_api = bag_api.Zip()
+            bag = BagController()
 
-        bag.import_tables_from_endpoint()
+            upserted_model_keys = {}
+            for bag_model in bag_zip_api.model_to_endpoint.keys():
+                records = bag_zip_api.get_records(bag_model)
+                upserted_model_keys[bag_model] = list(
+                    bag.upsert_records_in_database(bag_model, records)
+                )
 
-        # The link between Pand and Verblijfsobject is not available through the CSV API and needs to be
-        # constructed manually
-        koppeltabel = KoppeltabelLoader()
-        koppeltabel.load()
+            # Reversed order because of foreign key dependencies
+            reversed_model_keys = reversed(upserted_model_keys.keys())
+            for bag_model in reversed_model_keys:
+                bag.delete_nonmodified_table_records(
+                    bag_model, upserted_model_keys.get(bag_model)
+                )
 
-    def import_bag_from_azure_storage(self):
+            # We determine the rijtjeshuizen through raw SQL queries
+            bag.create_rijtjeshuizen_tables()
+
+            # save timestamp separately in db
+            BagUpdatedAt().save()
+
+            logger.info(
+                f"Bag import succeeded, updated_at {BagUpdatedAt.objects.last().updated_at}"
+            )
+
+    def import_bag_from_azure_storage(
+        self,
+    ):  # TODO: Vraag Terry of we dit nog gebruiken
         log.info("Importing bag data from azure storage")
         bag = BagLoader()
         truncate_tables(["bag"])
