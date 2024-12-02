@@ -304,7 +304,3 @@ wrapt==1.17.0
     #   opencensus-ext-requests
 xmltodict==0.14.2
     # via -r requirements.in
-
-# The following packages are considered to be unsafe in a requirements file:
-setuptools==75.6.0
-    # via -r requirements.in
