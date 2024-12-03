@@ -1161,4 +1161,106 @@
             </document>
         </documenten>
     </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[Overige bouwgerelateerde vergunning - Illegaal hotel.]]></dossier_titel>
+        <intern_nummer>SDC_34-16-0500</intern_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2016-11-24</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Leliegracht</straatnaam>
+                <huisnummer>2</huisnummer>
+                <huisletter>E</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010011211030</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012176413</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004161</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200011210974.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten></activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[Brief: Zienswijze stoppen activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\mhv\2746774.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168983/K-schijf/2746774.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[opstellen: besluit bestuursdwang]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\hhk\2753702.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168983/K-schijf/2753702.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[Overige bouwgerelateerde vergunning - Illegaal Hotel Nieuwendijk 87 (Haringpakkerssteeg 5 P)]]></dossier_titel>
+        <intern_nummer>SDC_34-16-0501</intern_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2016-10-24</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Nieuwendijk</straatnaam>
+                <huisnummer>8</huisnummer>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012106862</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012178332</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000003873</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012108513.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten></activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[opstellen: besluit bestuursdwang]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\hhk\2742229.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168076/K-schijf/2742229.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[maken bestuursdwang illegale hotels [spoed] (AHCSPK)]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\hhk\2742228.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168076/K-schijf/2742228.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NKL\02155737.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168076/Notitie/NKL 02155737.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
 </dossiers>
