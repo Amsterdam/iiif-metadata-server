@@ -450,7 +450,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     total_count = 0
     file_count = 0
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search(r"/WABO/SD[A-Z]/.+\.xml$", file_path)
+        wabo = re.search(r"/WABO/SD[A-Z]/.+\.xml$|WABO_.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
