@@ -781,6 +781,8 @@ microsoft-security-utilities-secret-masker==1.0.0b3
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
+model-bakery==1.20.0
+    # via -r requirements_dev.in
 msal[broker]==1.31.0
     # via
     #   -r ./requirements.txt
@@ -841,6 +843,8 @@ msrestazure==0.6.4.post1
     #   azure-batch
     #   azure-cli-core
     #   azure-mgmt-devtestlabs
+multidict==6.1.0
+    # via yarl
 mypy-extensions==1.0.0
     # via black
 netaddr==1.3.0
@@ -912,6 +916,8 @@ packaging==24.2
     #   oslo-utils
     #   pytest
     #   python-keystoneclient
+parameterized==0.9.0
+    # via -r requirements_dev.in
 paramiko==3.5.0
     # via
     #   -r ./requirements.txt
@@ -930,7 +936,7 @@ pbr==6.1.0
     #   oslo-serialization
     #   python-keystoneclient
     #   stevedore
-pkginfo==1.11.2
+pkginfo==1.12.0
     # via
     #   -r ./requirements.txt
     #   azure-cli-core
@@ -1054,6 +1060,8 @@ pyyaml==6.0.2
     #   drf-yasg
     #   oslo-config
     #   oslo-utils
+    #   pycomposefile
+    #   vcrpy
 referencing==0.35.1
     # via
     #   -r ./requirements.txt
@@ -1083,7 +1091,7 @@ rfc3986==2.0.0
     # via
     #   -r ./requirements.txt
     #   oslo-config
-rpds-py==0.21.0
+rpds-py==0.22.0
     # via
     #   -r ./requirements.txt
     #   jsonschema
@@ -1163,7 +1171,7 @@ typing-extensions==4.12.2
     #   faker
     #   jwcrypto
     #   keystoneauth1
-    #   keystoneauth1
+    #   multidict
 tzdata==2024.2
     # via
     #   -r ./requirements.txt
@@ -1178,6 +1186,9 @@ urllib3==2.2.3
     #   -r ./requirements.txt
     #   azure-cli
     #   requests
+    #   vcrpy
+vcrpy==6.0.2
+    # via -r requirements_dev.in
 websocket-client==1.3.3
     # via
     #   -r ./requirements.txt
@@ -1192,6 +1203,8 @@ xmltodict==0.14.2
     # via
     #   -r ./requirements.txt
     #   azure-cli
+yarl==1.18.3
+    # via vcrpy
 
 # The following packages are considered to be unsafe in a requirements file:
 setuptools==75.6.0

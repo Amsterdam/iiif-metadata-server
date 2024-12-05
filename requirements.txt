@@ -596,6 +596,8 @@ pbr==6.1.0
     #   oslo-serialization
     #   python-keystoneclient
     #   stevedore
+pkginfo==1.12.0
+    # via azure-cli-core
 portalocker==2.10.1
     # via msal-extensions
 proto-plus==1.25.0
@@ -672,7 +674,7 @@ requests==2.32.3
     #   python-swiftclient
 rfc3986==2.0.0
     # via oslo-config
-rpds-py==0.21.0
+rpds-py==0.22.0
     # via
     #   jsonschema
     #   referencing
