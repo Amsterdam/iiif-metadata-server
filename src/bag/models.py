@@ -198,16 +198,9 @@ class Standplaats(GeoModel, BagObject, FieldHelperMixin):
 
 class Verblijfsobjectpandrelatie(BagObject, FieldHelperMixin):
     id = models.AutoField(primary_key=True)
-    pand = models.ForeignKey(
-        "bag.Pand",
-        on_delete=models.SET_NULL,
-        null=True,
-    )
+    pand = models.ForeignKey("bag.Pand", on_delete=models.PROTECT)
     verblijfsobject = models.ForeignKey(
-        "bag.Verblijfsobject",
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
+        "bag.Verblijfsobject", blank=True, null=True, on_delete=models.PROTECT
     )
 
     class Meta:
