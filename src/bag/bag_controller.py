@@ -65,7 +65,7 @@ class BagController:
                 isinstance(obj, Nummeraanduiding)
                 and obj.verblijfsobject_id == "0363010011290888"
             )
-            and not (isinstance(obj, Pand) and obj.bouwblok_id == "03630012098117")
+            and not (isinstance(obj, Pand))
         )
 
     def upsert_table_data(self, bag_objects: iter):

@@ -79,6 +79,10 @@ class GeoModel(models.Model):
     class Meta:
         abstract = True
 
+class BagUpdatedAt(models.Model):
+    """automatisch opslaan wanneer Bag voor het laatst is aangepast"""
+
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Ligplaats(GeoModel, BagObject, FieldHelperMixin):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
@@ -191,11 +195,20 @@ class Standplaats(GeoModel, BagObject, FieldHelperMixin):
         db_table = "bag_standplaats"
 
 
-class Verblijfsobjectpandrelatie(FieldHelperMixin):
+class Verblijfsobjectpandrelatie(BagObject, FieldHelperMixin):
     id = models.AutoField(primary_key=True)
-    pand = models.ForeignKey("bag.Pand", on_delete=models.PROTECT)
+    pand = models.ForeignKey(
+        "bag.Pand",
+        db_column="ligtinpandenidentificatie",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     verblijfsobject = models.ForeignKey(
-        "bag.Verblijfsobject", blank=True, null=True, on_delete=models.PROTECT
+        "bag.Verblijfsobject",
+        db_column="verblijfsobjectenidentificatie",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     class Meta:

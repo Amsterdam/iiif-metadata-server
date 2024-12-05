@@ -7,17 +7,13 @@ from django.conf import settings
 from toolz import partial, pipe
 
 from bag.models import (
-    Bouwblok,
-    Buurt,
     Ligplaats,
     Nummeraanduiding,
     Openbareruimte,
     Pand,
-    Stadsdeel,
     Standplaats,
     Verblijfsobject,
     Verblijfsobjectpandrelatie,
-    Wijk,
 )
 from bag.utils import read_csv, retry
 
@@ -27,10 +23,6 @@ logger = logging.getLogger(__name__)
 class Zip:
     tmp_folder = "/tmp"
     model_to_endpoint = {
-        Stadsdeel: "gebieden_stadsdelen.csv.zip",
-        Wijk: "gebieden_wijken.csv.zip",
-        Buurt: "gebieden_buurten.csv.zip",
-        Bouwblok: "gebieden_bouwblokken.csv.zip",
         Ligplaats: "bag_ligplaatsen.csv.zip",
         Openbareruimte: "bag_openbareruimtes.csv.zip",
         Standplaats: "bag_standplaatsen.csv.zip",
