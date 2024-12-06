@@ -23,9 +23,9 @@ class Command(BaseCommand):
     help = "Import (pre)WABO dossiers and combine with BAG data from datadienst export"
 
     def import_dossiers(self, dossier_path):
-        log.info("Importing pre wabo dossiers")
-        import_pre_wabo_dossiers(dossier_path)
-        add_bag_ids_to_pre_wabo()
+        # log.info("Importing pre wabo dossiers")
+        # import_pre_wabo_dossiers(dossier_path)
+        # add_bag_ids_to_pre_wabo()
 
         log.info("Importing wabo dossiers")
         import_wabo_dossiers(dossier_path)
@@ -66,7 +66,7 @@ class Command(BaseCommand):
 
             validate_import(options["min_bouwdossiers_count"])
 
-            swap_tables_between_apps("importer", "bouwdossiers")
+            #swap_tables_between_apps("importer", "bouwdossiers")
 
         except Exception as e:
             raise Exception("An exception occurred importing the metadata.") from e
