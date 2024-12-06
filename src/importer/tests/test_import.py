@@ -165,4 +165,4 @@ class APITest(TestCase):
         batch.add_bag_ids_to_pre_wabo()
         batch.import_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_wabo()
-        batch.validate_import(min_bouwdossiers_count=40)
+        batch.validate_import(min_bouwdossiers_count=43)
