@@ -131,14 +131,14 @@ def add_wabo_dossier(
     # The intern number can be something like sdz_prewabo_1274 or sdc_33
     # If prewabo is present it is a prewabo dossier.
     dossier = x_dossier.get("intern_nummer")
-    m = re.match(r"([A-Za-z]+)_(?:([a-z]+)_)?(.?[\d-]+)", dossier)
+    m = re.match(r"([A-Za-z]+)_(?:([A-Za-z]+)_)?(.*[\d-]+)", dossier)
     if not m:
         log.error(f"Invalid intern_nummer {dossier} in {file_path}")
         return count, total_count
 
     stadsdeel = m.group(1)
     wabo_tag = m.group(2)
-    dossiernr = re.sub(r"[A-Z]", "", m.group(3).replace("-", ""))       
+    dossiernr = re.sub(r"[A-Z-]+", "", m.group(3))       
 
     if wabo_tag and wabo_tag == "prewabo":
         # prewabo key2 dossiers numbers can have the same values, for the same stadsdeel as existing
