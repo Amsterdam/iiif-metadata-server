@@ -3,6 +3,7 @@ from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.db.models.functions import Centroid, Transform
 from django.db import models
 
+
 class FieldHelperMixin(models.Model):
     @classmethod
     def get_null_fields(cls):
@@ -143,7 +144,7 @@ class Openbareruimte(GeoModel, FieldHelperMixin):
     straatcode = models.CharField(max_length=16, null=True)
     straatnaam = models.CharField(max_length=80, null=True, db_column="straatnaamptt")
     statuscode = models.CharField(max_length=1)
-    geconstateerd = models.BooleanField()
+    geconstateerd = models.BooleanField(null = True)
     typecode = models.CharField(max_length=1)
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
@@ -199,13 +200,11 @@ class Verblijfsobjectpandrelatie(BagObject, FieldHelperMixin):
     id = models.AutoField(primary_key=True)
     pand = models.ForeignKey(
         "bag.Pand",
-        db_column="ligtinpandenidentificatie",
         on_delete=models.SET_NULL,
         null=True,
     )
     verblijfsobject = models.ForeignKey(
         "bag.Verblijfsobject",
-        db_column="verblijfsobjectenidentificatie",
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -219,12 +218,14 @@ class Pand(GeoModel, FieldHelperMixin):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
+    
     geometrie = gis_models.PolygonField(srid=28992)
     pandnaam = models.CharField(max_length=80, null=True, db_column="naam")
     bouwblok = models.CharField(
         max_length=16, db_column="ligtinbouwblokid", db_index=True, null=True
     )
 
+    bouwlagen = models.IntegerField(null=True, db_column="aantalbouwlagen")
     ligging = models.CharField(
         max_length=80, db_column="liggingomschrijving", null=True
     )
@@ -232,6 +233,13 @@ class Pand(GeoModel, FieldHelperMixin):
         max_length=80, db_column="typewoonobject", null=True
     )
     status = models.CharField(max_length=80, db_column="statusomschrijving")
+
+    volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
+    registratiedatum = models.DateField()
+    geconstateerd = models.BooleanField()
+    statuscode = models.CharField(max_length=3)
+    ligging_code = models.CharField(max_length=2, db_column="liggingcode", null=True)
 
     buurt = models.CharField(max_length=16, db_column="ligtinbuurtid", null=True)
 
@@ -260,6 +268,7 @@ class Verblijfsobject(GeoModel, BagObject, FieldHelperMixin):
         null=True, db_column="aantaleenhedencomplex"
     )
     bouwlagen = models.IntegerField(null=True, db_column="aantalbouwlagen")
+    aantal_kamers = models.IntegerField(null=True, db_column="aantalkamers")
     indicatie_geconstateerd = models.BooleanField(db_column="geconstateerd")
     geometrie = gis_models.GeometryField(srid=28992, null=True)
     buurt = models.CharField(max_length=16, db_column="ligtinbuurtid", null=True)
@@ -271,7 +280,18 @@ class Verblijfsobject(GeoModel, BagObject, FieldHelperMixin):
     gebruiksdoel_woonfunctie = models.CharField(
         max_length=80, db_column="gebruiksdoelwoonfunctieomschrijving", null=True
     )
+    hoogste_bouwlaag = models.IntegerField(null=True, db_column="hoogstebouwlaag")
+    laagste_bouwlaag = models.IntegerField(null=True, db_column="laagstebouwlaag")
     status = models.CharField(max_length=80, db_column="statusomschrijving", null=True)
+    reden_afvoer = models.CharField(
+        max_length=80, db_column="redenafvoeromschrijving", null=True
+    )
+    reden_opvoer = models.CharField(
+        max_length=80, db_column="redenopvoeromschrijving", null=True
+    )
+    eigendomsverhouding = models.CharField(
+        max_length=80, db_column="eigendomsverhoudingomschrijving", null=True
+    )
     gebruiksdoel = models.CharField(
         max_length=80, db_column="feitelijkgebruikomschrijving", null=True
     )
@@ -279,12 +299,47 @@ class Verblijfsobject(GeoModel, BagObject, FieldHelperMixin):
         Pand, through=Verblijfsobjectpandrelatie, related_name="verblijfsobjecten"
     )
 
+    volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
+    registratiedatum = models.DateField()
+    cbsnummer = models.CharField(max_length=16, null=True)
+    indicatie_woningvoorraad = models.CharField(
+        max_length=1, db_column="indicatiewoningvoorraad", null=True
+    )
+    financierings_code = models.CharField(
+        max_length=4, db_column="financieringscodecode", null=True
+    )
+    financierings_omschrijving = models.CharField(
+        max_length=80, db_column="financieringscodeomschrijving", null=True
+    )
     hoofdadres = models.CharField(
         max_length=16, db_column="heefthoofdadresid", null=True
     )
     status_code = models.IntegerField(db_column="statuscode", null=True)
 
+    gebruiksdoel_woonfunctie_code = models.CharField(
+        max_length=4, db_column="gebruiksdoelwoonfunctiecode", null=True
+    )
+    gebruiksdoel_gezondheidszorgfunctie_code = models.CharField(
+        max_length=4, db_column="gebruiksdoelgezondheidszorgfunctiecode", null=True
+    )
+    eigendomsverhouding_code = models.CharField(
+        max_length=4, db_column="eigendomsverhoudingcode", null=True
+    )
+    feitelijk_gebruik_code = models.CharField(
+        max_length=4, db_column="feitelijkgebruikcode", null=True
+    )
+    reden_opvoer_code = models.CharField(
+        max_length=4, db_column="redenopvoercode", null=True
+    )
+    reden_afvoer_code = models.CharField(
+        max_length=4, db_column="redenafvoercode", null=True
+    )
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
+    proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
+    proces_omschrijving = models.CharField(
+        max_length=80, db_column="bagprocesomschrijving", null=True
+    )
 
     def __str__(self):
         return self.id
@@ -339,9 +394,25 @@ class Nummeraanduiding(FieldHelperMixin):
     )
     type_adres = models.CharField(max_length=80, db_column="typeadres", null=True)
     status = models.CharField(max_length=80, db_column="statusomschrijving", null=True)
-
+    volgnummer = models.IntegerField()
+    plusvolgnummer = models.IntegerField(null=True)
+    registratiedatum = models.DateTimeField()
+    geconstateerd = models.BooleanField()
+    woonplaats = models.CharField(
+        max_length=80, db_column="ligtinwoonplaatsid", null=True
+    )
+    type_adresseerbaar_object_code = models.CharField(
+        max_length=4, db_column="typeadresseerbaarobjectcode", null=True
+    )
+    type_adresseerbaar_object_omschrijving = models.CharField(
+        max_length=80, db_column="typeadresseerbaarobjectomschrijving", null=True
+    )
     status_code = models.CharField(max_length=4, db_column="statuscode", null=True)
     dossier = models.CharField(max_length=40, db_column="heeftdossierid", null=True)
+    proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
+    proces_omschrijving = models.CharField(
+        max_length=80, db_column="bagprocesomschrijving", null=True
+    )
 
     def __str__(self):
         huisnr_toevoeging = (
