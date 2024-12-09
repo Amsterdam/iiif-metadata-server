@@ -8,11 +8,6 @@ from bag.models import Ligplaats
 
 
 class TestBagController:
-    @patch("bag.bag_controller.connection.cursor")
-    def test_create_rijtjeshuizen_tables(self, mock_cursor):
-        BagController().create_rijtjeshuizen_tables()
-        assert mock_cursor.call_count == 2
-
     @pytest.mark.django_db
     def test_upsert_table_data(self):
         obj = baker.prepare(Ligplaats, id="03630000000001", status="Active")

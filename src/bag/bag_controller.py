@@ -4,7 +4,6 @@ from datetime import datetime
 
 from django.conf import settings
 from django.db import connection
-from django.utils.timezone import is_aware, make_aware
 from isodate import parse_date, parse_datetime
 from toolz import interleave, partial, pipe
 
@@ -15,17 +14,6 @@ logger = logging.getLogger(__name__)
 
 
 class BagController:
-    def create_rijtjeshuizen_tables(self):
-        files = ["determine_building_units.sql", "cluster_building_dwelling.sql"]
-        folder = os.path.join(settings.BASE_DIR, "bag/raw_sql")
-        for file in files:
-            with open(os.path.join(folder, file), "r") as sql_file:
-                raw_sql = sql_file.read()
-
-                logger.info(f"Creating table from file {file}")
-                with connection.cursor() as cursor:
-                    cursor.execute(raw_sql)
-
     def create_bag_instances(self, bag_model, row: dict):
         bag_dict = {}
         for field, value in row.items():
@@ -42,7 +30,6 @@ class BagController:
                     if "T" in value
                     else datetime.combine(parse_date(value), datetime.now().time())
                 )
-                value = value if is_aware(value) else make_aware(value)
             bag_dict[field] = value
 
         try:
