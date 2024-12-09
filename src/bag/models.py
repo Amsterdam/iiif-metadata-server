@@ -45,6 +45,7 @@ class FieldHelperMixin(models.Model):
     class Meta:
         abstract = True
 
+
 class BagObject:
     def is_verblijfsobject(self):
         return False
@@ -80,10 +81,12 @@ class GeoModel(models.Model):
     class Meta:
         abstract = True
 
+
 class BagUpdatedAt(models.Model):
     """automatisch opslaan wanneer Bag voor het laatst is aangepast"""
 
     updated_at = models.DateTimeField(auto_now=True)
+
 
 class Ligplaats(GeoModel, BagObject, FieldHelperMixin):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
@@ -144,7 +147,7 @@ class Openbareruimte(GeoModel, FieldHelperMixin):
     straatcode = models.CharField(max_length=16, null=True)
     straatnaam = models.CharField(max_length=80, null=True, db_column="straatnaamptt")
     statuscode = models.CharField(max_length=1)
-    geconstateerd = models.BooleanField(null = True)
+    geconstateerd = models.BooleanField(null=True)
     typecode = models.CharField(max_length=1)
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
@@ -211,7 +214,7 @@ class Pand(GeoModel, FieldHelperMixin):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
-    
+
     geometrie = gis_models.PolygonField(srid=28992)
     pandnaam = models.CharField(max_length=80, null=True, db_column="naam")
     bouwblok = models.CharField(

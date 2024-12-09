@@ -1,9 +1,6 @@
 import logging
-import os
 from datetime import datetime
 
-from django.conf import settings
-from django.db import connection
 from isodate import parse_date, parse_datetime
 from toolz import interleave, partial, pipe
 
