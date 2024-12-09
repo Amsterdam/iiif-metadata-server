@@ -384,9 +384,6 @@ referencing==0.35.1
     #   jsonschema
     #   jsonschema-specifications
 requests==2.32.3
-requests==2.32.3
-    # via
-    #   -r ./requirements.txt
     #   azure-core
     #   datapunt-authorization-django
     #   google-api-core
