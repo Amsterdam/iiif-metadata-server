@@ -345,3 +345,7 @@ AZURE_CONTAINER_NAME_BAG = "bag"
 AZURE_CONTAINER_NAME_DOSSIERS = "dossiers"
 
 MIN_BOUWDOSSIERS_COUNT = os.getenv("MIN_BOUWDOSSIERS_COUNT", 10000)
+
+BAG_DUMP_BASE_URL = os.getenv(
+    "BAG_DUMP_BASE_URL", "https://api.data.amsterdam.nl/bulk-data/csv"
+)

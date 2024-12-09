@@ -1,6 +1,7 @@
 # Define all requirements, only pin when necessary (and if so, add a comment explaining why).
 # See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 
+toolz # Zero-dependency library with a set of utility functions for iterators, functions, and dictionaries.
 datapunt-authorization-django
 jwcrypto
 psycopg2-binary
