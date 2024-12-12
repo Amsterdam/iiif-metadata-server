@@ -50,11 +50,8 @@ dev: migrate				        ## Run the development app (and run extra migrations fir
 bash:                               ## Run the container and start bash
 	$(run) app bash
 
-test:                               ## Execute non-integration tests
-	$(run) test pytest -m 'not integration' $(ARGS)
-
-integration_test: lint  				## Execute integration tests
-	$(run) test pytest -m 'integration' $(ARGS)
+test:                               ## Execute tests
+	$(run) test pytest $(ARGS)
 
 lintfix:                            ## Execute lint fixes
 	$(run) test black /src/$(APP)

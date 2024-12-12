@@ -10,8 +10,10 @@ x-app: &base-app
     context: .
     target: app
   depends_on:
-    - database
-    - azurite
+    database:
+      condition: service_healthy
+    azurite:
+      condition: service_healthy
   volumes:
     - ./src:/src
     - ./deploy:/deploy
@@ -24,7 +26,6 @@ x-app: &base-app
     PYTHONBREAKPOINT: true
     UWSGI_STATIC_MAP: '/iiif-metadata/static=/static'
     AZURITE_STORAGE_CONNECTION_STRING: 'AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;'
-  entrypoint: /deploy/wait-for-it.sh database:5432 --
 
 services:
   database:
@@ -37,11 +38,20 @@ services:
       POSTGRES_PASSWORD: dev
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "dev", "-U", "dev" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - 10000 # Blob service
+    healthcheck:
+      test: nc 127.0.0.1 10000 -z
+      interval: 1s
+      retries: 30
 
   app:
     <<: *base-app
@@ -50,7 +60,8 @@ services:
       target: app
     image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-opdrachten/iiif-metadata-server}:${VERSION:-latest}
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
   dev:
     <<: *base-app

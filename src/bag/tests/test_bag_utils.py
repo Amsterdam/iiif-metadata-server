@@ -29,21 +29,21 @@ gemeente_code = "1234"
 @override_settings(GEMEENTE_CODE=gemeente_code)
 class UtilsTestCase(TestCase):
     @parameterized.expand(["", (None,)])
-    def test_get_object_type_empty_param(self, id):
+    def test_get_object_type_empty_param(self, _id):
         with self.assertRaises(BagIdException):
-            BagHelper.get_object_type_from_id(id)
+            BagHelper.get_object_type_from_id(_id)
 
     @parameterized.expand(
         ["01234000000000000", "012345678901234", "123"]  # too long  # too short
     )
-    def test_get_object_type_incorrect_length(self, id):
+    def test_get_object_type_incorrect_length(self, _id):
         with self.assertRaises(IncorrectBagIdLengthException):
-            BagHelper.get_object_type_from_id(id)
+            BagHelper.get_object_type_from_id(_id)
 
     def test_get_object_type_incorrect_gemeente_code(self):
-        id = "0123400000000000"
+        _id = "0123400000000000"
         with self.assertRaises(IncorrectGemeenteCodeException):
-            BagHelper.get_object_type_from_id(id)
+            BagHelper.get_object_type_from_id(_id)
 
     @parameterized.expand(
         [
@@ -99,12 +99,12 @@ class UtilsTestCase(TestCase):
         [BAG_TYPE_VERBLIJFSOBJECT, BAG_TYPE_LIGPLAATS, BAG_TYPE_STANDPLAATS]
     )
     def test_get_object(self, object_type):
-        id = f"{gemeente_code}{object_type}0000000000"
-        verblijfsobject = baker.make(Verblijfsobject, id=id)
-        ligplaats = baker.make(Ligplaats, id=id)
-        standplaats = baker.make(Standplaats, id=id)
+        _id = f"{gemeente_code}{object_type}0000000000"
+        verblijfsobject = baker.make(Verblijfsobject, id=_id)
+        ligplaats = baker.make(Ligplaats, id=_id)
+        standplaats = baker.make(Standplaats, id=_id)
 
-        obj = BagHelper.get_object_from_id(id)
+        obj = BagHelper.get_object_from_id(_id)
         if object_type == BAG_TYPE_VERBLIJFSOBJECT:
             self.assertEqual(obj, verblijfsobject)
         elif object_type == BAG_TYPE_LIGPLAATS:

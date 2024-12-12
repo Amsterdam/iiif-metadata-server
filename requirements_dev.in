@@ -3,7 +3,6 @@
 
 model-bakery
 parameterized
-vcrpy # replaying requests for more efficient testing
 factory-boy
 pytest-django
 pytest-cov
