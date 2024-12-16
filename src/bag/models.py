@@ -4,7 +4,7 @@ from django.contrib.gis.db.models.functions import Centroid, Transform
 from django.db import models
 
 
-class FieldHelperMixin(models.Model):
+class BaseBagModel(models.Model):
     @classmethod
     def get_null_fields(cls):
         return [field.name.lower() for field in cls._meta.fields if field.null]
@@ -12,7 +12,6 @@ class FieldHelperMixin(models.Model):
     @classmethod
     def get_fields(cls):
         return [field.name.lower() for field in cls._meta.fields]
-        return [field.name.lower() for field in cls._meta.fields if field.null]
 
     @classmethod
     def get_fields(cls):
@@ -88,7 +87,7 @@ class BagUpdatedAt(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Ligplaats(GeoModel, BagObject, FieldHelperMixin):
+class Ligplaats(GeoModel, BagObject, BaseBagModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
@@ -125,7 +124,7 @@ class Ligplaats(GeoModel, BagObject, FieldHelperMixin):
         db_table = "bag_ligplaats"
 
 
-class Openbareruimte(GeoModel, FieldHelperMixin):
+class Openbareruimte(GeoModel, BaseBagModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
@@ -162,7 +161,7 @@ class Openbareruimte(GeoModel, FieldHelperMixin):
         db_table = "bag_openbareruimte"
 
 
-class Standplaats(GeoModel, BagObject, FieldHelperMixin):
+class Standplaats(GeoModel, BagObject, BaseBagModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
@@ -199,7 +198,7 @@ class Standplaats(GeoModel, BagObject, FieldHelperMixin):
         db_table = "bag_standplaats"
 
 
-class Verblijfsobjectpandrelatie(BagObject, FieldHelperMixin):
+class Verblijfsobjectpandrelatie(BagObject, BaseBagModel):
     id = models.AutoField(primary_key=True)
     pand = models.ForeignKey("bag.Pand", on_delete=models.PROTECT)
     verblijfsobject = models.ForeignKey(
@@ -210,7 +209,7 @@ class Verblijfsobjectpandrelatie(BagObject, FieldHelperMixin):
         db_table = "bag_verblijfsobjectpandrelatie"
 
 
-class Pand(GeoModel, FieldHelperMixin):
+class Pand(GeoModel, BaseBagModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
@@ -252,7 +251,7 @@ class Pand(GeoModel, FieldHelperMixin):
         db_table = "bag_pand"
 
 
-class Verblijfsobject(GeoModel, BagObject, FieldHelperMixin):
+class Verblijfsobject(GeoModel, BagObject, BaseBagModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
@@ -350,7 +349,7 @@ class Verblijfsobject(GeoModel, BagObject, FieldHelperMixin):
         db_table = "bag_verblijfsobject"
 
 
-class Nummeraanduiding(FieldHelperMixin):
+class Nummeraanduiding(BaseBagModel):
     id = models.CharField(max_length=16, primary_key=True, db_column="identificatie")
     begin_geldigheid = models.DateTimeField(db_column="begingeldigheid")
     eind_geldigheid = models.DateTimeField(null=True, db_column="eindgeldigheid")
