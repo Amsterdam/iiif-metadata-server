@@ -1,3 +1,4 @@
+import csv
 import logging
 import time
 
@@ -121,3 +122,26 @@ def retry(tries=3, delay=1, backoff=2):
         return wrapper
 
     return decorator
+
+
+def read_csv(path: str, *, field_mapping: dict = None):
+    with open(path, "r") as csv_file:
+        csv_reader = csv.DictReader(f=csv_file, delimiter=",")
+        if field_mapping:
+            csv_reader.fieldnames = [
+                field_mapping.get(field.lower(), field.lower())
+                for field in csv_reader.fieldnames
+            ]
+        for row in csv_reader:
+            yield row
+
+
+def chunk_data(iterable, chunk_size=1000):
+    chunk = []
+    for i, val in enumerate(iterable):
+        chunk.append(val)
+        if (i + 1) % chunk_size == 0:
+            yield chunk
+            chunk = []
+    if chunk:
+        yield chunk
