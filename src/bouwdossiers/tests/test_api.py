@@ -1,5 +1,6 @@
 from random import randint
 
+import pytest
 from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
@@ -40,8 +41,8 @@ class TestAPI(APITestCase):
         url = reverse("bouwdossier-list")
 
         test_parameters = [
-            (None, 3),
-            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 3),
+            (None, 7),
+            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 7),
             (settings.BOUWDOSSIER_READ_SCOPE, 7),
             (settings.BOUWDOSSIER_EXTENDED_SCOPE, 7),
         ]
@@ -73,6 +74,7 @@ class TestAPI(APITestCase):
         self.assertEqual(response.data["dossiernr"], dossiers[0].dossiernr)
         delete_all_records()
 
+    @pytest.mark.xfail(reason="WABO dossiers should be publicly available")
     def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
         dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
         pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
