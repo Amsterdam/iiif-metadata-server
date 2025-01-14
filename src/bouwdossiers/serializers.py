@@ -95,7 +95,7 @@ class CustomLinksField(LinksField):
 
     def get_url(self, obj, view_name, request, _format):
 
-        url_kwargs = {"pk": obj.stadsdeel + str(obj.dossiernr)}
+        url_kwargs = {"pk": obj.stadsdeel + "_" + obj.dossiernr}
 
         return reverse(view_name, kwargs=url_kwargs, request=request, format=_format)
 

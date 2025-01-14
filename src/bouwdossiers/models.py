@@ -53,7 +53,7 @@ class ImportFile(ImportFileBase):
 
 class BouwDossierBase(models.Model):
     importfile = models.ForeignKey(ImportFile, related_name="+", on_delete=CASCADE)
-    dossiernr = models.IntegerField(null=False)
+    dossiernr = models.CharField(max_length=75, null=False)
     stadsdeel = models.CharField(max_length=10, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.DateField(null=True)

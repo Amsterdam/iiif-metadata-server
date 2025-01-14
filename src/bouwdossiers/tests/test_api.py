@@ -12,7 +12,7 @@ from bouwdossiers.tests.tools_for_testing import create_authz_token
 def create_bouwdossiers(n, stadsdeel="AA", source=SOURCE_EDEPOT):
     return [
         factories.BouwDossierFactory(
-            dossiernr=randint(10, 10000),
+            dossiernr='P15-'+str(randint(10, 10000)),
             stadsdeel=stadsdeel,
             olo_liaan_nummer=randint(10, 10000),
             source=source,
@@ -65,7 +65,7 @@ class TestAPI(APITestCase):
     def test_api_detail_using_stadsdeel_and_dossier(self):
         dossiers = create_bouwdossiers(3)
 
-        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.data["stadsdeel"], dossiers[0].stadsdeel)
@@ -74,7 +74,7 @@ class TestAPI(APITestCase):
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
         dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
-        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
         test_parameters = [
@@ -95,7 +95,7 @@ class TestAPI(APITestCase):
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_with_auth(self):
         dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
-        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
         test_parameters = [
@@ -116,7 +116,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + str(dossier.dossiernr)
+        pk = dossier.stadsdeel + '_' + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -130,7 +130,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + str(dossier.dossiernr)
+        pk = dossier.stadsdeel + '_' + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -144,7 +144,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel.lower() + str(dossier.dossiernr)
+        pk = dossier.stadsdeel.lower() + '_' + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -158,7 +158,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + "_" + str(dossier.dossiernr)  # add an underscore
+        pk = dossier.stadsdeel + "_" + dossier.dossiernr  # add an underscore
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -487,7 +487,8 @@ class TestAPI(APITestCase):
         factories.BouwDossierFactory(dossiernr=222)
         factories.BouwDossierFactory(dossiernr=333)
 
-        url = reverse("bouwdossier-list") + f"?dossier={bd.stadsdeel}{bd.dossiernr}"
+        url = reverse("bouwdossier-list") + f"?dossier={bd.stadsdeel}_{bd.dossiernr}"
+    
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn("results", response.data)
@@ -526,12 +527,6 @@ class TestAPI(APITestCase):
         self.assertEqual(response.status_code, 400)
         delete_all_records()
 
-    def test_invalid_dossiernr(self):
-        create_bouwdossiers(3)
-        url = reverse("bouwdossier-list") + "?dossiernr=wrong"
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 400)
-        delete_all_records()
 
     def test_dossier_wabo_fields(self):
         bd = factories.BouwDossierFactory()
@@ -560,7 +555,7 @@ class TestAPI(APITestCase):
         adres.huisnummer_toevoeging = "B"
         adres.save()
 
-        url = reverse("bouwdossier-detail", kwargs={"pk": "AA12345"})
+        url = reverse("bouwdossier-detail", kwargs={"pk": "AA_12345"})
         header = {
             "HTTP_AUTHORIZATION": "Bearer "
             + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)

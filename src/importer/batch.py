@@ -5,6 +5,7 @@ import re
 import xmltodict
 from django.conf import settings
 from django.db import IntegrityError, connection, transaction
+from django.db.models import Case, Count, IntegerField, Q, Sum, When
 
 from importer import models
 
@@ -130,7 +131,7 @@ def add_wabo_dossier(
     # The intern number can be something like sdz_prewabo_1274 or sdc_33
     # If prewabo is present it is a prewabo dossier.
     dossier = x_dossier.get("intern_nummer")
-    m = re.match(r"([a-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
+    m = re.match(r"([A-Za-z]+)_(?:([A-Za-z]+)_)?(.*[\d-]+)", dossier)
     if not m:
         log.error(f"Invalid intern_nummer {dossier} in {file_path}")
         return count, total_count
@@ -228,7 +229,7 @@ def add_wabo_dossier(
         adres = models.Adres(
             bouwdossier=bouwdossier,
             straat=x_adres.get("straatnaam"),
-            huisnummer_van=x_adres.get("huisnummer").replace(",", ""),
+            huisnummer_van=x_adres.get("huisnummer").replace(",", "") if x_adres.get("huisnummer") else None,
             huisnummer_toevoeging=x_adres.get("huisnummertoevoeging"),
             huisnummer_letter=x_adres.get("huisletter"),
             stadsdeel=stadsdeel,
@@ -449,7 +450,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     total_count = 0
     file_count = 0
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search("WABO_.+\\.xml$", file_path)
+        wabo = re.search(r"/WABO/SD[A-Z]{1,2}/.+\.xml$|WABO_.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
@@ -687,34 +688,74 @@ AND (iadre.openbareruimte_id IS NULL OR iadre.openbareruimte_id = '')
 
 
 def validate_import(min_bouwdossiers_count):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """
-SELECT
-    COUNT(*),
-    array_length(panden, 1) IS NOT NULL AS has_panden,
-    array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen,
-    openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
-FROM importer_adres
-GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
-        """
-        )
-        rows = cursor.fetchall()
 
-        result = {
-            "total": 0,
-            "has_panden": 0,
-            "has_nummeraanduidingen": 0,
-            "has_openbareruimte_id": 0,
-        }
-        for row in rows:
-            result["total"] += row[0]
-            if row[1]:
-                result["has_panden"] += row[0]
-            if row[2]:
-                result["has_nummeraanduidingen"] += row[0]
-            if row[3]:
-                result["has_openbareruimte_id"] += row[0]
+    result = (
+        models.Adres.objects.aggregate(
+            total = Count('id'),
+            has_panden = Sum(
+                Case(
+                    When(panden__len__gt=0, then=1),
+                    default=0,
+                    output_field=IntegerField()
+                )),
+            has_nummeraanduidingen = Sum(
+                Case(
+                    When(nummeraanduidingen__len__gt=0, then=1),
+                    default=0,
+                    output_field=IntegerField()
+                )),
+            has_openbareruimte_id=Sum(
+                Case(
+                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
+                    default=0,
+                    output_field=IntegerField()
+                )),                                
+            wabo_total = Count('id', filter=Q(bouwdossier__source=models.SOURCE_WABO)),                
+            wabo_has_panden = Sum(
+                Case(
+                    When(panden__len__gt=0, then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__source=models.SOURCE_WABO)
+                ),
+            wabo_has_nummeraanduidingen = Sum(
+                Case(
+                    When(nummeraanduidingen__len__gt=0, then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__source=models.SOURCE_WABO)
+                ),
+            wabo_has_openbareruimte_id=Sum(
+                Case(
+                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__source=models.SOURCE_WABO)
+                ),                           
+            prewabo_total = Count('id', filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)),                
+            prewabo_has_panden = Sum(
+                Case(
+                    When(panden__len__gt=0, then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)
+                ),
+            prewabo_has_nummeraanduidingen = Sum(
+                Case(
+                    When(nummeraanduidingen__len__gt=0, then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)
+                ),                                
+            prewabo_has_openbareruimte_id=Sum(
+                Case(
+                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)
+                ),
+        ))
+
     log.info("Validation import result: " + str(result))
 
     log.info(

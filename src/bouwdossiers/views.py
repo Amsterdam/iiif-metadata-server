@@ -26,7 +26,7 @@ class BouwDossierFilter(FilterSet):
     subdossier = filters.CharFilter(
         field_name="documenten__subdossier_titel", lookup_expr="istartswith"
     )
-    dossiernr = filters.NumberFilter()
+    dossiernr = filters.CharFilter()
     dossier = filters.CharFilter(method="dossier_with_stadsdeel")
     stadsdeel = filters.CharFilter()
     dossier_type = filters.CharFilter()
