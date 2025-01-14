@@ -83,7 +83,8 @@ class APITest(TestCase):
         self.assertFalse("0363200000470955" in fdb.nummeraanduidingen)
 
     def test_wabo_import(self):
-        batch.import_wabo_dossiers(DATA_DIR)
+        with self.assertNoLogs(logger="importer.batch", level="ERROR"):
+            batch.import_wabo_dossiers(DATA_DIR)
 
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, "SDC")
@@ -164,4 +165,4 @@ class APITest(TestCase):
         batch.add_bag_ids_to_pre_wabo()
         batch.import_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_wabo()
-        batch.validate_import(min_bouwdossiers_count=38)
+        batch.validate_import(min_bouwdossiers_count=43)

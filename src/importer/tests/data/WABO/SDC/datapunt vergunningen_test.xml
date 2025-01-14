@@ -1,0 +1,1375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dossiers>
+    <dossier>
+        <dossier_titel><![CDATA[het herstellen van de fundering en het veranderen en vernieuwen van de rechterzijvleugel van het gebouwencomplex Lauriergracht 1161 met bestemming daarvan tot kantoor]]></dossier_titel>
+        <intern_nummer>SDC_189</intern_nummer>
+        <OLO_liaan_nummer>189</OLO_liaan_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2010-10-04</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>H</huisnummertoevoeging>
+                <huisletter>B</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010000719556</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063550.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>2</huisnummertoevoeging>
+                <huisletter>B</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063422</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063549.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>3</huisnummertoevoeging>
+                <huisletter>B</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063421</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063548.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>4</huisnummertoevoeging>
+                <huisletter>B</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063424</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063551.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>1</huisnummertoevoeging>
+                <huisletter>D</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012150039</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012174711</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012152052.4</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>2</huisnummertoevoeging>
+                <huisletter>D</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012150040</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012174711</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012152053.4</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>A</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063412</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063539.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>C</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063434</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063561.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>E</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063435</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063562.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>F</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063436</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063563.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>G</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063433</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063560.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>K</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063430</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063557.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>L</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063431</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063558.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>M</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063432</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063559.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>N</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063425</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063552.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>P</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063420</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063547.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>R</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063415</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063542.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>S</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063414</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063541.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>T</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063413</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063540.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>U</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063416</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063543.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>V</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012064199</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012064339.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>W</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063419</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063546.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>X</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063418</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063545.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisletter>Z</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012063417</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012063544.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Lauriergracht</straatnaam>
+                <huisnummer>1161</huisnummer>
+                <huisnummertoevoeging>H</huisnummertoevoeging>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010000719556</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168986</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004136</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200000415910.6</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Bouwen bouwwerk (verbouwing)</activiteit>
+            <activiteit>Aanpassen (rijks)monument</activiteit>
+            <activiteit>Slopen bouwwerk</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[Omgevingsvergunning - Besluit verlening 2011-8183, Lauriergracht 1161.pdf | Omgevingsvergunning: Besluit verlening 2011-8183, Lauriergra]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335d9e]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335d9e.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage12.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335db7]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335db7.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage13.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dba]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dba.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage14.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dbd]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dbd.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage15.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dc9]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dc9.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage16.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dcb]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dcb.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage01.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dcd]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage02tm07.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dcf]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dcf.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage08.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dd1]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dd1.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - vergunningset189_bijlage09.pdf | Bij besluit behorende gewaarmerkte bescheiden: vergunningset]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b69980335dd4]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b69980335dd4.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[2011-3596, Lauriergracht 1161 | Kennisgeving ontwerpbesluit inzake aanvraag omgevingsvergunning Lauriergracht 1161]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/20/0901b6998021a313]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b6998021a313.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept toestemming]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2447343.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/K-schijf/2447343.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Advies deelgoedkeuringen aan behandelend ambtenaar omgevingsvergunning - dgk 1 berekening portalen.pdf | Dgk 1 dd 22-02-2012: dgk 1 berekening portalen]]></document_omschrijving>
+                <document_type>Advies</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/23/0901b699802ddd2b]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b699802ddd2b.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Advies deelgoedkeuringen aan behandelend ambtenaar omgevingsvergunning - dgk 1 berekening spanten.pdf | Dgk 1 dd 22-02-2012: dgk 1 berekening spanten]]></document_omschrijving>
+                <document_type>Advies</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/23/0901b699802ddd2d]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Documentum/0901b699802ddd2d.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02111056.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Notitie/NAA 02111056.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Toets ingediende bescheiden]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\adv\2431328.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/K-schijf/2431328.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept voorschriften activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2447350.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/K-schijf/2447350.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept overwegingen activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2447342.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/K-schijf/2447342.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02108727.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Notitie/NAA 02108727.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02113060.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_33/Notitie/NAA 02113060.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[vervangen kozijnen 1e verdieping achtergevel van het gebouw 2e Rozendwarsstraat 10]]></dossier_titel>
+        <intern_nummer>SDC_233</intern_nummer>
+        <OLO_liaan_nummer>233</OLO_liaan_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2010-10-11</begindatum>
+        <bron>KEY2</bron>
+        <locaties>
+            <locatie>
+                <straatnaam>Tweede Rozendwarsstraat</straatnaam>
+                <huisnummer>10</huisnummer>
+                <huisnummertoevoeging>H</huisnummertoevoeging>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010001021353</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168549</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000002594</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200000505211.6</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Tweede Rozendwarsstraat</straatnaam>
+                <huisnummer>10</huisnummer>
+                <huisnummertoevoeging>2</huisnummertoevoeging>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010000553680</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012168549</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000002594</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200000016558.6</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Slopen in beschermd rijksgebied</activiteit>
+            <activiteit>Bouwen bouwwerk (verbouwing)</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[Omgevingsvergunning - 2011-58, 2e Rozendwarsstraat 10.pdf | Omgevingsvergunning: 2011-58, 2e Rozendwarsstraat 10]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b093]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b093.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - beschikking aanvraagformulier 01.pdf | Bij besluit behorende gewaarmerkte bescheiden: beschikking a]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b0b7]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b0b7.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - beschikking gevels bestaand 03.pdf | Bij besluit behorende gewaarmerkte bescheiden: beschikking g]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b0c4]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b0c4.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - beschikking gevels nieuw 05.pdf | Bij besluit behorende gewaarmerkte bescheiden: beschikking g]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b0c6]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b0c6.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - beschikking plattegrond bestaand 02.pdf | Bij besluit behorende gewaarmerkte bescheiden: beschikking p]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b0c9]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b0c9.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - beschikking plattegrond nieuw 04.pdf | Bij besluit behorende gewaarmerkte bescheiden: beschikking p]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b0cb]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b0cb.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - beschikking publicatie aanvraagformulier 01.pdf | Bij besluit behorende gewaarmerkte bescheiden: beschikking p]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b6998034b0cd]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Documentum/0901b6998034b0cd.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02105451.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Notitie/NAA 02105451.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept overwegingen activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2427951.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/K-schijf/2427951.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept voorschriften activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2427950.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/K-schijf/2427950.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Deeldocument ontbrekende gegevens (BWT)]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2428601.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/K-schijf/2428601.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02108020.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/Notitie/NAA 02108020.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Deeldocument ontbrekende gegevens (BWT)]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2427613.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_30/K-schijf/2427613.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[veranderen van het gebouw Sarphatistraat 101 met bestemming ervan tot twee woningen]]></dossier_titel>
+        <intern_nummer>SDC_6897</intern_nummer>
+        <OLO_liaan_nummer>6897</OLO_liaan_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2010-10-15</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Sarphatistraat</straatnaam>
+                <huisnummer>101</huisnummer>
+                <huisletter>A</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012087760</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012181019</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004461</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012089105.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Sarphatistraat</straatnaam>
+                <huisnummer>101</huisnummer>
+                <huisletter>B</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012087762</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012181019</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004461</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012089107.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+            <locatie>
+                <straatnaam>Sarphatistraat</straatnaam>
+                <huisnummer>101</huisnummer>
+                <huisnummertoevoeging>3</huisnummertoevoeging>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010000804677</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012181019</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004461</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200000263521.6</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Bouwen bouwwerk (verbouwing)</activiteit>
+            <activiteit>Strijdig gebruik planologisch</activiteit>
+            <activiteit>Slopen ogv planologisch verbod</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[Omgevingsvergunning - 2011-3415, Sarphatistraat 101.pdf | Omgevingsvergunning: 2011-3415, Sarphatistraat 101]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487bb]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487bb.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1287138529099_papierenformulier.pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12871385]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487c0]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487c0.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1293715984884_blad_1a-bestaande_toestand_(2).pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12937159]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487c4]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487c4.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1293716037307_blad_2b-nieuwe_toestand_(1).pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12937160]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487d1]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487d1.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1287137989099_100_3550.pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12871379]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487df]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487df.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1287138015592_100_3551.pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12871380]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487e2]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487e2.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1287138111391_100_3552.pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12871381]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487e6]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487e6.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1287138130060_100_3554.pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12871381]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487e8]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487e8.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bij besluit behorende gewaarmerkte bescheiden - 6897_1287138160670_Asbestinventarisatie.pdf | Bij besluit behorende gewaarmerkte bescheiden: 6897_12871381]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/25/0901b699803487ea]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699803487ea.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[2010-17879, Sarphatistraat 101 | Besluit om beslistermijn te verlengen Sarphatistraat 101]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[G:\Export files\documentum\primary/20/0901b699801f67cd]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Documentum/0901b699801f67cd.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751524]]></document_omschrijving>
+                <document_type>Aanvraag</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00001.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00002.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00002.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00003.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00003.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00004.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00004.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00005.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00005.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00006.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00006.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751524\SA20751524_00007.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751524_00007.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751525]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00001.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00002.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00002.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00003.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00003.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00004.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00004.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00005.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00005.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00006.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00006.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00007.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00007.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00008.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00008.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00009.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00009.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751525\SA20751525_00010.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751525_00010.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751527]]></document_omschrijving>
+                <document_type>Bouwtekening</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751527\SA20751527_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751527_00001.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751528]]></document_omschrijving>
+                <document_type>Bouwtekening</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751528\SA20751528_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751528_00001.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751530]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751530\SA20751530_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751530_00001.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751530\SA20751530_00002.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751530_00002.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751530\SA20751530_00003.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751530_00003.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751530\SA20751530_00004.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751530_00004.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751526]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751526\SA20751526_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751526_00001.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20751529]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751529\SA20751529_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751529_00001.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751529\SA20751529_00002.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751529_00002.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751529\SA20751529_00003.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751529_00003.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751529\SA20751529_00004.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751529_00004.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751529\SA20751529_00005.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751529_00005.jpg]]></URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20751529\SA20751529_00006.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20751529_00006.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[SA20755254]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DTB ontdubbelen\SDC gecontroleerd\2704\bwt\SA20755254\SA20755254_00001.jpg]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/BWT/SA20755254_00001.jpg]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02107050.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Notitie/NAA 02107050.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Deeldocument ontbrekende gegevens (BWT)]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2437552.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2437552.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02109528.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Notitie/NAA 02109528.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Maken besluit [intrekking en toekennen nummeraanduiding]]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\mdub2\2628267.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2628267.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept toestemming]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2445185.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2445185.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept voorschriften activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2445186.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2445186.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Concept overwegingen activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2445187.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2445187.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02106987.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Notitie/NAA 02106987.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Deeldocument ontbrekende gegevens (BWT)]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\cod\2435552.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2435552.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NAA\02129813.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/Notitie/NAA 02129813.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Bouwwerkzaamheden, voltooid, uitdraai kwaliteitsmonitor]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\bgb\2627715.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Vergunning_55/K-schijf/2627715.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[Overige bouwgerelateerde vergunning - Illegaal hotel.]]></dossier_titel>
+        <intern_nummer>SDC_34-16-0500</intern_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2016-11-24</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Leliegracht</straatnaam>
+                <huisnummer>2</huisnummer>
+                <huisletter>E</huisletter>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010011211030</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012176413</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000004161</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200011210974.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten></activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[Brief: Zienswijze stoppen activiteit]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\mhv\2746774.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168983/K-schijf/2746774.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[opstellen: besluit bestuursdwang]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\hhk\2753702.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168983/K-schijf/2753702.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[Overige bouwgerelateerde vergunning - Illegaal Hotel Nieuwendijk 87 (Haringpakkerssteeg 5 P)]]></dossier_titel>
+        <intern_nummer>SDC_34-16-0501</intern_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2016-10-24</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Nieuwendijk</straatnaam>
+                <huisnummer>8</huisnummer>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012106862</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012178332</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000003873</openbareruimteidentificatie>
+                    <Nummeraanduidingidentificatie>0363200012108513.3</Nummeraanduidingidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten></activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[opstellen: besluit bestuursdwang]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\hhk\2742229.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168076/K-schijf/2742229.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[maken bestuursdwang illegale hotels [spoed] (AHCSPK)]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\hhk\2742228.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168076/K-schijf/2742228.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Notitie]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\K-schijf Amsterdam\SDC\NKL\02155737.out]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDC/KEY2Activiteit_168076/Notitie/NKL 02155737.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel><![CDATA[Omgevingsvergunning Ontwikkelingsbedrijf  Gemeente Amsterdam Staghof 49]]></dossier_titel>
+        <intern_nummer>SDN_P15-43398</intern_nummer>
+        <OLO_liaan_nummer>415959</OLO_liaan_nummer>
+        <omschrijving><![CDATA[Omgevingsvergunning]]></omschrijving>
+        <begindatum>2012-04-26</begindatum>
+        <bron>KEY2</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Staghof</straatnaam>
+                <huisnummer>49</huisnummer>
+                <bag_id></bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Bouwen bouwwerk (verbouwing)</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving><![CDATA[OLO415959-202 Brief informatie voortgang aanvraag 7-5-2012]]></document_omschrijving>
+                <document_type>Aanvraag</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\POST UIT\OLO415959-202 Brief informatie voortgang aanvraag 7-5-2012.doc]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/OLO415959-202 Brief informatie voortgang aanvraag 7-5-2012.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[OLO415959-222 Brief in behandeling nemen aanvraag 21-5-2012]]></document_omschrijving>
+                <document_type>Aanvraag</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\POST UIT\OLO415959-222 Brief in behandeling nemen aanvraag 21-5-2012.doc]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/OLO415959-222 Brief in behandeling nemen aanvraag 21-5-2012.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[OLO415959-256 Omgevingsvergunning reguliere procedure (integraal model) 24-5-2012]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\POST UIT\OLO415959-256 Omgevingsvergunning reguliere procedure (integraal model) 24-5-2012.doc]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/OLO415959-256 Omgevingsvergunning reguliere procedure (integraal model) 24-5-2012.doc]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[OLO415959-256 Omgevingsvergunning reguliere procedure (integraal model) 24-5-2012]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\POST UIT\omgevingsvergunning Staghof 49.pdf]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/omgevingsvergunning Staghof 49.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[Deelgoedkeuringen_791]]></document_omschrijving>
+                <document_type>Beschikking</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\ALG\Deelgoedkeuringen_791.xls]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/Deelgoedkeuringen_791.xls]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[415959_1335446490795_papierenformulier]]></document_omschrijving>
+                <document_type>Aanvraag</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\VERG\415959_1335446490795_papierenformulier.pdf]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/415959_1335446490795_papierenformulier.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[415959_1335445962529_Staghof]]></document_omschrijving>
+                <document_type>Overige</document_type>
+                <bevat_persoonsgegevens>false</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\VERG\415959_1335445962529_Staghof.pdf]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/415959_1335445962529_Staghof.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving><![CDATA[415959_1335446490804_publiceerbareaanvraag]]></document_omschrijving>
+                <document_type>Aanvraag</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad><![CDATA[Z:\DECOSEXPORT\NOORD/3_ZAAKDOSSIERS_2012\7C519D0BEC9F4BDDAEC0ADBF6148A1EA\VERG\415959_1335446490804_publiceerbareaanvraag.pdf]]></oorspronkelijk_pad>
+                        <URL><![CDATA[J:/INZAGEDOCS/Datapunt/SDN/3DE98AD456F24CF6837C809F874BF25C/Decos/415959_1335446490804_publiceerbareaanvraag.pdf]]></URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+</dossiers>
