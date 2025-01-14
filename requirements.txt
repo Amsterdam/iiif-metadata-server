@@ -13,6 +13,7 @@ attrs==24.3.0
     #   jsonschema
     #   referencing
 azure-core==1.32.0
+azure-core==1.32.0
     # via
     #   -r requirements.in
     #   azure-identity
@@ -32,19 +33,26 @@ azure-keyvault-certificates==4.9.0
 azure-keyvault-keys==4.10.0
     # via azure-keyvault
 azure-keyvault-secrets==4.9.0
+azure-keyvault-certificates==4.9.0
+    # via azure-keyvault
+azure-keyvault-keys==4.10.0
+    # via azure-keyvault
+azure-keyvault-secrets==4.9.0
     # via
     #   -r requirements.in
     #   azure-keyvault
 azure-storage-blob==12.24.0
+azure-storage-blob==12.24.0
     # via -r requirements.in
 cachetools==5.5.0
     # via google-auth
-certifi==2024.12.14
+certifi==2024.8.30
     # via requests
 cffi==1.17.1
     # via cryptography
-charset-normalizer==3.4.1
+charset-normalizer==3.4.0
     # via requests
+cryptography==44.0.0
 cryptography==44.0.0
     # via
     #   azure-identity
@@ -66,7 +74,7 @@ debtcollector==3.0.0
     #   python-keystoneclient
 defusedxml==0.7.1
     # via djangorestframework-xml
-django==5.1.4
+django==5.1.3
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
@@ -107,10 +115,11 @@ drf-extensions==0.7.1
     # via drf-amsterdam
 drf-yasg==1.21.8
     # via -r requirements.in
-google-api-core==2.24.0
+google-api-core==2.23.0
     # via opencensus
-google-auth==2.37.0
+google-auth==2.36.0
     # via google-api-core
+googleapis-common-protos==1.66.0
 googleapis-common-protos==1.66.0
     # via google-api-core
 idna==3.10
@@ -136,12 +145,15 @@ jwcrypto==1.5.6
     #   -r requirements.in
     #   datapunt-authorization-django
 keystoneauth1==5.9.1
+keystoneauth1==5.9.1
     # via python-keystoneclient
+msal==1.31.1
 msal==1.31.1
     # via
     #   azure-identity
     #   msal-extensions
 msal-extensions==1.2.0
+    # via azure-identity
     # via azure-identity
 msgpack==1.1.0
     # via oslo-serialization
@@ -171,18 +183,22 @@ opencensus-ext-requests==0.8.0
 os-service-types==1.7.0
     # via keystoneauth1
 oslo-config==9.7.0
+oslo-config==9.7.0
     # via python-keystoneclient
+oslo-i18n==6.5.0
 oslo-i18n==6.5.0
     # via
     #   oslo-config
     #   oslo-utils
     #   python-keystoneclient
 oslo-serialization==5.6.0
+oslo-serialization==5.6.0
     # via python-keystoneclient
-oslo-utils==8.0.0
+oslo-utils==7.4.0
     # via
     #   oslo-serialization
     #   python-keystoneclient
+packaging==24.2
 packaging==24.2
     # via
     #   drf-yasg
@@ -198,9 +214,10 @@ pbr==6.1.0
     #   stevedore
 portalocker==2.10.1
     # via msal-extensions
+    # via msal-extensions
 proto-plus==1.25.0
     # via google-api-core
-protobuf==5.29.2
+protobuf==5.29.0
     # via
     #   google-api-core
     #   googleapis-common-protos
@@ -208,6 +225,7 @@ protobuf==5.29.2
 psutil==6.1.1
     # via
     #   opencensus-ext-azure
+    #   oslo-utils
     #   oslo-utils
 psycopg2-binary==2.9.10
     # via
@@ -222,12 +240,14 @@ pyasn1-modules==0.4.1
 pycparser==2.22
     # via cffi
 pyjwt[crypto]==2.10.1
+pyjwt[crypto]==2.10.1
     # via
     #   msal
     #   pyjwt
-pyparsing==3.2.1
+pyparsing==3.2.0
     # via oslo-utils
 python-dateutil==2.9.0.post0
+    # via datapunt-objectstore
     # via datapunt-objectstore
 python-keystoneclient==5.5.0
     # via datapunt-objectstore
@@ -246,6 +266,7 @@ referencing==0.35.1
     #   jsonschema
     #   jsonschema-specifications
 requests==2.32.3
+requests==2.32.3
     # via
     #   azure-core
     #   datapunt-authorization-django
@@ -259,28 +280,27 @@ requests==2.32.3
     #   python-swiftclient
 rfc3986==2.0.0
     # via oslo-config
-rpds-py==0.22.3
+rpds-py==0.22.1
     # via
     #   jsonschema
     #   referencing
 rsa==4.9
     # via google-auth
-six==1.17.0
+six==1.16.0
     # via
     #   azure-core
     #   opencensus
     #   python-dateutil
-sqlparse==0.5.3
+sqlparse==0.5.2
     # via
     #   django
     #   django-debug-toolbar
+stevedore==5.4.0
 stevedore==5.4.0
     # via
     #   keystoneauth1
     #   oslo-config
     #   python-keystoneclient
-toolz==1.0.0
-    # via -r requirements.in
 typing-extensions==4.12.2
     # via
     #   azure-core
@@ -291,17 +311,19 @@ typing-extensions==4.12.2
     #   azure-storage-blob
     #   jwcrypto
     #   keystoneauth1
+    #   keystoneauth1
 tzdata==2024.2
     # via
     #   oslo-serialization
     #   oslo-utils
 uritemplate==4.1.1
     # via drf-yasg
-urllib3==2.3.0
+urllib3==2.2.3
     # via requests
 wrapt==1.17.0
     # via
     #   debtcollector
     #   opencensus-ext-requests
 xmltodict==0.14.2
+    # via -r requirements.in
     # via -r requirements.in
