@@ -6,10 +6,9 @@ from django.conf import settings
 from rest_framework.reverse import reverse
 from rest_framework.serializers import ModelSerializer
 
+import bouwdossiers.constants as const
 from importer.models import (
     SOURCE_CHOICES,
-    SOURCE_EDEPOT,
-    SOURCE_WABO,
     Adres,
     BouwDossier,
     Document,
@@ -50,7 +49,7 @@ class DocumentSerializer(ModelSerializer):
 
         for bestand in result["bestanden"]:
             filename = bestand.replace(" ", "%20")
-            if instance.bouwdossier.source == SOURCE_EDEPOT:
+            if instance.bouwdossier.source == const.SOURCE_EDEPOT:
                 filename = filename.replace("/", "-")
                 # If stadsdeel en dossiernr are not part of the filename, they  will be added to the beginning of the filename in the form of
                 # SD12345. In this way iiif-auth-proxy can determine the access for this bestand in de the dossier.
@@ -64,7 +63,7 @@ class DocumentSerializer(ModelSerializer):
                 else:
                     url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{instance.bouwdossier.stadsdeel}{instance.bouwdossier.dossiernr}-{filename}"
 
-            elif instance.bouwdossier.source == SOURCE_WABO:
+            elif instance.bouwdossier.source == const.SOURCE_WABO:
                 file_reference = f"{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}"
                 url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 

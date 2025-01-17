@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import IntegrityError, connection, transaction
 from django.db.models import Case, Count, IntegerField, Q, Sum, When
 
+import bouwdossiers.constants as const
 from importer import models
 
 log = logging.getLogger(__name__)
@@ -98,19 +99,19 @@ def get_access(el):
     }
 
     if not any(el.get(check) for check in checks.keys()):
-        return models.ACCESS_RESTRICTED
+        return const.ACCESS_RESTRICTED
 
     for key, (default_value, expected_value) in checks.items():
         if el.get(key, default_value).lower() == expected_value:
-            return models.ACCESS_RESTRICTED
+            return const.ACCESS_RESTRICTED
 
-    return models.ACCESS_PUBLIC
+    return const.ACCESS_PUBLIC
 
 
 def openbaar_to_copyright(copyright):
     if copyright == "J":
-        return models.COPYRIGHT_YES
-    return models.COPYRIGHT_NO
+        return const.COPYRIGHT_YES
+    return const.COPYRIGHT_NO
 
 
 def add_wabo_dossier(
@@ -189,7 +190,7 @@ def add_wabo_dossier(
         olo_liaan_nummer=olo_liaan_nummer,
         wabo_bron=x_dossier.get("bron"),
         access=get_access(x_dossier),
-        source=models.SOURCE_WABO,
+        source=const.SOURCE_WABO,
         activiteiten=activiteiten,
     )
 
@@ -456,7 +457,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
         if not wabo or len(importfiles) > 0:
             continue
 
-        import_file = models.ImportFile(name=file_path, status=models.IMPORT_BUSY)
+        import_file = models.ImportFile(name=file_path, status=const.IMPORT_BUSY)
         import_file.save()
 
         try:
@@ -475,7 +476,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
                         x_dossier, file_path, import_file, count, total_count
                     )
 
-            import_file.status = models.IMPORT_FINISHED
+            import_file.status = const.IMPORT_FINISHED
             import_file.save()
             file_count += 1
             if max_file_count and file_count >= max_file_count:
@@ -483,7 +484,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
 
         except Exception as e:
             log.error(f"Error while processing file {file_path} : {e}")
-            import_file.status = models.IMPORT_ERROR
+            import_file.status = const.IMPORT_ERROR
             import_file.save()
 
     log.info(
@@ -504,7 +505,7 @@ def import_pre_wabo_dossiers(
         if not pre_wabo or len(importfiles) > 0:
             continue
 
-        import_file = models.ImportFile(name=file_path, status=models.IMPORT_BUSY)
+        import_file = models.ImportFile(name=file_path, status=const.IMPORT_BUSY)
         import_file.save()
 
         try:
@@ -520,7 +521,7 @@ def import_pre_wabo_dossiers(
                         x_dossier, file_path, import_file, count, total_count
                     )
 
-            import_file.status = models.IMPORT_FINISHED
+            import_file.status = const.IMPORT_FINISHED
             import_file.save()
             file_count += 1
             if max_file_count and file_count >= max_file_count:
@@ -528,7 +529,7 @@ def import_pre_wabo_dossiers(
 
         except Exception as e:
             log.error(f"Error while processing file {file_path} : {e}")
-            import_file.status = models.IMPORT_ERROR
+            import_file.status = const.IMPORT_ERROR
             import_file.save()
 
         log.info(
@@ -710,49 +711,49 @@ def validate_import(min_bouwdossiers_count):
                     default=0,
                     output_field=IntegerField()
                 )),                                
-            wabo_total = Count('id', filter=Q(bouwdossier__source=models.SOURCE_WABO)),                
+            wabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_WABO)),                
             wabo_has_panden = Sum(
                 Case(
                     When(panden__len__gt=0, then=1),
                     default=0,
                     output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=models.SOURCE_WABO)
+                    ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
                 ),
             wabo_has_nummeraanduidingen = Sum(
                 Case(
                     When(nummeraanduidingen__len__gt=0, then=1),
                     default=0,
                     output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=models.SOURCE_WABO)
+                    ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
                 ),
             wabo_has_openbareruimte_id=Sum(
                 Case(
                     When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
                     default=0,
                     output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=models.SOURCE_WABO)
+                    ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
                 ),                           
-            prewabo_total = Count('id', filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)),                
+            prewabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)),                
             prewabo_has_panden = Sum(
                 Case(
                     When(panden__len__gt=0, then=1),
                     default=0,
                     output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)
+                    ), filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)
                 ),
             prewabo_has_nummeraanduidingen = Sum(
                 Case(
                     When(nummeraanduidingen__len__gt=0, then=1),
                     default=0,
                     output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)
+                    ), filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)
                 ),                                
             prewabo_has_openbareruimte_id=Sum(
                 Case(
                     When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
                     default=0,
                     output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=models.SOURCE_EDEPOT)
+                    ), filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)
                 ),
         ))
 

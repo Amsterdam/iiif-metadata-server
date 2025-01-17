@@ -5,6 +5,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import FilterSet, filters
 
+import bouwdossiers.constants as const
 from bouwdossiers import models, serializers, tools
 
 log = logging.getLogger(__name__)
@@ -71,7 +72,7 @@ class BouwDossierViewSet(DatapuntViewSet):
                 "adressen", "documenten"
             )
         else:
-            return models.BouwDossier.objects.filter(source="EDEPOT").prefetch_related(
+            return models.BouwDossier.objects.filter(source= const.SOURCE_EDEPOT).prefetch_related(
                 "adressen", "documenten"
             )
 

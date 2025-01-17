@@ -4,12 +4,13 @@ from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from bouwdossiers.models import SOURCE_EDEPOT, SOURCE_WABO, Adres, BouwDossier, Document
+import bouwdossiers.constants as const
+from bouwdossiers.models import Adres, BouwDossier, Document, SOURCE_CHOICES, STATUS_CHOICES
 from bouwdossiers.tests import factories
 from bouwdossiers.tests.tools_for_testing import create_authz_token
 
 
-def create_bouwdossiers(n, stadsdeel="AA", source=SOURCE_EDEPOT):
+def create_bouwdossiers(n, stadsdeel="AA", source=const.SOURCE_EDEPOT):
     return [
         factories.BouwDossierFactory(
             dossiernr='P15-'+str(randint(10, 10000)),
@@ -34,8 +35,8 @@ class TestAPI(APITestCase):
         super().setUpClass()
 
     def test_api_list(self):
-        create_bouwdossiers(3, source=SOURCE_EDEPOT)
-        create_bouwdossiers(4, source=SOURCE_WABO)
+        create_bouwdossiers(3, source=const.SOURCE_EDEPOT)
+        create_bouwdossiers(4, source=const.SOURCE_WABO)
         url = reverse("bouwdossier-list")
 
         test_parameters = [
@@ -73,7 +74,7 @@ class TestAPI(APITestCase):
         delete_all_records()
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
-        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
+        dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
         pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
@@ -94,7 +95,7 @@ class TestAPI(APITestCase):
         delete_all_records()
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_with_auth(self):
-        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
+        dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
         pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
@@ -538,7 +539,7 @@ class TestAPI(APITestCase):
         dossier = BouwDossier.objects.get(stadsdeel="AA", dossiernr="12345")
         dossier.olo_liaan_nummer = "67890"
         dossier.wabo_bron = "test"
-        dossier.source = SOURCE_WABO
+        dossier.source = const.SOURCE_WABO
         dossier.save()
 
         document = dossier.documenten.first()

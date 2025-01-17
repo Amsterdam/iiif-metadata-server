@@ -1,6 +1,7 @@
 from django.db import connection
 from django.test import TestCase
 
+import bouwdossiers.constants as const
 from importer import batch, models
 
 DATA_DIR = "importer/tests/data/"
@@ -128,7 +129,7 @@ class APITest(TestCase):
             document5.oorspronkelijk_pad,
             ["G:\\Export files\\documentum\\primary/25/0901b69980335dcb"],
         )
-        self.assertEqual(document5.access, models.ACCESS_PUBLIC)
+        self.assertEqual(document5.access, const.ACCESS_PUBLIC)
 
         document6 = bd1_documenten[6]
         self.assertEqual(
@@ -143,17 +144,17 @@ class APITest(TestCase):
             document6.oorspronkelijk_pad,
             ["G:\\Export files\\documentum\\primary/25/0901b69980335dcd"],
         )
-        self.assertEqual(document6.access, models.ACCESS_RESTRICTED)
+        self.assertEqual(document6.access, const.ACCESS_RESTRICTED)
 
         # Test whether the dossier and document with no accesibility keys are set to restricted
         bd2 = models.BouwDossier.objects.get(dossiernr=233)
-        self.assertEqual(bd2.access, models.ACCESS_RESTRICTED)
+        self.assertEqual(bd2.access, const.ACCESS_RESTRICTED)
 
         bd2_documenten = (
             models.Document.objects.filter(bouwdossier_id=bd2.id).order_by("id").all()
         )
         document1 = bd2_documenten[0]
-        self.assertEqual(document1.access, models.ACCESS_RESTRICTED)
+        self.assertEqual(document1.access, const.ACCESS_RESTRICTED)
 
         batch.add_bag_ids_to_wabo()
         self.assertEqual(bd1_addressen.count(), 25)
