@@ -254,8 +254,10 @@ def add_wabo_dossier(
             # oorspronkelijke_pads are added in another list (with the same order as bestanden)
             # to keep the same structure as the pre_wabo dossiers.
             # The removed part below is because we want to be consistent with the pre-wabo urls
-            # in that we only store a relave url, not the full url
-            bestand_str = bestand.get("URL").replace(settings.WABO_BASE_URL, "")
+            # in that we only store a relative url, not the full url
+            bestand_str = bestand.get("URL")
+            for base_url in settings.WABO_BASE_URL:
+                bestand_str = bestand_str.replace(base_url, "") 
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but

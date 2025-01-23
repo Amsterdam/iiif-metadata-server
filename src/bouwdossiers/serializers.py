@@ -43,28 +43,28 @@ class DocumentSerializer(ModelSerializer):
         This decision was made because the iiif-auth-proxy requires the
         use of '-' when retrieving the image and this api is the source
         of the image titles
+
+        The way iiif-auth-proxy can determine the different components of the url:
+         - stadsdeel, dossiernr separated by '_': example SD_T-12345
+         than ~ for
+         - if edepot: document_barcode, file separated by '_'
+         - if Wabo: olo, document_barcode separated by '_'
+        
+
         """
         result = super().to_representation(instance)
         _bestanden = []
 
         for bestand in result["bestanden"]:
-            filename = bestand.replace(" ", "%20")
+            filename = bestand.replace(" ", "%20").replace("/", "-")
+            stadsdeel_dossiernr = f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
             if instance.bouwdossier.source == const.SOURCE_EDEPOT:
-                filename = filename.replace("/", "-")
-                # If stadsdeel en dossiernr are not part of the filename, they  will be added to the beginning of the filename in the form of
-                # SD12345. In this way iiif-auth-proxy can determine the access for this bestand in de the dossier.
-                m = re.search(r"^([A-Z]+)-(\d+)-", filename)
-                if (
-                    m
-                    and m.group(1) == instance.bouwdossier.stadsdeel
-                    and int(m.group(2)) == instance.bouwdossier.dossiernr
-                ):
-                    url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{filename}"
-                else:
-                    url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{instance.bouwdossier.stadsdeel}{instance.bouwdossier.dossiernr}-{filename}"
+                # If stadsdeel en dossiernr are part of the filename: remove
+                file_name = re.sub(rf"^{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-", "", filename)
+                url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{stadsdeel_dossiernr}~{file_name}"
 
             elif instance.bouwdossier.source == const.SOURCE_WABO:
-                file_reference = f"{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}"
+                file_reference = f"{stadsdeel_dossiernr}~{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}"
                 url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 
             _bestanden.append({"filename": filename, "url": url})

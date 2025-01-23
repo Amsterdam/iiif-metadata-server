@@ -188,8 +188,8 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.DocumentFactory(bouwdossier__dossiernr=222)
-        factories.DocumentFactory(bouwdossier__dossiernr=333)
+        factories.DocumentFactory(bouwdossier__dossiernr='222')
+        factories.DocumentFactory(bouwdossier__dossiernr='333')
 
         url = reverse("bouwdossier-list") + "?dossiernr=111&stadsdeel=AA"
         response = self.client.get(url)
@@ -205,7 +205,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA111-SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_111~SU10000010_00001.jpg",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -390,8 +390,8 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.BouwDossierFactory(dossiernr=222)
-        factories.BouwDossierFactory(dossiernr=333)
+        factories.BouwDossierFactory(dossiernr="222")
+        factories.BouwDossierFactory(dossiernr="333")
 
         url = reverse("bouwdossier-list") + "?olo_liaan_nummer=7777777"
         response = self.client.get(url)
@@ -408,7 +408,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA12345-SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -487,8 +487,8 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.BouwDossierFactory(dossiernr=222)
-        factories.BouwDossierFactory(dossiernr=333)
+        factories.BouwDossierFactory(dossiernr='222')
+        factories.BouwDossierFactory(dossiernr='333')
 
         url = reverse("bouwdossier-list") + f"?dossier={bd.stadsdeel}_{bd.dossiernr}"
     
@@ -506,7 +506,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA12345-SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -538,7 +538,7 @@ class TestAPI(APITestCase):
             bouwdossier__dossiernr=bd.dossiernr
         )  # Also add an address to the bouwdossier
 
-        dossier = BouwDossier.objects.get(stadsdeel="AA", dossiernr="12345")
+        dossier = BouwDossier.objects.get(stadsdeel="AA", dossiernr="TA-12345")
         dossier.olo_liaan_nummer = "67890"
         dossier.wabo_bron = "test"
         dossier.source = const.SOURCE_WABO
@@ -558,7 +558,7 @@ class TestAPI(APITestCase):
         adres.huisnummer_toevoeging = "B"
         adres.save()
 
-        url = reverse("bouwdossier-detail", kwargs={"pk": "AA_12345"})
+        url = reverse("bouwdossier-detail", kwargs={"pk": "AA_TA-12345"})
         header = {
             "HTTP_AUTHORIZATION": "Bearer "
             + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)
@@ -573,7 +573,7 @@ class TestAPI(APITestCase):
         self.assertEqual(documents[0]["oorspronkelijk_pad"], ["/path/to/bestand"])
         self.assertEqual(
             documents[0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}wabo:AA-12345-67890_1234567",
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567",
         )
         self.assertEqual(adressen[0]["locatie_aanduiding"], "aanduiding")
         self.assertEqual(adressen[0]["huisnummer_letter"], "A")
