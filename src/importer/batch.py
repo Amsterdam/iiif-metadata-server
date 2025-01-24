@@ -349,7 +349,7 @@ def add_pre_wabo_dossier(
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
-        dossiernr=dossiernr,
+        dossiernr=dossiernr.zfill(5),
         stadsdeel=stadsdeel,
         titel=titel,
         datering=datering,
