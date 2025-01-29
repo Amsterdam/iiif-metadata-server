@@ -19,17 +19,6 @@ logger = logging.getLogger(__name__)
 
 
 class BagController:
-    def create_rijtjeshuizen_tables(self):
-        files = ["determine_building_units.sql", "cluster_building_dwelling.sql"]
-        folder = os.path.join(settings.BASE_DIR, "bag/raw_sql")
-        for file in files:
-            with open(os.path.join(folder, file), "r") as sql_file:
-                raw_sql = sql_file.read()
-
-                logger.info(f"Creating table from file {file}")
-                with connection.cursor() as cursor:
-                    cursor.execute(raw_sql)
-
     def create_bag_instances(self, bag_model, row: dict):
         bag_dict = {}
         for field, value in row.items():
