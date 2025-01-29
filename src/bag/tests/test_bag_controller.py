@@ -3,7 +3,7 @@ import pytest
 from model_bakery import baker
 
 from bag.bag_controller import BagController
-from bag.models import Ligplaats
+from bag.models import Ligplaats, Pand, Verblijfsobject, Verblijfsobjectpandrelatie
 
 
 class TestBagController:
@@ -93,3 +93,54 @@ class TestBagController:
         )
 
         assert Ligplaats.objects.count() == 2
+
+    @pytest.mark.django_db
+    def test_filter_valid_references_passes(self):
+        baker.make(Verblijfsobject, id="vot_1")
+        baker.make(Pand, id="pand_1")
+        records = [{"pand": "pand_1", "verblijfsobject": "vot_1"}]
+        records_filtered = BagController().filter_valid_references(
+            Verblijfsobjectpandrelatie, records, threshold=0
+        )
+
+        assert len(records_filtered) == 1
+        assert records == records_filtered
+
+    @pytest.mark.django_db
+    def test_filter_valid_references_verblijfsobject_not_exist_passes(self):
+        baker.make(Pand, id="pand_1")
+        records = [{"pand": "pand_1", "verblijfsobject": "vot_1"}]
+        records_filtered = BagController().filter_valid_references(
+            Verblijfsobjectpandrelatie, records, threshold=0
+        )
+
+        assert len(records_filtered) == 0
+
+    @pytest.mark.django_db
+    def test_filter_valid_references_allows_non_existing_below_threshold(self):
+        baker.make(Verblijfsobject, id="vot_1")
+        records = [{"pand": "pand_1", "verblijfsobject": "vot_1"}]
+        records_filtered = BagController().filter_valid_references(
+            Verblijfsobjectpandrelatie, records, threshold=1
+        )
+
+        assert len(records_filtered) == 0
+
+    @pytest.mark.django_db
+    def test_filter_valid_references_relatie_not_exist_raises(self):
+        baker.make(Verblijfsobject, id="vot_1")
+        baker.make(Pand, id="pand_1")
+        records = []
+        with pytest.raises(Exception):
+            BagController().filter_valid_references(
+                Verblijfsobjectpandrelatie, records, threshold=0
+            )
+
+    @pytest.mark.django_db
+    def test_filter_valid_references_pand_not_exist_raises(self):
+        baker.make(Verblijfsobject, id="vot_1")
+        records = [{"pand": "pand_1", "verblijfsobject": "vot_1"}]
+        with pytest.raises(Exception):
+            BagController().filter_valid_references(
+                Verblijfsobjectpandrelatie, records, threshold=0
+            )
