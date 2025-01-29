@@ -603,8 +603,8 @@ WITH adres_start_end_bouwblok AS (
 		        or bnumm.huisnummer = iadre.huisnummer_tot)
 			and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
 		join bag_verblijfsobject bver on bver.identificatie = bnumm.adresseertverblijfsobjectid 
-		join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bver.identificatie
-		join bag_pand bpand on bpand.identificatie = bvpr.pand_id
+		join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobjectenidentificatie = bver.identificatie
+		join bag_pand bpand on bpand.identificatie = bvpr.ligtinpandenidentificatie
 		JOIN importer_bouwdossier ibouw ON ibouw.id = iadre.bouwdossier_id
 		where ibouw.source = 'EDEPOT'
 		group by iadre.id
@@ -633,8 +633,8 @@ adres_pand AS (
 		    and bnumm.huisnummer <= iadre.huisnummer_tot)
 		and bnumm.identificatie like '0363%' -- Only match Amsterdam addresses
 	join bag_verblijfsobject bverb on bverb.identificatie = bnumm.adresseertverblijfsobjectid 
-	join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobject_id = bverb.identificatie
-	join bag_pand bpand on bpand.identificatie = bvpr.pand_id
+	join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobjectenidentificatie = bverb.identificatie
+	join bag_pand bpand on bpand.identificatie = bvpr.ligtinpandenidentificatie
 	JOIN importer_bouwdossier ibouw ON ibouw.id = iadre.bouwdossier_id
 	JOIN adres_start_end_bouwblok aseb ON aseb.id = iadre.id
     WHERE ibouw.source = 'EDEPOT'

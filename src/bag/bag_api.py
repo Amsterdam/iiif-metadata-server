@@ -58,6 +58,7 @@ class Zip:
                 path=os.path.dirname(path_target),
                 members=[os.path.basename(path_target)],
             )
+            logger.info(f"Zip {path_source} unpacked")
         return path_target
 
     def get_records(self, bag_model):
