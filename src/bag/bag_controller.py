@@ -68,12 +68,6 @@ class BagController:
                 isinstance(obj, Nummeraanduiding)
                 and obj.verblijfsobject_id == "0363010011290888"
             )
-            and not (
-                # https://api.data.amsterdam.nl/v1/bag/panden/?ligtInBouwblok.identificatie=03630012098117
-                # or https://api.data.amsterdam.nl/v1/gebieden/bouwblokken/?identificatie=03630012098117
-                isinstance(obj, Pand)
-                and obj.bouwblok_id == "03630012098117"
-            )
         )
 
     def upsert_table_data(self, bag_objects: iter):
