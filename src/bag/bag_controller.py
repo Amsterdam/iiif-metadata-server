@@ -1,9 +1,6 @@
 import logging
-import os
 from datetime import datetime
 
-from django.conf import settings
-from django.db import connection
 from isodate import parse_date, parse_datetime
 from toolz import interleave, partial, pipe
 
@@ -44,19 +41,16 @@ class BagController:
 
     def is_valid_object(self, obj):
         # TEMPORARY: Remove when api returns object for specified api urls
-        return (
-            not (
-                # https://api.data.amsterdam.nl/v1/bag/verblijfsobjecten/0363010012582763
-                # or https://api.data.amsterdam.nl/v1/bag/nummeraanduidingen/?adresseertVerblijfsobject.identificatie=0363010012582763
-                isinstance(obj, Nummeraanduiding)
-                and obj.verblijfsobject_id == "0363010012582763"
-            )
-            and not (
-                # https://api.data.amsterdam.nl/v1/bag/verblijfsobjecten/0363010011290888
-                # or https://api.data.amsterdam.nl/v1/bag/nummeraanduidingen/?adresseertVerblijfsobject.identificatie=0363010011290888
-                isinstance(obj, Nummeraanduiding)
-                and obj.verblijfsobject_id == "0363010011290888"
-            )
+        return not (
+            # https://api.data.amsterdam.nl/v1/bag/verblijfsobjecten/0363010012582763
+            # or https://api.data.amsterdam.nl/v1/bag/nummeraanduidingen/?adresseertVerblijfsobject.identificatie=0363010012582763
+            isinstance(obj, Nummeraanduiding)
+            and obj.verblijfsobject_id == "0363010012582763"
+        ) and not (
+            # https://api.data.amsterdam.nl/v1/bag/verblijfsobjecten/0363010011290888
+            # or https://api.data.amsterdam.nl/v1/bag/nummeraanduidingen/?adresseertVerblijfsobject.identificatie=0363010011290888
+            isinstance(obj, Nummeraanduiding)
+            and obj.verblijfsobject_id == "0363010011290888"
         )
 
     def upsert_table_data(self, bag_objects: iter):

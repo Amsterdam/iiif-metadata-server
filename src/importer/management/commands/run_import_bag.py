@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 for bag_model in bag_zip_api.model_to_endpoint.keys():
                     if isinstance(bag_model, Verblijfsobjectpandrelatie):
                         continue
-                    
+
                     records = bag_zip_api.get_records(bag_model)
                     upserted_model_keys[bag_model] = list(
                         bag.upsert_records_in_database(bag_model, records)
@@ -40,13 +40,16 @@ class Command(BaseCommand):
                 records = bag_zip_api.get_records(Verblijfsobjectpandrelatie)
                 records = bag.filter_valid_references(
                     # Threshold (100) 06-12-24 tijdelijk hoog gezet want rijtjeshuizen berekening staat uit, bag import belangrijker
-                    Verblijfsobjectpandrelatie, records, threshold=100
+                    Verblijfsobjectpandrelatie,
+                    records,
+                    threshold=100,
                 )
                 upserted_model_keys_verblijfsobjectpandrelatie = list(
                     bag.upsert_records_in_database(Verblijfsobjectpandrelatie, records)
                 )
                 bag.delete_nonmodified_table_records(
-                    Verblijfsobjectpandrelatie, upserted_model_keys_verblijfsobjectpandrelatie
+                    Verblijfsobjectpandrelatie,
+                    upserted_model_keys_verblijfsobjectpandrelatie,
                 )
 
                 # save timestamp separately in db
