@@ -188,22 +188,22 @@ LOGGING = {
     },
     "loggers": {
         "bag": {
-            "level": "WARNING",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },
         "bouwdossiers": {
-            "level": "WARNING",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },
         "importer": {
-            "level": "WARNING",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },
         "main": {
-            "level": "WARNING",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },
