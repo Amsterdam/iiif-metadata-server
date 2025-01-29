@@ -48,9 +48,6 @@ class Command(BaseCommand):
                 bag.delete_nonmodified_table_records(
                     Verblijfsobjectpandrelatie, upserted_model_keys_verblijfsobjectpandrelatie
                 )
-                
-                # We determine the rijtjeshuizen through raw SQL queries
-                bag.create_rijtjeshuizen_tables()
 
                 # save timestamp separately in db
                 BagUpdatedAt().save()
