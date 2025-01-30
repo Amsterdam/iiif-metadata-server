@@ -376,7 +376,7 @@ INSERT INTO public.bag_nummeraanduiding (identificatie,begingeldigheid,eindgeldi
 --
 -- Data for Name: bag_verblijfsobjectpandrelatie; Type: TABLE DATA; Schema: public; Owner: iiif_metadata_server
 --
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012174716','0363010012063423'),
 	 ('0363100012076352','0363010000959525'),
 	 ('0363100012143649','0363010000979524'),
@@ -387,7 +387,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012073762','0363010000959566'),
 	 ('0363100012181019','0363010000804676'),
 	 ('0363100012083329','0363010000959534');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012179564','0363010000961571'),
 	 ('0363100012152240','0363010000979506'),
 	 ('0363100012168986','0363010012063427'),
@@ -398,7 +398,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012076352','0363010000959526'),
 	 ('0363100012181226','0363010000672828'),
 	 ('0363100012168986','0363010012063416');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012152240','0363010000979507'),
 	 ('0363100012143649','0363010000979525'),
 	 ('0363100012168986','0363010012063436'),
@@ -409,7 +409,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012083329','0363010000959533'),
 	 ('0363100012152240','0363010000979505'),
 	 ('0363100012076352','0363010000959530');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012092662','0363010000979482'),
 	 ('0363100012121323','0363010000979379'),
 	 ('0363100012131590','0363010000959582'),
@@ -420,7 +420,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012115768','0363010000959597'),
 	 ('0363100012115768','0363010000959595'),
 	 ('0363100012131590','0363010000979484');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012174716','0363010012063422'),
 	 ('0363100012168986','0363010012063414'),
 	 ('0363100012168986','0363010012063438'),
@@ -431,7 +431,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012179564','0363010001024147'),
 	 ('0363100012115768','0363010000979377'),
 	 ('0363100012152240','0363010012171416');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012143649','0363010000979528'),
 	 ('0363100012146344','0363010000979481'),
 	 ('0363100012168986','0363010012064199'),
@@ -442,7 +442,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012099768','0363010012581839'),
 	 ('0363100012168986','0363010012063434'),
 	 ('0363100012152240','0363010000979508');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012168986','0363010000719556'),
 	 ('0363100012181019','0363010012087762'),
 	 ('0363100012121323','0363010012127847'),
@@ -453,7 +453,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012078109','0363010000979493'),
 	 ('0363100012072223','0363010000959585'),
 	 ('0363100012092662','0363010000979483');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012073762','0363010000959567'),
 	 ('0363100012147352','0363010000959587'),
 	 ('0363100012168549','0363010000553680'),
@@ -464,7 +464,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012099768','0363010000979520'),
 	 ('0363100012168986','0363010012063433'),
 	 ('0363100012146344','0363010000979478');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012078109','0363010000979491'),
 	 ('0363100012073762','0363010000979500'),
 	 ('0363100012143649','0363010000979521'),
@@ -475,7 +475,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012131590','0363010000979487'),
 	 ('0363100012168986','0363010012063415'),
 	 ('0363100012168986','0363010012063413');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012131590','0363010000959579'),
 	 ('0363100012143649','0363010000979530'),
 	 ('0363100012168549','0363010000553682'),
@@ -486,7 +486,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012073762','0363010000959564'),
 	 ('0363100012143649','0363010000979526'),
 	 ('0363100012168549','0363010012061208');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012121323','0363010000997015'),
 	 ('0363100012126434','0363010000959570'),
 	 ('0363100012152240','0363010000979510'),
@@ -497,7 +497,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012083329','0363010000959536'),
 	 ('0363100012168549','0363010000553681'),
 	 ('0363100012083329','0363010000959555');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012168986','0363010012063431'),
 	 ('0363100012072223','0363010000959586'),
 	 ('0363100012121323','0363010012127848'),
@@ -508,7 +508,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012152240','0363010000979516'),
 	 ('0363100012174711','0363010012150039'),
 	 ('0363100012174711','0363010012150040');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012168549','0363010000553683'),
 	 ('0363100012131590','0363010000979488'),
 	 ('0363100012138795','0363010000959576'),
@@ -519,7 +519,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012168986','0363010012063426'),
 	 ('0363100012152240','0363010000979512'),
 	 ('0363100012143649','0363010000979522');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012115768','0363010000979375'),
 	 ('0363100012121323','0363010000997016'),
 	 ('0363100012083329','0363010000959535'),
@@ -530,7 +530,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012076352','0363010000959529'),
 	 ('0363100012121323','0363010000979373'),
 	 ('0363100012174711','0363010012150041');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012181019','0363010012087760'),
 	 ('0363100012121323','0363010000997014'),
 	 ('0363100012143649','0363010000979531'),
@@ -541,7 +541,7 @@ INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) V
 	 ('0363100012115768','0363010000959590'),
 	 ('0363100012076352','0363010000959527'),
 	 ('0363100012181019','0363010000804674');
-INSERT INTO public.bag_verblijfsobjectpandrelatie (pand_id,verblijfsobject_id) VALUES
+INSERT INTO public.bag_verblijfsobjectpandrelatie (ligtinpandenidentificatie,verblijfsobjectenidentificatie) VALUES
 	 ('0363100012143649','0363010000979527'),
 	 ('0363100012168986','0363010012063439'),
 	 ('0363100012073762','0363010000979503');
