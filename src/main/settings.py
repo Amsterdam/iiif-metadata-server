@@ -64,18 +64,18 @@ INSTALLED_APPS = [
     "corsheaders",
 ]
 
-if DEBUG:
-    INSTALLED_APPS += ("debug_toolbar",)
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "authorization_django.authorization_middleware",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ("debug_toolbar",)
+    MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 
 
 # The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256

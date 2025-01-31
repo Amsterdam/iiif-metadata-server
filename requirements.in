@@ -11,14 +11,12 @@ xmltodict
 # Django
 django
 django-cors-headers
-django-debug-toolbar
 django-extensions
 django-filter
 djangorestframework
 djangorestframework-gis
 drf_yasg
-drf-amsterdam
-
+uwsgi
 
 # Azure
 azure-core
