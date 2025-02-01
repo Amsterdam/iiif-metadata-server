@@ -39,7 +39,7 @@ azure-storage-blob==12.24.1
     # via -r requirements.in
 cachetools==5.5.1
     # via google-auth
-certifi==2024.12.14
+certifi==2025.1.31
     # via requests
 cffi==1.17.1
     # via cryptography
@@ -91,7 +91,7 @@ djangorestframework-gis==1.1
     # via -r requirements.in
 drf-yasg==1.21.8
     # via -r requirements.in
-google-api-core==2.24.0
+google-api-core==2.24.1
     # via opencensus
 google-auth==2.38.0
     # via google-api-core
@@ -182,7 +182,7 @@ pbr==6.1.0
     #   stevedore
 portalocker==2.10.1
     # via msal-extensions
-proto-plus==1.25.0
+proto-plus==1.26.0
     # via google-api-core
 protobuf==5.29.3
     # via
@@ -217,7 +217,7 @@ python-keystoneclient==5.5.0
     # via datapunt-objectstore
 python-swiftclient==4.6.0
     # via datapunt-objectstore
-pytz==2024.2
+pytz==2025.1
     # via drf-yasg
 pyyaml==6.0.2
     # via
