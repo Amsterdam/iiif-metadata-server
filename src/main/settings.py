@@ -31,8 +31,8 @@ BOUWDOSSIER_READ_SCOPE = (
 )
 BOUWDOSSIER_EXTENDED_SCOPE = "BD/X"  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
-# list of WABO url starts in 'bestanden'
-WABO_BASE_URL = ["J:/INZAGEDOCS/Datapunt/", "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/"]
+# list of WABO url starts in 'bestanden' -> these starts get removed
+WABO_BASE_URL = ["J:/INZAGEDOCS/Datapunt/", "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/", "https://conversiestraatwabo.amsterdam.nl/webDAV/"]
 
 ALLOWED_HOSTS = ["*"]
 

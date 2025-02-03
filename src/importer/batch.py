@@ -281,9 +281,8 @@ def add_wabo_dossier(
 
         barcode = x_document.get("barcode")
         if not barcode and bestanden:
-            # This is the case with wabo dossiers, and since wabo dossiers only have
-            # one bestand per document, we use the number of the bestand as the barcode
-            barcode = bestanden[0].split("/")[-1].split(".")[0]
+            # This is the case with wabo dossiers, we use the name of the first bestand as the barcode
+            barcode = bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
             if type(barcode) is str and len(barcode) > 250:
                 log.error(f'The barcode str "{barcode}" is more than 250 characters')
 

@@ -64,7 +64,9 @@ class DocumentSerializer(ModelSerializer):
                 url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{stadsdeel_dossiernr}~{file_name}"
 
             elif instance.bouwdossier.source == const.SOURCE_WABO:
-                file_reference = f"{stadsdeel_dossiernr}~{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}"
+                m_file = re.search(r"_(\d+)\.\w{3,4}$", filename) #remove extension and get file/bestand number like 00001
+                filenr = int(m_file.group(1))  if m_file else 1 #file/bestand number else always first file
+                file_reference = f"{stadsdeel_dossiernr}~{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}_{filenr}"
                 url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 
             _bestanden.append({"filename": filename, "url": url})

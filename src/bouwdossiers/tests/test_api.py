@@ -546,9 +546,9 @@ class TestAPI(APITestCase):
 
         document = dossier.documenten.first()
         document.bestanden = [
-            "https://conversiestraatwabo.amsterdam.nl/webDAV/SDC/PUA/1234567.PDF"
+            "SDC/PUA/1234567_00009.PDF", "SDC/PUA/1234567_111112.jpg", "SDC/PUA/1234567.PDF" 
         ]
-        document.barcode = document.bestanden[0].split("/")[-1].split(".")[0]
+        document.barcode = document.bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
         document.oorspronkelijk_pad = ["/path/to/bestand"]
         document.save()
 
@@ -573,7 +573,15 @@ class TestAPI(APITestCase):
         self.assertEqual(documents[0]["oorspronkelijk_pad"], ["/path/to/bestand"])
         self.assertEqual(
             documents[0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567",
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_9",
+        )
+        self.assertEqual(
+            documents[0]["bestanden"][1]["url"],
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_111112",
+        )
+        self.assertEqual(
+            documents[0]["bestanden"][2]["url"],
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_1",
         )
         self.assertEqual(adressen[0]["locatie_aanduiding"], "aanduiding")
         self.assertEqual(adressen[0]["huisnummer_letter"], "A")
