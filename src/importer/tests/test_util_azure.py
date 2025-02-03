@@ -15,6 +15,10 @@ from importer.util_azure import (
 log = logging.getLogger(__name__)
 
 
+CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(CURRENT_DIRECTORY, "data")
+
+
 def create_blob_container(container_name):
     blob_service_client = get_container_client()
     try:
@@ -42,7 +46,7 @@ class APITest(TestCase):
     def setUpTestData(cls):
         create_blob_container(settings.AZURE_CONTAINER_NAME_BAG)
 
-        dir_path = Path("importer/tests/data/bag")
+        dir_path = Path(f"{DATA_DIR}/bag")
         for file_path in os.listdir(dir_path):
             file = Path(dir_path, file_path)
             store_blob_in_container(settings.AZURE_CONTAINER_NAME_BAG, file, file.name)

@@ -1,10 +1,9 @@
 import logging
 import re
 
-from datapunt_api.serializers import DisplayField, HALSerializer, LinksField
 from django.conf import settings
 from rest_framework.reverse import reverse
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 
 from importer.models import (
     SOURCE_CHOICES,
@@ -14,6 +13,7 @@ from importer.models import (
     BouwDossier,
     Document,
 )
+from main.drf import DisplayField, LinksField
 
 log = logging.getLogger(__name__)
 
@@ -100,7 +100,8 @@ class CustomLinksField(LinksField):
         return reverse(view_name, kwargs=url_kwargs, request=request, format=_format)
 
 
-class CustomHalSerializer(HALSerializer):
+class CustomHalSerializer(HyperlinkedModelSerializer):
+    url_field_name: str = "_links"
     serializer_url_field = CustomLinksField
 
 

@@ -1,9 +1,12 @@
+import os
+
 from django.db import connection
 from django.test import TestCase
 
 from importer import batch, models
 
-DATA_DIR = "importer/tests/data/"
+CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(CURRENT_DIRECTORY, "data")
 
 
 class APITest(TestCase):

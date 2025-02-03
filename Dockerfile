@@ -1,47 +1,70 @@
-FROM python:3.11-bullseye as app
+ARG PYTHON_VERSION=3.12
 
-ENV PYTHONUNBUFFERED 1 \
-    PIP_NO_CACHE_DIR=off
+# Builder
+FROM python:${PYTHON_VERSION}-slim-bookworm AS builder
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED 1
+
+RUN set -eux && \
+    python -m ensurepip --upgrade && \
+    apt-get update && apt-get install -y gcc && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /app/install
+
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+FROM python:${PYTHON_VERSION}-slim-bookworm AS app
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED 1
+
 ENV CONSUL_HOST=${CONSUL_HOST:-notset}
 ENV CONSUL_PORT=${CONSUL_PORT:-8500}
+
 ARG USE_JWKS_TEST_KEY=true
 
-RUN apt-get update \
- && apt-get dist-upgrade -y \
- && apt-get install --no-install-recommends -y \
-        gdal-bin postgresql-client \
- && pip install --upgrade pip \
- && pip install uwsgi \
- && useradd --user-group --system datapunt \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN set -eux && \
+    python -m ensurepip --upgrade && \
+    apt-get update && apt-get install -y \
+        libgeos3.11.1 \
+        gdal-bin && \
+    useradd --user-group --system datapunt && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-WORKDIR /app_install
-ADD requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# Copy the Python dependencies from the builder stage
+COPY --from=builder /usr/local/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/
+COPY --from=builder /usr/local/bin/ /usr/local/bin
 
-ADD deploy /deploy
+COPY deploy /deploy
 
-WORKDIR /src
-ADD src .
+WORKDIR /app/src
+COPY src .
 
 ARG SECRET_KEY=collectstatic
 RUN python manage.py collectstatic --no-input
 
 USER datapunt
+WORKDIR /app/src
 
 CMD ["/deploy/docker-run.sh"]
 
 # devserver
-FROM app as dev
+FROM app AS dev
 
 USER root
-WORKDIR /app_install
-ADD requirements_dev.txt requirements_dev.txt
-RUN pip install -r requirements_dev.txt
-RUN chmod -R a+r /app_install
+WORKDIR /app/install
 
-WORKDIR /src
+COPY requirements_dev.txt requirements_dev.txt
+
+RUN pip install --no-cache-dir -r requirements_dev.txt
+
+WORKDIR /app/src
 USER datapunt
 
 # Any process that requires to write in the home dir
@@ -51,13 +74,21 @@ ENV HOME /tmp
 CMD ["./manage.py", "runserver", "0.0.0.0"]
 
 # tests
-FROM dev as tests
+FROM dev AS tests
 
+WORKDIR /app
 USER datapunt
-WORKDIR /src
-COPY pyproject.toml /.
+
+COPY pyproject.toml pyproject.toml
 
 ENV COVERAGE_FILE=/tmp/.coverage
-ENV PYTHONPATH=/src
 
 CMD ["pytest"]
+
+# linting
+FROM python:${PYTHON_VERSION}-alpine AS linting
+
+WORKDIR /app
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements_linting.txt
