@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 from importer.batch import (
     add_bag_ids_to_pre_wabo,
     add_bag_ids_to_wabo,
+    add_bag_ids_to_wabo_with_only_adresses,
     import_pre_wabo_dossiers,
     import_wabo_dossiers,
     validate_import,
@@ -30,6 +31,7 @@ class Command(BaseCommand):
         log.info("Importing wabo dossiers")
         import_wabo_dossiers(dossier_path)
         add_bag_ids_to_wabo()
+        add_bag_ids_to_wabo_with_only_adresses()
 
     def add_arguments(self, parser):
 

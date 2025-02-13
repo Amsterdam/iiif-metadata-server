@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dossiers>
+    <dossier>
+        <dossier_titel>Omgevingsvergunning</dossier_titel>
+        <intern_nummer>SDC_1</intern_nummer>
+        <bron>BWT</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Plantage Middenlaan</straatnaam>
+                <huisnummer>25</huisnummer>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Bouwen bouwwerk (verbouwing); Bestemmingsplan, vrijstelling</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving>SA00279185</document_omschrijving>
+                <document_type>Intake en ontvankelijkheid</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <barcode>Aanvraagformulier</barcode>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00003.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00004.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00004.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00005.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00005.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00006.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00006.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00007.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00007.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279185_00008.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279185_00008.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00389626</document_omschrijving>
+                <document_type>Inhoudelijke behandeling</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389626_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389626_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389626_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389626_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389626_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389626_00003.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389626_00004.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389626_00004.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389626_00005.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389626_00005.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279184</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279184_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279184_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279184_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279184_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279184_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279184_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279187</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279187_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279187_00001.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279191</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279191_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279191_00001.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279459</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279459_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279459_00001.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279472</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279472_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279472_00001.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279457</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00003.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00004.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00004.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00005.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00005.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00006.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00006.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00007.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00007.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00008.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00008.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00009.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00009.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00010.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00010.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00011.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00011.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00012.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00012.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279457_00013.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279457_00013.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00279186</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00279186_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00279186_00001.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00389625</document_omschrijving>
+                <document_type>Inspectie</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389625_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389625_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389625_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389625_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389625_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389625_00003.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\1\SA00389625_00004.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/1/SA00389625_00004.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel>Overige bouwgerelateerde vergunningen</dossier_titel>
+        <intern_nummer>SDC_2</intern_nummer>
+        <bron>BWT</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Westerstraat</straatnaam>
+                <huisnummer>262</huisnummer>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Splitsingsvergunning</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving>SA00303164</document_omschrijving>
+                <document_type>Intake en ontvankelijkheid</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <barcode>Aanvraagformulier</barcode>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00303166</document_omschrijving>
+                <document_type>Inhoudelijke behandeling</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303166_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303166_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303166_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303166_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303166_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303166_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00303167</document_omschrijving>
+                <document_type>Inhoudelijke behandeling</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303167_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303167_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303167_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303167_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303167_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303167_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00679357</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00679357_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00679357_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00679357_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00679357_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00679357_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00679357_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00303168</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303168_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303168_00001.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00303170</document_omschrijving>
+                <document_type>Besluit</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303170_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303170_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303170_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303170_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303170_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303170_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>SA00303171</document_omschrijving>
+                <document_type>Inspectie</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303171_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303171_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303171_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303171_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303171_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303171_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+</dossiers>

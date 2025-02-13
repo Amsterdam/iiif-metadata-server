@@ -158,19 +158,27 @@ def add_wabo_dossier(
         titel = ""
         log.warning(f"Missing titel for Wabo dossier {dossiernr} in {file_path}")
 
-    datering = x_dossier.get("begindatum")
-    dossier_type = x_dossier.get("omschrijving").lower()
-    if type(dossier_type) is str and len(dossier_type) > 255:
-        dossier_type = dossier_type[:255]  # Cap at 255 characters
+    bron = x_dossier.get("bron")
 
-    olo_liaan_nummer = x_dossier.get("OLO_liaan_nummer")
-    if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
-        # In some cases the string starts with 'OLO'. We need to remove this
-        olo_liaan_nummer = olo_liaan_nummer.replace("OLO", "")
-    # prewabo key2 dossiers do not have a olo number. Because we do not
-    # want a None in the URL we set the olo number to 0
-    if not olo_liaan_nummer and wabo_tag == "prewabo":
+    if bron == "BWT":
+        " de BWT files hebben geen begindatum, omschrijving of OLO_liaan_nummer"
+        datering =None
+        dossier_type = ""
         olo_liaan_nummer = 0
+    else:        
+        datering = x_dossier.get("begindatum")
+        dossier_type = x_dossier.get("omschrijving").lower()
+        if type(dossier_type) is str and len(dossier_type) > 255:
+            dossier_type = dossier_type[:255]  # Cap at 255 characters
+
+        olo_liaan_nummer = x_dossier.get("OLO_liaan_nummer")
+        if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
+            # In some cases the string starts with 'OLO'. We need to remove this
+            olo_liaan_nummer = olo_liaan_nummer.replace("OLO", "")
+        # prewabo key2 dossiers do not have a olo number. Because we do not
+        # want a None in the URL we set the olo number to 0
+        if not olo_liaan_nummer and wabo_tag == "prewabo":
+            olo_liaan_nummer = 0
 
     activiteiten = []
     for activiteit in get_list_items(x_dossier, "activiteiten", "activiteit"):
@@ -188,7 +196,7 @@ def add_wabo_dossier(
         datering=datering,
         dossier_type=dossier_type,
         olo_liaan_nummer=olo_liaan_nummer,
-        wabo_bron=x_dossier.get("bron"),
+        wabo_bron=bron,
         access=get_access(x_dossier),
         source=const.SOURCE_WABO,
         activiteiten=activiteiten,
@@ -452,7 +460,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     total_count = 0
     file_count = 0
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search(r"/WABO/SD[A-Z]{1,2}/.+\.xml$|WABO_.+\.xml$", file_path)
+        wabo = re.search(r"/WABO/SD[A-Z]{1,2}( BWT)?/.+\.xml$|WABO_.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
@@ -560,7 +568,7 @@ WITH adres_nummeraanduiding AS (
     JOIN importer_bouwdossier bb ON bb.id = ba.bouwdossier_id
     JOIN bag_nummeraanduiding bag_nra ON bag_nra.adresseertverblijfsobjectid = ANY(ba.verblijfsobjecten)
     JOIN bag_openbareruimte bag_opr ON bag_opr.identificatie = bag_nra.ligtaanopenbareruimteid
-    WHERE bb.source = 'WABO'
+    WHERE (bb.source = 'WABO') and (bb.wabo_bron != 'BWT')
     GROUP BY ba.id)
 UPDATE importer_adres
 SET nummeraanduidingen = adres_nummeraanduiding.nummeraanduidingen,
@@ -574,6 +582,64 @@ WHERE importer_adres.id = adres_nummeraanduiding.id
     log.info("Finished adding nummeraanduidingen to wabo dossiers")
 
 
+def add_bag_ids_to_wabo_with_only_adresses():
+    """
+    This will try to add bag ids to addresses by matching streetname and house number on the BWT-WABO dossiers.
+    """
+    log.info("Add nummeraanduidingen,verblijfsobjecten and panden to pre-wabo dossiers")
+    with connection.cursor() as cursor:
+        # Set parameter to disable parallel query. On Postgres docker
+        # parallel query can fail due to lack of /dev/shm shared memory
+        cursor.execute("SET max_parallel_workers_per_gather = 0")
+        cursor.execute(
+            """
+WITH adres AS (
+    SELECT
+	    ba.id,
+        ARRAY_AGG(bpand.identificatie) AS panden,
+        ARRAY_AGG(bverb.identificatie) AS verblijfsobjecten,
+        ARRAY_AGG(bag_nra.identificatie) AS nummeraanduidingen,
+        ARRAY_AGG(bag_nra.ligtaanopenbareruimteid) AS openbareruimte_id,
+        ARRAY_AGG(bag_nra.ligtaanopenbareruimteid || ' ' || bag_nra.huisnummer ||
+            CASE WHEN (bag_nra.huisletter = '') IS NOT FALSE THEN '' ELSE bag_nra.huisletter END ||
+            CASE WHEN (bag_nra.huisnummertoevoeging = '') IS NOT FALSE THEN '' ELSE '-' || bag_nra.huisnummertoevoeging
+            END) AS nummeraanduidingen_label         
+	FROM importer_adres ba
+	join bag_openbareruimte bag_opr ON bag_opr.naam = ba.straat
+	join bag_nummeraanduiding bag_nra
+		on bag_nra.ligtaanopenbareruimteid = bag_opr.identificatie 
+		and (bag_nra.huisnummer = ba.huisnummer_van
+		    and (bag_nra.huisletter = ba.huisnummer_letter OR (bag_nra.huisletter IS NULL AND ba.huisnummer_letter IS NULL))
+            and (bag_nra.huisnummertoevoeging = ba.huisnummer_toevoeging OR (bag_nra.huisnummertoevoeging IS NULL AND ba.huisnummer_toevoeging  IS NULL))
+            )
+	join bag_verblijfsobject bverb on bverb.identificatie = bag_nra.adresseertverblijfsobjectid 
+	join bag_verblijfsobjectpandrelatie bvpr on bvpr.verblijfsobjectenidentificatie = bverb.identificatie
+	join bag_pand bpand on bpand.identificatie = bvpr.ligtinpandenidentificatie
+	join importer_bouwdossier bb ON bb.id = ba.bouwdossier_id
+    WHERE (bb.source = 'WABO') and (bb.wabo_bron = 'BWT')
+    GROUP BY ba.id
+)
+UPDATE importer_adres
+SET panden = adres.panden,
+    verblijfsobjecten = adres.verblijfsobjecten,
+    nummeraanduidingen = adres.nummeraanduidingen,
+    nummeraanduidingen_label = adres.nummeraanduidingen_label,
+    openbareruimte_id = adres.openbareruimte_id
+FROM adres
+WHERE importer_adres.id = adres.id
+        """
+        )
+    log.info(
+        "Finished adding nummeraanduidingen, verblijfsobjecten and panden to WABO-BWT dossiers"
+    )
+
+    # TODO13-2-2024: dit gaat nog fout omdat er in de datapunt BWT vergunningen geen huisnummertoevoeging staat,
+    # sowieso moeten die nog wel toegevoegd worden aan de bag test data, anders zal er nooit een koppeling
+    # plaatsvinden bij het verrijken. Nu falen de tests
+    log.info(models.Adres.objects.filter(bouwdossier__wabo_bron='BWT').values_list())
+    assert False
+
+
 def add_bag_ids_to_pre_wabo():
     """
     This will try to add bag ids to addresses by matching streetname and house number.
@@ -581,6 +647,7 @@ def add_bag_ids_to_pre_wabo():
     Because Weesp is added to the bag we only use addresses in Amsterdam by
     adding the  *.id LIKE '0363%' clause.
     """
+    # TODO check if there realy aren't Weesp adressen??
     log.info("Add nummeraanduidingen,verblijfsobjecten and panden to pre-wabo dossiers")
     with connection.cursor() as cursor:
         # Set parameter to disable parallel query. On Postgres docker
@@ -712,7 +779,8 @@ def validate_import(min_bouwdossiers_count):
                     default=0,
                     output_field=IntegerField()
                 )),                                
-            wabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_WABO)),                
+            wabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_WABO)),
+            wabo_bwt = Count('id', filter=Q(bouwdossier__wabo_bron='BWT')),                            
             wabo_has_panden = Sum(
                 Case(
                     When(panden__len__gt=0, then=1),
@@ -733,7 +801,14 @@ def validate_import(min_bouwdossiers_count):
                     default=0,
                     output_field=IntegerField()
                     ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
-                ),                           
+                ),   
+            wabo_has_openbareruimte_id_BWT=Sum(
+                Case(
+                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
+                    default=0,
+                    output_field=IntegerField()
+                    ), filter=Q(bouwdossier__wabo_bron='BWT')
+                ),                                          
             prewabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)),                
             prewabo_has_panden = Sum(
                 Case(

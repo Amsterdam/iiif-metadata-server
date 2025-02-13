@@ -87,6 +87,7 @@ class APITest(TestCase):
         with self.assertNoLogs(logger="importer.batch", level="ERROR"):
             batch.import_wabo_dossiers(DATA_DIR)
 
+        # SDC - first record
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, "SDC")
         self.assertEqual(
@@ -161,9 +162,93 @@ class APITest(TestCase):
         adres1_new = bd1_addressen.first()
         self.assertEqual(adres1_new.nummeraanduidingen_label, ["Lauriergracht 116-H"])
 
+
+        # SDC BWT - first record
+        bd3 = models.BouwDossier.objects.get(dossiernr="1")
+        self.assertEqual(bd3.stadsdeel, "SDC")
+        self.assertEqual(
+            bd3.titel,
+            "Omgevingsvergunning",
+        )
+        self.assertEqual(bd3.datering, None)
+        self.assertEqual(bd3.dossier_type, "")
+        self.assertEqual(bd3.access, "PUBLIC")
+        self.assertEqual(bd3.source, "WABO")
+        self.assertEqual(bd3.olo_liaan_nummer, 0)
+        self.assertEqual(bd3.wabo_bron, "BWT")
+
+        bd3_addressen = models.Adres.objects.filter(bouwdossier_id=bd3.id)
+        self.assertEqual(bd3_addressen.count(), 1)
+
+        adres1 = bd3_addressen.first()
+        self.assertEqual(adres1.straat, "Plantage Middenlaan")
+        self.assertEqual(adres1.huisnummer_van, 25)
+        self.assertEqual(adres1.huisnummer_toevoeging, None)
+        self.assertEqual(adres1.huisnummer_tot, None)
+        self.assertEqual(adres1.openbareruimte_id, None)
+        self.assertEqual(adres1.verblijfsobjecten, [])
+        self.assertEqual(adres1.panden, [])
+
+        bd3_documenten = (
+            models.Document.objects.filter(bouwdossier_id=bd3.id).order_by("id").all()
+        )
+        self.assertEqual(len(bd3_documenten), 10)
+        document5 = bd3_documenten[5]
+        self.assertEqual(
+            document5.document_omschrijving,
+            "SA00279459",
+        )
+        self.assertEqual(
+            document5.bestanden,
+            ["SDC BWT/1/SA00279459_00001.jpg"],
+        )
+        self.assertEqual(
+            document5.oorspronkelijk_pad,
+            ["J:\INZAGEDOCS\Datapunt\SDC BWT\\1\SA00279459_00001.jpg"],
+        )
+        # geen check.keys aanwezig voor get_access -> dus restricted??
+        self.assertEqual(document5.access, const.ACCESS_RESTRICTED)
+
+        document6 = bd3_documenten[0]
+        self.assertEqual(
+            document6.document_omschrijving,
+            "SA00279185",
+        )
+        self.assertEqual(
+            document6.bestanden[0],
+            "SDC BWT/1/SA00279185_00001.jpg",
+        )
+        self.assertEqual(
+            document6.oorspronkelijk_pad[0],
+            "J:\INZAGEDOCS\Datapunt\SDC BWT\\1\SA00279185_00001.jpg",
+        )
+        self.assertEqual(document6.access, const.ACCESS_RESTRICTED)
+
     def test_validate_import(self):
         batch.import_pre_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_pre_wabo()
         batch.import_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_wabo()
-        batch.validate_import(min_bouwdossiers_count=43)
+        batch.add_bag_ids_to_wabo_with_only_adresses()
+        batch.validate_import(min_bouwdossiers_count=45)
+
+
+class TestGetAccess(TestCase):
+    def test_no_checks(self):
+        el = {}
+        self.assertEqual(batch.get_access(el), const.ACCESS_RESTRICTED)
+
+    def test_all_defaults(self):
+        el = {
+            "openbaarheidsBeperking": "N",
+            "openbaar": "J",
+            "gevoelig_object": "N",
+            "bevat_persoonsgegevens": "false",
+        }
+        self.assertEqual(batch.get_access(el), const.ACCESS_PUBLIC)
+
+    def test_check_matches(self):
+        el = {
+            "bevat_persoonsgegevens": "true",
+        }
+        self.assertEqual(batch.get_access(el), const.ACCESS_RESTRICTED)
