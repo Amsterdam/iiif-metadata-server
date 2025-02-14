@@ -2,14 +2,14 @@
 # See # https://git.datapunt.amsterdam.nl/Datapunt/python-best-practices/blob/master/dependency_management/
 
 toolz # Zero-dependency library with a set of utility functions for iterators, functions, and dictionaries.
-datapunt-authorization-django
 jwcrypto
 psycopg2-binary
-datapunt-objectstore
 xmltodict
+uwsgi
 
 # Django
 django
+datapunt-authorization-django
 django-cors-headers
 django-csp
 django-extensions
@@ -17,7 +17,6 @@ django-filter
 djangorestframework
 djangorestframework-gis
 drf_yasg
-uwsgi
 
 # Azure
 azure-core
