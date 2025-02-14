@@ -11,6 +11,7 @@ xmltodict
 # Django
 django
 django-cors-headers
+django-csp
 django-extensions
 django-filter
 djangorestframework
