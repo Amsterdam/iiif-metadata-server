@@ -257,7 +257,20 @@ def add_wabo_dossier(
             # in that we only store a relative url, not the full url
             bestand_str = bestand.get("URL")
             for base_url in settings.WABO_BASE_URL:
-                bestand_str = bestand_str.replace(base_url, "") 
+                bestand_str = bestand_str.replace(base_url, "")
+
+            ## the bestand_url from metadata is not what it should be, construct correctly here
+            # catch the dossiertype from existence in bestand_str
+            b =  re.search(r"(SquitXOZaak|KEY2|Decos)", bestand_str)
+            if b:            
+                bestand_type = b.group(1)
+                # place the file directly under dossier by removing folder before filename
+                _parts = bestand_str.split('/')
+                _parts.pop(-2)
+                bestand_str = "/".join(_parts)
+                # add dossiertype after stadsdeel
+                bestand_str = re.sub(rf"^{bouwdossier.stadsdeel}/", f"{bouwdossier.stadsdeel}/{bestand_type}/", bestand_str)
+
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
@@ -283,6 +296,8 @@ def add_wabo_dossier(
         if not barcode and bestanden:
             # This is the case with wabo dossiers, we use the name of the first bestand as the barcode
             barcode = bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
+            if type(barcode) is str:
+                barcode = barcode.replace(" ", "%20")
             if type(barcode) is str and len(barcode) > 250:
                 log.error(f'The barcode str "{barcode}" is more than 250 characters')
 

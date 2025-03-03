@@ -123,7 +123,7 @@ class APITest(TestCase):
         )
         self.assertEqual(
             document5.bestanden,
-            ["SDC/KEY2Vergunning_33/Documentum/0901b69980335dcb.pdf"],
+            ["SDC/KEY2/KEY2Vergunning_33/0901b69980335dcb.pdf"],
         )
         self.assertEqual(
             document5.oorspronkelijk_pad,
@@ -138,7 +138,7 @@ class APITest(TestCase):
         )
         self.assertEqual(
             document6.bestanden,
-            ["SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf"],
+            ["SDC/KEY2/KEY2Vergunning_33/0901b69980335dcd.pdf"],
         )
         self.assertEqual(
             document6.oorspronkelijk_pad,
