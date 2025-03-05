@@ -20,7 +20,7 @@ faker==36.1.1
     # via factory-boy
 iniconfig==2.0.0
     # via pytest
-model-bakery==1.20.3
+model-bakery==1.20.4
     # via -r requirements_dev.in
 packaging==24.2
     # via pytest
