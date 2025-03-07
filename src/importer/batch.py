@@ -261,9 +261,17 @@ def add_wabo_dossier(
 
             ## the bestand_url from metadata is not what it should be, construct correctly here
             # catch the dossiertype from existence in bestand_str
-            b =  re.search(r"(SquitXOZaak|KEY2|Decos)", bestand_str)
-            if b:            
-                bestand_type = b.group(1)
+            b =  re.search(r"(SquitXO|KEY2|Decos|BWT)", bestand_str)
+            if b:
+                b_type = b.group(1)
+                mapping = {
+                    'KEY2': 'Key2',
+                    'SquitXO' : 'SquitXO',
+                    'Decos' : 'Decos',
+                    'BWT' : 'Decos',
+                           }
+                bestand_type = mapping[b_type]
+
                 # place the file directly under dossier by removing folder before filename
                 _parts = bestand_str.split('/')
                 _parts.pop(-2)
