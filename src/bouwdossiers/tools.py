@@ -15,7 +15,7 @@ def separate_dossier(dossier):
 
     m = re.match(r"([A-Za-z]{2,4})_([A-Za-z0-9-]+)", dossier)
 
-    # Check if dossier has correct format       
+    # Check if dossier has correct format
     if not m:
         raise InvalidDossier(
             f"The dossier {dossier} is not of the correct form. "

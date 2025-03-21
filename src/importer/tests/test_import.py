@@ -25,7 +25,7 @@ class APITest(TestCase):
         batch.import_pre_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_pre_wabo()
 
-        bd3 = models.BouwDossier.objects.get(dossiernr='00003')
+        bd3 = models.BouwDossier.objects.get(dossiernr="00003")
         self.assertEqual(bd3.stadsdeel, "SA")
         self.assertEqual(bd3.titel, "Hoogte Kadijk 40")
         self.assertEqual(bd3.datering.strftime("%Y"), "2003")
@@ -64,7 +64,7 @@ class APITest(TestCase):
         )
         self.assertEqual(document0.access, "PUBLIC")
 
-        bd123 = models.BouwDossier.objects.get(dossiernr='00123')
+        bd123 = models.BouwDossier.objects.get(dossiernr="00123")
         bd123_documenten = (
             models.Document.objects.filter(bouwdossier_id=bd123.id).order_by("id").all()
         )

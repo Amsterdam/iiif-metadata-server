@@ -230,7 +230,11 @@ def add_wabo_dossier(
         adres = models.Adres(
             bouwdossier=bouwdossier,
             straat=x_adres.get("straatnaam"),
-            huisnummer_van=x_adres.get("huisnummer").replace(",", "") if x_adres.get("huisnummer") else None,
+            huisnummer_van=(
+                x_adres.get("huisnummer").replace(",", "")
+                if x_adres.get("huisnummer")
+                else None
+            ),
             huisnummer_toevoeging=x_adres.get("huisnummertoevoeging"),
             huisnummer_letter=x_adres.get("huisletter"),
             stadsdeel=stadsdeel,
@@ -261,23 +265,27 @@ def add_wabo_dossier(
 
             ## the bestand_url from metadata is not what it should be, construct correctly here
             # catch the dossiertype from existence in bestand_str
-            b =  re.search(r"(SquitXO|KEY2|Decos|BWT)", bestand_str)
+            b = re.search(r"(SquitXO|KEY2|Decos|BWT)", bestand_str)
             if b:
                 b_type = b.group(1)
                 mapping = {
-                    'KEY2': 'Key2',
-                    'SquitXO' : 'SquitXO',
-                    'Decos' : 'Decos',
-                    'BWT' : 'Decos',
-                           }
+                    "KEY2": "Key2",
+                    "SquitXO": "SquitXO",
+                    "Decos": "Decos",
+                    "BWT": "Decos",
+                }
                 bestand_type = mapping[b_type]
 
                 # place the file directly under dossier by removing folder before filename
-                _parts = bestand_str.split('/')
+                _parts = bestand_str.split("/")
                 _parts.pop(-2)
                 bestand_str = "/".join(_parts)
                 # add dossiertype after stadsdeel
-                bestand_str = re.sub(rf"^{bouwdossier.stadsdeel}/", f"{bouwdossier.stadsdeel}/{bestand_type}/", bestand_str)
+                bestand_str = re.sub(
+                    rf"^{bouwdossier.stadsdeel}/",
+                    f"{bouwdossier.stadsdeel}/{bestand_type}/",
+                    bestand_str,
+                )
 
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
@@ -714,72 +722,83 @@ AND (iadre.openbareruimte_id IS NULL OR iadre.openbareruimte_id = '')
 
 def validate_import(min_bouwdossiers_count):
 
-    result = (
-        models.Adres.objects.aggregate(
-            total = Count('id'),
-            has_panden = Sum(
-                Case(
-                    When(panden__len__gt=0, then=1),
-                    default=0,
-                    output_field=IntegerField()
-                )),
-            has_nummeraanduidingen = Sum(
-                Case(
-                    When(nummeraanduidingen__len__gt=0, then=1),
-                    default=0,
-                    output_field=IntegerField()
-                )),
-            has_openbareruimte_id=Sum(
-                Case(
-                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
-                    default=0,
-                    output_field=IntegerField()
-                )),                                
-            wabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_WABO)),                
-            wabo_has_panden = Sum(
-                Case(
-                    When(panden__len__gt=0, then=1),
-                    default=0,
-                    output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
+    result = models.Adres.objects.aggregate(
+        total=Count("id"),
+        has_panden=Sum(
+            Case(
+                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
+            )
+        ),
+        has_nummeraanduidingen=Sum(
+            Case(
+                When(nummeraanduidingen__len__gt=0, then=1),
+                default=0,
+                output_field=IntegerField(),
+            )
+        ),
+        has_openbareruimte_id=Sum(
+            Case(
+                When(
+                    ~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=""),
+                    then=1,
                 ),
-            wabo_has_nummeraanduidingen = Sum(
-                Case(
-                    When(nummeraanduidingen__len__gt=0, then=1),
-                    default=0,
-                    output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
+                default=0,
+                output_field=IntegerField(),
+            )
+        ),
+        wabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_WABO)),
+        wabo_has_panden=Sum(
+            Case(
+                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_WABO),
+        ),
+        wabo_has_nummeraanduidingen=Sum(
+            Case(
+                When(nummeraanduidingen__len__gt=0, then=1),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_WABO),
+        ),
+        wabo_has_openbareruimte_id=Sum(
+            Case(
+                When(
+                    ~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=""),
+                    then=1,
                 ),
-            wabo_has_openbareruimte_id=Sum(
-                Case(
-                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
-                    default=0,
-                    output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=const.SOURCE_WABO)
-                ),                           
-            prewabo_total = Count('id', filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)),                
-            prewabo_has_panden = Sum(
-                Case(
-                    When(panden__len__gt=0, then=1),
-                    default=0,
-                    output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_WABO),
+        ),
+        prewabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)),
+        prewabo_has_panden=Sum(
+            Case(
+                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
+        ),
+        prewabo_has_nummeraanduidingen=Sum(
+            Case(
+                When(nummeraanduidingen__len__gt=0, then=1),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
+        ),
+        prewabo_has_openbareruimte_id=Sum(
+            Case(
+                When(
+                    ~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=""),
+                    then=1,
                 ),
-            prewabo_has_nummeraanduidingen = Sum(
-                Case(
-                    When(nummeraanduidingen__len__gt=0, then=1),
-                    default=0,
-                    output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)
-                ),                                
-            prewabo_has_openbareruimte_id=Sum(
-                Case(
-                    When(~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=''), then=1),
-                    default=0,
-                    output_field=IntegerField()
-                    ), filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)
-                ),
-        ))
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
+        ),
+    )
 
     log.info("Validation import result: " + str(result))
 

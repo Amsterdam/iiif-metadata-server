@@ -7,11 +7,17 @@ import bouwdossiers.constants as const
 
 SOURCE_CHOICES = ((const.SOURCE_EDEPOT, "edepot"), (const.SOURCE_WABO, "wabo"))
 
-ACCESS_CHOICES = ((const.ACCESS_PUBLIC, "Public"), (const.ACCESS_RESTRICTED, "Restricted"))
+ACCESS_CHOICES = (
+    (const.ACCESS_PUBLIC, "Public"),
+    (const.ACCESS_RESTRICTED, "Restricted"),
+)
 
 COPYRIGHT_CHOICES = ((const.COPYRIGHT_YES, "Yes"), (const.COPYRIGHT_NO, "No"))
 
-STATUS_CHOICES = ((const.STATUS_AANVRAAG, "Aanvraag"), (const.STATUS_BEHANDELING, "Behandeling"))
+STATUS_CHOICES = (
+    (const.STATUS_AANVRAAG, "Aanvraag"),
+    (const.STATUS_BEHANDELING, "Behandeling"),
+)
 
 IMPORT_CHOICES = (
     (const.IMPORT_BUSY, "Busy"),

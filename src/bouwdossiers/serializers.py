@@ -49,24 +49,34 @@ class DocumentSerializer(ModelSerializer):
          than ~ for
          - if edepot: document_barcode, file separated by '_'
          - if Wabo: olo, document_barcode separated by '_'
-        
+
 
         """
         result = super().to_representation(instance)
         _bestanden = []
 
         for bestand in result["bestanden"]:
-            stadsdeel_dossiernr = f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
+            stadsdeel_dossiernr = (
+                f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
+            )
             if instance.bouwdossier.source == const.SOURCE_EDEPOT:
                 filename = bestand.replace(" ", "%20").replace("/", "-")
                 # If stadsdeel en dossiernr are part of the filename: remove
-                file_name = re.sub(rf"^{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-", "", filename)
+                file_name = re.sub(
+                    rf"^{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-",
+                    "",
+                    filename,
+                )
                 url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{stadsdeel_dossiernr}~{file_name}"
 
             elif instance.bouwdossier.source == const.SOURCE_WABO:
                 filename = bestand.replace(" ", "%20")
-                m_file = re.search(r"_(\d+)\.\w{3,4}$", filename) #remove extension and get file/bestand number like 00001
-                filenr = int(m_file.group(1))  if m_file else 1 #file/bestand number else always first file
+                m_file = re.search(
+                    r"_(\d+)\.\w{3,4}$", filename
+                )  # remove extension and get file/bestand number like 00001
+                filenr = (
+                    int(m_file.group(1)) if m_file else 1
+                )  # file/bestand number else always first file
                 file_reference = f"{stadsdeel_dossiernr}~{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}_{filenr}"
                 url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 

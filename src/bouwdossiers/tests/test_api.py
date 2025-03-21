@@ -6,7 +6,11 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 
 import bouwdossiers.constants as const
-from bouwdossiers.models import Adres, BouwDossier, Document, SOURCE_CHOICES, STATUS_CHOICES
+from bouwdossiers.models import (
+    Adres,
+    BouwDossier,
+    Document,
+)
 from bouwdossiers.tests import factories
 from bouwdossiers.tests.tools_for_testing import create_authz_token
 
@@ -14,7 +18,7 @@ from bouwdossiers.tests.tools_for_testing import create_authz_token
 def create_bouwdossiers(n, stadsdeel="AA", source=const.SOURCE_EDEPOT):
     return [
         factories.BouwDossierFactory(
-            dossiernr='P15-'+str(randint(10, 10000)),
+            dossiernr="P15-" + str(randint(10, 10000)),
             stadsdeel=stadsdeel,
             olo_liaan_nummer=randint(10, 10000),
             source=source,
@@ -67,7 +71,7 @@ class TestAPI(APITestCase):
     def test_api_detail_using_stadsdeel_and_dossier(self):
         dossiers = create_bouwdossiers(3)
 
-        pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
+        pk = dossiers[0].stadsdeel + "_" + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.data["stadsdeel"], dossiers[0].stadsdeel)
@@ -77,7 +81,7 @@ class TestAPI(APITestCase):
     @pytest.mark.xfail(reason="WABO dossiers should be publicly available")
     def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
         dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
-        pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
+        pk = dossiers[0].stadsdeel + "_" + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
         test_parameters = [
@@ -98,7 +102,7 @@ class TestAPI(APITestCase):
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_with_auth(self):
         dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
-        pk = dossiers[0].stadsdeel + '_' + dossiers[0].dossiernr
+        pk = dossiers[0].stadsdeel + "_" + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
         test_parameters = [
@@ -119,7 +123,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + '_' + dossier.dossiernr
+        pk = dossier.stadsdeel + "_" + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -133,7 +137,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + '_' + dossier.dossiernr
+        pk = dossier.stadsdeel + "_" + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -147,7 +151,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel.lower() + '_' + dossier.dossiernr
+        pk = dossier.stadsdeel.lower() + "_" + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -188,8 +192,8 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.DocumentFactory(bouwdossier__dossiernr='222')
-        factories.DocumentFactory(bouwdossier__dossiernr='333')
+        factories.DocumentFactory(bouwdossier__dossiernr="222")
+        factories.DocumentFactory(bouwdossier__dossiernr="333")
 
         url = reverse("bouwdossier-list") + "?dossiernr=111&stadsdeel=AA"
         response = self.client.get(url)
@@ -487,11 +491,11 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.BouwDossierFactory(dossiernr='222')
-        factories.BouwDossierFactory(dossiernr='333')
+        factories.BouwDossierFactory(dossiernr="222")
+        factories.BouwDossierFactory(dossiernr="333")
 
         url = reverse("bouwdossier-list") + f"?dossier={bd.stadsdeel}_{bd.dossiernr}"
-    
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn("results", response.data)
@@ -530,7 +534,6 @@ class TestAPI(APITestCase):
         self.assertEqual(response.status_code, 400)
         delete_all_records()
 
-
     def test_dossier_wabo_fields(self):
         bd = factories.BouwDossierFactory()
         factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
@@ -546,9 +549,13 @@ class TestAPI(APITestCase):
 
         document = dossier.documenten.first()
         document.bestanden = [
-            "SDC/PUA/1234567_00009.PDF", "SDC/PUA/1234567_111112.jpg", "SDC/PUA/1234567.PDF" 
+            "SDC/PUA/1234567_00009.PDF",
+            "SDC/PUA/1234567_111112.jpg",
+            "SDC/PUA/1234567.PDF",
         ]
-        document.barcode = document.bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
+        document.barcode = (
+            document.bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
+        )
         document.oorspronkelijk_pad = ["/path/to/bestand"]
         document.save()
 
