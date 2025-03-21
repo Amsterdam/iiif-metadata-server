@@ -4,7 +4,7 @@
 # VERSION = 2020.01.29
 .PHONY = help pip-tools install requirements update test init
 dc = docker compose
-run = $(dc) run --rm
+run = $(dc) run --remove-orphans --rm
 manage = $(run) dev python manage.py
 
 help:                               ## Show this help.
@@ -20,6 +20,7 @@ requirements: pip-tools             ## Upgrade requirements (in requirements.in)
 	## The --allow-unsafe flag should be used and will become the default behaviour of pip-compile in the future
 	## https://stackoverflow.com/questions/58843905
 	pip-compile --upgrade --output-file requirements.txt --allow-unsafe requirements.in
+	pip-compile --upgrade --output-file requirements_linting.txt --allow-unsafe requirements_linting.in
 	pip-compile --upgrade --output-file requirements_dev.txt --allow-unsafe requirements_dev.in
 
 upgrade: requirements install       ## Run 'requirements' and 'install' targets
@@ -54,13 +55,14 @@ test:                               ## Execute tests
 	$(run) test pytest $(ARGS)
 
 lintfix:                            ## Execute lint fixes
-	$(run) test black /src/$(APP)
-	$(run) test autoflake /src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
-	$(run) test isort /src/$(APP)
+	$(run) linting black /app/src/$(APP)
+	$(run) linting autoflake /app/src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
+	$(run) linting isort /app/src/$(APP)
 
 lint:                               ## Execute lint checks
-	$(run) test autoflake /src --check --recursive --quiet
-	$(run) test isort --diff --check /src/$(APP)
+	$(run) linting black --diff /app/src/$(APP)
+	$(run) linting autoflake /app/src --check --recursive --quiet
+	$(run) linting isort --diff --check /app/src/$(APP)
 
 clean:                              ## Clean docker stuff
 	$(dc) down -v
@@ -69,7 +71,7 @@ env:                                ## Print current env
 	env | sort
 
 run_import:                       	## Populate database with new bag data and dossiers
-	$(manage) run_import $(ARGS)
+	$(manage) run_import_bag $(ARGS)
 
 trivy: 								## Detect image vulnerabilities
 	$(dc) build app

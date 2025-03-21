@@ -1,0 +1,17 @@
+{% extends "rest_framework/base.html" %}
+{% load static %}
+
+{% block style %}
+    {% block bootstrap_theme %}
+        {{ block.super }}
+    {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'rest_framework/css/prettify.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'rest_framework/css/default.css' %}"/>
+
+    {% if code_style %}
+        <style nonce="{{ request.csp_nonce }}">
+            {{ code_style }}
+        </style>
+    {% endif %}
+{% endblock %}

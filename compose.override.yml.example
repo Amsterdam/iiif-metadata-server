@@ -11,13 +11,13 @@ services:
     ports: 
       - "8002:8000"
     volumes:
-      - ./src:/src
-      - ./deploy:/deploy
+      - ./src:/app/src
+      - ./deploy:/app/deploy
       - ./src/importer/tests/data:/tmp/bouwdossiers
     environment:
       - AZURITE_STORAGE_CONNECTION_STRING=AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10010/devstoreaccount1/;
   
   test:
     volumes:
-      - ./src:/src
+      - ./src:/app/src
       - ./src/importer/tests/data:/tmp/bouwdossiers

@@ -1,12 +1,14 @@
 import logging
 
-from datapunt_api.rest import DatapuntViewSet
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import FilterSet, filters
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from bouwdossiers.models import BouwDossier
 from bouwdossiers.serializers import BouwDossierSerializer
 from bouwdossiers.tools import separate_dossier
+from main.drf import HALPagination
 
 log = logging.getLogger(__name__)
 
@@ -59,12 +61,22 @@ class BouwDossierFilter(FilterSet):
         return queryset.filter(**{lookup: value}).distinct()
 
 
-class BouwDossierViewSet(DatapuntViewSet):
-    serializer_class = BouwDossierSerializer
-    serializer_detail_class = BouwDossierSerializer
-
+class BouwDossierViewSet(ReadOnlyModelViewSet):
     filterset_class = BouwDossierFilter
-    queryset = BouwDossier.objects.prefetch_related("adressen", "documenten")
+    serializer_class = BouwDossierSerializer
+    pagination_class = HALPagination
+
+    def get_queryset(self):
+        allowed_scopes = [
+            settings.BOUWDOSSIER_READ_SCOPE,
+            settings.BOUWDOSSIER_EXTENDED_SCOPE,
+        ]
+        if any(scope in self.request.get_token_scopes for scope in allowed_scopes):
+            return BouwDossier.objects.all().prefetch_related("adressen", "documenten")
+        else:
+            return BouwDossier.objects.filter(source="EDEPOT").prefetch_related(
+                "adressen", "documenten"
+            )
 
     def get_object(self):
         # We expect a key of the form AA0000123 in which AA is the code for the

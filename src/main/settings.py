@@ -61,20 +61,22 @@ INSTALLED_APPS = [
     "importer",
     "health",
     "corsheaders",
+    "csp",
 ]
 
-if DEBUG:
-    INSTALLED_APPS += ("debug_toolbar",)
-
 MIDDLEWARE = [
+    "csp.middleware.CSPMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "authorization_django.authorization_middleware",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ("debug_toolbar",)
+    MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 
 
 # The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
@@ -115,7 +117,7 @@ ROOT_URLCONF = "main.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -348,3 +350,12 @@ MIN_BOUWDOSSIERS_COUNT = os.getenv("MIN_BOUWDOSSIERS_COUNT", 10000)
 BAG_DUMP_BASE_URL = os.getenv(
     "BAG_DUMP_BASE_URL", "https://api.data.amsterdam.nl/bulk-data/csv"
 )
+
+CSP_DEFAULT_SRC = ("'self'", )  # Block all content from other sources
+
+CSP_FRAME_ANCESTORS = ("'self'", )
+CSP_SCRIPT_SRC = ("'self'", )
+CSP_IMG_SRC = ("'self'", "data:", )
+CSP_STYLE_SRC = ("'self'", )
+CSP_CONNECT_SRC = ("'self'", )
+CSP_INCLUDE_NONCE_IN = ("script-src", "style-src")

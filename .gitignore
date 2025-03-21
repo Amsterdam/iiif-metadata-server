@@ -114,3 +114,4 @@ src/static/
 
 # docker personal settings
 docker-compose.override.yml
+compose.override.yml
