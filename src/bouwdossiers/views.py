@@ -66,21 +66,14 @@ class BouwDossierViewSet(ReadOnlyModelViewSet):
     serializer_class = BouwDossierSerializer
     pagination_class = HALPagination
 
-    def get_queryset(self):
-        allowed_scopes = [
-            settings.BOUWDOSSIER_READ_SCOPE,
-            settings.BOUWDOSSIER_EXTENDED_SCOPE,
-        ]
-        if any(scope in self.request.get_token_scopes for scope in allowed_scopes):
-            return BouwDossier.objects.all().prefetch_related("adressen", "documenten")
-        else:
-            return BouwDossier.objects.filter(source="EDEPOT").prefetch_related(
-                "adressen", "documenten"
-            )
+    if settings.WABO_ENABLED:
+        queryset = BouwDossier.objects.prefetch_related("adressen", "documenten")
+    else:
+        queryset = BouwDossier.objects.filter(source="EDEPOT").prefetch_related("adressen", "documenten")
 
     def get_object(self):
-        # We expect a key of the form AA0000123 in which AA is the code for the
-        # stadsdeel and the numberic part (which can vary in length) is the dossiernumber
+        # We expect a key of the form AA_0000123 in which AA is the code for the
+        # stadsdeel and the second part (which can vary in length) is the dossiernumber
         stadsdeel, dossiernr = separate_dossier(self.kwargs["pk"])
         obj = get_object_or_404(
             self.get_queryset(), stadsdeel=stadsdeel.upper(), dossiernr=dossiernr

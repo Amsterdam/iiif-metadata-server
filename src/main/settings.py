@@ -37,6 +37,7 @@ WABO_BASE_URL = [
     "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/",
     "https://conversiestraatwabo.amsterdam.nl/webDAV/",
 ]
+WABO_ENABLED = os.getenv("WABO_ENABLED", "false").lower() == "true"
 
 ALLOWED_HOSTS = ["*"]
 
