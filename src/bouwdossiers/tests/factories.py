@@ -1,5 +1,6 @@
 import factory
 
+import bouwdossiers.constants as const
 from bouwdossiers import models
 
 
@@ -9,7 +10,7 @@ class ImportFileFactory(factory.django.DjangoModelFactory):
         model = models.ImportFile
 
     name = "test.xml"
-    status = models.IMPORT_FINISHED
+    status = const.IMPORT_FINISHED
     last_import = "2019-04-12 13:38:23"
 
 
@@ -18,16 +19,16 @@ class BouwDossierFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ("dossiernr", "stadsdeel", "olo_liaan_nummer", "source")
         model = models.BouwDossier
 
-    source = models.SOURCE_EDEPOT
+    source = const.SOURCE_EDEPOT
     importfile = factory.SubFactory(ImportFileFactory)
-    dossiernr = "12345"
+    dossiernr = "TA-12345"
     olo_liaan_nummer = 123456
     stadsdeel = "AA"
     titel = "weesperstraat 113 - 117"
     datering = "1998-01-01"
     dossier_status = None
     dossier_type = "verbouwing"
-    access = models.ACCESS_PUBLIC
+    access = const.ACCESS_PUBLIC
 
 
 class AdresFactory(factory.django.DjangoModelFactory):
@@ -56,5 +57,5 @@ class DocumentFactory(factory.django.DjangoModelFactory):
     bouwdossier = factory.SubFactory(BouwDossierFactory)
     subdossier_titel = "Tekeningen (plattegrond)"
     bestanden = ["SU10000010_00001.jpg"]
-    access = models.ACCESS_RESTRICTED
+    access = const.ACCESS_RESTRICTED
     barcode = "ST100"

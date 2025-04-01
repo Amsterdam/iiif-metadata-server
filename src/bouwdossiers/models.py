@@ -3,34 +3,26 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.indexes import GinIndex
 from django.db.models import CASCADE
 
-SOURCE_EDEPOT = "EDEPOT"
-SOURCE_WABO = "WABO"
+import bouwdossiers.constants as const
 
-SOURCE_CHOICES = ((SOURCE_EDEPOT, "edepot"), (SOURCE_WABO, "wabo"))
+SOURCE_CHOICES = ((const.SOURCE_EDEPOT, "edepot"), (const.SOURCE_WABO, "wabo"))
 
-ACCESS_PUBLIC = "PUBLIC"
-ACCESS_RESTRICTED = "RESTRICTED"
+ACCESS_CHOICES = (
+    (const.ACCESS_PUBLIC, "Public"),
+    (const.ACCESS_RESTRICTED, "Restricted"),
+)
 
-ACCESS_CHOICES = ((ACCESS_PUBLIC, "Public"), (ACCESS_RESTRICTED, "Restricted"))
+COPYRIGHT_CHOICES = ((const.COPYRIGHT_YES, "Yes"), (const.COPYRIGHT_NO, "No"))
 
-COPYRIGHT_YES = "Y"
-COPYRIGHT_NO = "N"
-
-COPYRIGHT_CHOICES = ((COPYRIGHT_YES, "Yes"), (COPYRIGHT_NO, "No"))
-
-STATUS_AANVRAAG = "A"
-STATUS_BEHANDELING = "B"
-
-STATUS_CHOICES = ((STATUS_AANVRAAG, "Aanvraag"), (STATUS_BEHANDELING, "Behandeling"))
-
-IMPORT_BUSY = "B"
-IMPORT_FINISHED = "F"
-IMPORT_ERROR = "E"
+STATUS_CHOICES = (
+    (const.STATUS_AANVRAAG, "Aanvraag"),
+    (const.STATUS_BEHANDELING, "Behandeling"),
+)
 
 IMPORT_CHOICES = (
-    (IMPORT_BUSY, "Busy"),
-    (IMPORT_FINISHED, "Finished"),
-    (IMPORT_ERROR, "Error"),
+    (const.IMPORT_BUSY, "Busy"),
+    (const.IMPORT_FINISHED, "Finished"),
+    (const.IMPORT_ERROR, "Error"),
 )
 
 
@@ -53,7 +45,7 @@ class ImportFile(ImportFileBase):
 
 class BouwDossierBase(models.Model):
     importfile = models.ForeignKey(ImportFile, related_name="+", on_delete=CASCADE)
-    dossiernr = models.IntegerField(null=False)
+    dossiernr = models.CharField(max_length=75, null=False)
     stadsdeel = models.CharField(max_length=10, db_index=True)
     titel = models.CharField(max_length=512, null=False, db_index=True)
     datering = models.DateField(null=True)
@@ -66,7 +58,7 @@ class BouwDossierBase(models.Model):
     source = models.CharField(
         max_length=20,
         choices=SOURCE_CHOICES,
-        default=SOURCE_EDEPOT,
+        default=const.SOURCE_EDEPOT,
         help_text="Field that defines wabo and pre_wabo dossier",
     )
 

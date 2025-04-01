@@ -5,7 +5,9 @@ import re
 import xmltodict
 from django.conf import settings
 from django.db import IntegrityError, connection, transaction
+from django.db.models import Case, Count, IntegerField, Q, Sum, When
 
+import bouwdossiers.constants as const
 from importer import models
 
 log = logging.getLogger(__name__)
@@ -97,19 +99,19 @@ def get_access(el):
     }
 
     if not any(el.get(check) for check in checks.keys()):
-        return models.ACCESS_RESTRICTED
+        return const.ACCESS_RESTRICTED
 
     for key, (default_value, expected_value) in checks.items():
         if el.get(key, default_value).lower() == expected_value:
-            return models.ACCESS_RESTRICTED
+            return const.ACCESS_RESTRICTED
 
-    return models.ACCESS_PUBLIC
+    return const.ACCESS_PUBLIC
 
 
 def openbaar_to_copyright(copyright):
     if copyright == "J":
-        return models.COPYRIGHT_YES
-    return models.COPYRIGHT_NO
+        return const.COPYRIGHT_YES
+    return const.COPYRIGHT_NO
 
 
 def add_wabo_dossier(
@@ -130,7 +132,7 @@ def add_wabo_dossier(
     # The intern number can be something like sdz_prewabo_1274 or sdc_33
     # If prewabo is present it is a prewabo dossier.
     dossier = x_dossier.get("intern_nummer")
-    m = re.match(r"([a-z]+)_(?:([a-z]+)_)?(\d+)", dossier)
+    m = re.match(r"([A-Za-z]+)_(?:([A-Za-z]+)_)?(.*[\d-]+)", dossier)
     if not m:
         log.error(f"Invalid intern_nummer {dossier} in {file_path}")
         return count, total_count
@@ -188,7 +190,7 @@ def add_wabo_dossier(
         olo_liaan_nummer=olo_liaan_nummer,
         wabo_bron=x_dossier.get("bron"),
         access=get_access(x_dossier),
-        source=models.SOURCE_WABO,
+        source=const.SOURCE_WABO,
         activiteiten=activiteiten,
     )
 
@@ -228,7 +230,11 @@ def add_wabo_dossier(
         adres = models.Adres(
             bouwdossier=bouwdossier,
             straat=x_adres.get("straatnaam"),
-            huisnummer_van=x_adres.get("huisnummer").replace(",", ""),
+            huisnummer_van=(
+                x_adres.get("huisnummer").replace(",", "")
+                if x_adres.get("huisnummer")
+                else None
+            ),
             huisnummer_toevoeging=x_adres.get("huisnummertoevoeging"),
             huisnummer_letter=x_adres.get("huisletter"),
             stadsdeel=stadsdeel,
@@ -252,8 +258,35 @@ def add_wabo_dossier(
             # oorspronkelijke_pads are added in another list (with the same order as bestanden)
             # to keep the same structure as the pre_wabo dossiers.
             # The removed part below is because we want to be consistent with the pre-wabo urls
-            # in that we only store a relave url, not the full url
-            bestand_str = bestand.get("URL").replace(settings.WABO_BASE_URL, "")
+            # in that we only store a relative url, not the full url
+            bestand_str = bestand.get("URL")
+            for base_url in settings.WABO_BASE_URL:
+                bestand_str = bestand_str.replace(base_url, "")
+
+            ## the bestand_url from metadata is not what it should be, construct correctly here
+            # catch the dossiertype from existence in bestand_str
+            b = re.search(r"(SquitXO|KEY2|Decos|BWT)", bestand_str)
+            if b:
+                b_type = b.group(1)
+                mapping = {
+                    "KEY2": "Key2",
+                    "SquitXO": "SquitXO",
+                    "Decos": "Decos",
+                    "BWT": "Decos",
+                }
+                bestand_type = mapping[b_type]
+
+                # place the file directly under dossier by removing folder before filename
+                _parts = bestand_str.split("/")
+                _parts.pop(-2)
+                bestand_str = "/".join(_parts)
+                # add dossiertype after stadsdeel
+                bestand_str = re.sub(
+                    rf"^{bouwdossier.stadsdeel}/",
+                    f"{bouwdossier.stadsdeel}/{bestand_type}/",
+                    bestand_str,
+                )
+
             if type(bestand_str) is str and len(bestand_str) > 250:
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
@@ -277,9 +310,10 @@ def add_wabo_dossier(
 
         barcode = x_document.get("barcode")
         if not barcode and bestanden:
-            # This is the case with wabo dossiers, and since wabo dossiers only have
-            # one bestand per document, we use the number of the bestand as the barcode
-            barcode = bestanden[0].split("/")[-1].split(".")[0]
+            # This is the case with wabo dossiers, we use the name of the first bestand as the barcode
+            barcode = bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
+            if type(barcode) is str:
+                barcode = barcode.replace(" ", "%20")
             if type(barcode) is str and len(barcode) > 250:
                 log.error(f'The barcode str "{barcode}" is more than 250 characters')
 
@@ -345,7 +379,7 @@ def add_pre_wabo_dossier(
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
-        dossiernr=dossiernr,
+        dossiernr=dossiernr.zfill(5),
         stadsdeel=stadsdeel,
         titel=titel,
         datering=datering,
@@ -449,13 +483,13 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     total_count = 0
     file_count = 0
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search("WABO_.+\\.xml$", file_path)
+        wabo = re.search(r"/WABO/SD[A-Z]{1,2}/.+\.xml$|WABO_.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
             continue
 
-        import_file = models.ImportFile(name=file_path, status=models.IMPORT_BUSY)
+        import_file = models.ImportFile(name=file_path, status=const.IMPORT_BUSY)
         import_file.save()
 
         try:
@@ -474,7 +508,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
                         x_dossier, file_path, import_file, count, total_count
                     )
 
-            import_file.status = models.IMPORT_FINISHED
+            import_file.status = const.IMPORT_FINISHED
             import_file.save()
             file_count += 1
             if max_file_count and file_count >= max_file_count:
@@ -482,7 +516,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
 
         except Exception as e:
             log.error(f"Error while processing file {file_path} : {e}")
-            import_file.status = models.IMPORT_ERROR
+            import_file.status = const.IMPORT_ERROR
             import_file.save()
 
     log.info(
@@ -503,7 +537,7 @@ def import_pre_wabo_dossiers(
         if not pre_wabo or len(importfiles) > 0:
             continue
 
-        import_file = models.ImportFile(name=file_path, status=models.IMPORT_BUSY)
+        import_file = models.ImportFile(name=file_path, status=const.IMPORT_BUSY)
         import_file.save()
 
         try:
@@ -519,7 +553,7 @@ def import_pre_wabo_dossiers(
                         x_dossier, file_path, import_file, count, total_count
                     )
 
-            import_file.status = models.IMPORT_FINISHED
+            import_file.status = const.IMPORT_FINISHED
             import_file.save()
             file_count += 1
             if max_file_count and file_count >= max_file_count:
@@ -527,7 +561,7 @@ def import_pre_wabo_dossiers(
 
         except Exception as e:
             log.error(f"Error while processing file {file_path} : {e}")
-            import_file.status = models.IMPORT_ERROR
+            import_file.status = const.IMPORT_ERROR
             import_file.save()
 
         log.info(
@@ -687,34 +721,85 @@ AND (iadre.openbareruimte_id IS NULL OR iadre.openbareruimte_id = '')
 
 
 def validate_import(min_bouwdossiers_count):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """
-SELECT
-    COUNT(*),
-    array_length(panden, 1) IS NOT NULL AS has_panden,
-    array_length(nummeraanduidingen, 1) IS NOT NULL AS has_nummeraanduidingen,
-    openbareruimte_id IS NOT NULL AND openbareruimte_id <> '' AS has_openbareruimte_id
-FROM importer_adres
-GROUP BY has_openbareruimte_id, has_panden, has_nummeraanduidingen
-        """
-        )
-        rows = cursor.fetchall()
 
-        result = {
-            "total": 0,
-            "has_panden": 0,
-            "has_nummeraanduidingen": 0,
-            "has_openbareruimte_id": 0,
-        }
-        for row in rows:
-            result["total"] += row[0]
-            if row[1]:
-                result["has_panden"] += row[0]
-            if row[2]:
-                result["has_nummeraanduidingen"] += row[0]
-            if row[3]:
-                result["has_openbareruimte_id"] += row[0]
+    result = models.Adres.objects.aggregate(
+        total=Count("id"),
+        has_panden=Sum(
+            Case(
+                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
+            )
+        ),
+        has_nummeraanduidingen=Sum(
+            Case(
+                When(nummeraanduidingen__len__gt=0, then=1),
+                default=0,
+                output_field=IntegerField(),
+            )
+        ),
+        has_openbareruimte_id=Sum(
+            Case(
+                When(
+                    ~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=""),
+                    then=1,
+                ),
+                default=0,
+                output_field=IntegerField(),
+            )
+        ),
+        wabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_WABO)),
+        wabo_has_panden=Sum(
+            Case(
+                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_WABO),
+        ),
+        wabo_has_nummeraanduidingen=Sum(
+            Case(
+                When(nummeraanduidingen__len__gt=0, then=1),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_WABO),
+        ),
+        wabo_has_openbareruimte_id=Sum(
+            Case(
+                When(
+                    ~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=""),
+                    then=1,
+                ),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_WABO),
+        ),
+        prewabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)),
+        prewabo_has_panden=Sum(
+            Case(
+                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
+        ),
+        prewabo_has_nummeraanduidingen=Sum(
+            Case(
+                When(nummeraanduidingen__len__gt=0, then=1),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
+        ),
+        prewabo_has_openbareruimte_id=Sum(
+            Case(
+                When(
+                    ~Q(openbareruimte_id__isnull=True) & ~Q(openbareruimte_id=""),
+                    then=1,
+                ),
+                default=0,
+                output_field=IntegerField(),
+            ),
+            filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
+        ),
+    )
+
     log.info("Validation import result: " + str(result))
 
     log.info(

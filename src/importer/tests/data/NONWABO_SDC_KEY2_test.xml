@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dossiers>
+    <dossier>
+        <dossier_titel>* Stationsplein, gedeeltelijk veranderen CS</dossier_titel>
+        <intern_nummer>sdc_prewabo_412</intern_nummer>
+        <OLO_liaan_nummer>38984</OLO_liaan_nummer>
+        <omschrijving>geen bevoegd gezag</omschrijving>
+        <begindatum>2010-11-30</begindatum>
+        <bron>KEY2</bron>
+        <locaties>
+            <locatie>
+                <straatnaam>Stationsplein</straatnaam>
+                <huisnummer>15</huisnummer>
+                <bag_id>
+                    <verblijfsobjectidentificatie>0363010012072677</verblijfsobjectidentificatie>
+                    <pandidentificatie>0363100012185598</pandidentificatie>
+                    <openbareruimteidentificatie>0363300000005036</openbareruimteidentificatie>
+                </bag_id>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Onbekend</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving>Procesoverzicht</document_omschrijving>
+                <document_type>Procesoverzicht</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>D:/INZAGE_ACTIVITY/SDC_NONWABO/ACTIVITY_DOCS/Procesinformatie_sdc_prewabo_412_0_v.pdf</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/ACTIVITY_DOCS/Procesinformatie_sdc_prewabo_412_0_v.pdf</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+    <dossier>
+        <dossier_titel>koelcel</dossier_titel>
+        <intern_nummer>sdc_prewabo_710</intern_nummer>
+        <OLO_liaan_nummer>67945</OLO_liaan_nummer>
+        <omschrijving>geen bevoegd gezag</omschrijving>
+        <begindatum>2011-01-31</begindatum>
+        <bron>KEY2</bron>
+        <locaties>
+            <locatie>
+                <locatie_aanduiding>Dijksgracht 4 onder brug</locatie_aanduiding>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Onbekend</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving>Koelcel bij Hanneks Boom, Dijksgracht 4</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/1/0901B69980298975.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/1/0901B69980298975.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>Koelcel bij Hanneks Boom, Dijksgracht 4</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/1/0901B69980298978.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/1/0901B69980298978.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>HB-koelcel-14janu2011 2253699</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/21/0901B6998029896F.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/21/0901B6998029896F.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>HB-koelcel-situatie-31jan2011 2253699</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/21/0901B69980298971.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/21/0901B69980298971.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>P1070189 2253699</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/21/0901B69980298973.JPEG</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/21/0901B69980298973.JPEG</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>3-2-2011: 67945_1296471856390_HB-koelcel-situatie-31jan2011</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB4B.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB4B.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>3-2-2011: 67945_1296472093752_P1070189</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB54.JPEG</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB54.JPEG</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>3-2-2011: 67945_1296579225675_publiceerbareaanvraag</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB3E.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB3E.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>3-2-2011: 67945_1296579225580_papierenformulier</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB41.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB41.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>3-2-2011: 67945_1296470925102_HB-koelcel-14janu2011</document_omschrijving>
+                <document_type>Ingekomen</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>F:/INZAGEDOCS/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB44.PDF</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/DOCUMENTUM/PRIMARY/24/0901B6998031EB44.PDF</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+            <document>
+                <document_omschrijving>Procesoverzicht</document_omschrijving>
+                <document_type>Procesoverzicht</document_type>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>D:/INZAGE_ACTIVITY/SDC_NONWABO/ACTIVITY_DOCS/Procesinformatie_sdc_prewabo_710_0_v.pdf</oorspronkelijk_pad>
+                        <URL>https://conversiestraatwabo.amsterdam.nl/webDAV/SDC_NONWABO/ACTIVITY_DOCS/Procesinformatie_sdc_prewabo_710_0_v.pdf</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
+</dossiers>

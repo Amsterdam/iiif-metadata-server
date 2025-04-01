@@ -31,9 +31,13 @@ BOUWDOSSIER_READ_SCOPE = (
 )
 BOUWDOSSIER_EXTENDED_SCOPE = "BD/X"  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
-WABO_BASE_URL = os.getenv(
-    "WABO_BASE_URL", "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/"
-)
+# list of WABO url starts in 'bestanden' -> these starts get removed
+WABO_BASE_URL = [
+    "J:/INZAGEDOCS/Datapunt/",
+    "https://bwt.hs3-saa-bwt.shcp04.archivingondemand.nl/",
+    "https://conversiestraatwabo.amsterdam.nl/webDAV/",
+]
+WABO_ENABLED = os.getenv("WABO_ENABLED", "false").lower() == "true"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -352,11 +356,14 @@ BAG_DUMP_BASE_URL = os.getenv(
     "BAG_DUMP_BASE_URL", "https://api.data.amsterdam.nl/bulk-data/csv"
 )
 
-CSP_DEFAULT_SRC = ("'self'", )  # Block all content from other sources
+CSP_DEFAULT_SRC = ("'self'",)  # Block all content from other sources
 
-CSP_FRAME_ANCESTORS = ("'self'", )
-CSP_SCRIPT_SRC = ("'self'", )
-CSP_IMG_SRC = ("'self'", "data:", )
-CSP_STYLE_SRC = ("'self'", )
-CSP_CONNECT_SRC = ("'self'", )
+CSP_FRAME_ANCESTORS = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_IMG_SRC = (
+    "'self'",
+    "data:",
+)
+CSP_STYLE_SRC = ("'self'",)
+CSP_CONNECT_SRC = ("'self'",)
 CSP_INCLUDE_NONCE_IN = ("script-src", "style-src")

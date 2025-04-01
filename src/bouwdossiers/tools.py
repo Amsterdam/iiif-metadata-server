@@ -13,18 +13,17 @@ def separate_dossier(dossier):
     If format is not correct, an APIException is raised
     """
 
-    dossier = dossier.replace("_", "")  # Also allow for searching by "SDC_1234"
-    dossier = dossier.upper()  # Also allow to search by lower case letters
+    m = re.match(r"([A-Za-z]{2,4})_([A-Za-z0-9-]+)", dossier)
 
-    try:
-        # Check if dossier has correct format
-        assert re.match(r"^\D{2,4}\d+$", dossier)
-        # split the stadsdeel and dossier by using |
-        stadsdeel, dossiernr = re.findall(r"\D{2,4}|\d+", dossier)
-        return stadsdeel, dossiernr
-    except AssertionError:
+    # Check if dossier has correct format
+    if not m:
         raise InvalidDossier(
             f"The dossier {dossier} is not of the correct form. "
-            "It should be defined in the form of 'AA123456' in which "
-            "AA (or AAA or AAAA; a max of four characters) is the stadsdeel code and 123456 is the dossier number"
+            "It should be defined in the form of 'AA_P123456' in which "
+            "AA (or AAA or AAAA; a max of four characters) is the stadsdeel code and P123456 is the dossier number"
         )
+
+    stadsdeel = m.group(1).upper()
+    dossiernr = m.group(2)
+
+    return stadsdeel, dossiernr

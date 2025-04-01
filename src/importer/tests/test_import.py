@@ -3,6 +3,7 @@ import os
 from django.db import connection
 from django.test import TestCase
 
+import bouwdossiers.constants as const
 from importer import batch, models
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -24,7 +25,7 @@ class APITest(TestCase):
         batch.import_pre_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_pre_wabo()
 
-        bd3 = models.BouwDossier.objects.get(dossiernr=3)
+        bd3 = models.BouwDossier.objects.get(dossiernr="00003")
         self.assertEqual(bd3.stadsdeel, "SA")
         self.assertEqual(bd3.titel, "Hoogte Kadijk 40")
         self.assertEqual(bd3.datering.strftime("%Y"), "2003")
@@ -63,7 +64,7 @@ class APITest(TestCase):
         )
         self.assertEqual(document0.access, "PUBLIC")
 
-        bd123 = models.BouwDossier.objects.get(dossiernr=123)
+        bd123 = models.BouwDossier.objects.get(dossiernr="00123")
         bd123_documenten = (
             models.Document.objects.filter(bouwdossier_id=bd123.id).order_by("id").all()
         )
@@ -73,7 +74,7 @@ class APITest(TestCase):
             elif document123.barcode == "SA00001039":
                 self.assertEqual(document123.access, "PUBLIC")
 
-        bd21388 = models.BouwDossier.objects.get(dossiernr=21388)
+        bd21388 = models.BouwDossier.objects.get(dossiernr="21388")
         bd21388_addressen = models.Adres.objects.filter(bouwdossier_id=bd21388.id)
         fdb = bd21388_addressen.get(straat="Feike de Boerlaan")
         # 0363010000959579 Feike de Boerlaan 29
@@ -86,7 +87,8 @@ class APITest(TestCase):
         self.assertFalse("0363200000470955" in fdb.nummeraanduidingen)
 
     def test_wabo_import(self):
-        batch.import_wabo_dossiers(DATA_DIR)
+        with self.assertNoLogs(logger="importer.batch", level="ERROR"):
+            batch.import_wabo_dossiers(DATA_DIR)
 
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, "SDC")
@@ -124,13 +126,13 @@ class APITest(TestCase):
         )
         self.assertEqual(
             document5.bestanden,
-            ["SDC/KEY2Vergunning_33/Documentum/0901b69980335dcb.pdf"],
+            ["SDC/Key2/KEY2Vergunning_33/0901b69980335dcb.pdf"],
         )
         self.assertEqual(
             document5.oorspronkelijk_pad,
             ["G:\\Export files\\documentum\\primary/25/0901b69980335dcb"],
         )
-        self.assertEqual(document5.access, models.ACCESS_PUBLIC)
+        self.assertEqual(document5.access, const.ACCESS_PUBLIC)
 
         document6 = bd1_documenten[6]
         self.assertEqual(
@@ -139,23 +141,23 @@ class APITest(TestCase):
         )
         self.assertEqual(
             document6.bestanden,
-            ["SDC/KEY2Vergunning_33/Documentum/0901b69980335dcd.pdf"],
+            ["SDC/Key2/KEY2Vergunning_33/0901b69980335dcd.pdf"],
         )
         self.assertEqual(
             document6.oorspronkelijk_pad,
             ["G:\\Export files\\documentum\\primary/25/0901b69980335dcd"],
         )
-        self.assertEqual(document6.access, models.ACCESS_RESTRICTED)
+        self.assertEqual(document6.access, const.ACCESS_RESTRICTED)
 
         # Test whether the dossier and document with no accesibility keys are set to restricted
         bd2 = models.BouwDossier.objects.get(dossiernr=233)
-        self.assertEqual(bd2.access, models.ACCESS_RESTRICTED)
+        self.assertEqual(bd2.access, const.ACCESS_RESTRICTED)
 
         bd2_documenten = (
             models.Document.objects.filter(bouwdossier_id=bd2.id).order_by("id").all()
         )
         document1 = bd2_documenten[0]
-        self.assertEqual(document1.access, models.ACCESS_RESTRICTED)
+        self.assertEqual(document1.access, const.ACCESS_RESTRICTED)
 
         batch.add_bag_ids_to_wabo()
         self.assertEqual(bd1_addressen.count(), 25)
@@ -167,4 +169,4 @@ class APITest(TestCase):
         batch.add_bag_ids_to_pre_wabo()
         batch.import_wabo_dossiers(DATA_DIR)
         batch.add_bag_ids_to_wabo()
-        batch.validate_import(min_bouwdossiers_count=38)
+        batch.validate_import(min_bouwdossiers_count=43)

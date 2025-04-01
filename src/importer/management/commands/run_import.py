@@ -10,12 +10,11 @@ from importer.batch import (
     import_wabo_dossiers,
     validate_import,
 )
-from importer.util_azure import download_all_files_from_container, remove_directory
+from importer.util_azure import (
+    download_all_files_from_container,
+    remove_directory,
+)
 from importer.util_db import swap_tables_between_apps, truncate_tables
-
-BAG_SOURCE_SKIP = 0
-BAG_SOURCE_API = 1
-BAG_SOURCE_AZURE_STORAGE = 2
 
 log = logging.getLogger(__name__)
 
@@ -33,13 +32,6 @@ class Command(BaseCommand):
         add_bag_ids_to_wabo()
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            "--bag_source",
-            dest="bag_source",
-            type=int,
-            default=BAG_SOURCE_AZURE_STORAGE,
-            help="Bag data source",
-        )
 
         parser.add_argument(
             "--skipgetfiles",
@@ -77,4 +69,4 @@ class Command(BaseCommand):
             swap_tables_between_apps("importer", "bouwdossiers")
 
         except Exception as e:
-            raise Exception("An exception occurred importing the metadata.") from e
+            log.exception(f"An exception occurred importing the metadata. Error: {e}")

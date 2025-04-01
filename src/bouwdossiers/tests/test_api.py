@@ -1,18 +1,24 @@
 from random import randint
 
+import pytest
 from django.conf import settings
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-from bouwdossiers.models import SOURCE_EDEPOT, SOURCE_WABO, Adres, BouwDossier, Document
+import bouwdossiers.constants as const
+from bouwdossiers.models import (
+    Adres,
+    BouwDossier,
+    Document,
+)
 from bouwdossiers.tests import factories
 from bouwdossiers.tests.tools_for_testing import create_authz_token
 
 
-def create_bouwdossiers(n, stadsdeel="AA", source=SOURCE_EDEPOT):
+def create_bouwdossiers(n, stadsdeel="AA", source=const.SOURCE_EDEPOT):
     return [
         factories.BouwDossierFactory(
-            dossiernr=randint(10, 10000),
+            dossiernr="P15-" + str(randint(10, 10000)),
             stadsdeel=stadsdeel,
             olo_liaan_nummer=randint(10, 10000),
             source=source,
@@ -34,13 +40,13 @@ class TestAPI(APITestCase):
         super().setUpClass()
 
     def test_api_list(self):
-        create_bouwdossiers(3, source=SOURCE_EDEPOT)
-        create_bouwdossiers(4, source=SOURCE_WABO)
+        create_bouwdossiers(3, source=const.SOURCE_EDEPOT)
+        create_bouwdossiers(4, source=const.SOURCE_WABO)
         url = reverse("bouwdossier-list")
 
         test_parameters = [
-            (None, 3),
-            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 3),
+            (None, 7),
+            (settings.BOUWDOSSIER_PUBLIC_SCOPE, 7),
             (settings.BOUWDOSSIER_READ_SCOPE, 7),
             (settings.BOUWDOSSIER_EXTENDED_SCOPE, 7),
         ]
@@ -65,16 +71,17 @@ class TestAPI(APITestCase):
     def test_api_detail_using_stadsdeel_and_dossier(self):
         dossiers = create_bouwdossiers(3)
 
-        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        pk = dossiers[0].stadsdeel + "_" + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.data["stadsdeel"], dossiers[0].stadsdeel)
         self.assertEqual(response.data["dossiernr"], dossiers[0].dossiernr)
         delete_all_records()
 
+    @pytest.mark.xfail(reason="WABO dossiers should be publicly available")
     def test_api_detail_wabo_using_stadsdeel_and_dossier_without_auth(self):
-        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
-        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
+        pk = dossiers[0].stadsdeel + "_" + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
         test_parameters = [
@@ -94,8 +101,8 @@ class TestAPI(APITestCase):
         delete_all_records()
 
     def test_api_detail_wabo_using_stadsdeel_and_dossier_with_auth(self):
-        dossiers = create_bouwdossiers(4, source=SOURCE_WABO)
-        pk = dossiers[0].stadsdeel + str(dossiers[0].dossiernr)
+        dossiers = create_bouwdossiers(4, source=const.SOURCE_WABO)
+        pk = dossiers[0].stadsdeel + "_" + dossiers[0].dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
 
         test_parameters = [
@@ -116,7 +123,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + str(dossier.dossiernr)
+        pk = dossier.stadsdeel + "_" + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -130,7 +137,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + str(dossier.dossiernr)
+        pk = dossier.stadsdeel + "_" + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -144,7 +151,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel.lower() + str(dossier.dossiernr)
+        pk = dossier.stadsdeel.lower() + "_" + dossier.dossiernr
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -158,7 +165,7 @@ class TestAPI(APITestCase):
         dossier.stadsdeel = "AAA"
         dossier.save()
 
-        pk = dossier.stadsdeel + "_" + str(dossier.dossiernr)  # add an underscore
+        pk = dossier.stadsdeel + "_" + dossier.dossiernr  # add an underscore
         url = reverse("bouwdossier-detail", kwargs={"pk": pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -185,8 +192,8 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.DocumentFactory(bouwdossier__dossiernr=222)
-        factories.DocumentFactory(bouwdossier__dossiernr=333)
+        factories.DocumentFactory(bouwdossier__dossiernr="222")
+        factories.DocumentFactory(bouwdossier__dossiernr="333")
 
         url = reverse("bouwdossier-list") + "?dossiernr=111&stadsdeel=AA"
         response = self.client.get(url)
@@ -202,7 +209,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA111-SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_111~SU10000010_00001.jpg",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -387,8 +394,8 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.BouwDossierFactory(dossiernr=222)
-        factories.BouwDossierFactory(dossiernr=333)
+        factories.BouwDossierFactory(dossiernr="222")
+        factories.BouwDossierFactory(dossiernr="333")
 
         url = reverse("bouwdossier-list") + "?olo_liaan_nummer=7777777"
         response = self.client.get(url)
@@ -405,7 +412,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA12345-SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -484,10 +491,11 @@ class TestAPI(APITestCase):
         )  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
-        factories.BouwDossierFactory(dossiernr=222)
-        factories.BouwDossierFactory(dossiernr=333)
+        factories.BouwDossierFactory(dossiernr="222")
+        factories.BouwDossierFactory(dossiernr="333")
 
-        url = reverse("bouwdossier-list") + f"?dossier={bd.stadsdeel}{bd.dossiernr}"
+        url = reverse("bouwdossier-list") + f"?dossier={bd.stadsdeel}_{bd.dossiernr}"
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn("results", response.data)
@@ -502,7 +510,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA12345-SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -526,13 +534,6 @@ class TestAPI(APITestCase):
         self.assertEqual(response.status_code, 400)
         delete_all_records()
 
-    def test_invalid_dossiernr(self):
-        create_bouwdossiers(3)
-        url = reverse("bouwdossier-list") + "?dossiernr=wrong"
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 400)
-        delete_all_records()
-
     def test_dossier_wabo_fields(self):
         bd = factories.BouwDossierFactory()
         factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
@@ -540,17 +541,21 @@ class TestAPI(APITestCase):
             bouwdossier__dossiernr=bd.dossiernr
         )  # Also add an address to the bouwdossier
 
-        dossier = BouwDossier.objects.get(stadsdeel="AA", dossiernr="12345")
+        dossier = BouwDossier.objects.get(stadsdeel="AA", dossiernr="TA-12345")
         dossier.olo_liaan_nummer = "67890"
         dossier.wabo_bron = "test"
-        dossier.source = SOURCE_WABO
+        dossier.source = const.SOURCE_WABO
         dossier.save()
 
         document = dossier.documenten.first()
         document.bestanden = [
-            "https://conversiestraatwabo.amsterdam.nl/webDAV/SDC/PUA/1234567.PDF"
+            "SDC/PUA/1234567_00009.PDF",
+            "SDC/PUA/1234567_111112.jpg",
+            "SDC/PUA/1234567.PDF",
         ]
-        document.barcode = document.bestanden[0].split("/")[-1].split(".")[0]
+        document.barcode = (
+            document.bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
+        )
         document.oorspronkelijk_pad = ["/path/to/bestand"]
         document.save()
 
@@ -560,7 +565,7 @@ class TestAPI(APITestCase):
         adres.huisnummer_toevoeging = "B"
         adres.save()
 
-        url = reverse("bouwdossier-detail", kwargs={"pk": "AA12345"})
+        url = reverse("bouwdossier-detail", kwargs={"pk": "AA_TA-12345"})
         header = {
             "HTTP_AUTHORIZATION": "Bearer "
             + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)
@@ -575,7 +580,15 @@ class TestAPI(APITestCase):
         self.assertEqual(documents[0]["oorspronkelijk_pad"], ["/path/to/bestand"])
         self.assertEqual(
             documents[0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}wabo:AA-12345-67890_1234567",
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_9",
+        )
+        self.assertEqual(
+            documents[0]["bestanden"][1]["url"],
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_111112",
+        )
+        self.assertEqual(
+            documents[0]["bestanden"][2]["url"],
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_1",
         )
         self.assertEqual(adressen[0]["locatie_aanduiding"], "aanduiding")
         self.assertEqual(adressen[0]["huisnummer_letter"], "A")

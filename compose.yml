@@ -19,6 +19,7 @@ x-app: &base-app
     - amsterdam-bouwdossiers
     - default
   environment: &base-app-env
+    WABO_ENABLED: 'true'
     SECRET_KEY: 'dev'
     DATABASE_HOST: 'database'
     PYTHONBREAKPOINT: true
