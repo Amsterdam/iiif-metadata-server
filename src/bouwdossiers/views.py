@@ -69,7 +69,9 @@ class BouwDossierViewSet(ReadOnlyModelViewSet):
     if settings.WABO_ENABLED:
         queryset = BouwDossier.objects.prefetch_related("adressen", "documenten")
     else:
-        queryset = BouwDossier.objects.filter(source="EDEPOT").prefetch_related("adressen", "documenten")
+        queryset = BouwDossier.objects.filter(source="EDEPOT").prefetch_related(
+            "adressen", "documenten"
+        )
 
     def get_object(self):
         # We expect a key of the form AA_0000123 in which AA is the code for the
