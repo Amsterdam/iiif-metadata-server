@@ -366,13 +366,28 @@ def add_wabo_dossier(
         ):
             continue
 
+        # access document 
+        _access_doc = get_access(x_document)
+
+        if bron == "BWT":
+            # de BWT files zonder <bevat_persoonsgegevens> zijn openbaar als wel opgegeven die gebruiken
+            # default bij ontbreken is ACCESS_RESTRICTED hier uitzondering voor BWT files.
+
+            checks = ["openbaarheidsBeperking",
+                    "openbaar",
+                    "gevoelig_object",
+                    "bevat_persoonsgegevens",]
+
+            if not any(x_document.get(check) for check in checks):
+                _access_doc = const.ACCESS_PUBLIC
+            
         document = models.Document(
             barcode=barcode,
             bouwdossier=bouwdossier,
             subdossier_titel=x_document.get("document_type"),
             oorspronkelijk_pad=bestanden_pads,
             bestanden=bestanden,
-            access=get_access(x_document),
+            access=_access_doc,
             document_omschrijving=document_omschrijving,
         )
 

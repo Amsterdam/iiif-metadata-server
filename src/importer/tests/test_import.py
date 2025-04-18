@@ -209,8 +209,7 @@ class APITest(TestCase):
             document5.oorspronkelijk_pad,
             ["J:\INZAGEDOCS\Datapunt\SDC BWT\\1\SA00279459_00001.jpg"],
         )
-        # document toegang -> BWT heeft geen document access in metadata??
-        self.assertEqual(document5.access, const.ACCESS_RESTRICTED)
+        self.assertEqual(document5.access, const.ACCESS_PUBLIC)
 
         document6 = bd3_documenten[0]
         self.assertEqual(
