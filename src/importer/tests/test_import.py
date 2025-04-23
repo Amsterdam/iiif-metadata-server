@@ -235,9 +235,9 @@ class APITest(TestCase):
 
     def test_get_btw_verrijkings_bag_ids(self):
         BWT_ids = batch._get_btw_verrijkings_bag_ids(DATA_DIR)
-        self.assertEqual(BWT_ids.get('SDC_2').get('dossier_access'), const.ACCESS_RESTRICTED)
+        self.assertEqual(BWT_ids.get('SDW_2').get('dossier_access'), const.ACCESS_RESTRICTED)
 
-        _adressen = BWT_ids.get('SDC_2').get('adressen')
+        _adressen = BWT_ids.get('SDW_2').get('adressen')
         self.assertIsInstance(_adressen, list)
         _result = [item for item in _adressen if item.get('straat_huisnummer') == "bos en lommerplein_159"][0]
         self.assertEqual(_result['openbareruimte_id'], "0363300000002992")

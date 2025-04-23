@@ -4,7 +4,6 @@
         <dossier_titel>Omgevingsvergunning</dossier_titel>
         <intern_nummer>SDC_1</intern_nummer>
         <bron>BWT</bron>
-        <gevoelig_object>N</gevoelig_object>
         <locaties>
             <locatie>
                 <straatnaam>Plantage Middenlaan</straatnaam>
@@ -233,7 +232,8 @@
     </dossier>
     <dossier>
         <dossier_titel>Overige bouwgerelateerde vergunningen</dossier_titel>
-        <intern_nummer>SDC_2</intern_nummer>
+        <intern_nummer>SDW_2</intern_nummer>
+        <OLO_liaan_nummer>SPC150391948</OLO_liaan_nummer>
         <bron>BWT</bron>
         <gevoelig_object>N</gevoelig_object>
         <locaties>

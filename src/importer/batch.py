@@ -164,8 +164,8 @@ def add_wabo_dossier(
     _key = stadsdeel+'_'+dossiernr
 
     if bron == "BWT":
-        " de BWT files hebben geen begindatum, omschrijving of OLO_liaan_nummer"
-        datering =None
+        "de BWT files hebben geen begindatum, omschrijving"
+        datering = None
         dossier_type = ""
 
         # match with parameter jsonfile BWT_ids - bwt files have no get_access element in xml's
@@ -177,13 +177,13 @@ def add_wabo_dossier(
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
             
-        _access=get_access(x_dossier)
+        _access = get_access(x_dossier)
 
     olo_liaan_nummer = x_dossier.get("OLO_liaan_nummer")
     if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
-        # In some cases the string starts with 'OLO'. We need to remove this
-        olo_liaan_nummer = olo_liaan_nummer.replace("OLO", "")
-    # prewabo key2 dossiers and BWT-files do not have a olo number. Because we do not
+        # In some cases the string starts with Characters. We need to remove this
+        olo_liaan_nummer = re.sub(r"^\D*", "", olo_liaan_nummer)
+    # prewabo key2 dossiers and not all BWT-files have a olo number. Because we do not
     # want a None in the URL we set the olo number to 0
     if not olo_liaan_nummer and (wabo_tag == "prewabo" or bron == "BWT"):
         olo_liaan_nummer = 0
