@@ -90,7 +90,7 @@ class APITest(TestCase):
     def test_wabo_import(self):
         with self.assertNoLogs(logger, level="ERROR"):
             batch.import_wabo_dossiers(DATA_DIR)
-            
+
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, "SDC")
         self.assertEqual(
@@ -165,7 +165,6 @@ class APITest(TestCase):
         adres1_new = bd1_addressen.first()
         self.assertEqual(adres1_new.nummeraanduidingen_label, ["Lauriergracht 116-H"])
 
-
         # SDC BWT - first record
         bd3 = models.BouwDossier.objects.get(dossiernr="1")
         self.assertEqual(bd3.stadsdeel, "SDC")
@@ -226,22 +225,29 @@ class APITest(TestCase):
         )
         self.assertEqual(document6.access, const.ACCESS_RESTRICTED)
 
-
     def test_get_btw_verrijkings_bag_ids_not_found(self):
-        with self.assertLogs(logger, level='ERROR') as log:
-            BWT_ids = batch._get_btw_verrijkings_bag_ids('foutpad')
-            self.assertIn('Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek', log.output[0])
+        with self.assertLogs(logger, level="ERROR") as log:
+            BWT_ids = batch._get_btw_verrijkings_bag_ids("foutpad")
+            self.assertIn(
+                "Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek",
+                log.output[0],
+            )
             self.assertEqual(BWT_ids, None)
 
     def test_get_btw_verrijkings_bag_ids(self):
         BWT_ids = batch._get_btw_verrijkings_bag_ids(DATA_DIR)
-        self.assertEqual(BWT_ids.get('SDW_2').get('dossier_access'), const.ACCESS_RESTRICTED)
+        self.assertEqual(
+            BWT_ids.get("SDW_2").get("dossier_access"), const.ACCESS_RESTRICTED
+        )
 
-        _adressen = BWT_ids.get('SDW_2').get('adressen')
+        _adressen = BWT_ids.get("SDW_2").get("adressen")
         self.assertIsInstance(_adressen, list)
-        _result = [item for item in _adressen if item.get('straat_huisnummer') == "bos en lommerplein_159"][0]
-        self.assertEqual(_result['openbareruimte_id'], "0363300000002992")
-
+        _result = [
+            item
+            for item in _adressen
+            if item.get("straat_huisnummer") == "bos en lommerplein_159"
+        ][0]
+        self.assertEqual(_result["openbareruimte_id"], "0363300000002992")
 
     def test_validate_import(self):
         batch.import_pre_wabo_dossiers(DATA_DIR)

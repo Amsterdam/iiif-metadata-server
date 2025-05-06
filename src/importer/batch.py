@@ -1,8 +1,7 @@
 import glob
+import json
 import logging
 import re
-import json
-import os
 
 import xmltodict
 from django.conf import settings
@@ -117,7 +116,7 @@ def openbaar_to_copyright(copyright):
 
 
 def add_wabo_dossier(
-    x_dossier, file_path, import_file, count, total_count, BWT_ids:json=None
+    x_dossier, file_path, import_file, count, total_count, BWT_ids: json = None
 ):  # noqa C901
     """
     For information about wabo and pre_wabo please check the README
@@ -161,7 +160,7 @@ def add_wabo_dossier(
         log.warning(f"Missing titel for Wabo dossier {dossiernr} in {file_path}")
 
     bron = x_dossier.get("bron")
-    _key = stadsdeel+'_'+dossiernr
+    _key = stadsdeel + "_" + dossiernr
 
     if bron == "BWT":
         "de BWT files hebben geen begindatum, omschrijving"
@@ -169,14 +168,14 @@ def add_wabo_dossier(
         dossier_type = ""
 
         # match with parameter jsonfile BWT_ids - bwt files have no get_access element in xml's
-        _access=BWT_ids.get(_key, {}).get('dossier_access', const.ACCESS_RESTRICTED)
+        _access = BWT_ids.get(_key, {}).get("dossier_access", const.ACCESS_RESTRICTED)
 
-    else:        
+    else:
         datering = x_dossier.get("begindatum")
         dossier_type = x_dossier.get("omschrijving").lower()
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
-            
+
         _access = get_access(x_dossier)
 
     olo_liaan_nummer = x_dossier.get("OLO_liaan_nummer")
@@ -236,19 +235,32 @@ def add_wabo_dossier(
             openbareruimte_id = bag_id.get("openbareruimteidentificatie")
             nummeraanduidingen.append(bag_id.get("Nummeraanduidingidentificatie"))
 
-        elif bron == "BWT": # in bwt-files no bag_ids (locatie aanduiding?) in xml, match with parameter BWT_ids jsonfile
-            _straat_huisnummer = x_adres.get("straatnaam")+'_'+x_adres.get("huisnummer")
-            _adressen = BWT_ids.get(_key, {}).get('adressen', [])
+        elif (
+            bron == "BWT"
+        ):  # in bwt-files no bag_ids (locatie aanduiding?) in xml, match with parameter BWT_ids jsonfile
+            _straat_huisnummer = (
+                x_adres.get("straatnaam") + "_" + x_adres.get("huisnummer")
+            )
+            _adressen = BWT_ids.get(_key, {}).get("adressen", [])
             try:
-                _result = [item for item in _adressen if item.get('straat_huisnummer') == _straat_huisnummer.lower()][0]
+                _result = [
+                    item
+                    for item in _adressen
+                    if item.get("straat_huisnummer") == _straat_huisnummer.lower()
+                ][0]
 
-                [ panden.append(item) for item in _result['panden']]
-                [ verblijfsobjecten.append(item) for item in _result['verblijfsobjecten']]
-                openbareruimte_id = _result['openbareruimte_id']
-                [ nummeraanduidingen.append(item) for item in _result['nummeraanduidingen']]
+                [panden.append(item) for item in _result["panden"]]
+                [
+                    verblijfsobjecten.append(item)
+                    for item in _result["verblijfsobjecten"]
+                ]
+                openbareruimte_id = _result["openbareruimte_id"]
+                [
+                    nummeraanduidingen.append(item)
+                    for item in _result["nummeraanduidingen"]
+                ]
             except:
-                log.warning('straat_huisnummer niet gevonden in BWT bestand')
-
+                log.warning("straat_huisnummer niet gevonden in BWT bestand")
 
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
@@ -305,13 +317,15 @@ def add_wabo_dossier(
                     "BWT": "Decos",
                 }
                 bestand_type = mapping[b_type]
-  
+
                 _parts = bestand_str.split("/")
 
-                if "BWT" in _parts[0]: #then it's from WABO/BWT and different url-format
-                    _parts[0]= _parts[0].replace(" ", "/")
+                if (
+                    "BWT" in _parts[0]
+                ):  # then it's from WABO/BWT and different url-format
+                    _parts[0] = _parts[0].replace(" ", "/")
                     bestand_str = "/".join(_parts)
-                else: # place the file directly under dossier by removing folder before filename
+                else:  # place the file directly under dossier by removing folder before filename
                     _parts.pop(-2)
                     bestand_str = "/".join(_parts)
                     # add dossiertype after stadsdeel
@@ -366,21 +380,23 @@ def add_wabo_dossier(
         ):
             continue
 
-        # access document 
+        # access document
         _access_doc = get_access(x_document)
 
         if bron == "BWT":
             # de BWT files zonder <bevat_persoonsgegevens> zijn openbaar als wel opgegeven die gebruiken
             # default bij ontbreken is ACCESS_RESTRICTED hier uitzondering voor BWT files.
 
-            checks = ["openbaarheidsBeperking",
-                    "openbaar",
-                    "gevoelig_object",
-                    "bevat_persoonsgegevens",]
+            checks = [
+                "openbaarheidsBeperking",
+                "openbaar",
+                "gevoelig_object",
+                "bevat_persoonsgegevens",
+            ]
 
             if not any(x_document.get(check) for check in checks):
                 _access_doc = const.ACCESS_PUBLIC
-            
+
         document = models.Document(
             barcode=barcode,
             bouwdossier=bouwdossier,
@@ -530,17 +546,21 @@ def add_pre_wabo_dossier(
 
 def _read_btw_dossiers_verblijfsobjecten_ids(file_path) -> dict:
     log.info("read BTW wabo dossiers verblijfsobjecten_ids from json file")
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         data = json.load(file)
-        return data 
-    
+        return data
+
+
 def _get_btw_verrijkings_bag_ids(root_dir) -> dict:
     try:
-        BWT_filepath = root_dir + '/WABO/BWT_TMLO.json' 
+        BWT_filepath = root_dir + "/WABO/BWT_TMLO.json"
         BWT_ids = _read_btw_dossiers_verblijfsobjecten_ids(BWT_filepath)
         return BWT_ids
     except FileNotFoundError:
-        log.error(f'Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek: {BWT_filepath}')
+        log.error(
+            f"Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek: {BWT_filepath}"
+        )
+
 
 def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # noqa C901
     total_count = 0
@@ -549,7 +569,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     BWT_ids = _get_btw_verrijkings_bag_ids(root_dir)
 
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search(r"/WABO/SD[A-Z]{1,2}( BWT)?/.+\.xml$|WABO_.+\.xml$", file_path)        
+        wabo = re.search(r"/WABO/SD[A-Z]{1,2}( BWT)?/.+\.xml$|WABO_.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
@@ -814,7 +834,7 @@ def validate_import(min_bouwdossiers_count):
             )
         ),
         wabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_WABO)),
-        wabo_bwt = Count('id', filter=Q(bouwdossier__wabo_bron='BWT')),
+        wabo_bwt=Count("id", filter=Q(bouwdossier__wabo_bron="BWT")),
         wabo_has_panden=Sum(
             Case(
                 When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
