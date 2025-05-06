@@ -1,0 +1,63 @@
+{
+    "SDC_1": {
+        "dossier_access": "PUBLIC",
+        "adressen": [
+            {
+                "straat_huisnummer": "plantage middenlaan_25",
+                "straat": "plantage middenlaan",
+                "huisnummer": "25",
+                "verblijfsobjecten": [
+                    "0363010000777605"
+                ],
+                "panden": [
+                    "0363100012170545"
+                ],
+                "openbareruimte_id": "0363300000004539",
+                "nummeraanduidingen": [
+                    "0363200000237556.3"
+                ]
+            }
+        ]
+    },
+    "SDW_2": {
+        "dossier_access": "RESTRICTED",
+        "adressen": [
+            {
+                "straat_huisnummer": "westerstraat_262",
+                "straat": "Westerstraat",
+                "huisnummer": "262",
+                "verblijfsobjecten": [
+                    "0363010000977664"
+                ],
+                "panden": [
+                    "0363100012176278"
+                ],
+                "openbareruimte_id": "0363300000003780",
+                "nummeraanduidingen": [
+                    "0363200000118135.3"
+                ]
+            },
+            {
+                "straat_huisnummer": "bos en lommerplein_159",
+                "straat": "bos en lommerplein",
+                "huisnummer": "159",
+                "verblijfsobjecten": [
+                    "0363010001981786",
+                    "0363010001981782",
+                    "0363010001981783",
+                    "0363010001981785"
+                ],
+                "panden": [
+                    "0363100012080943"
+                ],
+                "openbareruimte_id": "0363300000002992",
+                "nummeraanduidingen": [
+                    "0363200000540571.3",
+                    "0363200000540568.3",
+                    "0363200000540575.3",
+                    "0363200000540563.3"
+                ]
+            }
+        ]
+    }
+}
