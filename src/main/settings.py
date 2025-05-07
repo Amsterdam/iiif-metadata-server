@@ -3,6 +3,7 @@ import os
 import sys
 
 from corsheaders.defaults import default_headers
+from csp.constants import NONCE, SELF
 from opencensus.trace import config_integration
 
 from main.utils_azure_insights import (
@@ -357,14 +358,13 @@ BAG_DUMP_BASE_URL = os.getenv(
     "BAG_DUMP_BASE_URL", "https://api.data.amsterdam.nl/bulk-data/csv"
 )
 
-CSP_DEFAULT_SRC = ("'self'",)  # Block all content from other sources
-
-CSP_FRAME_ANCESTORS = ("'self'",)
-CSP_SCRIPT_SRC = ("'self'",)
-CSP_IMG_SRC = (
-    "'self'",
-    "data:",
-)
-CSP_STYLE_SRC = ("'self'",)
-CSP_CONNECT_SRC = ("'self'",)
-CSP_INCLUDE_NONCE_IN = ("script-src", "style-src")
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": [SELF],
+        "frame-ancestors": [SELF],
+        "script-src": [SELF, NONCE],
+        "img-src": [SELF, "data:"],
+        "style-src": [SELF, NONCE],
+        "connect-src": [SELF],
+    },
+}
