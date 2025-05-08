@@ -51,7 +51,7 @@ cryptography==44.0.2
     #   pyjwt
 datapunt-authorization-django==1.6.1
     # via -r requirements.in
-django==5.2
+django==5.2.1
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
