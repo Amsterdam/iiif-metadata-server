@@ -93,10 +93,10 @@ class APITest(TestCase):
 
         bd_uniek1 = models.BouwDossier.objects.get(dossiernr="2X")
         self.assertEqual(bd_uniek1.olo_liaan_nummer, 150000000)
-        self.assertEqual(bd_uniek1.activiteiten, ['Splitsingsvergunning_2'])
+        self.assertEqual(bd_uniek1.activiteiten, ["Splitsingsvergunning_2"])
         bd_uniek2 = models.BouwDossier.objects.get(dossiernr="2XX")
         self.assertEqual(bd_uniek2.olo_liaan_nummer, 350000000)
-        self.assertEqual(bd_uniek2.activiteiten, ['Splitsingsvergunning_3'])
+        self.assertEqual(bd_uniek2.activiteiten, ["Splitsingsvergunning_3"])
 
         bd1 = models.BouwDossier.objects.get(dossiernr=189)
         self.assertEqual(bd1.stadsdeel, "SDC")
