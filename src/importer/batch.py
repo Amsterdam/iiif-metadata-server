@@ -172,7 +172,7 @@ def add_wabo_dossier(
 
     else:
         datering = x_dossier.get("begindatum")
-        dossier_type = x_dossier.get("omschrijving").lower()
+        dossier_type = x_dossier.get("omschrijving").lower() if x_adres.get("omschrijving") else None
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
 
