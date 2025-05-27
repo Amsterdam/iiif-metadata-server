@@ -368,4 +368,80 @@
             </document>
         </documenten>
     </dossier>
+    <dossier>
+        <dossier_titel>Overige bouwgerelateerde vergunningen</dossier_titel>
+        <intern_nummer>SDW_2</intern_nummer>
+        <OLO_liaan_nummer>150000000</OLO_liaan_nummer>
+        <bron>BWT</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Westerstraat</straatnaam>
+                <huisnummer>262</huisnummer>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Splitsingsvergunning_2</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving>SA00303164</document_omschrijving>
+                <document_type>Intake en ontvankelijkheid</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <barcode>Aanvraagformulier</barcode>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>    
+    <dossier>
+        <dossier_titel>Overige bouwgerelateerde vergunningen</dossier_titel>
+        <intern_nummer>SDW_2</intern_nummer>
+        <OLO_liaan_nummer>350000000</OLO_liaan_nummer>
+        <bron>BWT</bron>
+        <gevoelig_object>N</gevoelig_object>
+        <locaties>
+            <locatie>
+                <straatnaam>Westerstraat</straatnaam>
+                <huisnummer>262</huisnummer>
+            </locatie>
+        </locaties>
+        <activiteiten>
+            <activiteit>Splitsingsvergunning_3</activiteit>
+        </activiteiten>
+        <documenten>
+            <document>
+                <document_omschrijving>SA00303164</document_omschrijving>
+                <document_type>Intake en ontvankelijkheid</document_type>
+                <bevat_persoonsgegevens>true</bevat_persoonsgegevens>
+                <barcode>Aanvraagformulier</barcode>
+                <bestanden>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00001.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00001.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00002.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00002.jpg</URL>
+                    </bestand>
+                    <bestand>
+                        <oorspronkelijk_pad>J:\INZAGEDOCS\Datapunt\SDC BWT\2\SA00303164_00003.jpg</oorspronkelijk_pad>
+                        <URL>J:/INZAGEDOCS/Datapunt/SDC BWT/2/SA00303164_00003.jpg</URL>
+                    </bestand>
+                </bestanden>
+            </document>
+        </documenten>
+    </dossier>
 </dossiers>

@@ -172,7 +172,11 @@ def add_wabo_dossier(
 
     else:
         datering = x_dossier.get("begindatum")
-        dossier_type = x_dossier.get("omschrijving").lower()
+        dossier_type = (
+            x_dossier.get("omschrijving").lower()
+            if x_dossier.get("omschrijving")
+            else None
+        )
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
 
@@ -209,11 +213,33 @@ def add_wabo_dossier(
         activiteiten=activiteiten,
     )
 
-    try:
-        with transaction.atomic():
-            bouwdossier.save()
-    except IntegrityError as e:
-        log.error(f"Exception while saving {dossier} in {file_path} with : {e}")
+    # Save bouwdossier and try adding 'X' when double dossiernrs
+    MAX_ATTEMPTS = 3
+    success = False
+    original_dossiernr = bouwdossier.dossiernr  # Store the original value
+
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            with transaction.atomic():
+                bouwdossier.save()
+                success = True
+                break
+        except IntegrityError as e:
+            if "duplicate key" in str(e).lower():
+                log.warning(
+                    f"Duplicate key error on attempt {attempt} for {dossier} in {file_path}: {e}"
+                )
+                bouwdossier.dossiernr = original_dossiernr + ("X" * attempt)
+            else:
+                log.error(
+                    f"Non-retryable IntegrityError for {dossier} in {file_path}: {e}"
+                )
+                return count, total_count
+
+    if not success:
+        log.error(
+            f"All {MAX_ATTEMPTS} save attempts failed for {dossier} in {file_path}"
+        )
         return count, total_count
 
     count += 1
