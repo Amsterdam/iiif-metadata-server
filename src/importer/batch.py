@@ -263,7 +263,7 @@ def add_wabo_dossier(
             openbareruimte_id = bag_id.get("openbareruimteidentificatie")
             nummeraanduidingen.append(bag_id.get("Nummeraanduidingidentificatie"))
 
-        elif x_adres.get("straatnaam") is not None:
+        elif x_adres.get("straatnaam") and x_adres.get("huisnummer"):
             # when no bag_ids in xml, try match straat&huisnummer with parameter BWT_ids jsonfile
             _straat_huisnummer = (
                 x_adres.get("straatnaam") + "_" + x_adres.get("huisnummer")
@@ -287,7 +287,7 @@ def add_wabo_dossier(
                     for item in _result["nummeraanduidingen"]
                 ]
             except:
-                log.warning("straat_huisnummer niet gevonden in BWT bestand")
+                log.warning(f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {dossier} in {file_path}")
 
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
