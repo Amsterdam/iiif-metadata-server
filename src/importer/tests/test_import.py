@@ -91,6 +91,12 @@ class APITest(TestCase):
         with self.assertNoLogs(logger, level="ERROR"):
             batch.import_wabo_dossiers(DATA_DIR)
 
+        # NONWABO_ files dont get read
+        with self.assertRaises(models.BouwDossier.DoesNotExist):
+            models.BouwDossier.objects.get(
+                titel="* Stationsplein, gedeeltelijk veranderen CS"
+            )
+
         bd_uniek1 = models.BouwDossier.objects.get(dossiernr="2X")
         self.assertEqual(bd_uniek1.olo_liaan_nummer, 150000000)
         self.assertEqual(bd_uniek1.activiteiten, ["Splitsingsvergunning_2"])
@@ -231,6 +237,20 @@ class APITest(TestCase):
             "J:\INZAGEDOCS\Datapunt\SDC BWT\\1\SA00279185_00001.jpg",
         )
         self.assertEqual(document6.access, const.ACCESS_RESTRICTED)
+
+        # SDN WABO KEY2 dossier without bag_id, test if BWT_TMLO.json is checked
+        bd4 = models.BouwDossier.objects.get(dossiernr="P15-43398")
+        self.assertEqual(bd4.stadsdeel, "SDN")
+        self.assertEqual(bd4.source, "WABO")
+        self.assertEqual(bd4.wabo_bron, "KEY2")
+
+        bd4_addressen = models.Adres.objects.filter(bouwdossier_id=bd4.id)
+        self.assertEqual(bd4_addressen.count(), 1)
+
+        adres1 = bd4_addressen.first()
+        self.assertEqual(adres1.straat, "Staghof")
+        self.assertEqual(adres1.huisnummer_van, 49)
+        self.assertEqual(adres1.verblijfsobjecten, ["0363010000893549"])
 
     def test_get_btw_verrijkings_bag_ids_not_found(self):
         with self.assertLogs(logger, level="ERROR") as log:

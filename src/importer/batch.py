@@ -255,15 +255,16 @@ def add_wabo_dossier(
         openbareruimte_id = None
         nummeraanduidingen = []
 
-        if bag_id:  # if no bag_ids, locatie aanduiding is available.
+        if (
+            bag_id
+        ):  # if no bag_ids, check BWT_ids jsonfile and at last locatie aanduiding.
             panden.append(bag_id.get("pandidentificatie"))
             verblijfsobjecten.append(bag_id.get("verblijfsobjectidentificatie"))
             openbareruimte_id = bag_id.get("openbareruimteidentificatie")
             nummeraanduidingen.append(bag_id.get("Nummeraanduidingidentificatie"))
 
-        elif (
-            bron == "BWT"
-        ):  # in bwt-files no bag_ids (locatie aanduiding?) in xml, match with parameter BWT_ids jsonfile
+        elif x_adres.get("straatnaam") and x_adres.get("huisnummer"):
+            # when no bag_ids in xml, try match straat&huisnummer with parameter BWT_ids jsonfile
             _straat_huisnummer = (
                 x_adres.get("straatnaam") + "_" + x_adres.get("huisnummer")
             )
@@ -286,7 +287,7 @@ def add_wabo_dossier(
                     for item in _result["nummeraanduidingen"]
                 ]
             except:
-                log.warning("straat_huisnummer niet gevonden in BWT bestand")
+                log.warning(f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {dossier} in {file_path}")
 
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
@@ -595,7 +596,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     BWT_ids = _get_btw_verrijkings_bag_ids(root_dir)
 
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
-        wabo = re.search(r"/WABO/SD[A-Z]{1,2}( BWT)?/.+\.xml$|WABO_.+\.xml$", file_path)
+        wabo = re.search(r"/WABO/SD[A-Z]{1,2}( BWT)?/.+\.xml$", file_path)
         importfiles = models.ImportFile.objects.filter(name=file_path)
 
         if not wabo or len(importfiles) > 0:
