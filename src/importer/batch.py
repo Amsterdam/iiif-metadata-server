@@ -115,6 +115,18 @@ def openbaar_to_copyright(copyright):
     return const.COPYRIGHT_NO
 
 
+def get_dossier_access(_key, x_dossier, BWT_ids: json):
+    # match with parameter jsonfile BWT_ids - bwt files have no get_access element in xml's 
+    # and some corrections are implemented in the jsonfile
+    _key_ids = BWT_ids.get(_key, {})
+    if _key_ids == {}:
+        _test =get_access(x_dossier) 
+        return get_access(x_dossier)
+    else:
+        _test = _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
+        return _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
+
+
 def add_wabo_dossier(
     x_dossier, file_path, import_file, count, total_count, BWT_ids: json = None
 ):  # noqa C901
@@ -161,15 +173,12 @@ def add_wabo_dossier(
 
     bron = x_dossier.get("bron")
     _key = stadsdeel + "_" + dossiernr
+    _access = get_dossier_access(_key, x_dossier, BWT_ids)
 
     if bron == "BWT":
         "de BWT files hebben geen begindatum, omschrijving"
         datering = None
         dossier_type = ""
-
-        # match with parameter jsonfile BWT_ids - bwt files have no get_access element in xml's
-        _access = BWT_ids.get(_key, {}).get("dossier_access", const.ACCESS_RESTRICTED)
-
     else:
         datering = x_dossier.get("begindatum")
         dossier_type = (
@@ -179,8 +188,6 @@ def add_wabo_dossier(
         )
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
-
-        _access = get_access(x_dossier)
 
     olo_liaan_nummer = x_dossier.get("OLO_liaan_nummer")
     if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
@@ -444,7 +451,7 @@ def add_wabo_dossier(
 
 
 def add_pre_wabo_dossier(
-    x_dossier, file_path, import_file, count, total_count
+    x_dossier, file_path, import_file, count, total_count, BWT_ids: json = None
 ):  # noqa C901
     """
     For information about wabo and pre_wabo please check the README
@@ -464,7 +471,8 @@ def add_pre_wabo_dossier(
     if not stadsdeel:
         stadsdeel = ""
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
-    access = get_access(x_dossier)
+    _key = stadsdeel + "_" + dossiernr.zfill(5)
+    access = get_dossier_access(_key, x_dossier, BWT_ids) 
     access_restricted_until = get_date_from_year(
         x_dossier.get("openbaarheidsBeperkingTot")
     )
@@ -642,6 +650,9 @@ def import_pre_wabo_dossiers(
 ):  # noqa C901
     total_count = 0
     file_count = 0
+
+    BWT_ids = _get_btw_verrijkings_bag_ids(root_dir)
+
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
         # SAA_BWT_02.xml
         pre_wabo = re.search(r"SAA_BWT_[A-Za-z-_0-9]+\.xml$", file_path)
@@ -663,7 +674,7 @@ def import_pre_wabo_dossiers(
             with transaction.atomic():
                 for x_dossier in get_list_items(xml, "bwtDossiers", "dossier"):
                     (count, total_count) = add_pre_wabo_dossier(
-                        x_dossier, file_path, import_file, count, total_count
+                        x_dossier, file_path, import_file, count, total_count, BWT_ids
                     )
 
             import_file.status = const.IMPORT_FINISHED

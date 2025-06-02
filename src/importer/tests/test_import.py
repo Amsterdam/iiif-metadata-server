@@ -31,7 +31,7 @@ class APITest(TestCase):
         self.assertEqual(bd3.titel, "Hoogte Kadijk 40")
         self.assertEqual(bd3.datering.strftime("%Y"), "2003")
         self.assertEqual(bd3.dossier_type, "verbouwing")
-        self.assertEqual(bd3.access, "PUBLIC")
+        self.assertEqual(bd3.access, "RESTRICTED")
         self.assertEqual(bd3.source, "EDEPOT")
 
         bd3_addressen = models.Adres.objects.filter(bouwdossier_id=bd3.id)
@@ -112,7 +112,7 @@ class APITest(TestCase):
         )
         self.assertEqual(bd1.datering.strftime("%Y"), "2010")
         self.assertEqual(bd1.dossier_type, "omgevingsvergunning")
-        self.assertEqual(bd1.access, "PUBLIC")
+        self.assertEqual(bd1.access, "RESTRICTED")
         self.assertEqual(bd1.source, "WABO")
         self.assertEqual(bd1.olo_liaan_nummer, 189)
         self.assertEqual(bd1.wabo_bron, "KEY2")
