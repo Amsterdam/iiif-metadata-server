@@ -209,7 +209,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA_111~SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_111~None_ST100_1",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -412,7 +412,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~7777777_ST100_1",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -510,7 +510,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~None_ST100_1",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
