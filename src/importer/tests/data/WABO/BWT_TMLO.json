@@ -59,5 +59,25 @@
                 ]
             }
         ]
-    }
+    },
+    "SDN_P15-43398": {
+        "dossier_access": "PUBLIC",
+        "adressen": [
+            {
+                "straat_huisnummer": "staghof_49",
+                "straat": "staghof",
+                "huisnummer": "49",
+                "verblijfsobjecten": [
+                    "0363010000893549"
+                ],
+                "panden": [
+                    "0363100012140932"
+                ],
+                "openbareruimte_id": "0363300000005369",
+                "nummeraanduidingen": [
+                    "0363200000351193.3"
+                ]
+            }
+        ]
+    }    
 }
