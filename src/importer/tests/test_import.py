@@ -252,17 +252,17 @@ class APITest(TestCase):
         self.assertEqual(adres1.huisnummer_van, 49)
         self.assertEqual(adres1.verblijfsobjecten, ["0363010000893549"])
 
-    def test_get_btw_verrijkings_bag_ids_not_found(self):
+    def test_get_meta_additions_not_found(self):
         with self.assertLogs(logger, level="ERROR") as log:
-            BWT_ids = batch._get_btw_verrijkings_bag_ids("foutpad")
+            BWT_ids = batch._get_meta_additions("foutpad")
             self.assertIn(
                 "Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek",
                 log.output[0],
             )
             self.assertEqual(BWT_ids, None)
 
-    def test_get_btw_verrijkings_bag_ids(self):
-        BWT_ids = batch._get_btw_verrijkings_bag_ids(DATA_DIR)
+    def test_get_meta_additions(self):
+        BWT_ids = batch._get_meta_additions(DATA_DIR)
         self.assertEqual(
             BWT_ids.get("SDW_2").get("dossier_access"), const.ACCESS_RESTRICTED
         )
