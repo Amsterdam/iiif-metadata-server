@@ -115,8 +115,20 @@ def openbaar_to_copyright(copyright):
     return const.COPYRIGHT_NO
 
 
+def get_dossier_access(_key, x_dossier, meta_ids: json):
+    # match with parameter jsonfile meta_ids - bwt files have no get_access element in xml's 
+    # and some corrections are implemented in the jsonfile
+    _key_ids = meta_ids.get(_key, {})
+    if _key_ids == {}:
+        _test =get_access(x_dossier) 
+        return get_access(x_dossier)
+    else:
+        _test = _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
+        return _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
+
+
 def add_wabo_dossier(
-    x_dossier, file_path, import_file, count, total_count, BWT_ids: json = None
+    x_dossier, file_path, import_file, count, total_count, meta_ids: json = None
 ):  # noqa C901
     """
     For information about wabo and pre_wabo please check the README
@@ -161,15 +173,12 @@ def add_wabo_dossier(
 
     bron = x_dossier.get("bron")
     _key = stadsdeel + "_" + dossiernr
+    _access = get_dossier_access(_key, x_dossier, meta_ids)
 
     if bron == "BWT":
         "de BWT files hebben geen begindatum, omschrijving"
         datering = None
         dossier_type = ""
-
-        # match with parameter jsonfile BWT_ids - bwt files have no get_access element in xml's
-        _access = BWT_ids.get(_key, {}).get("dossier_access", const.ACCESS_RESTRICTED)
-
     else:
         datering = x_dossier.get("begindatum")
         dossier_type = (
@@ -179,8 +188,6 @@ def add_wabo_dossier(
         )
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
-
-        _access = get_access(x_dossier)
 
     olo_liaan_nummer = x_dossier.get("OLO_liaan_nummer")
     if type(olo_liaan_nummer) is str and len(olo_liaan_nummer):
@@ -257,18 +264,18 @@ def add_wabo_dossier(
 
         if (
             bag_id
-        ):  # if no bag_ids, check BWT_ids jsonfile and at last locatie aanduiding.
+        ):  # if no bag_ids, check meta_ids jsonfile and at last locatie aanduiding.
             panden.append(bag_id.get("pandidentificatie"))
             verblijfsobjecten.append(bag_id.get("verblijfsobjectidentificatie"))
             openbareruimte_id = bag_id.get("openbareruimteidentificatie")
             nummeraanduidingen.append(bag_id.get("Nummeraanduidingidentificatie"))
 
         elif x_adres.get("straatnaam") and x_adres.get("huisnummer"):
-            # when no bag_ids in xml, try match straat&huisnummer with parameter BWT_ids jsonfile
+            # when no bag_ids in xml, try match straat&huisnummer with parameter meta_ids jsonfile
             _straat_huisnummer = (
                 x_adres.get("straatnaam") + "_" + x_adres.get("huisnummer")
             )
-            _adressen = BWT_ids.get(_key, {}).get("adressen", [])
+            _adressen = meta_ids.get(_key, {}).get("adressen", [])
             try:
                 _result = [
                     item
@@ -444,7 +451,7 @@ def add_wabo_dossier(
 
 
 def add_pre_wabo_dossier(
-    x_dossier, file_path, import_file, count, total_count
+    x_dossier, file_path, import_file, count, total_count, meta_ids: json = None
 ):  # noqa C901
     """
     For information about wabo and pre_wabo please check the README
@@ -464,7 +471,8 @@ def add_pre_wabo_dossier(
     if not stadsdeel:
         stadsdeel = ""
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
-    access = get_access(x_dossier)
+    _key = stadsdeel + "_" + dossiernr.zfill(5)
+    access = get_dossier_access(_key, x_dossier, meta_ids) 
     access_restricted_until = get_date_from_year(
         x_dossier.get("openbaarheidsBeperkingTot")
     )
@@ -571,21 +579,21 @@ def add_pre_wabo_dossier(
     return count, total_count
 
 
-def _read_btw_dossiers_verblijfsobjecten_ids(file_path) -> dict:
+def _read_meta_additions_dossiers(file_path) -> dict:
     log.info("read BTW wabo dossiers verblijfsobjecten_ids from json file")
     with open(file_path, "r") as file:
         data = json.load(file)
         return data
 
 
-def _get_btw_verrijkings_bag_ids(root_dir) -> dict:
+def _get_meta_additions(root_dir) -> dict:
     try:
-        BWT_filepath = root_dir + "/WABO/BWT_TMLO.json"
-        BWT_ids = _read_btw_dossiers_verblijfsobjecten_ids(BWT_filepath)
-        return BWT_ids
+        meta_filepath = root_dir + "/META_ADDITIONS/META_ADDITIONS.json"
+        meta_ids = _read_meta_additions_dossiers(meta_filepath)
+        return meta_ids
     except FileNotFoundError:
         log.error(
-            f"Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek: {BWT_filepath}"
+            f"Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek: {meta_filepath}"
         )
 
 
@@ -593,7 +601,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     total_count = 0
     file_count = 0
 
-    BWT_ids = _get_btw_verrijkings_bag_ids(root_dir)
+    meta_ids = _get_meta_additions(root_dir)
 
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
         wabo = re.search(r"/WABO/SD[A-Z]{1,2}( BWT)?/.+\.xml$", file_path)
@@ -618,7 +626,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
             with transaction.atomic():
                 for x_dossier in get_list_items(xml, "dossiers", "dossier"):
                     (count, total_count) = add_wabo_dossier(
-                        x_dossier, file_path, import_file, count, total_count, BWT_ids
+                        x_dossier, file_path, import_file, count, total_count, meta_ids
                     )
 
             import_file.status = const.IMPORT_FINISHED
@@ -642,6 +650,9 @@ def import_pre_wabo_dossiers(
 ):  # noqa C901
     total_count = 0
     file_count = 0
+
+    meta_ids = _get_meta_additions(root_dir)
+
     for file_path in glob.iglob(root_dir + "/**/*.xml", recursive=True):
         # SAA_BWT_02.xml
         pre_wabo = re.search(r"SAA_BWT_[A-Za-z-_0-9]+\.xml$", file_path)
@@ -663,7 +674,7 @@ def import_pre_wabo_dossiers(
             with transaction.atomic():
                 for x_dossier in get_list_items(xml, "bwtDossiers", "dossier"):
                     (count, total_count) = add_pre_wabo_dossier(
-                        x_dossier, file_path, import_file, count, total_count
+                        x_dossier, file_path, import_file, count, total_count, meta_ids
                     )
 
             import_file.status = const.IMPORT_FINISHED

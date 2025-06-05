@@ -31,7 +31,7 @@ class APITest(TestCase):
         self.assertEqual(bd3.titel, "Hoogte Kadijk 40")
         self.assertEqual(bd3.datering.strftime("%Y"), "2003")
         self.assertEqual(bd3.dossier_type, "verbouwing")
-        self.assertEqual(bd3.access, "PUBLIC")
+        self.assertEqual(bd3.access, "RESTRICTED")
         self.assertEqual(bd3.source, "EDEPOT")
 
         bd3_addressen = models.Adres.objects.filter(bouwdossier_id=bd3.id)
@@ -112,7 +112,7 @@ class APITest(TestCase):
         )
         self.assertEqual(bd1.datering.strftime("%Y"), "2010")
         self.assertEqual(bd1.dossier_type, "omgevingsvergunning")
-        self.assertEqual(bd1.access, "PUBLIC")
+        self.assertEqual(bd1.access, "RESTRICTED")
         self.assertEqual(bd1.source, "WABO")
         self.assertEqual(bd1.olo_liaan_nummer, 189)
         self.assertEqual(bd1.wabo_bron, "KEY2")
@@ -252,17 +252,17 @@ class APITest(TestCase):
         self.assertEqual(adres1.huisnummer_van, 49)
         self.assertEqual(adres1.verblijfsobjecten, ["0363010000893549"])
 
-    def test_get_btw_verrijkings_bag_ids_not_found(self):
+    def test_get_meta_additions_not_found(self):
         with self.assertLogs(logger, level="ERROR") as log:
-            BWT_ids = batch._get_btw_verrijkings_bag_ids("foutpad")
+            BWT_ids = batch._get_meta_additions("foutpad")
             self.assertIn(
                 "Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek",
                 log.output[0],
             )
             self.assertEqual(BWT_ids, None)
 
-    def test_get_btw_verrijkings_bag_ids(self):
-        BWT_ids = batch._get_btw_verrijkings_bag_ids(DATA_DIR)
+    def test_get_meta_additions(self):
+        BWT_ids = batch._get_meta_additions(DATA_DIR)
         self.assertEqual(
             BWT_ids.get("SDW_2").get("dossier_access"), const.ACCESS_RESTRICTED
         )

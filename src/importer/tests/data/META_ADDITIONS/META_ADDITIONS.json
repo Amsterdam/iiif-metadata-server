@@ -79,5 +79,11 @@
                 ]
             }
         ]
+    },
+    "SDC_189": {
+        "dossier_access": "RESTRICTED"
+    },
+    "SA_00003": {
+        "dossier_access": "RESTRICTED"
     }    
 }
