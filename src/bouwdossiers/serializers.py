@@ -46,9 +46,7 @@ class DocumentSerializer(ModelSerializer):
 
         The way iiif-auth-proxy can determine the different components of the url:
          - stadsdeel, dossiernr separated by '_': example SD_T-12345
-         than ~ for
-         - if edepot: document_barcode, file separated by '_'
-         - if Wabo: olo, document_barcode separated by '_'
+         than ~ for: document_barcode separated by '_'
 
 
         """
@@ -59,14 +57,15 @@ class DocumentSerializer(ModelSerializer):
             stadsdeel_dossiernr = (
                 f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
             )
-            filename = bestand.replace(" ", "%20")
+            f = re.search(r'\/([^\/]+)$', bestand)
+            filename = f.group(1)
             m_file = re.search(
                 r"_(\d+)\.\w{3,4}$", filename
             )  # remove extension and get file/bestand number like 00001
             filenr = (
                 int(m_file.group(1)) if m_file else 1
             )  # file/bestand number else always first file
-            file_reference = f"{stadsdeel_dossiernr}~{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}_{filenr}"
+            file_reference = f"{stadsdeel_dossiernr}~{instance.barcode}_{filenr}"
             url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 
             _bestanden.append({"filename": filename, "url": url})
