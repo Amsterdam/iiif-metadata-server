@@ -159,7 +159,7 @@ pytz==2025.2
     # via drf-yasg
 pyyaml==6.0.2
     # via drf-yasg
-requests==2.32.3
+requests==2.32.4
     # via
     #   azure-core
     #   datapunt-authorization-django
