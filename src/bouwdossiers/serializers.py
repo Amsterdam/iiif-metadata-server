@@ -58,7 +58,7 @@ class DocumentSerializer(ModelSerializer):
                 f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
             )
             f = re.search(r'\/([^\/]+)$', bestand)
-            filename = f.group(1)
+            filename = f.group(1) if f else bestand
             m_file = re.search(
                 r"_(\d+)\.\w{3,4}$", filename
             )  # remove extension and get file/bestand number like 00001
@@ -68,7 +68,7 @@ class DocumentSerializer(ModelSerializer):
             file_reference = f"{stadsdeel_dossiernr}~{instance.barcode}_{filenr}"
             url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 
-            _bestanden.append({"filename": filename, "url": url})
+            _bestanden.append({"filename": filename, "file_pad": bestand, "url": url})
 
         result["bestanden"] = _bestanden
 
