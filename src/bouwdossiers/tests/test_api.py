@@ -209,7 +209,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA_111~SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_111~ST100_1",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -412,7 +412,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~ST100_1",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -510,7 +510,7 @@ class TestAPI(APITestCase):
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~SU10000010_00001.jpg",
+            f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~ST100_1",
         )
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
@@ -580,15 +580,15 @@ class TestAPI(APITestCase):
         self.assertEqual(documents[0]["oorspronkelijk_pad"], ["/path/to/bestand"])
         self.assertEqual(
             documents[0]["bestanden"][0]["url"],
-            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_9",
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~1234567_9",
         )
         self.assertEqual(
             documents[0]["bestanden"][1]["url"],
-            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_111112",
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~1234567_111112",
         )
         self.assertEqual(
             documents[0]["bestanden"][2]["url"],
-            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~67890_1234567_1",
+            f"{settings.IIIF_BASE_URL}wabo:AA_TA-12345~1234567_1",
         )
         self.assertEqual(adressen[0]["locatie_aanduiding"], "aanduiding")
         self.assertEqual(adressen[0]["huisnummer_letter"], "A")

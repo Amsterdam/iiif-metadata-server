@@ -22,7 +22,7 @@ class BouwDossierFactory(factory.django.DjangoModelFactory):
     source = const.SOURCE_EDEPOT
     importfile = factory.SubFactory(ImportFileFactory)
     dossiernr = "TA-12345"
-    olo_liaan_nummer = 123456
+    olo_liaan_nummer = None
     stadsdeel = "AA"
     titel = "weesperstraat 113 - 117"
     datering = "1998-01-01"

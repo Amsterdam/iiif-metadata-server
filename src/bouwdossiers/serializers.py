@@ -46,9 +46,7 @@ class DocumentSerializer(ModelSerializer):
 
         The way iiif-auth-proxy can determine the different components of the url:
          - stadsdeel, dossiernr separated by '_': example SD_T-12345
-         than ~ for
-         - if edepot: document_barcode, file separated by '_'
-         - if Wabo: olo, document_barcode separated by '_'
+         than ~ for: document_barcode separated by '_'
 
 
         """
@@ -59,28 +57,18 @@ class DocumentSerializer(ModelSerializer):
             stadsdeel_dossiernr = (
                 f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
             )
-            if instance.bouwdossier.source == const.SOURCE_EDEPOT:
-                filename = bestand.replace(" ", "%20").replace("/", "-")
-                # If stadsdeel en dossiernr are part of the filename: remove
-                file_name = re.sub(
-                    rf"^{instance.bouwdossier.stadsdeel}-{instance.bouwdossier.dossiernr}-",
-                    "",
-                    filename,
-                )
-                url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{stadsdeel_dossiernr}~{file_name}"
+            f = re.search(r'\/([^\/]+)$', bestand)
+            filename = f.group(1) if f else bestand
+            m_file = re.search(
+                r"_(\d+)\.\w{3,4}$", filename
+            )  # remove extension and get file/bestand number like 00001
+            filenr = (
+                int(m_file.group(1)) if m_file else 1
+            )  # file/bestand number else always first file
+            file_reference = f"{stadsdeel_dossiernr}~{instance.barcode}_{filenr}"
+            url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
 
-            elif instance.bouwdossier.source == const.SOURCE_WABO:
-                filename = bestand.replace(" ", "%20")
-                m_file = re.search(
-                    r"_(\d+)\.\w{3,4}$", filename
-                )  # remove extension and get file/bestand number like 00001
-                filenr = (
-                    int(m_file.group(1)) if m_file else 1
-                )  # file/bestand number else always first file
-                file_reference = f"{stadsdeel_dossiernr}~{instance.bouwdossier.olo_liaan_nummer}_{instance.barcode}_{filenr}"
-                url = f"{settings.IIIF_BASE_URL}{dict(SOURCE_CHOICES)[instance.bouwdossier.source]}:{file_reference}"
-
-            _bestanden.append({"filename": filename, "url": url})
+            _bestanden.append({"filename": filename, "file_pad": bestand, "url": url})
 
         result["bestanden"] = _bestanden
 
