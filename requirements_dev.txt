@@ -6,9 +6,9 @@
 #
 asgiref==3.8.1
     # via django
-coverage[toml]==7.8.2
+coverage[toml]==7.9.1
     # via pytest-cov
-django==5.2.1
+django==5.2.3
     # via
     #   django-debug-toolbar
     #   model-bakery
@@ -16,23 +16,27 @@ django-debug-toolbar==5.2.0
     # via -r requirements_dev.in
 factory-boy==3.3.3
     # via -r requirements_dev.in
-faker==37.3.0
+faker==37.4.0
     # via factory-boy
 iniconfig==2.1.0
     # via pytest
-model-bakery==1.20.4
+model-bakery==1.20.5
     # via -r requirements_dev.in
 packaging==25.0
     # via pytest
 parameterized==0.9.0
     # via -r requirements_dev.in
 pluggy==1.6.0
+    # via
+    #   pytest
+    #   pytest-cov
+pygments==2.19.2
     # via pytest
-pytest==8.3.5
+pytest==8.4.1
     # via
     #   pytest-cov
     #   pytest-django
-pytest-cov==6.1.1
+pytest-cov==6.2.1
     # via -r requirements_dev.in
 pytest-django==4.11.1
     # via -r requirements_dev.in
