@@ -295,7 +295,7 @@ def add_wabo_dossier(
                     for item in _result["nummeraanduidingen"]
                 ]
             except:
-                log.warning(f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {dossier} in {file_path}")
+                log.info(f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {_key}:{_straat_huisnummer} in {file_path}")
 
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
