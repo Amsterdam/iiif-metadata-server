@@ -2,6 +2,7 @@ import glob
 import json
 import logging
 import re
+import zlib
 
 import xmltodict
 from django.conf import settings
@@ -392,12 +393,8 @@ def add_wabo_dossier(
 
         barcode = x_document.get("barcode")
         if not barcode and bestanden:
-            # This is the case with wabo dossiers, we use the name of the first bestand as the barcode
-            barcode = bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
-            if type(barcode) is str:
-                barcode = barcode.replace(" ", "%20")
-            if type(barcode) is str and len(barcode) > 250:
-                log.error(f'The barcode str "{barcode}" is more than 250 characters')
+            # This is the case with wabo dossiers, we compress the name of the first bestand into an integer to use as barcode
+            barcode = zlib.crc32(bestanden[0].encode())
 
         document_omschrijving = x_document.get("document_omschrijving")
         if type(document_omschrijving) is str and len(document_omschrijving) > 250:
