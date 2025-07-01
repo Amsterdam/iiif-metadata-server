@@ -5,7 +5,6 @@ from django.conf import settings
 from rest_framework.reverse import reverse
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 
-import bouwdossiers.constants as const
 from importer.models import (
     SOURCE_CHOICES,
     Adres,
@@ -53,11 +52,11 @@ class DocumentSerializer(ModelSerializer):
         result = super().to_representation(instance)
         _bestanden = []
 
-        for index, bestand in enumerate(result["bestanden"]): 
+        for index, bestand in enumerate(result["bestanden"]):
             stadsdeel_dossiernr = (
                 f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
             )
-            f = re.search(r'\/([^\/]+)$', bestand)
+            f = re.search(r"\/([^\/]+)$", bestand)
             filename = f.group(1) if f else bestand
             filenr = index
             file_reference = f"{stadsdeel_dossiernr}~{instance.barcode}_{filenr}"

@@ -117,14 +117,14 @@ def openbaar_to_copyright(copyright):
 
 
 def get_dossier_access(_key, x_dossier, meta_ids: json):
-    # match with parameter jsonfile meta_ids - bwt files have no get_access element in xml's 
+    # match with parameter jsonfile meta_ids - bwt files have no get_access element in xml's
     # and some corrections are implemented in the jsonfile
     _key_ids = meta_ids.get(_key, {})
     if _key_ids == {}:
-        _test =get_access(x_dossier) 
+        get_access(x_dossier)
         return get_access(x_dossier)
     else:
-        _test = _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
+        _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
         return _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
 
 
@@ -295,7 +295,9 @@ def add_wabo_dossier(
                     for item in _result["nummeraanduidingen"]
                 ]
             except:
-                log.info(f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {_key}:{_straat_huisnummer} in {file_path}")
+                log.info(
+                    f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {_key}:{_straat_huisnummer} in {file_path}"
+                )
 
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
@@ -469,7 +471,7 @@ def add_pre_wabo_dossier(
         stadsdeel = ""
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
     _key = stadsdeel + "_" + dossiernr.zfill(5)
-    access = get_dossier_access(_key, x_dossier, meta_ids) 
+    access = get_dossier_access(_key, x_dossier, meta_ids)
     access_restricted_until = get_date_from_year(
         x_dossier.get("openbaarheidsBeperkingTot")
     )
