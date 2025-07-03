@@ -2,6 +2,7 @@ import glob
 import json
 import logging
 import re
+import zlib
 
 import xmltodict
 from django.conf import settings
@@ -116,14 +117,14 @@ def openbaar_to_copyright(copyright):
 
 
 def get_dossier_access(_key, x_dossier, meta_ids: json):
-    # match with parameter jsonfile meta_ids - bwt files have no get_access element in xml's 
+    # match with parameter jsonfile meta_ids - bwt files have no get_access element in xml's
     # and some corrections are implemented in the jsonfile
     _key_ids = meta_ids.get(_key, {})
     if _key_ids == {}:
-        _test =get_access(x_dossier) 
+        get_access(x_dossier)
         return get_access(x_dossier)
     else:
-        _test = _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
+        _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
         return _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
 
 
@@ -294,7 +295,9 @@ def add_wabo_dossier(
                     for item in _result["nummeraanduidingen"]
                 ]
             except:
-                log.warning(f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {dossier} in {file_path}")
+                log.info(
+                    f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {_key}:{_straat_huisnummer} in {file_path}"
+                )
 
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
@@ -392,12 +395,8 @@ def add_wabo_dossier(
 
         barcode = x_document.get("barcode")
         if not barcode and bestanden:
-            # This is the case with wabo dossiers, we use the name of the first bestand as the barcode
-            barcode = bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
-            if type(barcode) is str:
-                barcode = barcode.replace(" ", "%20")
-            if type(barcode) is str and len(barcode) > 250:
-                log.error(f'The barcode str "{barcode}" is more than 250 characters')
+            # This is the case with wabo dossiers, we compress the name of the first bestand into an integer to use as barcode
+            barcode = zlib.crc32(bestanden[0].encode())
 
         document_omschrijving = x_document.get("document_omschrijving")
         if type(document_omschrijving) is str and len(document_omschrijving) > 250:
@@ -472,7 +471,7 @@ def add_pre_wabo_dossier(
         stadsdeel = ""
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
     _key = stadsdeel + "_" + dossiernr.zfill(5)
-    access = get_dossier_access(_key, x_dossier, meta_ids) 
+    access = get_dossier_access(_key, x_dossier, meta_ids)
     access_restricted_until = get_date_from_year(
         x_dossier.get("openbaarheidsBeperkingTot")
     )
