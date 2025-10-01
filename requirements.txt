@@ -4,11 +4,11 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements.txt requirements.in
 #
-asgiref==3.9.1
+asgiref==3.9.2
     # via
     #   django
     #   django-cors-headers
-azure-core==1.35.0
+azure-core==1.35.1
     # via
     #   -r requirements.in
     #   azure-identity
@@ -17,7 +17,7 @@ azure-core==1.35.0
     #   azure-keyvault-secrets
     #   azure-storage-blob
     #   opencensus-ext-azure
-azure-identity==1.24.0
+azure-identity==1.25.0
     # via
     #   -r requirements.in
     #   opencensus-ext-azure
@@ -33,15 +33,15 @@ azure-keyvault-secrets==4.10.0
     #   azure-keyvault
 azure-storage-blob==12.26.0
     # via -r requirements.in
-cachetools==5.5.2
+cachetools==6.2.0
     # via google-auth
 certifi==2025.8.3
     # via requests
-cffi==1.17.1
+cffi==2.0.0
     # via cryptography
 charset-normalizer==3.4.3
     # via requests
-cryptography==45.0.6
+cryptography==46.0.2
     # via
     #   azure-identity
     #   azure-keyvault-keys
@@ -63,7 +63,7 @@ django==5.2.6
     #   djangorestframework-gis
     #   drf-yasg
     #   opencensus-ext-django
-django-cors-headers==4.7.0
+django-cors-headers==4.9.0
     # via -r requirements.in
 django-csp==4.0
     # via -r requirements.in
@@ -80,11 +80,11 @@ djangorestframework==3.16.1
     #   drf-yasg
 djangorestframework-gis==1.2.0
     # via -r requirements.in
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via -r requirements.in
 google-api-core==2.25.1
     # via opencensus
-google-auth==2.40.3
+google-auth==2.41.1
     # via google-api-core
 googleapis-common-protos==1.70.0
     # via google-api-core
@@ -102,7 +102,7 @@ jwcrypto==1.5.6
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
-msal==1.33.0
+msal==1.34.0
     # via
     #   azure-identity
     #   msal-extensions
@@ -133,12 +133,12 @@ packaging==25.0
     #   drf-yasg
 proto-plus==1.26.1
     # via google-api-core
-protobuf==6.32.0
+protobuf==6.32.1
     # via
     #   google-api-core
     #   googleapis-common-protos
     #   proto-plus
-psutil==7.0.0
+psutil==7.1.0
     # via opencensus-ext-azure
 psycopg2-binary==2.9.10
     # via
@@ -150,7 +150,7 @@ pyasn1==0.6.1
     #   rsa
 pyasn1-modules==0.4.2
     # via google-auth
-pycparser==2.22
+pycparser==2.23
     # via cffi
 pyjwt[crypto]==2.10.1
     # via
@@ -158,7 +158,7 @@ pyjwt[crypto]==2.10.1
     #   pyjwt
 pytz==2025.2
     # via drf-yasg
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via drf-yasg
 requests==2.32.5
     # via
@@ -195,5 +195,5 @@ uwsgi==2.0.30
     # via -r requirements.in
 wrapt==1.17.3
     # via opencensus-ext-requests
-xmltodict==0.14.2
+xmltodict==1.0.2
     # via -r requirements.in
