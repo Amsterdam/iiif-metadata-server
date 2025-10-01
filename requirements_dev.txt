@@ -4,9 +4,9 @@
 #
 #    pip-compile --allow-unsafe --output-file=requirements_dev.txt requirements_dev.in
 #
-asgiref==3.9.1
+asgiref==3.9.2
     # via django
-coverage[toml]==7.10.6
+coverage[toml]==7.10.7
     # via pytest-cov
 django==5.2.6
     # via
@@ -16,7 +16,7 @@ django-debug-toolbar==6.0.0
     # via -r requirements_dev.in
 factory-boy==3.3.3
     # via -r requirements_dev.in
-faker==37.6.0
+faker==37.8.0
     # via factory-boy
 iniconfig==2.1.0
     # via pytest
@@ -32,11 +32,11 @@ pluggy==1.6.0
     #   pytest-cov
 pygments==2.19.2
     # via pytest
-pytest==8.4.1
+pytest==8.4.2
     # via
     #   pytest-cov
     #   pytest-django
-pytest-cov==6.2.1
+pytest-cov==7.0.0
     # via -r requirements_dev.in
 pytest-django==4.11.1
     # via -r requirements_dev.in
