@@ -1,32 +1,37 @@
-networks:
-  amsterdam-bouwdossiers:
-    name: amsterdam-bouwdossiers
-    driver: bridge
+x-common-depends-on: &common-depends-on
+  migrate:
+    condition: service_completed_successfully
+  azurite:
+    condition: service_healthy
+
+x-common-env: &common-env
+  LOG_LEVEL: "WARNING"
+  DJANGO_LOG_LEVEL: "WARNING"
+  WABO_ENABLED: "true"
+  SECRET_KEY: "insecure"
+  JWT_SECRET_KEY: "insecure"
+  DATABASE_HOST: "database"
+  PYTHONBREAKPOINT: true
+  UWSGI_STATIC_MAP: '/iiif-metadata/static=/static'
+  AZURITE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;"
+  AZURITE_QUEUE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;QueueEndpoint=http://azurite:10001/devstoreaccount1;"
 
 x-app: &base-app
   build:
     context: .
     target: app
   depends_on:
-    database:
-      condition: service_healthy
-    azurite:
-      condition: service_healthy
+    <<: *common-depends-on
   volumes:
     - ./src:/app/src
     - ./deploy:/app/deploy
   networks:
     - amsterdam-bouwdossiers
     - default
-  environment: &base-app-env
-    LOG_LEVEL: "WARNING"
-    DJANGO_LOG_LEVEL: "WARNING"
-    WABO_ENABLED: 'true'
-    SECRET_KEY: 'dev'
-    DATABASE_HOST: 'database'
-    PYTHONBREAKPOINT: true
-    UWSGI_STATIC_MAP: '/iiif-metadata/static=/static'
-    AZURITE_STORAGE_CONNECTION_STRING: 'AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://azurite:10000/devstoreaccount1/;'
+
+volumes:
+  azurite_data:
+  db_data:
 
 services:
   database:
@@ -45,10 +50,41 @@ services:
       timeout: 5s
       retries: 3
 
+  migrate:
+    build:
+      context: .
+      target: app
+    environment:
+      SECRET_KEY: "insecure"
+      DJANGO_SETTINGS_MODULE: main.settings
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    user: 1000:1000
+    command: python manage.py migrate --noinput
+    restart: "no"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512mb
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
-      - 10000 # Blob service
+      - "10000" # Blob service
+    volumes:
+      - azurite_data:/data
+    command: >
+      azurite
+      -l /data
+      --blobHost 0.0.0.0
+      --loose
     healthcheck:
       test: nc 127.0.0.1 10000 -z
       interval: 1s
@@ -60,9 +96,12 @@ services:
       context: .
       target: app
     image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-opdrachten/iiif-metadata-server}:${VERSION:-latest}
-    depends_on:
-      database:
-        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      <<: *common-env
+    command: /app/deploy/docker-run.sh
+    user: 1000:1000
 
   dev:
     <<: *base-app
@@ -70,13 +109,16 @@ services:
     build:
       context: .
       target: dev
+    ports:
+      - "8001:8000"
     environment:
-      <<: *base-app-env
+      <<: *common-env
       LOG_LEVEL: "DEBUG"
       DJANGO_LOG_LEVEL: "DEBUG"
-      DEBUG: 'true'
-      USE_JWKS_TEST_KEY: 'true'
+      DEBUG: "true"
+      USE_JWKS_TEST_KEY: "true"
     command: python manage.py runserver 0.0.0.0:8000
+    user: 1000:1000
 
   test:
     <<: *base-app
@@ -84,9 +126,9 @@ services:
       context: .
       target: tests
     environment:
-      <<: *base-app-env
-      USE_JWKS_TEST_KEY: 'true'
-      SECRET_KEY: 'insecure'
+      <<: *common-env
+      USE_JWKS_TEST_KEY: "true"
+      SECRET_KEY: "insecure"
 
   linting:
     build:
@@ -94,3 +136,9 @@ services:
       target: linting
     volumes:
       - ./src:/app/src
+    user: 1000:1000
+
+networks:
+  amsterdam-bouwdossiers:
+    name: amsterdam-bouwdossiers
+    driver: bridge
