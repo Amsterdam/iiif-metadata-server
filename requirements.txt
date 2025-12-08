@@ -187,7 +187,7 @@ typing-extensions==4.15.0
     #   jwcrypto
 uritemplate==4.2.0
     # via drf-yasg
-urllib3==2.5.0
+urllib3==2.6.0
     # via requests
 uwsgi==2.0.31
     # via -r requirements.in
