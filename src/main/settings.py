@@ -5,11 +5,6 @@ import sys
 from corsheaders.defaults import default_headers
 from csp.constants import NONCE, SELF
 
-from main.utils_azure_insights import (
-    create_azure_log_handler_config,
-    create_azure_trace_config,
-)
-
 from .azure_settings import Azure
 
 azure = Azure()
@@ -57,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_filters",
     "django_extensions",
+    "django.contrib.postgres",
     "django.contrib.gis",
     "rest_framework",
     "rest_framework_gis",
@@ -137,7 +133,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "main.wsgi.application"
 
 
-DATABASE_HOST = os.getenv("DATABASE_HOST", "database")
+DATABASE_HOST = os.getenv("DATABASE_HOST", "iiif-metadata-database")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD", "dev")
 DATABASE_OPTIONS = {"sslmode": "allow", "connect_timeout": 5}
 

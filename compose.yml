@@ -10,11 +10,17 @@ x-common-env: &common-env
   WABO_ENABLED: "true"
   SECRET_KEY: "insecure"
   JWT_SECRET_KEY: "insecure"
-  DATABASE_HOST: "database"
+  DATABASE_HOST: "iiif-metadata-database"
   PYTHONBREAKPOINT: true
   UWSGI_STATIC_MAP: '/iiif-metadata/static=/static'
-  AZURITE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;"
-  AZURITE_QUEUE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;QueueEndpoint=http://azurite:10001/devstoreaccount1;"
+  AZURITE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://iiif-metadata-azurite:10000/devstoreaccount1;"
+  AZURITE_QUEUE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;QueueEndpoint=http://iiif-metadata-azurite:10001/devstoreaccount1;"
+  OTEL_SERVICE_NAME: "iiif-metadata"
+  OTEL_TRACES_SAMPLER: "always_on"
+  OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
+  OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_REQUEST: ".*"
+  OTEL_INSTRUMENTATION_HTTP_CAPTURE_HEADERS_SERVER_RESPONSE: ".*"
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://iiif-metadata-otel-collector:4317
 
 x-app: &base-app
   build:
@@ -35,6 +41,7 @@ volumes:
 
 services:
   database:
+    container_name: iiif-metadata-database
     image: postgis/postgis:15-3.4
     ports:
       - 5432
@@ -51,12 +58,14 @@ services:
       retries: 3
 
   migrate:
+    container_name: iiif-metadata-migrate
     build:
       context: .
       target: app
     environment:
       SECRET_KEY: "insecure"
       DJANGO_SETTINGS_MODULE: main.settings
+      OTEL_SDK_DISABLED: true
     depends_on:
       database:
         condition: service_healthy
@@ -75,6 +84,7 @@ services:
           memory: 256M
 
   azurite:
+    container_name: iiif-metadata-azurite
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - "10000" # Blob service
@@ -91,6 +101,7 @@ services:
       retries: 30
 
   app:
+    container_name: iiif-metadata-app
     <<: *base-app
     build:
       context: .
@@ -100,10 +111,15 @@ services:
       - "8000:8000"
     environment:
       <<: *common-env
+    depends_on:
+      <<: *common-depends-on
+      otel-collector:
+        condition: service_started
     command: /app/deploy/docker-run.sh
     user: 1000:1000
 
   dev:
+    container_name: iiif-metadata-dev
     <<: *base-app
     hostname: metadata-server
     build:
@@ -117,10 +133,15 @@ services:
       DJANGO_LOG_LEVEL: "DEBUG"
       DEBUG: "true"
       USE_JWKS_TEST_KEY: "true"
+    depends_on:
+      <<: *common-depends-on
+      otel-collector:
+        condition: service_started
     command: python manage.py runserver 0.0.0.0:8000
     user: 1000:1000
 
   test:
+    container_name: iiif-metadata-test
     <<: *base-app
     build:  
       context: .
@@ -129,14 +150,46 @@ services:
       <<: *common-env
       USE_JWKS_TEST_KEY: "true"
       SECRET_KEY: "insecure"
+      OTEL_SDK_DISABLED: true
 
   linting:
+    container_name: iiif-metadata-linting
     build:
       context: .
       target: linting
     volumes:
       - ./src:/app/src
     user: 1000:1000
+
+  otel-collector:
+    container_name: iiif-metadata-otel-collector
+    build:
+      context: otel-collector
+    volumes:
+      - ./otel-collector/config.local.yaml:/etc/otelcol-contrib/config.yaml
+    depends_on:
+      - jaeger
+    ports:
+      - "14317:4317"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 256M
+        reservations:
+          cpus: "0.05"
+          memory: 128M
+
+  jaeger:
+    container_name: iiif-metadata-jaeger
+    image: jaegertracing/jaeger:2.8.0
+    ports:
+      # ui
+      - "26686:16686"
+      # grpc
+      - "24317:4317"
+    environment:
+      LOG_LEVEL: debug
 
 networks:
   amsterdam-bouwdossiers:
