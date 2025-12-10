@@ -2,10 +2,13 @@ import logging
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from opentelemetry import trace
 
 from bag import bag_api
 from bag.bag_controller import BagController
 from bag.models import BagUpdatedAt, Verblijfsobjectpandrelatie
+
+tracer = trace.get_tracer(__name__)
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +17,10 @@ class Command(BaseCommand):
     help = "Import BAG data from the API"
 
     def handle(self, *args, **options):
+        with tracer.start_as_current_span("Import BAG") as span:
+            self._handle(*args, **options)
+
+    def _handle(self, *args, **options):
         try:
             with transaction.atomic():
                 bag_zip_api = bag_api.Zip()

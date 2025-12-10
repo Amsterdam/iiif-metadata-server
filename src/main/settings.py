@@ -1,4 +1,3 @@
-import json
 import os
 import sys
 
@@ -172,10 +171,6 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", "static"))
 LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING").upper()
 DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "WARNING").upper()
 
-base_log_fmt = {"time": "%(asctime)s", "name": "%(name)s", "level": "%(levelname)s"}
-log_fmt = base_log_fmt.copy()
-log_fmt["message"] = "%(message)s"
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -184,16 +179,40 @@ LOGGING = {
         "handlers": ["console"],
     },
     "formatters": {
-        "json": {"format": json.dumps(log_fmt)},
+        "json": {
+            "()": "main.logging.formatters.OTelJSONFormatter",
+        },
+        "human": {
+            "()": "main.logging.formatters.OTelHumanFormatter",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
     },
     "handlers": {
         "console": {
             "level": LOG_LEVEL,
             "class": "logging.StreamHandler",
-            "formatter": "json",
+            "formatter": "human" if DEBUG else "json",
+            "stream": sys.stdout,
         },
     },
     "loggers": {
+        # Django loggers
+        "django": {
+            "handlers": ["console"],
+            "level": DJANGO_LOG_LEVEL,
+            "propagate": False,
+        },
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        # Application-specific loggers
         "bag": {
             "level": LOG_LEVEL,
             "handlers": ["console"],
@@ -214,18 +233,7 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "django": {
-            "handlers": ["console"],
-            "level": DJANGO_LOG_LEVEL,
-            "propagate": False,
-        },
-        # Log all unhandled exceptions
-        "django.request": {
-            "level": LOG_LEVEL,
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "opencensus": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
+        # Third-party library loggers
         "azure.core.pipeline.policies.http_logging_policy": {
             "handlers": ["console"],
             "level": LOG_LEVEL,
@@ -233,10 +241,6 @@ LOGGING = {
         },
     },
 }
-
-APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
-    "APPLICATIONINSIGHTS_CONNECTION_STRING"
-)
 
 OBJECTSTORE = dict(
     VERSION="2.0",
@@ -349,3 +353,44 @@ CONTENT_SECURITY_POLICY = {
         "connect-src": [SELF],
     },
 }
+
+# OTEL
+APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"
+)
+
+from opentelemetry import trace
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.instrumentation.django import DjangoInstrumentor
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
+from opentelemetry.instrumentation.psycopg2 import Psycopg2Instrumentor
+from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.instrumentation.urllib import URLLibInstrumentor
+from opentelemetry.instrumentation.urllib3 import URLLib3Instrumentor
+from opentelemetry.sdk.resources import Resource
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
+
+resource = Resource(attributes={"service.name": "iiif-metadata"})
+
+trace.set_tracer_provider(TracerProvider(resource=resource))
+tracer = trace.get_tracer(__name__)
+
+exporter_name = os.environ.get("OTEL_EXPORTER", "otlp")
+if exporter_name == "otlp":
+    otlp_exporter = OTLPSpanExporter()
+    span_processor = BatchSpanProcessor(otlp_exporter)
+    trace.get_tracer_provider().add_span_processor(span_processor)
+elif exporter_name == "console":
+    console_exporter = ConsoleSpanExporter()
+    console_processor = BatchSpanProcessor(console_exporter)
+    trace.get_tracer_provider().add_span_processor(console_processor)
+else:
+    pass
+
+DjangoInstrumentor().instrument()
+Psycopg2Instrumentor().instrument()
+RequestsInstrumentor().instrument()
+URLLibInstrumentor().instrument()
+URLLib3Instrumentor().instrument()
+LoggingInstrumentor().instrument(set_logging_format=True)
