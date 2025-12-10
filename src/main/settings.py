@@ -4,7 +4,6 @@ import sys
 
 from corsheaders.defaults import default_headers
 from csp.constants import NONCE, SELF
-from opencensus.trace import config_integration
 
 from main.utils_azure_insights import (
     create_azure_log_handler_config,
@@ -242,22 +241,6 @@ LOGGING = {
 APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
     "APPLICATIONINSIGHTS_CONNECTION_STRING"
 )
-
-if APPLICATIONINSIGHTS_CONNECTION_STRING:
-    MIDDLEWARE.append("opencensus.ext.django.middleware.OpencensusMiddleware")
-
-    OPENCENSUS = create_azure_trace_config(
-        APPLICATIONINSIGHTS_CONNECTION_STRING, APP_NAME
-    )
-    LOGGING["handlers"]["azure"] = create_azure_log_handler_config(
-        APPLICATIONINSIGHTS_CONNECTION_STRING, APP_NAME
-    )
-    config_integration.trace_integrations(["logging"])
-
-    LOGGING["root"]["handlers"].append("azure")
-    for logger_name, logger_details in LOGGING["loggers"].items():
-        LOGGING["loggers"][logger_name]["handlers"].append("azure")
-
 
 OBJECTSTORE = dict(
     VERSION="2.0",
