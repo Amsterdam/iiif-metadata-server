@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from opentelemetry import trace
 
 from importer.batch import (
     add_bag_ids_to_pre_wabo,
@@ -15,6 +16,8 @@ from importer.util_azure import (
     remove_directory,
 )
 from importer.util_db import swap_tables_between_apps, truncate_tables
+
+tracer = trace.get_tracer(__name__)
 
 log = logging.getLogger(__name__)
 
@@ -50,6 +53,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        with tracer.start_as_current_span("Import (pre)WABO") as span:
+            self._handle(*args, **options)
+
+    def _handle(self, *args, **options):
         log.info("Metadata import started")
 
         try:
