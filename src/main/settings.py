@@ -17,6 +17,9 @@ APP_NAME = os.getenv("APP_NAME", "iiif-metadata-server")
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 BOUWDOSSIER_PUBLIC_SCOPE = (
     "BD/P"  # BouwDossiers_Public_Read. Access to anybody with e-mail link
 )
