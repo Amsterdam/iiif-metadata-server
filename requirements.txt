@@ -28,15 +28,15 @@ azure-keyvault-secrets==4.10.0
     # via
     #   -r requirements.in
     #   azure-keyvault
-azure-storage-blob==12.27.1
+azure-storage-blob==12.28.0
     # via -r requirements.in
-certifi==2025.11.12
+certifi==2026.1.4
     # via requests
 cffi==2.0.0
     # via cryptography
 charset-normalizer==3.4.4
     # via requests
-cryptography==46.0.3
+cryptography==46.0.4
     # via
     #   azure-identity
     #   azure-keyvault-keys
@@ -44,9 +44,9 @@ cryptography==46.0.3
     #   jwcrypto
     #   msal
     #   pyjwt
-datapunt-authorization-django==1.6.2
+datapunt-authorization-django==1.7.0
     # via -r requirements.in
-django==6.0
+django==6.0.1
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
@@ -74,7 +74,7 @@ djangorestframework==3.16.1
     #   drf-yasg
 djangorestframework-gis==1.2.0
     # via -r requirements.in
-drf-yasg==1.21.11
+drf-yasg==1.21.14
     # via -r requirements.in
 googleapis-common-protos==1.72.0
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -174,20 +174,20 @@ opentelemetry-util-http==0.60b1
     #   opentelemetry-instrumentation-urllib
     #   opentelemetry-instrumentation-urllib3
     #   opentelemetry-instrumentation-wsgi
-packaging==25.0
+packaging==26.0
     # via
     #   django-csp
     #   drf-yasg
     #   opentelemetry-instrumentation
-protobuf==6.33.2
+protobuf==6.33.5
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
 psycopg2-binary==2.9.11
     # via -r requirements.in
-pycparser==2.23
+pycparser==3.0
     # via cffi
-pyjwt[crypto]==2.10.1
+pyjwt[crypto]==2.11.0
     # via
     #   msal
     #   pyjwt
