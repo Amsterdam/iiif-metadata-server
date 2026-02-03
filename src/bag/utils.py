@@ -51,8 +51,7 @@ class BagHelper:
 
         if len(id) != 16:
             raise IncorrectBagIdLengthException(
-                f"Lengte van het landelijke id ({id}) is incorrect. "
-                f"BAG ids hebben een lengte van 16"
+                f"Lengte van het landelijke id ({id}) is incorrect. BAG ids hebben een lengte van 16"
             )
 
         gemeente_code = id[:4]
@@ -71,9 +70,7 @@ class BagHelper:
             BAG_TYPE_LIGPLAATS,
             BAG_TYPE_STANDPLAATS,
         ]:
-            raise IncorrectObjectTypeException(
-                f"Objecttype {object_type} in landelijk id {id} is incorrect."
-            )
+            raise IncorrectObjectTypeException(f"Objecttype {object_type} in landelijk id {id} is incorrect.")
 
         return object_type
 
@@ -87,16 +84,12 @@ class BagHelper:
         elif object_type == BAG_TYPE_STANDPLAATS:
             bag_model = Standplaats
         else:
-            raise IncorrectObjectTypeException(
-                f"Objecttype {object_type} in landelijk id {id} is incorrect."
-            )
+            raise IncorrectObjectTypeException(f"Objecttype {object_type} in landelijk id {id} is incorrect.")
 
         try:
             bag_object = bag_model.objects.filter(id=id).get()
         except ObjectDoesNotExist:
-            raise bag_model.DoesNotExist(
-                f"{bag_model.__name__} met landelijk id {id} bestaat niet."
-            )
+            raise bag_model.DoesNotExist(f"{bag_model.__name__} met landelijk id {id} bestaat niet.")
 
         return bag_object
 
@@ -111,9 +104,7 @@ def retry(tries=3, delay=1, backoff=2):
                 try:
                     return f(*args, **kwargs)
                 except Exception as e:
-                    logger.warning(
-                        "Exception %s, retrying in %d seconds...", str(e), mdelay
-                    )
+                    logger.warning("Exception %s, retrying in %d seconds...", str(e), mdelay)
                     time.sleep(mdelay)
                     mtries -= 1
                     mdelay *= backoff
@@ -128,10 +119,7 @@ def read_csv(path: str, *, field_mapping: dict = None):
     with open(path, "r") as csv_file:
         csv_reader = csv.DictReader(f=csv_file, delimiter=",")
         if field_mapping:
-            csv_reader.fieldnames = [
-                field_mapping.get(field.lower(), field.lower())
-                for field in csv_reader.fieldnames
-            ]
+            csv_reader.fieldnames = [field_mapping.get(field.lower(), field.lower()) for field in csv_reader.fieldnames]
         for row in csv_reader:
             yield row
 

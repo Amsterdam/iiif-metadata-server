@@ -68,7 +68,5 @@ class TestBagZipApi:
 def mock_model_data(bag_model, **args):
     data = baker.prepare(bag_model, **args).__dict__
     del data["_state"]
-    data = {
-        field: f"{val}" if isinstance(val, date) else val for field, val in data.items()
-    }
+    data = {field: f"{val}" if isinstance(val, date) else val for field, val in data.items()}
     return data

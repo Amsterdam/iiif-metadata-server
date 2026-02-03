@@ -44,16 +44,12 @@ class HALPagination(PageNumberPagination):
         assert self.page is not None
 
         if self.page.has_next():
-            next_link = replace_query_param(
-                self_link, self.page_query_param, self.page.next_page_number()
-            )
+            next_link = replace_query_param(self_link, self.page_query_param, self.page.next_page_number())
         else:
             next_link = None
 
         if self.page.has_previous():
-            prev_link = replace_query_param(
-                self_link, self.page_query_param, self.page.previous_page_number()
-            )
+            prev_link = replace_query_param(self_link, self.page_query_param, self.page.previous_page_number())
         else:
             prev_link = None
 
@@ -94,9 +90,7 @@ class LinksField(RelatedField):
 
         super().__init__(**kwargs)
 
-    def get_url(
-        self, obj: Model, view_name: str, request: Request | None, format: str | None
-    ) -> str | None:
+    def get_url(self, obj: Model, view_name: str, request: Request | None, format: str | None) -> str | None:
         """
         Given an object, return the URL that hyperlinks to the object.
 
@@ -116,6 +110,4 @@ class LinksField(RelatedField):
         request = self.context.get("request")
         assert self.view_name is not None
 
-        return OrderedDict(
-            [("self", {"href": self.get_url(value, self.view_name, request, None)})]
-        )
+        return OrderedDict([("self", {"href": self.get_url(value, self.view_name, request, None)})])

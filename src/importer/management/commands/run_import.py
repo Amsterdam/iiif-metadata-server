@@ -35,7 +35,6 @@ class Command(BaseCommand):
         add_bag_ids_to_wabo()
 
     def add_arguments(self, parser):
-
         parser.add_argument(
             "--skipgetfiles",
             action="store_true",
@@ -64,9 +63,7 @@ class Command(BaseCommand):
             if not options["skipgetfiles"]:
                 dossier_path = f"{settings.DATA_DIR}/dossiers"
                 remove_directory(dossier_path)
-                download_all_files_from_container(
-                    settings.AZURE_CONTAINER_NAME_DOSSIERS, dossier_path
-                )
+                download_all_files_from_container(settings.AZURE_CONTAINER_NAME_DOSSIERS, dossier_path)
 
             truncate_tables(["importer"])
             self.import_dossiers(dossier_path)

@@ -13,8 +13,6 @@ class BouwdossiersRouter(routers.DefaultRouter):
 
 bouwdossiers = BouwdossiersRouter()
 
-bouwdossiers.register(
-    r"bouwdossier", api_views.BouwDossierViewSet, basename="bouwdossier"
-)
+bouwdossiers.register(r"bouwdossier", api_views.BouwDossierViewSet, basename="bouwdossier")
 
 urls = bouwdossiers.urls

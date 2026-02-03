@@ -62,9 +62,7 @@ class Zip:
         return path_target
 
     def get_records(self, bag_model):
-        assert (
-            self.model_to_endpoint and bag_model in self.model_to_endpoint
-        ), "No model_to_endpoints have been defined"
+        assert self.model_to_endpoint and bag_model in self.model_to_endpoint, "No model_to_endpoints have been defined"
 
         return pipe(
             self.model_to_endpoint.get(bag_model),

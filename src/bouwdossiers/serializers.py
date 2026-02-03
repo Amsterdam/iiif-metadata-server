@@ -53,9 +53,7 @@ class DocumentSerializer(ModelSerializer):
         _bestanden = []
 
         for index, bestand in enumerate(result["bestanden"]):
-            stadsdeel_dossiernr = (
-                f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
-            )
+            stadsdeel_dossiernr = f"{instance.bouwdossier.stadsdeel}_{instance.bouwdossier.dossiernr}"
             f = re.search(r"\/([^\/]+)$", bestand)
             filename = f.group(1) if f else bestand
             filenr = index
@@ -86,9 +84,7 @@ class DocumentSerializer(ModelSerializer):
 
 
 class CustomLinksField(LinksField):
-
     def get_url(self, obj, view_name, request, _format):
-
         url_kwargs = {"pk": obj.stadsdeel + "_" + obj.dossiernr}
 
         return reverse(view_name, kwargs=url_kwargs, request=request, format=_format)

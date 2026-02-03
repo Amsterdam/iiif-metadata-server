@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("bouwdossiers", "0005_auto_20200908_1438"),
     ]
@@ -33,9 +32,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="document",
             name="copyright",
-            field=models.CharField(
-                choices=[("Y", "Yes"), ("N", "No")], max_length=1, null=True
-            ),
+            field=models.CharField(choices=[("Y", "Yes"), ("N", "No")], max_length=1, null=True),
         ),
         migrations.AddField(
             model_name="document",

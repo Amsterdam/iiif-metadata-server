@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -171,9 +170,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="bouwdossier",
-            constraint=models.UniqueConstraint(
-                fields=("stadsdeel", "dossiernr"), name="unique_bouwdossier"
-            ),
+            constraint=models.UniqueConstraint(fields=("stadsdeel", "dossiernr"), name="unique_bouwdossier"),
         ),
         migrations.AddIndex(
             model_name="adres",
@@ -183,8 +180,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="adres",
-            index=django.contrib.postgres.indexes.GinIndex(
-                fields=["panden"], name="bouwdossier_panden_b87c3c_gin"
-            ),
+            index=django.contrib.postgres.indexes.GinIndex(fields=["panden"], name="bouwdossier_panden_b87c3c_gin"),
         ),
     ]

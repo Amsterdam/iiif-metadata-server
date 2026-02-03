@@ -34,7 +34,6 @@ def delete_all_records():
 
 
 class TestAPI(APITestCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -51,11 +50,7 @@ class TestAPI(APITestCase):
             (settings.BOUWDOSSIER_EXTENDED_SCOPE, 7),
         ]
         for scope, num_exptected in test_parameters:
-            header = (
-                {"HTTP_AUTHORIZATION": "Bearer " + create_authz_token(scope)}
-                if scope
-                else {}
-            )
+            header = {"HTTP_AUTHORIZATION": "Bearer " + create_authz_token(scope)} if scope else {}
             response = self.client.get(url, **header)
             self.assertIn("results", response.data)
             self.assertIn("count", response.data)
@@ -90,11 +85,7 @@ class TestAPI(APITestCase):
             "non-existing",
         ]
         for scope in test_parameters:
-            header = (
-                {"HTTP_AUTHORIZATION": "Bearer " + create_authz_token(scope)}
-                if scope
-                else {}
-            )
+            header = {"HTTP_AUTHORIZATION": "Bearer " + create_authz_token(scope)} if scope else {}
             response = self.client.get(url, **header)
             self.assertEqual(response.status_code, 404)
 
@@ -187,9 +178,7 @@ class TestAPI(APITestCase):
 
     def test_dossiernr_stadsdeel(self):
         factories.DocumentFactory(bouwdossier__dossiernr=111)
-        factories.AdresFactory(
-            bouwdossier__dossiernr=111
-        )  # Also add an address to the bouwdossier
+        factories.AdresFactory(bouwdossier__dossiernr=111)  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
         factories.DocumentFactory(bouwdossier__dossiernr="222")
@@ -200,9 +189,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["filename"],
             "SU10000010_00001.jpg",
@@ -211,27 +198,18 @@ class TestAPI(APITestCase):
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
             f"{settings.IIIF_BASE_URL}edepot:AA_111~ST100_0",
         )
-        self.assertEqual(
-            response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
-        )
-        self.assertEqual(
-            response.data["results"][0]["documenten"][0]["barcode"], "ST100"
-        )
+        self.assertEqual(response.data["results"][0]["documenten"][0]["access"], "RESTRICTED")
+        self.assertEqual(response.data["results"][0]["documenten"][0]["barcode"], "ST100")
         self.assertEqual(
             response.data["results"][0]["adressen"][0]["nummeraanduidingen"][0],
             "0363200000406187",
         )
-        self.assertEqual(
-            response.data["results"][0]["adressen"][0]["panden"][0], "0363100012165490"
-        )
+        self.assertEqual(response.data["results"][0]["adressen"][0]["panden"][0], "0363100012165490")
         delete_all_records()
 
     def test_stadsdeel_None(self):
         dossiers = create_bouwdossiers(3)
-        url = (
-            reverse("bouwdossier-list")
-            + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=CC"
-        )
+        url = reverse("bouwdossier-list") + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=CC"
         response = self.client.get(url)
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
@@ -261,9 +239,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_nummeraanduiding_non_existent(self):
@@ -287,9 +263,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_verblijfsobject(self):
@@ -304,9 +278,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_openbareruimte(self):
@@ -316,25 +288,17 @@ class TestAPI(APITestCase):
         adres.openbareruimte_id = "1111111111111111"
         adres.save()
 
-        url = (
-            reverse("bouwdossier-list")
-            + "?verblijfsobject=036301000xxxxxxx/?openbareruimte=1111111111111111"
-        )
+        url = reverse("bouwdossier-list") + "?verblijfsobject=036301000xxxxxxx/?openbareruimte=1111111111111111"
         response = self.client.get(url)
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_dossiernr_stadsdeel_max_datering_none(self):
         create_bouwdossiers(3)
-        url = (
-            reverse("bouwdossier-list")
-            + "?dossiernr=12345&stadsdeel=AA&max_datering=1997"
-        )
+        url = reverse("bouwdossier-list") + "?dossiernr=12345&stadsdeel=AA&max_datering=1997"
         response = self.client.get(url)
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
@@ -344,26 +308,18 @@ class TestAPI(APITestCase):
     def test_dossiernr_stadsdeel_max_datering(self):
         dossiers = create_bouwdossiers(3)
 
-        url = (
-            reverse("bouwdossier-list")
-            + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=AA&max_datering=2000"
-        )
+        url = reverse("bouwdossier-list") + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=AA&max_datering=2000"
         response = self.client.get(url)
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_dossiernr_stadsdeel_min_datering_none(self):
         dossiers = create_bouwdossiers(3)
 
-        url = (
-            reverse("bouwdossier-list")
-            + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=A&min_datering=1999"
-        )
+        url = reverse("bouwdossier-list") + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=A&min_datering=1999"
         response = self.client.get(url)
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
@@ -373,25 +329,18 @@ class TestAPI(APITestCase):
     def test_dossiernr_stadsdeel_min_datering(self):
         dossiers = create_bouwdossiers(3)
 
-        url = (
-            reverse("bouwdossier-list")
-            + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=AA&min_datering=1997"
-        )
+        url = reverse("bouwdossier-list") + f"?dossiernr={dossiers[0].dossiernr}&stadsdeel=AA&min_datering=1997"
         response = self.client.get(url)
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_olo_liaan_nummer(self):
         bd = factories.BouwDossierFactory(olo_liaan_nummer=7777777)
         factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
-        factories.AdresFactory(
-            bouwdossier__dossiernr=bd.dossiernr
-        )  # Also add an address to the bouwdossier
+        factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
         factories.BouwDossierFactory(dossiernr="222")
@@ -403,9 +352,7 @@ class TestAPI(APITestCase):
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
         self.assertEqual(response.data["results"][0]["olo_liaan_nummer"], 7777777)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["filename"],
             "SU10000010_00001.jpg",
@@ -414,19 +361,13 @@ class TestAPI(APITestCase):
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
             f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~ST100_0",
         )
-        self.assertEqual(
-            response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
-        )
-        self.assertEqual(
-            response.data["results"][0]["documenten"][0]["barcode"], "ST100"
-        )
+        self.assertEqual(response.data["results"][0]["documenten"][0]["access"], "RESTRICTED")
+        self.assertEqual(response.data["results"][0]["documenten"][0]["barcode"], "ST100")
         self.assertEqual(
             response.data["results"][0]["adressen"][0]["nummeraanduidingen"][0],
             "0363200000406187",
         )
-        self.assertEqual(
-            response.data["results"][0]["adressen"][0]["panden"][0], "0363100012165490"
-        )
+        self.assertEqual(response.data["results"][0]["adressen"][0]["panden"][0], "0363100012165490")
         delete_all_records()
 
     def test_filter_subdossier(self):
@@ -443,9 +384,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 3)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_subdossier_none(self):
@@ -469,9 +408,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         delete_all_records()
 
     def test_dossier_type_none(self):
@@ -486,9 +423,7 @@ class TestAPI(APITestCase):
     def test_dossier_with_stadsdeel(self):
         bd = factories.BouwDossierFactory()
         factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
-        factories.AdresFactory(
-            bouwdossier__dossiernr=bd.dossiernr
-        )  # Also add an address to the bouwdossier
+        factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
 
         # And add two more dossiers to make sure it's only selecting the one we need
         factories.BouwDossierFactory(dossiernr="222")
@@ -501,9 +436,7 @@ class TestAPI(APITestCase):
         self.assertIn("results", response.data)
         self.assertIn("count", response.data)
         self.assertEqual(response.data["count"], 1)
-        self.assertEqual(
-            response.data["results"][0]["titel"], "weesperstraat 113 - 117"
-        )
+        self.assertEqual(response.data["results"][0]["titel"], "weesperstraat 113 - 117")
         self.assertEqual(
             response.data["results"][0]["documenten"][0]["bestanden"][0]["filename"],
             "SU10000010_00001.jpg",
@@ -512,19 +445,13 @@ class TestAPI(APITestCase):
             response.data["results"][0]["documenten"][0]["bestanden"][0]["url"],
             f"{settings.IIIF_BASE_URL}edepot:AA_TA-12345~ST100_0",
         )
-        self.assertEqual(
-            response.data["results"][0]["documenten"][0]["access"], "RESTRICTED"
-        )
-        self.assertEqual(
-            response.data["results"][0]["documenten"][0]["barcode"], "ST100"
-        )
+        self.assertEqual(response.data["results"][0]["documenten"][0]["access"], "RESTRICTED")
+        self.assertEqual(response.data["results"][0]["documenten"][0]["barcode"], "ST100")
         self.assertEqual(
             response.data["results"][0]["adressen"][0]["nummeraanduidingen"][0],
             "0363200000406187",
         )
-        self.assertEqual(
-            response.data["results"][0]["adressen"][0]["panden"][0], "0363100012165490"
-        )
+        self.assertEqual(response.data["results"][0]["adressen"][0]["panden"][0], "0363100012165490")
         delete_all_records()
 
     def test_dossier_incorrectly_without_stadsdeel(self):
@@ -537,9 +464,7 @@ class TestAPI(APITestCase):
     def test_dossier_wabo_fields(self):
         bd = factories.BouwDossierFactory()
         factories.DocumentFactory(bouwdossier__dossiernr=bd.dossiernr)
-        factories.AdresFactory(
-            bouwdossier__dossiernr=bd.dossiernr
-        )  # Also add an address to the bouwdossier
+        factories.AdresFactory(bouwdossier__dossiernr=bd.dossiernr)  # Also add an address to the bouwdossier
 
         dossier = BouwDossier.objects.get(stadsdeel="AA", dossiernr="TA-12345")
         dossier.olo_liaan_nummer = "67890"
@@ -553,9 +478,7 @@ class TestAPI(APITestCase):
             "SDC/PUA/1234567_111112.jpg",
             "SDC/PUA/1234567.PDF",
         ]
-        document.barcode = (
-            document.bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
-        )
+        document.barcode = document.bestanden[0].split("/")[-1].split(".")[0].split("_")[0]
         document.oorspronkelijk_pad = ["/path/to/bestand"]
         document.save()
 
@@ -566,17 +489,12 @@ class TestAPI(APITestCase):
         adres.save()
 
         url = reverse("bouwdossier-detail", kwargs={"pk": "AA_TA-12345"})
-        header = {
-            "HTTP_AUTHORIZATION": "Bearer "
-            + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)
-        }
+        header = {"HTTP_AUTHORIZATION": "Bearer " + create_authz_token(settings.BOUWDOSSIER_READ_SCOPE)}
         response = self.client.get(url, **header)
         documents = response.data.get("documenten")
         adressen = response.data["adressen"]
         self.assertEqual(response.data["olo_liaan_nummer"], 67890)
-        self.assertEqual(
-            response.data.get("wabo_bron"), None
-        )  # Bron is not needed in the api Check model
+        self.assertEqual(response.data.get("wabo_bron"), None)  # Bron is not needed in the api Check model
         self.assertEqual(documents[0]["oorspronkelijk_pad"], ["/path/to/bestand"])
         self.assertEqual(
             documents[0]["bestanden"][0]["url"],

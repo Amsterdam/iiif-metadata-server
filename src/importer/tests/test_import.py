@@ -49,9 +49,7 @@ class APITest(TestCase):
             ],
         )
 
-        bd3_documenten = (
-            models.Document.objects.filter(bouwdossier_id=bd3.id).order_by("id").all()
-        )
+        bd3_documenten = models.Document.objects.filter(bouwdossier_id=bd3.id).order_by("id").all()
         document0 = bd3_documenten.first()
         self.assertEqual(document0.barcode, "SA00000007")
         self.assertEqual(document0.subdossier_titel, "Aanvraag en behandeling")
@@ -66,9 +64,7 @@ class APITest(TestCase):
         self.assertEqual(document0.access, "PUBLIC")
 
         bd123 = models.BouwDossier.objects.get(dossiernr="00123")
-        bd123_documenten = (
-            models.Document.objects.filter(bouwdossier_id=bd123.id).order_by("id").all()
-        )
+        bd123_documenten = models.Document.objects.filter(bouwdossier_id=bd123.id).order_by("id").all()
         for document123 in bd123_documenten.all():
             if document123.barcode == "SA00001038":
                 self.assertEqual(document123.access, "RESTRICTED")
@@ -93,9 +89,7 @@ class APITest(TestCase):
 
         # NONWABO_ files dont get read
         with self.assertRaises(models.BouwDossier.DoesNotExist):
-            models.BouwDossier.objects.get(
-                titel="* Stationsplein, gedeeltelijk veranderen CS"
-            )
+            models.BouwDossier.objects.get(titel="* Stationsplein, gedeeltelijk veranderen CS")
 
         bd_uniek1 = models.BouwDossier.objects.get(dossiernr="2X")
         self.assertEqual(bd_uniek1.olo_liaan_nummer, 150000000)
@@ -129,9 +123,7 @@ class APITest(TestCase):
         self.assertEqual(adres1.verblijfsobjecten, ["0363010000719556"])
         self.assertEqual(adres1.panden, ["0363100012168986"])
 
-        bd1_documenten = (
-            models.Document.objects.filter(bouwdossier_id=bd1.id).order_by("id").all()
-        )
+        bd1_documenten = models.Document.objects.filter(bouwdossier_id=bd1.id).order_by("id").all()
         self.assertEqual(len(bd1_documenten), 20)
         document5 = bd1_documenten[5]
         self.assertEqual(
@@ -167,9 +159,7 @@ class APITest(TestCase):
         bd2 = models.BouwDossier.objects.get(dossiernr=233)
         self.assertEqual(bd2.access, const.ACCESS_RESTRICTED)
 
-        bd2_documenten = (
-            models.Document.objects.filter(bouwdossier_id=bd2.id).order_by("id").all()
-        )
+        bd2_documenten = models.Document.objects.filter(bouwdossier_id=bd2.id).order_by("id").all()
         document1 = bd2_documenten[0]
         self.assertEqual(document1.access, const.ACCESS_RESTRICTED)
 
@@ -204,9 +194,7 @@ class APITest(TestCase):
         self.assertEqual(adres1.verblijfsobjecten, ["0363010000777605"])
         self.assertEqual(adres1.panden, ["0363100012170545"])
 
-        bd3_documenten = (
-            models.Document.objects.filter(bouwdossier_id=bd3.id).order_by("id").all()
-        )
+        bd3_documenten = models.Document.objects.filter(bouwdossier_id=bd3.id).order_by("id").all()
         self.assertEqual(len(bd3_documenten), 10)
         document5 = bd3_documenten[5]
         self.assertEqual(
@@ -219,7 +207,7 @@ class APITest(TestCase):
         )
         self.assertEqual(
             document5.oorspronkelijk_pad,
-            ["J:\INZAGEDOCS\Datapunt\SDC BWT\\1\SA00279459_00001.jpg"],
+            ["J:\\INZAGEDOCS\\Datapunt\\SDC BWT\\1\\SA00279459_00001.jpg"],
         )
         self.assertEqual(document5.access, const.ACCESS_PUBLIC)
 
@@ -234,7 +222,7 @@ class APITest(TestCase):
         )
         self.assertEqual(
             document6.oorspronkelijk_pad[0],
-            "J:\INZAGEDOCS\Datapunt\SDC BWT\\1\SA00279185_00001.jpg",
+            "J:\\INZAGEDOCS\\Datapunt\\SDC BWT\\1\\SA00279185_00001.jpg",
         )
         self.assertEqual(document6.access, const.ACCESS_RESTRICTED)
 
@@ -263,17 +251,11 @@ class APITest(TestCase):
 
     def test_get_meta_additions(self):
         BWT_ids = batch._get_meta_additions(DATA_DIR)
-        self.assertEqual(
-            BWT_ids.get("SDW_2").get("dossier_access"), const.ACCESS_RESTRICTED
-        )
+        self.assertEqual(BWT_ids.get("SDW_2").get("dossier_access"), const.ACCESS_RESTRICTED)
 
         _adressen = BWT_ids.get("SDW_2").get("adressen")
         self.assertIsInstance(_adressen, list)
-        _result = [
-            item
-            for item in _adressen
-            if item.get("straat_huisnummer") == "bos en lommerplein_159"
-        ][0]
+        _result = [item for item in _adressen if item.get("straat_huisnummer") == "bos en lommerplein_159"][0]
         self.assertEqual(_result["openbareruimte_id"], "0363300000002992")
 
     def test_validate_import(self):

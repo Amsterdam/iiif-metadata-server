@@ -44,13 +44,11 @@ class BagController:
         return not (
             # https://api.data.amsterdam.nl/v1/bag/verblijfsobjecten/0363010012582763
             # or https://api.data.amsterdam.nl/v1/bag/nummeraanduidingen/?adresseertVerblijfsobject.identificatie=0363010012582763
-            isinstance(obj, Nummeraanduiding)
-            and obj.verblijfsobject_id == "0363010012582763"
+            isinstance(obj, Nummeraanduiding) and obj.verblijfsobject_id == "0363010012582763"
         ) and not (
             # https://api.data.amsterdam.nl/v1/bag/verblijfsobjecten/0363010011290888
             # or https://api.data.amsterdam.nl/v1/bag/nummeraanduidingen/?adresseertVerblijfsobject.identificatie=0363010011290888
-            isinstance(obj, Nummeraanduiding)
-            and obj.verblijfsobject_id == "0363010011290888"
+            isinstance(obj, Nummeraanduiding) and obj.verblijfsobject_id == "0363010011290888"
         )
 
     def upsert_table_data(self, bag_objects: iter):
@@ -100,11 +98,7 @@ class BagController:
         db_vots = set(Verblijfsobject.objects.values_list("id", flat=True))
         db_panden = set(Pand.objects.values_list("id", flat=True))
 
-        valid_records = [
-            r
-            for r in records
-            if r["pand"] in db_panden and r["verblijfsobject"] in db_vots
-        ]
+        valid_records = [r for r in records if r["pand"] in db_panden and r["verblijfsobject"] in db_vots]
         valid_record_vots = set(r["verblijfsobject"] for r in valid_records)
         non_valid_vots = db_vots - valid_record_vots
         num_db_vots_with_nonvalid_record = len(non_valid_vots)

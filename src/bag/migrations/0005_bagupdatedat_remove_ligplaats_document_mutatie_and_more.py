@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("bag", "0004_alter_openbareruimte_naam_nen"),
     ]
@@ -94,9 +93,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="verblijfsobjectpandrelatie",
             name="pand",
-            field=models.ForeignKey(
-                null=True, on_delete=django.db.models.deletion.SET_NULL, to="bag.pand"
-            ),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to="bag.pand"),
         ),
         migrations.AlterField(
             model_name="verblijfsobjectpandrelatie",

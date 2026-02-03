@@ -128,9 +128,7 @@ def get_dossier_access(_key, x_dossier, meta_ids: json):
         return _key_ids.get("dossier_access", const.ACCESS_RESTRICTED)
 
 
-def add_wabo_dossier(
-    x_dossier, file_path, import_file, count, total_count, meta_ids: json = None
-):  # noqa C901
+def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count, meta_ids: json = None):  # noqa C901
     """
     For information about wabo and pre_wabo please check the README
     Add wabo dossier to the the bouwdossier model. Structure of import is
@@ -182,11 +180,7 @@ def add_wabo_dossier(
         dossier_type = ""
     else:
         datering = x_dossier.get("begindatum")
-        dossier_type = (
-            x_dossier.get("omschrijving").lower()
-            if x_dossier.get("omschrijving")
-            else None
-        )
+        dossier_type = x_dossier.get("omschrijving").lower() if x_dossier.get("omschrijving") else None
         if type(dossier_type) is str and len(dossier_type) > 255:
             dossier_type = dossier_type[:255]  # Cap at 255 characters
 
@@ -203,9 +197,7 @@ def add_wabo_dossier(
     for activiteit in get_list_items(x_dossier, "activiteiten", "activiteit"):
         activiteiten.append(activiteit[:250])
         if type(activiteit) is str and len(activiteit) > 250:
-            log.warning(
-                f'The activiteit str "{activiteit}" is more than 250 characters'
-            )
+            log.warning(f'The activiteit str "{activiteit}" is more than 250 characters')
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -234,20 +226,14 @@ def add_wabo_dossier(
                 break
         except IntegrityError as e:
             if "duplicate key" in str(e).lower():
-                log.warning(
-                    f"Duplicate key error on attempt {attempt} for {dossier} in {file_path}: {e}"
-                )
+                log.warning(f"Duplicate key error on attempt {attempt} for {dossier} in {file_path}: {e}")
                 bouwdossier.dossiernr = original_dossiernr + ("X" * attempt)
             else:
-                log.error(
-                    f"Non-retryable IntegrityError for {dossier} in {file_path}: {e}"
-                )
+                log.error(f"Non-retryable IntegrityError for {dossier} in {file_path}: {e}")
                 return count, total_count
 
     if not success:
-        log.error(
-            f"All {MAX_ATTEMPTS} save attempts failed for {dossier} in {file_path}"
-        )
+        log.error(f"All {MAX_ATTEMPTS} save attempts failed for {dossier} in {file_path}")
         return count, total_count
 
     count += 1
@@ -263,9 +249,7 @@ def add_wabo_dossier(
         openbareruimte_id = None
         nummeraanduidingen = []
 
-        if (
-            bag_id
-        ):  # if no bag_ids, check meta_ids jsonfile and at last locatie aanduiding.
+        if bag_id:  # if no bag_ids, check meta_ids jsonfile and at last locatie aanduiding.
             panden.append(bag_id.get("pandidentificatie"))
             verblijfsobjecten.append(bag_id.get("verblijfsobjectidentificatie"))
             openbareruimte_id = bag_id.get("openbareruimteidentificatie")
@@ -273,27 +257,15 @@ def add_wabo_dossier(
 
         elif x_adres.get("straatnaam") and x_adres.get("huisnummer"):
             # when no bag_ids in xml, try match straat&huisnummer with parameter meta_ids jsonfile
-            _straat_huisnummer = (
-                x_adres.get("straatnaam") + "_" + x_adres.get("huisnummer")
-            )
+            _straat_huisnummer = x_adres.get("straatnaam") + "_" + x_adres.get("huisnummer")
             _adressen = meta_ids.get(_key, {}).get("adressen", [])
             try:
-                _result = [
-                    item
-                    for item in _adressen
-                    if item.get("straat_huisnummer") == _straat_huisnummer.lower()
-                ][0]
+                _result = [item for item in _adressen if item.get("straat_huisnummer") == _straat_huisnummer.lower()][0]
 
                 [panden.append(item) for item in _result["panden"]]
-                [
-                    verblijfsobjecten.append(item)
-                    for item in _result["verblijfsobjecten"]
-                ]
+                [verblijfsobjecten.append(item) for item in _result["verblijfsobjecten"]]
                 openbareruimte_id = _result["openbareruimte_id"]
-                [
-                    nummeraanduidingen.append(item)
-                    for item in _result["nummeraanduidingen"]
-                ]
+                [nummeraanduidingen.append(item) for item in _result["nummeraanduidingen"]]
             except:
                 log.info(
                     f"straat_huisnummer niet gevonden in BWT_TMLO.json voor {_key}:{_straat_huisnummer} in {file_path}"
@@ -302,18 +274,12 @@ def add_wabo_dossier(
         locatie_aanduiding = x_adres.get("locatie_aanduiding")
         if type(locatie_aanduiding) is str and len(locatie_aanduiding) > 250:
             locatie_aanduiding = locatie_aanduiding[:250]
-            log.warning(
-                f'The locatie_aanduiding str "{locatie_aanduiding}" is more than 250 characters'
-            )
+            log.warning(f'The locatie_aanduiding str "{locatie_aanduiding}" is more than 250 characters')
 
         adres = models.Adres(
             bouwdossier=bouwdossier,
             straat=x_adres.get("straatnaam"),
-            huisnummer_van=(
-                x_adres.get("huisnummer").replace(",", "")
-                if x_adres.get("huisnummer")
-                else None
-            ),
+            huisnummer_van=(x_adres.get("huisnummer").replace(",", "") if x_adres.get("huisnummer") else None),
             huisnummer_toevoeging=x_adres.get("huisnummertoevoeging"),
             huisnummer_letter=x_adres.get("huisletter"),
             stadsdeel=stadsdeel,
@@ -329,7 +295,6 @@ def add_wabo_dossier(
 
     documenten = []
     for x_document in get_list_items(x_dossier, "documenten", "document"):
-
         bestanden = []
         bestanden_pads = []
         for bestand in get_list_items(x_document, "bestanden", "bestand"):
@@ -357,9 +322,7 @@ def add_wabo_dossier(
 
                 _parts = bestand_str.split("/")
 
-                if (
-                    "BWT" in _parts[0]
-                ):  # then it's from WABO/BWT and different url-format
+                if "BWT" in _parts[0]:  # then it's from WABO/BWT and different url-format
                     _parts[0] = _parts[0].replace(" ", "/")
                     bestand_str = "/".join(_parts)
                 else:  # place the file directly under dossier by removing folder before filename
@@ -376,9 +339,7 @@ def add_wabo_dossier(
                 # Bestand urls longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that url on 250 chars. This means that url will not work, but
                 # we'll accept that for now.
-                log.warning(
-                    f'The bestand str "{bestand_str}" is more than 250 characters'
-                )
+                log.warning(f'The bestand str "{bestand_str}" is more than 250 characters')
                 bestand_str = bestand_str[:250]
             bestanden.append(bestand_str)
 
@@ -387,9 +348,7 @@ def add_wabo_dossier(
                 # Bestand_pads longer than 250 characters are not supported by the DB. Since only one in about 200.000
                 # records had this problem we'll just cap that pad on 250 chars. This means that pad will not work, but
                 # we'll accept that for now.
-                log.warning(
-                    f'The bestand_pad str "{bestand_pad}" is more than 250 characters'
-                )
+                log.warning(f'The bestand_pad str "{bestand_pad}" is more than 250 characters')
                 bestand_pad = bestand_pad[:250]
             bestanden_pads.append(bestand_pad)
 
@@ -401,9 +360,7 @@ def add_wabo_dossier(
         document_omschrijving = x_document.get("document_omschrijving")
         if type(document_omschrijving) is str and len(document_omschrijving) > 250:
             document_omschrijving = document_omschrijving[:250]
-            log.warning(
-                f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters'
-            )
+            log.warning(f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters')
 
         # Do not include metadata for paspoort scans. Een kavel paspoort is not a ID passport.
         if (
@@ -449,9 +406,7 @@ def add_wabo_dossier(
     return count, total_count
 
 
-def add_pre_wabo_dossier(
-    x_dossier, file_path, import_file, count, total_count, meta_ids: json = None
-):  # noqa C901
+def add_pre_wabo_dossier(x_dossier, file_path, import_file, count, total_count, meta_ids: json = None):  # noqa C901
     """
     For information about wabo and pre_wabo please check the README
     """
@@ -472,9 +427,7 @@ def add_pre_wabo_dossier(
         log.warning(f"Missing stadsdeel for bouwdossier {dossiernr} in {file_path}")
     _key = stadsdeel + "_" + dossiernr.zfill(5)
     access = get_dossier_access(_key, x_dossier, meta_ids)
-    access_restricted_until = get_date_from_year(
-        x_dossier.get("openbaarheidsBeperkingTot")
-    )
+    access_restricted_until = get_date_from_year(x_dossier.get("openbaarheidsBeperkingTot"))
 
     bouwdossier = models.BouwDossier(
         importfile=import_file,
@@ -520,18 +473,14 @@ def add_pre_wabo_dossier(
 
         if not titel:
             titel = ""
-            log.warning(
-                f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}"
-            )
+            log.warning(f"Missing titel for subdossier for {bouwdossier.dossiernr} in {file_path}")
 
         subdossier_bestanden = get_list_items(x_sub_dossier, "bestanden", "url")
 
         # This is to check if there are any bestanden added to a subdossier directly. They are skipped because it is not
         # known if they are public or not
         if len(subdossier_bestanden) > 0:
-            log.warning(
-                "bestanden in sub_dossier, unexpected, no way to determine if this is Public or Restricted"
-            )
+            log.warning("bestanden in sub_dossier, unexpected, no way to determine if this is Public or Restricted")
             log.warning(subdossier_bestanden)
             subdossier_bestanden = []
 
@@ -541,13 +490,9 @@ def add_pre_wabo_dossier(
         for x_document in get_list_items(x_sub_dossier, "documenten", "document"):
             bestanden = get_list_items(x_document, "bestanden", "url")
             access = get_access(x_document)
-            access_restricted_until = get_date_from_year(
-                x_document.get("openbaarheidsBeperkingTot")
-            )
+            access_restricted_until = get_date_from_year(x_document.get("openbaarheidsBeperkingTot"))
             copyright = openbaar_to_copyright(x_document.get("auteursrechtBeperking"))
-            copyright_until = get_date_from_year(
-                x_document.get("auteursrechtBeperkingTot")
-            )
+            copyright_until = get_date_from_year(x_document.get("auteursrechtBeperkingTot"))
             copyright_holders = x_document.get("auteursrechtHouders")
             copyright_manufacturers = x_document.get("auteursrechtVervaardigers")
             valid_bestanden = []
@@ -591,9 +536,7 @@ def _get_meta_additions(root_dir) -> dict:
         meta_ids = _read_meta_additions_dossiers(meta_filepath)
         return meta_ids
     except FileNotFoundError:
-        log.error(
-            f"Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek: {meta_filepath}"
-        )
+        log.error(f"Wabo-bwt bag_id verrijkingsfile staat niet op de juist plek: {meta_filepath}")
 
 
 def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # noqa C901
@@ -644,9 +587,7 @@ def import_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # no
     )
 
 
-def import_pre_wabo_dossiers(
-    root_dir=settings.DATA_DIR, max_file_count=None
-):  # noqa C901
+def import_pre_wabo_dossiers(root_dir=settings.DATA_DIR, max_file_count=None):  # noqa C901
     total_count = 0
     file_count = 0
 
@@ -687,9 +628,7 @@ def import_pre_wabo_dossiers(
             import_file.status = const.IMPORT_ERROR
             import_file.save()
 
-        log.info(
-            f"Import in process. Imported files: {file_count}. Imported dossiers: {total_count}"
-        )
+        log.info(f"Import in process. Imported files: {file_count}. Imported dossiers: {total_count}")
 
     log.info(f"Import finished. Bouwdossiers total: {total_count}")
 
@@ -809,9 +748,7 @@ FROM adres_pand
 WHERE importer_adres.id = adres_pand.id
         """
         )
-    log.info(
-        "Finished adding nummeraanduidingen, verblijfsobjecten and panden to pre-wabo dossiers"
-    )
+    log.info("Finished adding nummeraanduidingen, verblijfsobjecten and panden to pre-wabo dossiers")
 
     # First we try to match with openbare ruimtes that are streets 01
     log.info("Add openbare ruimtes")
@@ -845,14 +782,9 @@ AND (iadre.openbareruimte_id IS NULL OR iadre.openbareruimte_id = '')
 
 
 def validate_import(min_bouwdossiers_count):
-
     result = models.Adres.objects.aggregate(
         total=Count("id"),
-        has_panden=Sum(
-            Case(
-                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
-            )
-        ),
+        has_panden=Sum(Case(When(panden__len__gt=0, then=1), default=0, output_field=IntegerField())),
         has_nummeraanduidingen=Sum(
             Case(
                 When(nummeraanduidingen__len__gt=0, then=1),
@@ -873,9 +805,7 @@ def validate_import(min_bouwdossiers_count):
         wabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_WABO)),
         wabo_bwt=Count("id", filter=Q(bouwdossier__wabo_bron="BWT")),
         wabo_has_panden=Sum(
-            Case(
-                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
-            ),
+            Case(When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()),
             filter=Q(bouwdossier__source=const.SOURCE_WABO),
         ),
         wabo_has_nummeraanduidingen=Sum(
@@ -899,9 +829,7 @@ def validate_import(min_bouwdossiers_count):
         ),
         prewabo_total=Count("id", filter=Q(bouwdossier__source=const.SOURCE_EDEPOT)),
         prewabo_has_panden=Sum(
-            Case(
-                When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()
-            ),
+            Case(When(panden__len__gt=0, then=1), default=0, output_field=IntegerField()),
             filter=Q(bouwdossier__source=const.SOURCE_EDEPOT),
         ),
         prewabo_has_nummeraanduidingen=Sum(
@@ -932,9 +860,9 @@ def validate_import(min_bouwdossiers_count):
         f" ({result['has_panden'] / result['total'] * 100}%) has one or more panden."
         f" The required minimum is {0.8 * result['total']} (80%)."
     )
-    assert (
-        result["total"] >= min_bouwdossiers_count
-    ), f'Imported total of {result["total"]} bouwdossiers is less than the required number {min_bouwdossiers_count}'
+    assert result["total"] >= min_bouwdossiers_count, (
+        f"Imported total of {result['total']} bouwdossiers is less than the required number {min_bouwdossiers_count}"
+    )
     assert result["has_panden"] > 0.8 * result["total"], (
         f"{result['has_panden']} number of records of a total of {result['total']} records "
         f"({result['has_panden'] / result['total'] * 100}%) has one or more panden, "

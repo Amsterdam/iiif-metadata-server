@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("bouwdossiers", "0007_alter_bouwdossier_options"),
     ]

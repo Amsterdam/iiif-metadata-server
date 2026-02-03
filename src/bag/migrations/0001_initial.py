@@ -9,7 +9,6 @@ import bag.models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -51,36 +50,26 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "buurt",
-                    models.CharField(
-                        db_column="ligtinbuurtid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="ligtinbuurtid", max_length=16, null=True),
                 ),
                 ("volgnummer", models.IntegerField()),
                 ("registratiedatum", models.DateField()),
                 ("statuscode", models.CharField(max_length=1)),
                 (
                     "heeft_hoofdadres",
-                    models.CharField(
-                        db_column="heefthoofdadresid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heefthoofdadresid", max_length=16, null=True),
                 ),
                 (
                     "dossier",
-                    models.CharField(
-                        db_column="heeftdossierid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heeftdossierid", max_length=16, null=True),
                 ),
                 (
                     "proces_code",
-                    models.CharField(
-                        db_column="bagprocescode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="bagprocescode", max_length=4, null=True),
                 ),
                 (
                     "proces_omschrijving",
-                    models.CharField(
-                        db_column="bagprocesomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="bagprocesomschrijving", max_length=80, null=True),
                 ),
             ],
             options={
@@ -115,9 +104,7 @@ class Migration(migrations.Migration):
                 ("naam_nen", models.CharField(db_column="naamnen", max_length=80)),
                 (
                     "geometrie",
-                    django.contrib.gis.db.models.fields.GeometryField(
-                        null=True, srid=28992
-                    ),
+                    django.contrib.gis.db.models.fields.GeometryField(null=True, srid=28992),
                 ),
                 (
                     "omschrijving",
@@ -125,9 +112,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "woonplaats_id",
-                    models.CharField(
-                        db_column="ligtinwoonplaatsid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="ligtinwoonplaatsid", max_length=16, null=True),
                 ),
                 (
                     "status",
@@ -138,30 +123,22 @@ class Migration(migrations.Migration):
                 ("straatcode", models.CharField(max_length=16, null=True)),
                 (
                     "straatnaam",
-                    models.CharField(
-                        db_column="straatnaamptt", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="straatnaamptt", max_length=80, null=True),
                 ),
                 ("statuscode", models.CharField(max_length=1)),
                 ("geconstateerd", models.BooleanField()),
                 ("typecode", models.CharField(max_length=1)),
                 (
                     "dossier",
-                    models.CharField(
-                        db_column="heeftdossierid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heeftdossierid", max_length=16, null=True),
                 ),
                 (
                     "proces_code",
-                    models.CharField(
-                        db_column="bagprocescode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="bagprocescode", max_length=4, null=True),
                 ),
                 (
                     "proces_omschrijving",
-                    models.CharField(
-                        db_column="bagprocesomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="bagprocesomschrijving", max_length=80, null=True),
                 ),
             ],
             options={
@@ -215,9 +192,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "bouwblok",
-                    models.CharField(
-                        db_column="ligtinbouwblokid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="ligtinbouwblokid", max_length=16, null=True),
                 ),
                 (
                     "bouwlagen",
@@ -225,15 +200,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "ligging",
-                    models.CharField(
-                        db_column="liggingomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="liggingomschrijving", max_length=80, null=True),
                 ),
                 (
                     "type_woonobject",
-                    models.CharField(
-                        db_column="typewoonobject", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="typewoonobject", max_length=80, null=True),
                 ),
                 (
                     "status",
@@ -249,27 +220,19 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "buurt",
-                    models.CharField(
-                        db_column="ligtinbuurtid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="ligtinbuurtid", max_length=16, null=True),
                 ),
                 (
                     "dossier",
-                    models.CharField(
-                        db_column="heeftdossierid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heeftdossierid", max_length=16, null=True),
                 ),
                 (
                     "proces_code",
-                    models.CharField(
-                        db_column="bagprocescode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="bagprocescode", max_length=4, null=True),
                 ),
                 (
                     "proces_omschrijving",
-                    models.CharField(
-                        db_column="bagprocesomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="bagprocesomschrijving", max_length=80, null=True),
                 ),
             ],
             options={
@@ -308,9 +271,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "buurt",
-                    models.CharField(
-                        db_column="ligtinbuurtid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="ligtinbuurtid", max_length=16, null=True),
                 ),
                 (
                     "status",
@@ -321,27 +282,19 @@ class Migration(migrations.Migration):
                 ("statuscode", models.CharField(max_length=1)),
                 (
                     "hoofdadres",
-                    models.CharField(
-                        db_column="heefthoofdadresid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heefthoofdadresid", max_length=16, null=True),
                 ),
                 (
                     "dossier",
-                    models.CharField(
-                        db_column="heeftdossierid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heeftdossierid", max_length=16, null=True),
                 ),
                 (
                     "proces_code",
-                    models.CharField(
-                        db_column="bagprocescode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="bagprocescode", max_length=4, null=True),
                 ),
                 (
                     "proces_omschrijving",
-                    models.CharField(
-                        db_column="bagprocesomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="bagprocesomschrijving", max_length=80, null=True),
                 ),
             ],
             options={
@@ -374,9 +327,7 @@ class Migration(migrations.Migration):
                 ("oppervlakte", models.IntegerField(null=True)),
                 (
                     "verdieping_toegang",
-                    models.CharField(
-                        db_column="verdiepingtoegang", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="verdiepingtoegang", max_length=80, null=True),
                 ),
                 (
                     "aantal_eenheden_complex",
@@ -396,15 +347,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "geometrie",
-                    django.contrib.gis.db.models.fields.GeometryField(
-                        null=True, srid=28992
-                    ),
+                    django.contrib.gis.db.models.fields.GeometryField(null=True, srid=28992),
                 ),
                 (
                     "buurt",
-                    models.CharField(
-                        db_column="ligtinbuurtid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="ligtinbuurtid", max_length=16, null=True),
                 ),
                 (
                     "gebruiksdoel_gezondheidszorgfunctie",
@@ -432,21 +379,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "status",
-                    models.CharField(
-                        db_column="statusomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="statusomschrijving", max_length=80, null=True),
                 ),
                 (
                     "reden_afvoer",
-                    models.CharField(
-                        db_column="redenafvoeromschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="redenafvoeromschrijving", max_length=80, null=True),
                 ),
                 (
                     "reden_opvoer",
-                    models.CharField(
-                        db_column="redenopvoeromschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="redenopvoeromschrijving", max_length=80, null=True),
                 ),
                 (
                     "eigendomsverhouding",
@@ -469,15 +410,11 @@ class Migration(migrations.Migration):
                 ("cbsnummer", models.CharField(max_length=16, null=True)),
                 (
                     "indicatie_woningvoorraad",
-                    models.CharField(
-                        db_column="indicatiewoningvoorraad", max_length=1, null=True
-                    ),
+                    models.CharField(db_column="indicatiewoningvoorraad", max_length=1, null=True),
                 ),
                 (
                     "financierings_code",
-                    models.CharField(
-                        db_column="financieringscodecode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="financieringscodecode", max_length=4, null=True),
                 ),
                 (
                     "financierings_omschrijving",
@@ -489,16 +426,12 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "hoofdadres",
-                    models.CharField(
-                        db_column="heefthoofdadresid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heefthoofdadresid", max_length=16, null=True),
                 ),
                 ("status_code", models.IntegerField(db_column="statuscode", null=True)),
                 (
                     "gebruiksdoel_woonfunctie_code",
-                    models.CharField(
-                        db_column="gebruiksdoelwoonfunctiecode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="gebruiksdoelwoonfunctiecode", max_length=4, null=True),
                 ),
                 (
                     "gebruiksdoel_gezondheidszorgfunctie_code",
@@ -510,45 +443,31 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "eigendomsverhouding_code",
-                    models.CharField(
-                        db_column="eigendomsverhoudingcode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="eigendomsverhoudingcode", max_length=4, null=True),
                 ),
                 (
                     "feitelijk_gebruik_code",
-                    models.CharField(
-                        db_column="feitelijkgebruikcode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="feitelijkgebruikcode", max_length=4, null=True),
                 ),
                 (
                     "reden_opvoer_code",
-                    models.CharField(
-                        db_column="redenopvoercode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="redenopvoercode", max_length=4, null=True),
                 ),
                 (
                     "reden_afvoer_code",
-                    models.CharField(
-                        db_column="redenafvoercode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="redenafvoercode", max_length=4, null=True),
                 ),
                 (
                     "dossier",
-                    models.CharField(
-                        db_column="heeftdossierid", max_length=16, null=True
-                    ),
+                    models.CharField(db_column="heeftdossierid", max_length=16, null=True),
                 ),
                 (
                     "proces_code",
-                    models.CharField(
-                        db_column="bagprocescode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="bagprocescode", max_length=4, null=True),
                 ),
                 (
                     "proces_omschrijving",
-                    models.CharField(
-                        db_column="bagprocesomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="bagprocesomschrijving", max_length=80, null=True),
                 ),
             ],
             options={
@@ -562,9 +481,7 @@ class Migration(migrations.Migration):
                 ("id", models.AutoField(primary_key=True, serialize=False)),
                 (
                     "pand",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.PROTECT, to="bag.pand"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to="bag.pand"),
                 ),
                 (
                     "verblijfsobject",
@@ -615,9 +532,7 @@ class Migration(migrations.Migration):
                 ("huisletter", models.CharField(max_length=1, null=True)),
                 (
                     "huisnummer_toevoeging",
-                    models.CharField(
-                        db_column="huisnummertoevoeging", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="huisnummertoevoeging", max_length=4, null=True),
                 ),
                 ("postcode", models.CharField(max_length=6, null=True)),
                 (
@@ -626,24 +541,18 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "status",
-                    models.CharField(
-                        db_column="statusomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="statusomschrijving", max_length=80, null=True),
                 ),
                 ("volgnummer", models.IntegerField()),
                 ("registratiedatum", models.DateTimeField()),
                 ("geconstateerd", models.BooleanField()),
                 (
                     "woonplaats",
-                    models.CharField(
-                        db_column="ligtinwoonplaatsid", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="ligtinwoonplaatsid", max_length=80, null=True),
                 ),
                 (
                     "type_adresseerbaar_object_code",
-                    models.CharField(
-                        db_column="typeadresseerbaarobjectcode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="typeadresseerbaarobjectcode", max_length=4, null=True),
                 ),
                 (
                     "type_adresseerbaar_object_omschrijving",
@@ -659,21 +568,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "dossier",
-                    models.CharField(
-                        db_column="heeftdossierid", max_length=40, null=True
-                    ),
+                    models.CharField(db_column="heeftdossierid", max_length=40, null=True),
                 ),
                 (
                     "proces_code",
-                    models.CharField(
-                        db_column="bagprocescode", max_length=4, null=True
-                    ),
+                    models.CharField(db_column="bagprocescode", max_length=4, null=True),
                 ),
                 (
                     "proces_omschrijving",
-                    models.CharField(
-                        db_column="bagprocesomschrijving", max_length=80, null=True
-                    ),
+                    models.CharField(db_column="bagprocesomschrijving", max_length=80, null=True),
                 ),
                 (
                     "ligplaats",
