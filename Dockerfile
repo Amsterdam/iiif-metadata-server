@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.12
+ARG PYTHON_VERSION=3.13
 
 # Builder
 FROM python:${PYTHON_VERSION}-slim-bookworm AS builder
@@ -38,7 +38,7 @@ RUN set -eux && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy the Python dependencies from the builder stage
-COPY --from=builder /usr/local/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/
+COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
 COPY --from=builder /usr/local/bin/ /usr/local/bin
 
 COPY deploy /deploy
