@@ -179,7 +179,7 @@ packaging==25.0
     #   django-csp
     #   drf-yasg
     #   opentelemetry-instrumentation
-protobuf==6.33.2
+protobuf==6.33.5
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
