@@ -3,8 +3,12 @@
 #
 # VERSION = 2020.01.29
 .PHONY = help pip-tools install requirements update test init
+
+UID:=$(shell id --user)
+GID:=$(shell id --group)
+
 dc = docker compose
-run = $(dc) run --remove-orphans --rm
+run = $(dc) run --remove-orphans --rm -u ${UID}:${GID}
 manage = $(run) dev python manage.py
 
 help:                               ## Show this help.
@@ -16,12 +20,14 @@ pip-tools:
 install: pip-tools                  ## Install requirements and sync venv with expected state as defined in requirements.txt
 	pip-sync requirements_dev.txt
 
-requirements: pip-tools             ## Upgrade requirements (in requirements.in) to latest versions and compile requirements.txt
-	## The --allow-unsafe flag should be used and will become the default behaviour of pip-compile in the future
-	## https://stackoverflow.com/questions/58843905
-	pip-compile --upgrade --output-file requirements.txt --allow-unsafe requirements.in
-	pip-compile --upgrade --output-file requirements_linting.txt --allow-unsafe requirements_linting.in
+dev_requirements: pip-tools			## Create/update the dev requirements (in dev_requirements.in)
 	pip-compile --upgrade --output-file requirements_dev.txt --allow-unsafe requirements_dev.in
+
+linting_requirements: pip-tools		## Create/update the linting requirements (in linting_requirements.in)
+	pip-compile --upgrade --output-file requirements_linting.txt --allow-unsafe requirements_linting.in
+
+requirements: pip-tools linting_requirements dev_requirements			## Upgrade requirements (in requirements.in) to latest versions and compile requirements.txt
+	pip-compile --upgrade --output-file requirements.txt --allow-unsafe requirements.in
 
 upgrade: requirements install       ## Run 'requirements' and 'install' targets
 
@@ -55,14 +61,12 @@ test:                               ## Execute tests
 	$(run) test pytest $(ARGS)
 
 lintfix:                            ## Execute lint fixes
-	$(run) linting black /app/src/$(APP)
-	$(run) linting autoflake /app/src --recursive --in-place --remove-unused-variables --remove-all-unused-imports --quiet
-	$(run) linting isort /app/src/$(APP)
+	$(run) linting ruff check /app/ --fix
+	$(run) linting ruff format /app/
 
 lint:                               ## Execute lint checks
-	$(run) linting black --diff /app/src/$(APP)
-	$(run) linting autoflake /app/src --check --recursive --quiet
-	$(run) linting isort --diff --check /app/src/$(APP)
+	$(run) linting ruff check /app/
+	$(run) linting ruff format /app/ --check
 
 clean:                              ## Clean docker stuff
 	$(dc) down -v
