@@ -98,6 +98,9 @@ class BouwDossier(BouwDossierBase):
                 fields=["stadsdeel", "dossiernr"], name="unique_bouwdossier"
             ),
         ]
+        ordering = [
+            "id",
+        ]
 
 
 # TODO Do we need multiple adres instances for the same street and huisnummer van/tot

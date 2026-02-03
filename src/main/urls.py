@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls import include
-from django.urls import re_path
+from django.urls import path, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -26,7 +26,9 @@ schema_view = get_schema_view(
         license=openapi.License(name="CC0 1.0 Universal"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=[
+        permissions.AllowAny,
+    ],
 )
 
 urlpatterns = [
@@ -59,3 +61,12 @@ if settings.DEBUG:
             re_path(r"^__debug__/", include(debug_toolbar.urls)),
         ]
     )
+
+    def empty_favicon(request):
+        from django.http import HttpResponse
+
+        return HttpResponse(status=204)
+
+    urlpatterns += [
+        path("favicon.ico", empty_favicon),
+    ]
