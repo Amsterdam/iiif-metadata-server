@@ -49,9 +49,7 @@ urlpatterns = [
     ),
 ]
 
-urlpatterns += [
-    url for pattern_list in grouped_url_patterns.values() for url in pattern_list
-]
+urlpatterns += [url for pattern_list in grouped_url_patterns.values() for url in pattern_list]
 
 if settings.DEBUG:
     import debug_toolbar

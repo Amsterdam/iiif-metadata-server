@@ -22,14 +22,10 @@ DATA_DIR = os.path.join(CURRENT_DIRECTORY, "data")
 def create_blob_container(container_name):
     blob_service_client = get_container_client()
     try:
-        container_client = blob_service_client.create_container(
-            container_name, public_access=None
-        )
+        container_client = blob_service_client.create_container(container_name, public_access=None)
     except ResourceExistsError:
         pass
-    container_client = blob_service_client.get_container_client(
-        container=container_name
-    )
+    container_client = blob_service_client.get_container_client(container=container_name)
     return container_client
 
 
@@ -41,7 +37,6 @@ def store_blob_in_container(container, file_path, filename):
 
 
 class APITest(TestCase):
-
     @classmethod
     def setUpTestData(cls):
         create_blob_container(settings.AZURE_CONTAINER_NAME_BAG)

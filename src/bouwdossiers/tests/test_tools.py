@@ -37,9 +37,7 @@ from bouwdossiers import tools
         ),  # with underscore and lowercase letter stadsdeelcode formatting
     ],
 )
-def test_separate_dossier_four_letters(
-    test_input, expected_stadsdeel, expected_dossiernr
-):
+def test_separate_dossier_four_letters(test_input, expected_stadsdeel, expected_dossiernr):
     stadsdeel, dossiernr = tools.separate_dossier(test_input)
     assert stadsdeel == expected_stadsdeel
     assert dossiernr == expected_dossiernr

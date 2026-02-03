@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("bag", "0005_bagupdatedat_remove_ligplaats_document_mutatie_and_more"),
     ]

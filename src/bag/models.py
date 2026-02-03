@@ -19,19 +19,11 @@ class BaseBagModel(models.Model):
 
     @classmethod
     def get_date_fields(cls):
-        return [
-            field.name.lower()
-            for field in cls._meta.fields
-            if isinstance(field, models.DateField)
-        ]
+        return [field.name.lower() for field in cls._meta.fields if isinstance(field, models.DateField)]
 
     @classmethod
     def get_foreign_key_fields(cls):
-        return [
-            field.name.lower()
-            for field in cls._meta.fields
-            if isinstance(field, models.ForeignKey)
-        ]
+        return [field.name.lower() for field in cls._meta.fields if isinstance(field, models.ForeignKey)]
 
     @classmethod
     def get_column_field_mapping(cls):
@@ -65,9 +57,7 @@ class TransformedGeometrieManager(models.Manager):
             super()
             .get_queryset()
             .annotate(
-                transformed_geometrie=Transform(
-                    "geometrie", srid=settings.WORLD_GEODETIC_SYSTEM_SRID
-                ),
+                transformed_geometrie=Transform("geometrie", srid=settings.WORLD_GEODETIC_SYSTEM_SRID),
                 centroid=Centroid("transformed_geometrie"),
             )
         )
@@ -100,14 +90,10 @@ class Ligplaats(GeoModel, BagObject, BaseBagModel):
     plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     statuscode = models.CharField(max_length=1)
-    heeft_hoofdadres = models.CharField(
-        max_length=16, db_column="heefthoofdadresid", null=True
-    )
+    heeft_hoofdadres = models.CharField(max_length=16, db_column="heefthoofdadresid", null=True)
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
-    proces_omschrijving = models.CharField(
-        max_length=80, db_column="bagprocesomschrijving", null=True
-    )
+    proces_omschrijving = models.CharField(max_length=80, db_column="bagprocesomschrijving", null=True)
 
     objects = models.Manager()
 
@@ -132,12 +118,8 @@ class Openbareruimte(GeoModel, BaseBagModel):
     naam = models.CharField(max_length=80)
     naam_nen = models.CharField(max_length=80, null=True, db_column="naamnen")
     geometrie = gis_models.GeometryField(srid=28992, null=True)
-    omschrijving = models.TextField(
-        null=True, db_column="beschrijvingnaam"
-    )  # Up to 2000 characters
-    woonplaats_id = models.CharField(
-        max_length=16, db_column="ligtinwoonplaatsid", null=True
-    )
+    omschrijving = models.TextField(null=True, db_column="beschrijvingnaam")  # Up to 2000 characters
+    woonplaats_id = models.CharField(max_length=16, db_column="ligtinwoonplaatsid", null=True)
     status = models.CharField(max_length=80, db_column="statusomschrijving")
 
     volgnummer = models.IntegerField()
@@ -150,9 +132,7 @@ class Openbareruimte(GeoModel, BaseBagModel):
     typecode = models.CharField(max_length=1)
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
-    proces_omschrijving = models.CharField(
-        max_length=80, db_column="bagprocesomschrijving", null=True
-    )
+    proces_omschrijving = models.CharField(max_length=80, db_column="bagprocesomschrijving", null=True)
 
     def __str__(self):
         return self.naam
@@ -174,14 +154,10 @@ class Standplaats(GeoModel, BagObject, BaseBagModel):
     plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     statuscode = models.CharField(max_length=1)
-    hoofdadres = models.CharField(
-        max_length=16, db_column="heefthoofdadresid", null=True
-    )
+    hoofdadres = models.CharField(max_length=16, db_column="heefthoofdadresid", null=True)
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
-    proces_omschrijving = models.CharField(
-        max_length=80, db_column="bagprocesomschrijving", null=True
-    )
+    proces_omschrijving = models.CharField(max_length=80, db_column="bagprocesomschrijving", null=True)
 
     objects = models.Manager()
 
@@ -225,17 +201,11 @@ class Pand(GeoModel, BaseBagModel):
 
     geometrie = gis_models.PolygonField(srid=28992)
     pandnaam = models.CharField(max_length=80, null=True, db_column="naam")
-    bouwblok = models.CharField(
-        max_length=16, db_column="ligtinbouwblokid", db_index=True, null=True
-    )
+    bouwblok = models.CharField(max_length=16, db_column="ligtinbouwblokid", db_index=True, null=True)
 
     bouwlagen = models.IntegerField(null=True, db_column="aantalbouwlagen")
-    ligging = models.CharField(
-        max_length=80, db_column="liggingomschrijving", null=True
-    )
-    type_woonobject = models.CharField(
-        max_length=80, db_column="typewoonobject", null=True
-    )
+    ligging = models.CharField(max_length=80, db_column="liggingomschrijving", null=True)
+    type_woonobject = models.CharField(max_length=80, db_column="typewoonobject", null=True)
     status = models.CharField(max_length=80, db_column="statusomschrijving")
 
     volgnummer = models.IntegerField()
@@ -249,9 +219,7 @@ class Pand(GeoModel, BaseBagModel):
 
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
-    proces_omschrijving = models.CharField(
-        max_length=80, db_column="bagprocesomschrijving", null=True
-    )
+    proces_omschrijving = models.CharField(max_length=80, db_column="bagprocesomschrijving", null=True)
 
     def __str__(self):
         return self.id
@@ -265,12 +233,8 @@ class Verblijfsobject(GeoModel, BagObject, BaseBagModel):
     begin_geldigheid = models.DateField(db_column="begingeldigheid")
     einde_geldigheid = models.DateField(null=True, db_column="eindgeldigheid")
     oppervlakte = models.IntegerField(null=True)
-    verdieping_toegang = models.CharField(
-        max_length=80, db_column="verdiepingtoegang", null=True
-    )
-    aantal_eenheden_complex = models.IntegerField(
-        null=True, db_column="aantaleenhedencomplex"
-    )
+    verdieping_toegang = models.CharField(max_length=80, db_column="verdiepingtoegang", null=True)
+    aantal_eenheden_complex = models.IntegerField(null=True, db_column="aantaleenhedencomplex")
     bouwlagen = models.IntegerField(null=True, db_column="aantalbouwlagen")
     aantal_kamers = models.IntegerField(null=True, db_column="aantalkamers")
     indicatie_geconstateerd = models.BooleanField(db_column="geconstateerd")
@@ -287,63 +251,33 @@ class Verblijfsobject(GeoModel, BagObject, BaseBagModel):
     hoogste_bouwlaag = models.IntegerField(null=True, db_column="hoogstebouwlaag")
     laagste_bouwlaag = models.IntegerField(null=True, db_column="laagstebouwlaag")
     status = models.CharField(max_length=80, db_column="statusomschrijving", null=True)
-    reden_afvoer = models.CharField(
-        max_length=80, db_column="redenafvoeromschrijving", null=True
-    )
-    reden_opvoer = models.CharField(
-        max_length=80, db_column="redenopvoeromschrijving", null=True
-    )
-    eigendomsverhouding = models.CharField(
-        max_length=80, db_column="eigendomsverhoudingomschrijving", null=True
-    )
-    gebruiksdoel = models.CharField(
-        max_length=80, db_column="feitelijkgebruikomschrijving", null=True
-    )
-    panden = models.ManyToManyField(
-        Pand, through=Verblijfsobjectpandrelatie, related_name="verblijfsobjecten"
-    )
+    reden_afvoer = models.CharField(max_length=80, db_column="redenafvoeromschrijving", null=True)
+    reden_opvoer = models.CharField(max_length=80, db_column="redenopvoeromschrijving", null=True)
+    eigendomsverhouding = models.CharField(max_length=80, db_column="eigendomsverhoudingomschrijving", null=True)
+    gebruiksdoel = models.CharField(max_length=80, db_column="feitelijkgebruikomschrijving", null=True)
+    panden = models.ManyToManyField(Pand, through=Verblijfsobjectpandrelatie, related_name="verblijfsobjecten")
 
     volgnummer = models.IntegerField()
     plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateField()
     cbsnummer = models.CharField(max_length=16, null=True)
-    indicatie_woningvoorraad = models.CharField(
-        max_length=1, db_column="indicatiewoningvoorraad", null=True
-    )
-    financierings_code = models.CharField(
-        max_length=4, db_column="financieringscodecode", null=True
-    )
-    financierings_omschrijving = models.CharField(
-        max_length=80, db_column="financieringscodeomschrijving", null=True
-    )
-    hoofdadres = models.CharField(
-        max_length=16, db_column="heefthoofdadresid", null=True
-    )
+    indicatie_woningvoorraad = models.CharField(max_length=1, db_column="indicatiewoningvoorraad", null=True)
+    financierings_code = models.CharField(max_length=4, db_column="financieringscodecode", null=True)
+    financierings_omschrijving = models.CharField(max_length=80, db_column="financieringscodeomschrijving", null=True)
+    hoofdadres = models.CharField(max_length=16, db_column="heefthoofdadresid", null=True)
     status_code = models.IntegerField(db_column="statuscode", null=True)
 
-    gebruiksdoel_woonfunctie_code = models.CharField(
-        max_length=4, db_column="gebruiksdoelwoonfunctiecode", null=True
-    )
+    gebruiksdoel_woonfunctie_code = models.CharField(max_length=4, db_column="gebruiksdoelwoonfunctiecode", null=True)
     gebruiksdoel_gezondheidszorgfunctie_code = models.CharField(
         max_length=4, db_column="gebruiksdoelgezondheidszorgfunctiecode", null=True
     )
-    eigendomsverhouding_code = models.CharField(
-        max_length=4, db_column="eigendomsverhoudingcode", null=True
-    )
-    feitelijk_gebruik_code = models.CharField(
-        max_length=4, db_column="feitelijkgebruikcode", null=True
-    )
-    reden_opvoer_code = models.CharField(
-        max_length=4, db_column="redenopvoercode", null=True
-    )
-    reden_afvoer_code = models.CharField(
-        max_length=4, db_column="redenafvoercode", null=True
-    )
+    eigendomsverhouding_code = models.CharField(max_length=4, db_column="eigendomsverhoudingcode", null=True)
+    feitelijk_gebruik_code = models.CharField(max_length=4, db_column="feitelijkgebruikcode", null=True)
+    reden_opvoer_code = models.CharField(max_length=4, db_column="redenopvoercode", null=True)
+    reden_afvoer_code = models.CharField(max_length=4, db_column="redenafvoercode", null=True)
     dossier = models.CharField(max_length=16, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
-    proces_omschrijving = models.CharField(
-        max_length=80, db_column="bagprocesomschrijving", null=True
-    )
+    proces_omschrijving = models.CharField(max_length=80, db_column="bagprocesomschrijving", null=True)
 
     def __str__(self):
         return self.id
@@ -364,9 +298,7 @@ class Nummeraanduiding(BaseBagModel):
     eind_geldigheid = models.DateTimeField(null=True, db_column="eindgeldigheid")
     huisnummer = models.IntegerField()
     huisletter = models.CharField(max_length=1, null=True)
-    huisnummer_toevoeging = models.CharField(
-        max_length=4, null=True, db_column="huisnummertoevoeging"
-    )
+    huisnummer_toevoeging = models.CharField(max_length=4, null=True, db_column="huisnummertoevoeging")
     postcode = models.CharField(max_length=6, null=True)
     ligplaats = models.ForeignKey(
         Ligplaats,
@@ -402,26 +334,18 @@ class Nummeraanduiding(BaseBagModel):
     plusvolgnummer = models.IntegerField(null=True)
     registratiedatum = models.DateTimeField()
     geconstateerd = models.BooleanField()
-    woonplaats = models.CharField(
-        max_length=80, db_column="ligtinwoonplaatsid", null=True
-    )
-    type_adresseerbaar_object_code = models.CharField(
-        max_length=4, db_column="typeadresseerbaarobjectcode", null=True
-    )
+    woonplaats = models.CharField(max_length=80, db_column="ligtinwoonplaatsid", null=True)
+    type_adresseerbaar_object_code = models.CharField(max_length=4, db_column="typeadresseerbaarobjectcode", null=True)
     type_adresseerbaar_object_omschrijving = models.CharField(
         max_length=80, db_column="typeadresseerbaarobjectomschrijving", null=True
     )
     status_code = models.CharField(max_length=4, db_column="statuscode", null=True)
     dossier = models.CharField(max_length=40, db_column="heeftdossierid", null=True)
     proces_code = models.CharField(max_length=4, db_column="bagprocescode", null=True)
-    proces_omschrijving = models.CharField(
-        max_length=80, db_column="bagprocesomschrijving", null=True
-    )
+    proces_omschrijving = models.CharField(max_length=80, db_column="bagprocesomschrijving", null=True)
 
     def __str__(self):
-        huisnr_toevoeging = (
-            f"-{self.huisnummer_toevoeging}" if self.huisnummer_toevoeging else ""
-        )
+        huisnr_toevoeging = f"-{self.huisnummer_toevoeging}" if self.huisnummer_toevoeging else ""
         huisletter = self.huisletter if self.huisletter else ""
         return f"{self.openbare_ruimte} {self.huisnummer}{huisletter}{huisnr_toevoeging} ({self.type_adres})"
 

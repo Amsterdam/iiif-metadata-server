@@ -20,13 +20,11 @@ DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
-BOUWDOSSIER_PUBLIC_SCOPE = (
-    "BD/P"  # BouwDossiers_Public_Read. Access to anybody with e-mail link
+BOUWDOSSIER_PUBLIC_SCOPE = "BD/P"  # BouwDossiers_Public_Read. Access to anybody with e-mail link
+BOUWDOSSIER_READ_SCOPE = "BD/R"  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
+BOUWDOSSIER_EXTENDED_SCOPE = (
+    "BD/X"  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 )
-BOUWDOSSIER_READ_SCOPE = (
-    "BD/R"  # BouwDossiers_Read. Access to civil servants of Amsterdam Municipality
-)
-BOUWDOSSIER_EXTENDED_SCOPE = "BD/X"  # BouwDossiers_eXtended. Access civil servants of Amsterdam Municipality with special rights.
 
 # list of WABO url starts in 'bestanden' -> these starts get removed
 WABO_BASE_URL = [
@@ -255,9 +253,7 @@ OBJECTSTORE = dict(
     REGION_NAME="NL",
 )
 
-BOUWDOSSIERS_OBJECTSTORE_CONTAINER = os.getenv(
-    "BOUWDOSSIERS_OBJECTSTORE_CONTAINER", "dossiers_acceptance"
-)
+BOUWDOSSIERS_OBJECTSTORE_CONTAINER = os.getenv("BOUWDOSSIERS_OBJECTSTORE_CONTAINER", "dossiers_acceptance")
 
 STORAGE_ACCOUNT_URL = os.getenv("STORAGE_ACCOUNT_URL")
 
@@ -328,12 +324,8 @@ REST_FRAMEWORK = dict(
 
 IIIF_BASE_URL = os.getenv("IIIF_BASE_URL", "https://bouwdossiers.amsterdam.nl/iiif/2/")
 
-DATADIENSTEN_API_BASE_URL = os.getenv(
-    "DATADIENSTEN_API_BASE_URL", "https://api.data.amsterdam.nl"
-)
-BAG_CSV_BASE_URL = os.getenv(
-    "BAG_CSV_BASE_URL", "https://amsterdamdadipub.blob.core.windows.net/bulk-data/csv"
-)
+DATADIENSTEN_API_BASE_URL = os.getenv("DATADIENSTEN_API_BASE_URL", "https://api.data.amsterdam.nl")
+BAG_CSV_BASE_URL = os.getenv("BAG_CSV_BASE_URL", "https://amsterdamdadipub.blob.core.windows.net/bulk-data/csv")
 
 AZURITE_STORAGE_CONNECTION_STRING = os.getenv("AZURITE_STORAGE_CONNECTION_STRING")
 
@@ -342,9 +334,7 @@ AZURE_CONTAINER_NAME_DOSSIERS = "dossiers"
 
 MIN_BOUWDOSSIERS_COUNT = os.getenv("MIN_BOUWDOSSIERS_COUNT", 10000)
 
-BAG_DUMP_BASE_URL = os.getenv(
-    "BAG_DUMP_BASE_URL", "https://api.data.amsterdam.nl/bulk-data/csv"
-)
+BAG_DUMP_BASE_URL = os.getenv("BAG_DUMP_BASE_URL", "https://api.data.amsterdam.nl/bulk-data/csv")
 
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
@@ -358,9 +348,7 @@ CONTENT_SECURITY_POLICY = {
 }
 
 # OTEL
-APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv(
-    "APPLICATIONINSIGHTS_CONNECTION_STRING"
-)
+APPLICATIONINSIGHTS_CONNECTION_STRING = os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
 
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter

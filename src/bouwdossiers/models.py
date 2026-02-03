@@ -71,9 +71,7 @@ class BouwDossierBase(models.Model):
         default=None,
         help_text="Should contain the origin of the dossier. Can be for example digital or paper dossier.",
     )
-    activiteiten = ArrayField(
-        models.CharField(max_length=250, null=False), blank=True, default=list
-    )
+    activiteiten = ArrayField(models.CharField(max_length=250, null=False), blank=True, default=list)
 
     def __str__(self):
         return f"{self.dossiernr} - {self.titel}"
@@ -88,15 +86,11 @@ class BouwDossierBase(models.Model):
 
 class BouwDossier(BouwDossierBase):
     id = models.AutoField(primary_key=True)
-    importfile = models.ForeignKey(
-        ImportFile, related_name="bouwdossiers", on_delete=CASCADE
-    )
+    importfile = models.ForeignKey(ImportFile, related_name="bouwdossiers", on_delete=CASCADE)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(
-                fields=["stadsdeel", "dossiernr"], name="unique_bouwdossier"
-            ),
+            models.UniqueConstraint(fields=["stadsdeel", "dossiernr"], name="unique_bouwdossier"),
         ]
         ordering = [
             "id",
@@ -110,23 +104,13 @@ class AdresBase(models.Model):
     straat = models.CharField(max_length=150, null=True)
     huisnummer_van = models.IntegerField(null=True)
     huisnummer_tot = models.IntegerField(null=True)
-    openbareruimte_id = models.CharField(
-        max_length=16, db_index=True, null=True
-    )  # landelijk_id
+    openbareruimte_id = models.CharField(max_length=16, db_index=True, null=True)  # landelijk_id
     stadsdeel = models.CharField(max_length=10, db_index=True)
-    nummeraanduidingen = ArrayField(
-        models.CharField(max_length=16, null=False), blank=True
-    )
-    nummeraanduidingen_label = ArrayField(
-        models.CharField(max_length=256, null=False), blank=True
-    )
+    nummeraanduidingen = ArrayField(models.CharField(max_length=16, null=False), blank=True)
+    nummeraanduidingen_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
     panden = ArrayField(models.CharField(max_length=16, null=False), blank=True)
-    verblijfsobjecten = ArrayField(
-        models.CharField(max_length=16, null=False), blank=True
-    )
-    verblijfsobjecten_label = ArrayField(
-        models.CharField(max_length=256, null=False), blank=True
-    )
+    verblijfsobjecten = ArrayField(models.CharField(max_length=16, null=False), blank=True)
+    verblijfsobjecten_label = ArrayField(models.CharField(max_length=256, null=False), blank=True)
 
     # WABO Related fields
     locatie_aanduiding = models.CharField(max_length=250, null=True)
@@ -143,9 +127,7 @@ class AdresBase(models.Model):
 
 class Adres(AdresBase):
     id = models.AutoField(primary_key=True)
-    bouwdossier = models.ForeignKey(
-        BouwDossier, related_name="adressen", on_delete=CASCADE
-    )
+    bouwdossier = models.ForeignKey(BouwDossier, related_name="adressen", on_delete=CASCADE)
 
 
 # SubDossier Model has been replaced by Document Model for the following reasons:
@@ -168,9 +150,7 @@ class DocumentBase(models.Model):
     copyright_manufacturers = models.CharField(max_length=512, null=True)
 
     # WABO Related fields
-    oorspronkelijk_pad = ArrayField(
-        models.CharField(max_length=250, null=False), blank=True, default=list
-    )
+    oorspronkelijk_pad = ArrayField(models.CharField(max_length=250, null=False), blank=True, default=list)
 
     def __str__(self):
         return f"{self.barcode}"
@@ -181,6 +161,4 @@ class DocumentBase(models.Model):
 
 class Document(DocumentBase):
     id = models.AutoField(primary_key=True)
-    bouwdossier = models.ForeignKey(
-        BouwDossier, related_name="documenten", on_delete=CASCADE
-    )
+    bouwdossier = models.ForeignKey(BouwDossier, related_name="documenten", on_delete=CASCADE)

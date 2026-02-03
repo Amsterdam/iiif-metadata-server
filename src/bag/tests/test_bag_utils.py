@@ -95,9 +95,7 @@ class UtilsTestCase(TestCase):
             BagHelper.get_object_from_id("123456")
             mocked_get_obj_type.assert_called_with("123456")
 
-    @parameterized.expand(
-        [BAG_TYPE_VERBLIJFSOBJECT, BAG_TYPE_LIGPLAATS, BAG_TYPE_STANDPLAATS]
-    )
+    @parameterized.expand([BAG_TYPE_VERBLIJFSOBJECT, BAG_TYPE_LIGPLAATS, BAG_TYPE_STANDPLAATS])
     def test_get_object(self, object_type):
         _id = f"{gemeente_code}{object_type}0000000000"
         verblijfsobject = baker.make(Verblijfsobject, id=_id)
@@ -115,9 +113,7 @@ class UtilsTestCase(TestCase):
     def test_read_csv(self):
         csv_data = mock_csv_from_dict({"identifier": "idval", "column": "colval"})
         with mock.patch("builtins.open", mock.mock_open(read_data=csv_data)):
-            rows = list(
-                read_csv("mocked", field_mapping={"identifier": "id", "column": "col"})
-            )
+            rows = list(read_csv("mocked", field_mapping={"identifier": "id", "column": "col"}))
             assert rows[0]["id"] == "idval"
             assert rows[0]["col"] == "colval"
 

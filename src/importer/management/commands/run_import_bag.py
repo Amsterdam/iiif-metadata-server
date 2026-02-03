@@ -32,16 +32,12 @@ class Command(BaseCommand):
                         continue
 
                     records = bag_zip_api.get_records(bag_model)
-                    upserted_model_keys[bag_model] = list(
-                        bag.upsert_records_in_database(bag_model, records)
-                    )
+                    upserted_model_keys[bag_model] = list(bag.upsert_records_in_database(bag_model, records))
 
                 # Reversed order because of foreign key dependencies
                 reversed_model_keys = reversed(upserted_model_keys.keys())
                 for bag_model in reversed_model_keys:
-                    bag.delete_nonmodified_table_records(
-                        bag_model, upserted_model_keys.get(bag_model)
-                    )
+                    bag.delete_nonmodified_table_records(bag_model, upserted_model_keys.get(bag_model))
 
                 # Process the Verblijfsobjectpandrelatie junction table separately after all other objects are processed first
                 records = bag_zip_api.get_records(Verblijfsobjectpandrelatie)
@@ -62,9 +58,7 @@ class Command(BaseCommand):
                 # save timestamp separately in db
                 BagUpdatedAt().save()
 
-            logger.info(
-                f"Bag import succeeded, updated_at {BagUpdatedAt.objects.last().updated_at}"
-            )
+            logger.info(f"Bag import succeeded, updated_at {BagUpdatedAt.objects.last().updated_at}")
 
         except Exception as e:
             logger.exception(

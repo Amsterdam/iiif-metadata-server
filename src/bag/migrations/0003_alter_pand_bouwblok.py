@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("bag", "0002_alter_pand_managers_alter_verblijfsobject_managers_and_more"),
     ]
@@ -13,8 +12,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="pand",
             name="bouwblok",
-            field=models.CharField(
-                db_column="ligtinbouwblokid", db_index=True, max_length=16, null=True
-            ),
+            field=models.CharField(db_column="ligtinbouwblokid", db_index=True, max_length=16, null=True),
         ),
     ]

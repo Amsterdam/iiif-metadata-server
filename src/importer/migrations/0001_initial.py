@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -118,9 +117,7 @@ class Migration(migrations.Migration):
                 ("access_restricted_until", models.DateField(null=True)),
                 (
                     "copyright",
-                    models.CharField(
-                        choices=[("Y", "Yes"), ("N", "No")], max_length=1, null=True
-                    ),
+                    models.CharField(choices=[("Y", "Yes"), ("N", "No")], max_length=1, null=True),
                 ),
                 ("copyright_until", models.DateField(null=True)),
                 ("copyright_holders", models.CharField(max_length=512, null=True)),
@@ -248,8 +245,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="adres",
-            index=django.contrib.postgres.indexes.GinIndex(
-                fields=["panden"], name="importer_ad_panden_ec3846_gin"
-            ),
+            index=django.contrib.postgres.indexes.GinIndex(fields=["panden"], name="importer_ad_panden_ec3846_gin"),
         ),
     ]

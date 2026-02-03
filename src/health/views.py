@@ -18,8 +18,7 @@ try:
     model = get_model(settings.HEALTH_MODEL)
 except AttributeError:
     raise ImproperlyConfigured(
-        "settings.HEALTH_MODEL {} doesn't resolve to "
-        "a useable model".format(settings.HEALTH_MODEL)
+        "settings.HEALTH_MODEL {} doesn't resolve to a useable model".format(settings.HEALTH_MODEL)
     )
 
 
@@ -36,17 +35,13 @@ def health(_request):
             assert cursor.fetchone()
     except DatabaseError:  # noqa
         log.exception("Database connectivity failed")
-        return HttpResponse(
-            "Database connectivity failed", content_type="text/plain", status=500
-        )
+        return HttpResponse("Database connectivity failed", content_type="text/plain", status=500)
 
     return HttpResponse("Connectivity OK", content_type="text/plain", status=200)
 
 
 def check_data(request):
     if model.objects.all().count() < 100:
-        return HttpResponse(
-            "Too few metadata in the database", content_type="text/plain", status=500
-        )
+        return HttpResponse("Too few metadata in the database", content_type="text/plain", status=500)
 
     return HttpResponse("Data OK", content_type="text/plain", status=200)
