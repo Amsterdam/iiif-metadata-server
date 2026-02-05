@@ -85,7 +85,7 @@ services:
 
   azurite:
     container_name: iiif-metadata-azurite
-    image: mcr.microsoft.com/azure-storage/azurite
+    image: mcr.microsoft.com/azure-storage/azurite:latest
     ports:
       - "10000" # Blob service
     volumes:
