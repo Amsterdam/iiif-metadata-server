@@ -28,7 +28,7 @@ azure-keyvault-secrets==4.10.0
     # via
     #   -r requirements.in
     #   azure-keyvault
-azure-storage-blob==12.28.0
+azure-storage-blob==12.27.1
     # via -r requirements.in
 certifi==2026.1.4
     # via requests
@@ -44,7 +44,7 @@ cryptography==46.0.4
     #   jwcrypto
     #   msal
     #   pyjwt
-datapunt-authorization-django==1.7.0
+datapunt-authorization-django==1.8.0
     # via -r requirements.in
 django==6.0.2
     # via

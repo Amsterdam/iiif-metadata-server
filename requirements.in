@@ -21,7 +21,7 @@ drf_yasg
 # Azure
 azure-core
 azure-identity
-azure-storage-blob
+azure-storage-blob==12.27.1
 azure-keyvault
 azure-keyvault-secrets
 
