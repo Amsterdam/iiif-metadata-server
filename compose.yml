@@ -151,6 +151,8 @@ services:
       USE_JWKS_TEST_KEY: "true"
       SECRET_KEY: "insecure"
       OTEL_SDK_DISABLED: true
+      COVERAGE_FILE: /tmp/.coverage
+    user: 1000:1000
 
   linting:
     container_name: iiif-metadata-linting
