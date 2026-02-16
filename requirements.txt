@@ -8,7 +8,7 @@ asgiref==3.11.1
     # via
     #   django
     #   django-cors-headers
-azure-core==1.38.0
+azure-core==1.38.1
     # via
     #   -r requirements.in
     #   azure-identity
@@ -16,7 +16,7 @@ azure-core==1.38.0
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
     #   azure-storage-blob
-azure-identity==1.25.1
+azure-identity==1.25.2
     # via -r requirements.in
 azure-keyvault==4.2.0
     # via -r requirements.in
@@ -44,7 +44,7 @@ cryptography==46.0.5
     #   jwcrypto
     #   msal
     #   pyjwt
-datapunt-authorization-django==1.8.0
+datapunt-authorization-django==2.0.0
     # via -r requirements.in
 django==6.0.2
     # via
@@ -78,7 +78,7 @@ drf-yasg==1.21.14
     # via -r requirements.in
 googleapis-common-protos==1.72.0
     # via opentelemetry-exporter-otlp-proto-grpc
-grpcio==1.76.0
+grpcio==1.78.0
     # via opentelemetry-exporter-otlp-proto-grpc
 idna==3.11
     # via requests
@@ -229,7 +229,7 @@ wrapt==1.17.3
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-dbapi
     #   opentelemetry-instrumentation-urllib3
-xmltodict==1.0.2
+xmltodict==1.0.3
     # via -r requirements.in
 zipp==3.23.0
     # via importlib-metadata

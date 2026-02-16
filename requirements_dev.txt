@@ -16,11 +16,11 @@ django-debug-toolbar==6.2.0
     # via -r requirements_dev.in
 factory-boy==3.3.3
     # via -r requirements_dev.in
-faker==40.1.2
+faker==40.4.0
     # via factory-boy
 iniconfig==2.3.0
     # via pytest
-model-bakery==1.23.2
+model-bakery==1.23.3
     # via -r requirements_dev.in
 packaging==26.0
     # via pytest
@@ -38,7 +38,7 @@ pytest==9.0.2
     #   pytest-django
 pytest-cov==7.0.0
     # via -r requirements_dev.in
-pytest-django==4.11.1
+pytest-django==4.12.0
     # via -r requirements_dev.in
 sqlparse==0.5.5
     # via
