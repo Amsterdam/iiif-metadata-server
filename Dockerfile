@@ -41,8 +41,6 @@ RUN set -eux && \
 COPY --from=builder /usr/local/lib/python3.13/site-packages/ /usr/local/lib/python3.13/site-packages/
 COPY --from=builder /usr/local/bin/ /usr/local/bin
 
-COPY deploy /deploy
-
 WORKDIR /app/src
 COPY src .
 
@@ -52,7 +50,7 @@ RUN python manage.py collectstatic --no-input
 USER datapunt
 WORKDIR /app/src
 
-CMD ["/deploy/docker-run.sh"]
+CMD ["uwsgi", "--ini", "/app/src/main/uwsgi.ini"]
 
 # devserver
 FROM app AS dev
