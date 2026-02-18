@@ -139,7 +139,7 @@ class Adres(AdresBase):
 class DocumentBase(models.Model):
     bouwdossier = models.ForeignKey(BouwDossier, related_name="+", on_delete=CASCADE)
     subdossier_titel = models.TextField(blank=True, null=True)
-    document_omschrijving = models.CharField(max_length=250, blank=True, null=True)
+    document_omschrijving = models.TextField(blank=True, null=True)
     barcode = models.CharField(max_length=250, db_index=True, null=True)
     bestanden = ArrayField(models.CharField(max_length=250, null=False), blank=True)
     access = models.CharField(max_length=20, null=True, choices=ACCESS_CHOICES)

@@ -358,9 +358,6 @@ def add_wabo_dossier(x_dossier, file_path, import_file, count, total_count, meta
             barcode = zlib.crc32(bestanden[0].encode())
 
         document_omschrijving = x_document.get("document_omschrijving")
-        if type(document_omschrijving) is str and len(document_omschrijving) > 250:
-            document_omschrijving = document_omschrijving[:250]
-            log.warning(f'The document_omschrijving str "{document_omschrijving}" is more than 250 characters')
 
         # Do not include metadata for paspoort scans. Een kavel paspoort is not a ID passport.
         if (
