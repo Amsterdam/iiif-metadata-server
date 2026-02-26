@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('importer', '0002_alter_bouwdossier_dossiernr'),
+        ("importer", "0002_alter_bouwdossier_dossiernr"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='document',
-            name='document_omschrijving',
+            model_name="document",
+            name="document_omschrijving",
             field=models.TextField(blank=True, null=True),
         ),
     ]
