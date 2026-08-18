@@ -200,7 +200,7 @@ requests==2.34.2
     #   azure-core
     #   datapunt-authorization-django
     #   msal
-sqlparse==0.5.5
+sqlparse==0.6.0
     # via django
 toolz==1.1.0
     # via -r requirements.in
