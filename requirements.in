@@ -8,7 +8,7 @@ xmltodict
 uwsgi
 
 # Django
-django
+django<6.1
 datapunt-authorization-django
 django-cors-headers
 django-csp
