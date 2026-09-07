@@ -9,7 +9,7 @@ uwsgi
 
 # Django
 django<6.1
-datapunt-authorization-django
+datapunt-authorization-django<2.2.0
 django-cors-headers
 django-csp
 django-extensions
