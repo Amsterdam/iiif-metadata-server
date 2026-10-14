@@ -106,7 +106,7 @@ services:
     build:
       context: .
       target: app
-    image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-opdrachten/iiif-metadata-server}:${VERSION:-latest}
+    image: ${REGISTRY:-localhost:5000}/${REPOSITORY:-ams-opdr/iiif-metadata-server}:${VERSION:-latest}
     ports:
       - "8000:8000"
     environment:
