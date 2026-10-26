@@ -67,7 +67,7 @@ django-filter==26.1
     # via
     #   -r requirements.in
     #   djangorestframework-gis
-djangorestframework==3.18.0
+djangorestframework==3.18.2
     # via
     #   -r requirements.in
     #   djangorestframework-gis
