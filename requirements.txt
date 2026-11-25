@@ -4,10 +4,14 @@
 #
 #    pip-compile --allow-unsafe --no-index --output-file=requirements.txt requirements.in
 #
-asgiref==3.12.1
+asgiref==3.13.0
     # via
     #   django
     #   django-cors-headers
+attrs==26.1.0
+    # via
+    #   jsonschema
+    #   referencing
 azure-core==1.41.0
     # via
     #   -r requirements.in
@@ -16,27 +20,27 @@ azure-core==1.41.0
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
     #   azure-storage-blob
-azure-identity==1.25.3
+azure-identity==1.27.0
     # via -r requirements.in
 azure-keyvault==4.2.0
     # via -r requirements.in
-azure-keyvault-certificates==4.11.2
+azure-keyvault-certificates==4.12.0
     # via azure-keyvault
-azure-keyvault-keys==4.11.2
+azure-keyvault-keys==4.12.0
     # via azure-keyvault
-azure-keyvault-secrets==4.11.2
+azure-keyvault-secrets==4.12.0
     # via
     #   -r requirements.in
     #   azure-keyvault
 azure-storage-blob==12.27.1
     # via -r requirements.in
-certifi==2026.7.22
+certifi==2026.11.20
     # via requests
 cffi==2.1.1
     # via cryptography
-charset-normalizer==3.5.1
+charset-normalizer==3.5.3
     # via requests
-cryptography==50.0.1
+cryptography==50.0.2
     # via
     #   azure-identity
     #   azure-keyvault-keys
@@ -46,7 +50,7 @@ cryptography==50.0.1
     #   pyjwt
 datapunt-authorization-django==2.1.1
     # via -r requirements.in
-django==6.0.8
+django==6.1.3
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
@@ -63,25 +67,27 @@ django-csp==4.0
     # via -r requirements.in
 django-extensions==4.1
     # via -r requirements.in
-django-filter==26.1
+django-filter==26.2
     # via
     #   -r requirements.in
     #   djangorestframework-gis
-djangorestframework==3.18.0
+djangorestframework==3.18.3
     # via
     #   -r requirements.in
     #   djangorestframework-gis
     #   drf-yasg
 djangorestframework-gis==1.3.0
     # via -r requirements.in
-drf-yasg==1.21.15
+drf-yasg==1.21.18
     # via -r requirements.in
-googleapis-common-protos==1.75.3
+googleapis-common-protos==1.76.0
     # via opentelemetry-exporter-otlp-proto-grpc
-grpcio==1.83.1
+grpcio==1.85.4
     # via opentelemetry-exporter-otlp-proto-grpc
-idna==3.19
+idna==3.20
     # via requests
+importlib-resources==7.1.0
+    # via swagger-spec-validator
 inflection==0.5.1
     # via drf-yasg
 isodate==0.7.2
@@ -90,17 +96,21 @@ isodate==0.7.2
     #   azure-keyvault-keys
     #   azure-keyvault-secrets
     #   azure-storage-blob
-jwcrypto==1.6.0
+jsonschema==4.26.0
+    # via swagger-spec-validator
+jsonschema-specifications==2025.9.1
+    # via jsonschema
+jwcrypto==1.6.2
     # via
     #   -r requirements.in
     #   datapunt-authorization-django
-msal==1.38.0
+msal==1.39.0
     # via
     #   azure-identity
     #   msal-extensions
 msal-extensions==1.3.1
     # via azure-identity
-opentelemetry-api==1.44.0
+opentelemetry-api==1.45.2
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-instrumentation
@@ -115,11 +125,13 @@ opentelemetry-api==1.44.0
     #   opentelemetry-instrumentation-wsgi
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
-opentelemetry-exporter-otlp-proto-common==1.44.0
+opentelemetry-exporter-otlp-common==0.66b2
     # via opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-exporter-otlp-proto-grpc==1.44.0
+opentelemetry-exporter-otlp-proto-common==1.45.2
+    # via opentelemetry-exporter-otlp-proto-grpc
+opentelemetry-exporter-otlp-proto-grpc==1.45.2
     # via -r requirements.in
-opentelemetry-instrumentation==0.65b0
+opentelemetry-instrumentation==0.66b2
     # via
     #   opentelemetry-instrumentation-celery
     #   opentelemetry-instrumentation-dbapi
@@ -130,31 +142,33 @@ opentelemetry-instrumentation==0.65b0
     #   opentelemetry-instrumentation-urllib
     #   opentelemetry-instrumentation-urllib3
     #   opentelemetry-instrumentation-wsgi
-opentelemetry-instrumentation-celery==0.65b0
+opentelemetry-instrumentation-celery==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-dbapi==0.65b0
+opentelemetry-instrumentation-dbapi==0.66b2
     # via opentelemetry-instrumentation-psycopg2
-opentelemetry-instrumentation-django==0.65b0
+opentelemetry-instrumentation-django==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-logging==0.65b0
+opentelemetry-instrumentation-logging==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-psycopg2==0.65b0
+opentelemetry-instrumentation-psycopg2==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-requests==0.65b0
+opentelemetry-instrumentation-requests==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-urllib==0.65b0
+opentelemetry-instrumentation-urllib==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-urllib3==0.65b0
+opentelemetry-instrumentation-urllib3==0.66b2
     # via -r requirements.in
-opentelemetry-instrumentation-wsgi==0.65b0
+opentelemetry-instrumentation-wsgi==0.66b2
     # via opentelemetry-instrumentation-django
-opentelemetry-proto==1.44.0
+opentelemetry-proto==1.45.2
     # via
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-sdk==1.44.0
-    # via opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-semantic-conventions==0.65b0
+opentelemetry-sdk==1.45.2
+    # via
+    #   opentelemetry-exporter-otlp-common
+    #   opentelemetry-exporter-otlp-proto-grpc
+opentelemetry-semantic-conventions==0.66b2
     # via
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-celery
@@ -166,42 +180,54 @@ opentelemetry-semantic-conventions==0.65b0
     #   opentelemetry-instrumentation-urllib3
     #   opentelemetry-instrumentation-wsgi
     #   opentelemetry-sdk
-opentelemetry-util-http==0.65b0
+opentelemetry-util-http==0.66b2
     # via
     #   opentelemetry-instrumentation-django
     #   opentelemetry-instrumentation-requests
     #   opentelemetry-instrumentation-urllib
     #   opentelemetry-instrumentation-urllib3
     #   opentelemetry-instrumentation-wsgi
-packaging==26.3
+packaging==26.4
     # via
     #   django-csp
     #   drf-yasg
     #   opentelemetry-instrumentation
-protobuf==7.36.1
+protobuf==7.36.2
     # via
     #   googleapis-common-protos
     #   opentelemetry-proto
-psycopg2-binary==2.9.12
+psycopg2-binary==2.9.13
     # via -r requirements.in
-pycparser==3.0
+pycparser==3.12
     # via cffi
-pyjwt[crypto]==2.15.0
+pyjwt[crypto]==2.15.1
     # via
     #   msal
     #   pyjwt
-pytz==2026.3.post1
+pytz==2026.6
     # via drf-yasg
-pyyaml==6.0.3
-    # via drf-yasg
+pyyaml==6.0.4
+    # via
+    #   drf-yasg
+    #   swagger-spec-validator
+referencing==0.37.0
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.34.2
     # via
     #   azure-core
     #   datapunt-authorization-django
     #   msal
-sqlparse==0.6.0
+rpds-py==2026.9.1
+    # via
+    #   jsonschema
+    #   referencing
+sqlparse==0.6.1
     # via django
-toolz==1.1.0
+swagger-spec-validator==3.0.4
+    # via drf-yasg
+toolz==1.2.0
     # via -r requirements.in
 typing-extensions==4.16.0
     # via
@@ -217,13 +243,14 @@ typing-extensions==4.16.0
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
+    #   swagger-spec-validator
 uritemplate==4.2.0
     # via drf-yasg
-urllib3==2.7.0
+urllib3==2.8.0
     # via requests
 uwsgi==2.0.31
     # via -r requirements.in
-wrapt==2.4.0
+wrapt==2.5.2
     # via
     #   opentelemetry-instrumentation
     #   opentelemetry-instrumentation-dbapi
